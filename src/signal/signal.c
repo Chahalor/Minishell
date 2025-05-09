@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:46:24 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/09 16:53:20 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/09 22:07:54 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,26 +17,53 @@
 /* -----| Modules  |----- */
 #include "sig.h"
 
+extern volatile sig_atomic_t g_last_signal; // Global signal variable
+
 #pragma endregion Header
 #pragma region Fonctions
 
 /** */
-__attribute__((hot)) void	_sigint_handler(int sig, siginfo_t *info, void *context)
+__attribute__((hot)) void	_sigint_handler(
+	int signal,
+	siginfo_t *info,
+	void *context
+)
 {
-
+	(void)info;
+	(void)context;
+	g_last_signal = signal;
+	printf("SIGINT received\n");
 }
 
 /** */
-__attribute__((hot)) void	_sigquit_handler(int sig)
+__attribute__((hot)) void	_sigquit_handler(
+	int signal,
+	siginfo_t *info,
+	void *context
+)
 {
-	(void)sig;
+	(void)info;
+	(void)context;
+	g_last_signal = signal;
+	printf("SIGQUIT received\n");
 }
 
 /** */
-__attribute__((unused, cold)) inline void	signal_init(void)
+__attribute__((always_inline, used)) inline int	init_signal(void)
 {
-	sigaction(SIGINT, _sigint_handler, NULL);
-	sigaction(SIGQUIT, _sigquit_handler, NULL);
+	struct sigaction	sigint_action;
+	struct sigaction	sigquit_action;
+
+	sigint_action.sa_sigaction = _sigint_handler;
+	sigint_action.sa_flags = SA_SIGINFO;
+	sigemptyset(&sigint_action.sa_mask);
+	sigquit_action.sa_sigaction = _sigquit_handler;
+	sigquit_action.sa_flags = SA_SIGINFO;
+	sigemptyset(&sigquit_action.sa_mask);
+	return (
+		sigaction(SIGINT, &sigint_action, NULL) == -1
+		|| sigaction(SIGQUIT, &sigquit_action, NULL) == -1
+	);
 }
 
 #pragma endregion Fonctions

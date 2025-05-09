@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:46:07 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/09 16:52:52 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/09 22:05:33 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@
 /* -----| Systems   |----- */
 # include <signal.h>
 # include <unistd.h>
-# include <asm-generic/siginfo.h>
+# include <stdio.h>
+# include <sys/types.h>
+#include <bits/sigaction.h>
 
 /* -----| Globals   |----- */
 # include "config.h"
@@ -32,5 +34,12 @@
 
 /* -----| Modules  |----- */
 	//...
+
+/* ************************************************************************** */
+/*                                 Prototypes                                 */
+/* ************************************************************************** */
+
+extern int	init_signal(void);
+
 
 #endif /* SIG_H */

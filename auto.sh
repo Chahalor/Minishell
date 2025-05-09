@@ -13,7 +13,7 @@ CC="cc"
 CFLAGS="-Wall -Wextra -Werror -MMD"
 DEBUGFLAGS=""
 
-DIR_LIBFT="src/libft"
+DIR_LIBFT="" #"src/libft"
 DIR_BONUS=""
 
 # nice but useless config
@@ -41,7 +41,7 @@ fi
 # All lists used
 MAKEFILE_MK_LIST=""
 OBJ_ALL_LIST=""
-INCLUDE_ALL="-I$DIR_INCLUDE -I$DIR_LIBFT"
+INCLUDE_ALL="-I$DIR_INCLUDE" #-I$DIR_LIBFT"
 
 # building the list of includes
 for module in "$DIR_SRC"/*; do
@@ -115,7 +115,7 @@ DIR_BONUS	:= $DIR_BONUS
 INCLUDE_ALL	:=$INCLUDE_ALL
 
 DIR_LIBFT	:= $DIR_LIBFT
-LIBFT		:= \$(DIR_LIBFT)/libft.a
+LIBFT		:= #\$(DIR_LIBFT)/libft.a
 
 # Here we include all the makefile.mk files
 include $MAKEFILE_MK_LIST
@@ -148,7 +148,7 @@ all: header norm \$(NAME) install
 	\$(CC) \$(CFLAGS) \$(DEBUGFLAGS) \$(INCLUDE_ALL) -c $< -o \$@
 
 # \$(LIBFT):
-	@make -C \$(DIR_LIBFT) NO_HEADER=true
+	#@make -C \$(DIR_LIBFT) NO_HEADER=true
 
 bonus: \$(LIBFT) \$(OBJ_ALL) \$(OBJ_BONUS)
 	\$(CC) \$(CFLAGS) \$(DEBUGFLAGS) \$(INCLUDE_ALL) \$^ \$(LIBFT)  -o \$(BONUS)
@@ -161,12 +161,12 @@ bonus: \$(LIBFT) \$(OBJ_ALL) \$(OBJ_BONUS)
 
 clean:
 	rm -f \$(OBJ_ALL) \$(OBJ_MAIN) \$(OBJ_BONUS)
-	@make clean -C \$(DIR_LIBFT)
+#@make clean -C \$(DIR_LIBFT)
 
 fclean:
 	rm -rf \$(DIR_OBJ)
 	rm -f \$(NAME) \$(BONUS)
-	@make fclean -C \$(DIR_LIBFT)
+#@make fclean -C \$(DIR_LIBFT)
 
 re: fclean all
 
