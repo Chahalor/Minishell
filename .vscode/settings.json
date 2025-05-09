@@ -1,6 +1,0 @@
-{
-	"files.associations": {
-		"siginfo.h": "c",
-		"sig.h": "c"
-	}
-}
