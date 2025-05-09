@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:46:07 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/09 22:05:33 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/09 22:10:24 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <sys/types.h>
-#include <bits/sigaction.h>
+# include <bits/sigaction.h>
 
 /* -----| Globals   |----- */
 # include "config.h"
