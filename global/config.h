@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:47:53 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/09 16:49:33 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/11 17:00:42 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,7 @@
 # ifndef DEBUG
 #  define DEBUG		0				/* 0: debug disabled, 1: debug enabled */
 # endif	/* DEBUG */
+
+# define ENABLE_RL	1				/* 0: disable read_line, 1: enable read_line */
 
 #endif /* CONFIG_H */

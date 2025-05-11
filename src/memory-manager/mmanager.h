@@ -1,46 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sig.h                                              :+:      :+:    :+:   */
+/*   mm.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/09 16:46:07 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/11 17:06:05 by nduvoid          ###   ########.fr       */
+/*   Created: 2025/05/03 12:12:01 by nduvoid           #+#    #+#             */
+/*   Updated: 2025/05/07 13:32:16 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SIG_H
-# define SIG_H
+#ifndef MM_H
+# define MM_H
 
-#pragma once
+# pragma once
 
 /* ************************************************************************** */
-/*                                 Headers                                    */
+/*                                  Headers                                   */
 /* ************************************************************************** */
 
-/* -----| Systems   |----- */
-# include <signal.h>
-# include <unistd.h>
-# include <stdio.h>
+/* -----| Systemes |----- */
 # include <stdlib.h>
-# include <sys/types.h>
-# include <bits/sigaction.h>
 
-/* -----| Globals   |----- */
-# include "config.h"
-
-/* -----| Internals |----- */
-	//...
+/* -----| Globals  |----- */
+//...
 
 /* -----| Modules  |----- */
-	//...
+//...
 
 /* ************************************************************************** */
-/*                                 Prototypes                                 */
+/*                                  Prototypes                                */
 /* ************************************************************************** */
 
-extern int	init_signal(void);
+void	*mm_alloc(
+			const size_t size
+			);
 
+void	mm_free(
+			void *restrict ptr
+			);
 
-#endif /* SIG_H */
+void	mm_destroy(void);
+
+#endif /* MM_H */

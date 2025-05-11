@@ -1,37 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sig.h                                              :+:      :+:    :+:   */
+/*   read_line.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/09 16:46:07 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/11 17:06:05 by nduvoid          ###   ########.fr       */
+/*   Created: 2025/05/11 10:08:04 by nduvoid           #+#    #+#             */
+/*   Updated: 2025/05/11 17:03:45 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SIG_H
-# define SIG_H
+#ifndef READ_LINE_H
+# define READ_LINE_H
 
-#pragma once
+# pragma once
 
 /* ************************************************************************** */
 /*                                 Headers                                    */
 /* ************************************************************************** */
 
 /* -----| Systems   |----- */
-# include <signal.h>
+# include <termios.h>
 # include <unistd.h>
 # include <stdio.h>
-# include <stdlib.h>
-# include <sys/types.h>
-# include <bits/sigaction.h>
 
 /* -----| Globals   |----- */
 # include "config.h"
 
 /* -----| Internals |----- */
-	//...
+// # include "_read_line.h"
 
 /* -----| Modules  |----- */
 	//...
@@ -40,7 +37,14 @@
 /*                                 Prototypes                                 */
 /* ************************************************************************** */
 
-extern int	init_signal(void);
+# if ENABLE_RL == 1
 
+char	*read_line(
+			const char *restrict prompt
+			);
 
-#endif /* SIG_H */
+void	reset_cmd(void);
+
+# endif
+
+#endif /* READ_LINE_H */

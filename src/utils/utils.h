@@ -1,31 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sig.h                                              :+:      :+:    :+:   */
+/*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/09 16:46:07 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/11 17:06:05 by nduvoid          ###   ########.fr       */
+/*   Created: 2025/05/11 11:03:50 by nduvoid           #+#    #+#             */
+/*   Updated: 2025/05/11 15:28:48 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SIG_H
-# define SIG_H
+#ifndef UTILS_H
+# define UTILS_H
 
-#pragma once
+# pragma once
 
 /* ************************************************************************** */
 /*                                 Headers                                    */
 /* ************************************************************************** */
 
 /* -----| Systems   |----- */
-# include <signal.h>
-# include <unistd.h>
-# include <stdio.h>
 # include <stdlib.h>
-# include <sys/types.h>
-# include <bits/sigaction.h>
+# include <unistd.h>
 
 /* -----| Globals   |----- */
 # include "config.h"
@@ -34,13 +30,23 @@
 	//...
 
 /* -----| Modules  |----- */
-	//...
+# include "mmanager.h"
 
 /* ************************************************************************** */
 /*                                 Prototypes                                 */
 /* ************************************************************************** */
 
-extern int	init_signal(void);
+extern int		ft_strlen(
+			const char *restrict str
+			);
 
+extern char	*ft_strdup(
+			const char *restrict str
+			);
 
-#endif /* SIG_H */
+extern void	*memdup(
+			const void *restrict src,
+			size_t size
+			);
+
+#endif /* UTILS_H */

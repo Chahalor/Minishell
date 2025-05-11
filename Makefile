@@ -32,13 +32,13 @@ DEBUGFLAGS	:=
 DIR_SRC		:= src
 DIR_OBJ		:= .build
 DIR_BONUS	:= 
-INCLUDE_ALL	:=-Iglobal -I$(DIR_SRC)/prompte -I$(DIR_SRC)/signal
+INCLUDE_ALL	:=-Iglobal -I$(DIR_SRC)/memory-manager -I$(DIR_SRC)/prompte -I$(DIR_SRC)/read_line -I$(DIR_SRC)/signal -I$(DIR_SRC)/utils
 
 DIR_LIBFT	:= 
 LIBFT		:= #$(DIR_LIBFT)/libft.a
 
 # Here we include all the makefile.mk files
-include  src/prompte/makefile.mk src/signal/makefile.mk
+include  src/memory-manager/makefile.mk src/prompte/makefile.mk src/read_line/makefile.mk src/signal/makefile.mk src/utils/makefile.mk
 
 SRC_MAIN	:= main.c
 SRC_BONUS	:=
@@ -46,7 +46,7 @@ SRC_BONUS	:=
 # all object files for the modules
 OBJ_MAIN	:= $(addprefix $(DIR_OBJ)/, $(SRC_MAIN:.c=.o))
 OBJ_BONUS	:= $(addprefix $(DIR_OBJ)/, $(SRC_BONUS:.c=.o))
-OBJ_ALL		:= $(OBJ_PROMPTE) $(OBJ_SIGNAL)
+OBJ_ALL		:= $(OBJ_MEMORY-MANAGER) $(OBJ_PROMPTE) $(OBJ_READ_LINE) $(OBJ_SIGNAL) $(OBJ_UTILS)
 
 # ***************************************************** #
 # *                    Rules                          * #
