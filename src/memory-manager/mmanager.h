@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mm.h                                               :+:      :+:    :+:   */
+/*   mmanager.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 12:12:01 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/07 13:32:16 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/12 11:08:03 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MM_H
-# define MM_H
+#ifndef MMANAGER_H
+# define MMANAGER_H
 
 # pragma once
 
@@ -36,10 +36,16 @@ void	*mm_alloc(
 			const size_t size
 			);
 
+void	*mm_realloc(
+			void *restrict ptr,
+			const size_t nsize,
+			const size_t osize
+			);
+
 void	mm_free(
 			void *restrict ptr
 			);
 
 void	mm_destroy(void);
 
-#endif /* MM_H */
+#endif /* MMANAGER_H */

@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_line.h                                        :+:      :+:    :+:   */
+/*   exit.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/11 10:08:04 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/12 11:28:00 by nduvoid          ###   ########.fr       */
+/*   Created: 2025/05/12 08:53:25 by nduvoid           #+#    #+#             */
+/*   Updated: 2025/05/12 08:58:44 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef READ_LINE_H
-# define READ_LINE_H
+#ifndef EXIT_H
+# define EXIT_H
 
 # pragma once
 
@@ -20,40 +20,26 @@
 /* ************************************************************************** */
 
 /* -----| Systems   |----- */
-# include <termios.h>
-# include <unistd.h>
 # include <stdio.h>
 
 /* -----| Globals   |----- */
 # include "config.h"
-# include "type.h"
 
 /* -----| Internals |----- */
 	//...
 
 /* -----| Modules  |----- */
-	//...
-
-/* ************************************************************************** */
-/*                                 Defines                                    */
-/* ************************************************************************** */
-
-# define RL_VERSION_MAJOR		0
-# define RL_VERSION_MINOR		1
-# define RL_VERSION_PATCH		0
+# include "mmanager.h"
+# include "read_line.h"
 
 /* ************************************************************************** */
 /*                                 Prototypes                                 */
 /* ************************************************************************** */
 
-# if ENABLE_RL == 1
-
-char	*read_line(
-			const char *restrict prompt
+void	exit_program(
+			const int status,
+			const char *restrict msg
 			);
 
-void	reset_cmd(void);
 
-# endif
-
-#endif /* READ_LINE_H */
+#endif /* EXIT_H */

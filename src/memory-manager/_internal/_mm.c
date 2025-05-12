@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 12:20:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/11 15:28:39 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/12 12:21:20 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ __attribute__((always_inline)) static inline void	_add_to_bucket(
 )
 {
 	const t_mm_node	*restrict	node = (t_mm_node *)ptr;
-	const int					index = (size_t)node->ptr % MM_BUCKET_SIZE;
+	const int					index = _hash(node->ptr);
 	t_mm_node		*restrict	current;
 
 	current = &bucket[index];
@@ -43,7 +43,7 @@ __attribute__((always_inline)) static inline void	_free_one(
 	void *restrict ptr
 )
 {
-	const int				index = (size_t)ptr % MM_BUCKET_SIZE;
+	const int				index = _hash(ptr);
 	t_mm_node	*restrict	current;
 	t_mm_node	*restrict	last;
 
@@ -81,7 +81,7 @@ __attribute__((always_inline)) static inline void	_free_all_bucket(
 			next = current->next;
 			free(current);
 			current = next;
-		};
+		}
 		bucket[i].next = NULL;
 		bucket[i].ptr = NULL;
 	}

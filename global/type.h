@@ -1,59 +1,49 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_line.h                                        :+:      :+:    :+:   */
+/*   type.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/11 10:08:04 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/12 11:28:00 by nduvoid          ###   ########.fr       */
+/*   Created: 2025/05/12 11:25:58 by nduvoid           #+#    #+#             */
+/*   Updated: 2025/05/12 11:28:44 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef READ_LINE_H
-# define READ_LINE_H
+#ifndef TYPE_H
+# define TYPE_H
 
 # pragma once
 
 /* ************************************************************************** */
-/*                                 Headers                                    */
+/*                                 Typedefs                                   */
 /* ************************************************************************** */
 
-/* -----| Systems   |----- */
-# include <termios.h>
-# include <unistd.h>
-# include <stdio.h>
+typedef unsigned int	t_uint;
 
-/* -----| Globals   |----- */
-# include "config.h"
-# include "type.h"
-
-/* -----| Internals |----- */
-	//...
-
-/* -----| Modules  |----- */
-	//...
+typedef enum e_bool		t_bool;
+typedef enum e_expect	t_expect;
 
 /* ************************************************************************** */
-/*                                 Defines                                    */
+/*                                 Enums                                      */
 /* ************************************************************************** */
 
-# define RL_VERSION_MAJOR		0
-# define RL_VERSION_MINOR		1
-# define RL_VERSION_PATCH		0
+enum e_bool
+{
+	false,
+	true
+};
+
+enum e_expect
+{
+	unexpected,
+	expected
+};
 
 /* ************************************************************************** */
-/*                                 Prototypes                                 */
+/*                                 Structs                                    */
 /* ************************************************************************** */
 
-# if ENABLE_RL == 1
+//...
 
-char	*read_line(
-			const char *restrict prompt
-			);
-
-void	reset_cmd(void);
-
-# endif
-
-#endif /* READ_LINE_H */
+#endif /* TYPE_H */

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:44:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/11 17:05:49 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/12 12:10:24 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	main(int argc, char **argv)
 	char *line;
 
 	init_signal();
-	line = read_line("prompt> ");
+	line = read_line(DEFAULT_PROMPT);
 	if (!line)
 	{
 		perror("Error: read_line failed\n");
@@ -47,7 +47,7 @@ int	main(int argc, char **argv)
 	}
 	else
 		printf("You entered: <%s>\n", line);
-	mm_destroy();
+	exit_program(0, "main(): Exiting program");
 	return (0);
 }
 

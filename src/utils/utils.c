@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 11:04:28 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/11 15:29:02 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/12 12:05:04 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ __attribute__((always_inline, used)) inline int	ft_strlen(
 {
 	register int	i;
 
-	i = -1;
+	if (__builtin_expect(!str, unexpected))
+		return (0);
+	i = 0;
 	while (str[i])
 		++i;
 	return (i);

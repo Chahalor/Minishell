@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:46:24 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/11 17:12:04 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/12 08:59:34 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 
 /* -----| Modules  |----- */
 #include "sig.h"
-#include "read_line.h"
 
 extern volatile sig_atomic_t g_last_signal; // Global signal variable
 
@@ -35,7 +34,7 @@ __attribute__((hot)) void	_sigint_handler(
 	g_last_signal = signal;
 	reset_cmd();
 	printf("\nSIGINT received\n");
-	exit(signal);	// should be change
+	exit_program(signal, "SIGINT received");	// should be change
 }
 
 /** */
@@ -50,7 +49,7 @@ __attribute__((hot)) void	_sigquit_handler(
 	g_last_signal = signal;
 	reset_cmd();
 	printf("\nSIGQUIT received\n");
-	exit(signal);	// should be change
+	exit_program(signal, "SIGQUIT received");	// should be change
 }
 
 /** */
