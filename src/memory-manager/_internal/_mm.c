@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 12:20:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/12 12:21:20 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/12 14:08:34 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 #pragma region Functions
 
 /** */
-__attribute__((always_inline)) static inline void	_add_to_bucket(
+__attribute__((always_inline, used)) static inline void	_add_to_bucket(
 	t_mm_node *restrict bucket,
 	void *restrict ptr
 )
@@ -38,7 +38,7 @@ __attribute__((always_inline)) static inline void	_add_to_bucket(
 }
 
 /** */
-__attribute__((always_inline)) static inline void	_free_one(
+__attribute__((always_inline, used)) static inline void	_free_one(
 	t_mm_node *restrict bucket,
 	void *restrict ptr
 )
@@ -63,7 +63,7 @@ __attribute__((always_inline)) static inline void	_free_one(
 }
 
 /** */
-__attribute__((always_inline)) static inline void	_free_all_bucket(
+__attribute__((always_inline, used)) static inline void	_free_all_bucket(
 	t_mm_node *restrict bucket
 )
 {
