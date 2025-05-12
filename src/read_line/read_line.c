@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:06:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/12 12:17:33 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/12 15:11:53 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ __attribute__((hot, malloc)) char	*read_line(
 	int				line_length;
 	char			*result;
 
-	result = mm_alloc(RL_MAX_BUFFER + 1);
+	result = mm_alloc(_RL_ALLOC_SIZE + 1);
 	if (!result)
 		return (NULL);
 	write(STDOUT_FILENO, prompt, ft_strlen(prompt));
