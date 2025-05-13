@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:44:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/12 12:10:24 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/13 14:23:30 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,24 @@ int	main(int argc, char **argv)
 	char *line;
 
 	init_signal();
+	printf("\ng_last_signal: %d\n", g_last_signal);	//rm
 	line = read_line(DEFAULT_PROMPT);
-	if (!line)
+	while (ft_strncmp("exit", line, 4) != 0 && g_last_signal != SIGINT)
 	{
-		perror("Error: read_line failed\n");
-		return (1);
+		if (!line)
+		{
+			printf("\ng_last_signal: %d\n", g_last_signal);	//rm
+			perror("Error: read_line failed\n");
+			exit_program(1, "main(): read_line() failed");
+		}
+		else
+		{
+			write(STDOUT_FILENO, "You entered: <", 14);
+			write(STDOUT_FILENO, line, ft_strlen(line));
+			write(STDOUT_FILENO, ">\n", 2);
+		}
+		line = read_line(DEFAULT_PROMPT);
 	}
-	else
-		printf("You entered: <%s>\n", line);
 	exit_program(0, "main(): Exiting program");
 	return (0);
 }

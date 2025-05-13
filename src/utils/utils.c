@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 11:04:28 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/12 12:05:04 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/13 08:20:24 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,26 @@
 
 #pragma endregion Header
 #pragma region Fonctions
+
+/** */
+__attribute__((always_inline, used)) inline int	ft_strncmp(
+	const char *restrict s1,
+	const char *restrict s2,
+	size_t n
+)
+{
+	register size_t	i;
+
+	if (__builtin_expect(!s1 || !s2, unexpected))
+		return (0);
+	i = 0;
+	while (i < n && s1[i] && s2[i] && s1[i] == s2[i])
+		++i;
+	if (i == n)
+		return (0);
+	else
+		return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+}
 
 /** */
 __attribute__((always_inline, used)) inline int	ft_strlen(

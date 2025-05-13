@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:46:24 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/12 08:59:34 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/13 17:55:13 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 /* -----| Modules  |----- */
 #include "sig.h"
 
-extern volatile sig_atomic_t g_last_signal; // Global signal variable
+extern volatile sig_atomic_t	g_last_signal; // Global signal variable
 
 #pragma endregion Header
 #pragma region Fonctions
@@ -34,7 +34,7 @@ __attribute__((hot)) void	_sigint_handler(
 	g_last_signal = signal;
 	reset_cmd();
 	printf("\nSIGINT received\n");
-	exit_program(signal, "SIGINT received");	// should be change
+	exit_program(signal, "SIGINT received");
 }
 
 /** */
@@ -49,7 +49,7 @@ __attribute__((hot)) void	_sigquit_handler(
 	g_last_signal = signal;
 	reset_cmd();
 	printf("\nSIGQUIT received\n");
-	exit_program(signal, "SIGQUIT received");	// should be change
+	exit_program(signal, "SIGQUIT received");
 }
 
 /** */

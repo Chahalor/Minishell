@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:06:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/12 15:11:53 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/13 17:55:31 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,36 +23,51 @@
 
 /**
  * @todo:	handle ctrl+c to exit the read_line and not just the program
- * @todo:	update correcty the buffer when using the arrow keys
- * @todo:	handle the backspace key
- * @todo: 	handle the delete key /!\
+ * @todo:	X update correcty the buffer when using the arrow keys
+ * @todo:	X handle the backspace key
+ * @todo: 	X handle the delete key /!\
  * @todo: 	make differnce between ENTER and just a '\n' (maybe read more than 1 char)
  */
 
+ /** */
+ __attribute__((always_inline, used)) static inline void	_init_cmd(
+	t_rl_data *const restrict data
+ )
+ {
+	tcgetattr(STDIN_FILENO, &data->terms.oldt);
+	data->terms.raw = data->terms.oldt;
+	data->terms.resore = data->terms.oldt;
+	_set_raw(&data->terms.raw);
+	write(STDOUT_FILENO, data->prompt, data->prompt_length);
+}
+
 /** */
 __attribute__((hot, malloc)) char	*read_line(
-	const char *restrict prompt
+	const char *const restrict prompt
 )
 {
-	struct termios	oldt;
-	struct termios	resore;
-	struct termios	raw;
-	int				line_length;
-	char			*result;
+	t_rl_data	rl_data;
 
-	result = mm_alloc(_RL_ALLOC_SIZE + 1);
-	if (!result)
+	rl_data = (t_rl_data){
+		.result = mm_alloc(_RL_ALLOC_SIZE + 1),
+		.print = mm_alloc(_RL_ALLOC_SIZE + 1),
+		.print_length = 0,
+		.line_length = 0,
+		.cursor_pos = 0,
+		.prompt = (char *)prompt,
+		.prompt_length = ft_strlen(prompt),
+		.status = normal,
+	};
+	if (__builtin_expect(!rl_data.result || !rl_data.print, unexpected))
 		return (NULL);
-	write(STDOUT_FILENO, prompt, ft_strlen(prompt));
-	tcgetattr(STDIN_FILENO, &oldt);
-	raw = oldt;
-	resore = oldt;
-	_set_raw(&raw);
-	line_length = _read(result);
-	_set_default(&resore);
-	write(STDOUT_FILENO, "\n", 1);
-	printf("line_length: %d\n", line_length);	//rm
-	return (result);
+	_init_cmd(&rl_data);
+	rl_data.line_length = _read(&rl_data);
+	_set_default(&rl_data.terms.resore);
+	if (rl_data.status == eof || rl_data.status == interr)
+		return (mm_free(rl_data.result), mm_free(rl_data.print), NULL);
+	write(STDOUT_FILENO, "\033[?2004l\n", 10);
+	printf("line_length: %d\n", rl_data.line_length);	//rm
+	return (mm_free(rl_data.print), rl_data.result);	// maybe strupdup it to have the shortest string possible
 }
 
 

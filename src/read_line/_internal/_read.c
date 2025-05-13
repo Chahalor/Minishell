@@ -6,14 +6,17 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/12 17:19:30 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/13 17:34:13 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma region Header
+
 /* -----| Internals |----- */
 #include "_read_line.h"
 #include "formating.h"
+#include "ft_printf.h"
+#include "exit.h"
 
 /* -----| Modules  |----- */
 #include "read_line.h"
@@ -22,146 +25,151 @@
 #pragma region Fonctions
 
 /** */
-__attribute__((always_inline, used)) static inline void	_write(
-	const char c,
-	const int line_length,
-	const int cursor_pos
-)
-{
-	if (cursor_pos == line_length)
-		write(STDOUT_FILENO, &c, 1);
-	else
-	{
-		write(STDOUT_FILENO, "\033[4h", 5);
-		write(STDOUT_FILENO, &c, 1);
-		write(STDOUT_FILENO, "\033[4l", 5);
-	}
-}
-
-/** */
-__attribute__((used)) static int	handle_ansi(
-	char *restrict result,
-	int *cursor_pos,
-	const int line_length
-)
-{
-	char	seq[10];
-
-	(void)result;
-	if (__builtin_expect(read(STDIN_FILENO, seq, 9) == -1, unexpected))
-		return (-1);
-	else if (seq[0] == '[')
-	{
-		if (seq[1] == 'D' && *cursor_pos > 0)
-		{
-			write(STDOUT_FILENO, CURSOR_LEFT, 4);
-			--(*cursor_pos);
-		}
-		else if (seq[1] == 'C' && *cursor_pos < line_length)
-		{
-			write(STDOUT_FILENO, CURSOR_RIGHT, 4);
-			++(*cursor_pos);
-		}
-		else	// @todo: handle up/down, should change in the history
-			write(STDOUT_FILENO, "\033[1~", 5);
-	}
-	else	// @todo: handle other sequences, like ctrl+D (EOF)
-		write(STDOUT_FILENO, seq, ft_strlen(seq));	// maybe change this to a cha cha sequence
-	return (0);
-}
-
-/** */
 __attribute__((used)) static int	_add(
 	const char c,
-	char *restrict *restrict result,
-	const int line_length,
-	register const int cursor_pos
+	t_rl_data *const restrict data
 )
 {
 	register int	i;
 
-	if (line_length == _RL_ALLOC_SIZE)
+	if (data->line_length == _RL_ALLOC_SIZE - 1)
 	{
-		*result = mm_realloc(*result,
-			line_length, line_length + _RL_ALLOC_SIZE + 1);
-		if (!*result)
+		data->result = mm_realloc(data->result,
+			data->line_length, data->line_length + _RL_ALLOC_SIZE + 1);
+		if (!data->result)
 			return (-1);
 	}
-	if (cursor_pos == line_length)
-		(*result)[line_length] = c;
+	if (data->cursor_pos == data->line_length)
+		data->result[data->line_length] = c;
 	else
 	{
-		i = line_length;
-		while (i-- > cursor_pos)
-			(*result)[i + 1] = (*result)[i];
-		(*result)[cursor_pos] = c;
+		i = data->line_length;
+		while (i-- > data->cursor_pos)
+			(data->result)[i + 1] = (data->result)[i];
+		data->result[data->cursor_pos] = c;
 	}
-	(*result)[line_length + 1] = '\0';
+	data->result[data->line_length + 1] = '\0';
+	++(data->cursor_pos);
 	return (1);
 }
 
-/** */
-__attribute__((used)) static int _remove(
-	char *restrict *restrict result,
-	const int line_length,
-	const int cursor_pos
+/**
+ * @brief	Remove the character at the cursor position.
+ * 
+ * @param	data The data structure containing the line and cursor position.
+ * 
+ * @return	The new cursor position after the removal.
+ * 
+ * @note	Yes it decreases the line length by 1.
+ */
+__attribute__((used)) int	_remove(
+	t_rl_data *const restrict data
 )
 {
-	if (line_length == 0)
+	if (data->line_length == 0)
 		return (0);
-	else if (cursor_pos == line_length)
+	else if (data->cursor_pos == data->line_length)
 	{
-		(*result)[line_length - 1] = '\0';
-		return (line_length - 1);
+		(data->result)[data->line_length - 1] = '\0';
+		return (data->line_length - 1);
 	}
 	else
 	{
 		int	i;
 
-		i = cursor_pos;
-		while (i < line_length)
-			(*result)[i] = (*result)[i + 1];
-		(*result)[line_length - 1] = '\0';
-		return (line_length - 1);
+		i = data->cursor_pos;
+		while (i < data->line_length)
+		{
+			(data->result)[i] = (data->result)[i + 1];
+			++i;
+		}
+		(data->result)[data->line_length - 1] = '\0';
+		--data->line_length;
+		return (data->line_length - 1);
 	}
+	return (0);
+}
+
+/** */
+__attribute__((used)) int	refresh_line(
+	t_rl_data *const restrict data
+)
+{
+	const int	cursor_move = data->line_length - data->cursor_pos;
+
+	ft_printf("\r\033[?2004h%s%s\033[K", data->prompt, data->result);
+	if (cursor_move > 0)
+		ft_printf("\033[%dD", cursor_move);
+	return (1);
+}
+
+/** */
+__attribute__((used)) static int	handle_backspace(
+	t_rl_data *const restrict data
+)
+{
+	if (data->cursor_pos > 0)
+	{
+		data->cursor_pos--;
+		_remove(data);
+		refresh_line(data);
+	}
+	return (1);
+}
+
+/** */
+__attribute__((used)) static int	handle_ctrl_d(
+	t_rl_data *const restrict data
+)
+{
+	data->result[data->line_length] = '\0';
+	data->status = eof;
+	return (1);
+}
+
+/** */
+__attribute__((used)) static int handle_special(
+	t_rl_data *const restrict data,
+	const char c
+)
+{
+	if (c == '\033')
+		handle_ansi(data);
+	else if (c == 127 || c == 8)
+		handle_backspace(data);
+	else if (c == 4 && data->line_length == 0)
+		handle_ctrl_d(data);
+	else if (c == 3)
+		data->status = interr;
+	return (1);
 }
 
 /** */
 __attribute__((hot)) int	_read(
-	char *restrict result
+	t_rl_data *const restrict data
 )
 {
-	int		line_length;
-	int		cursor_pos;
 	int		bytes_read;
 	char	c;
 
-	line_length = 0;
-	cursor_pos = 0;
-	while (1)
+	data->line_length = 0;
+	data->cursor_pos = 0;
+	while (data->status > exiting)
 	{
 		bytes_read = read(STDIN_FILENO, &c, 1);
-		if (__builtin_expect(bytes_read == -1, unexpected))
-			return (-1);
-		else if (c == '\033')
-			line_length += handle_ansi(result, &cursor_pos, line_length);
-		else if (c == '\n' || c == '\r')
-		{
-			result[line_length] = '\0';
+		if (bytes_read < 0)
+			data->status = error;
+		else if ((c == '\r') && data->status != past)	// || c == '\n'
 			break ;
-		}
-		else if (c == 127 || c == 8)
+		else if (c < 32 || c > 126)
+			handle_special(data, c);
+		else if (c >= 32 && c <= 126)
 		{
-			line_length = _remove(&result, line_length, cursor_pos);
-			write(STDOUT_FILENO, "\033[1D\033[K", 7);
-		}
-		else
-		{
-			line_length += _add(c, &result, line_length, cursor_pos++);
-			_write(c, line_length, cursor_pos);
+			data->line_length += _add(c, data);
+			refresh_line(data);
 		}
 	}
-	return (line_length);
+	return (data->line_length);
 }
 
 #pragma endregion Fonctions

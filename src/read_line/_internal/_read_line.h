@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:57:59 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/12 15:11:53 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/13 16:51:06 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,78 @@
 /*                                 Defines                                    */
 /* ************************************************************************** */
 
-# define _RL_ALLOC_SIZE	1024
+# define _RL_ALLOC_SIZE	1024	/* Size of every alloc/realloc of Read_line */
+# define _RL_ANSI_BUFF	16		/* Size of the ANSI handler buffer         */
+
+/* ************************************************************************** */
+/*                                 Typedefs                                   */
+/* ************************************************************************** */
+
+typedef enum e_rl_status	t_rl_status;	/* */
+
+typedef struct s_rl_data	t_rl_data;		/* */
+
+/* ************************************************************************** */
+/*                                 Enums                                      */
+/* ************************************************************************** */
+
+enum	e_rl_status
+{
+	error,		/* Error                 */
+	eof,		/* End of file (Ctrl+D) */
+	interr,		/* Interrupt (Ctrl+C)  */
+	exiting,	/* Exiting mode       */
+	normal,		/* Normal mode       */
+	past		/* Pasting text     */
+};
+
+/* ************************************************************************** */
+/*                                 Structs                                    */
+/* ************************************************************************** */
+
+struct	s_terms
+{
+	struct termios	oldt;	/* Old terminal settings       */
+	struct termios	raw;	/* Raw terminal settings      */
+	struct termios	resore;	/* Restore terminal settings */
+};
+
+
+struct	s_rl_data
+{
+	char			*result;		/* The result string                  */
+	char			*print;			/* The buffer string                 */
+	int				print_length;	/* The length of the buffer string  */
+	int				line_length;	/* The length of the line          */
+	int				cursor_pos;		/* The position of the cursor     */
+	char			*prompt;		/* The prompt string             */
+	int				prompt_length;	/* The length of the prompt     */
+	t_rl_status		status;			/* The status of the read_line */
+	struct s_terms	terms;			/* The terminal settings      */
+};
 
 /* ************************************************************************** */
 /*                                 Prototypes                                 */
 /* ************************************************************************** */
 
+// ansi/_ansi.c
+
+int			handle_ansi(
+				t_rl_data *const restrict data
+				);
+
 // _read.c
 
+int			_remove(
+				t_rl_data *const restrict data
+				);
+
+int			refresh_line(
+				t_rl_data *const restrict data
+				);
+
 int			_read(
-				char *restrict result
+				t_rl_data *const restrict data
 				);
 
 // _utils.c
@@ -62,6 +124,14 @@ extern void	_set_default(
 extern void	move_cursor(
 				const int row,
 				const int col
+				);
+
+extern void	save_cursor(
+				void
+				);
+
+extern void	restore_cursor(
+				void
 				);
 
 #endif /* _READ_LINE_H */

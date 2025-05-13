@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:25:58 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/12 11:28:44 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/13 11:26:20 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,16 @@ typedef enum e_expect	t_expect;
 /*                                 Enums                                      */
 /* ************************************************************************** */
 
+# ifndef E_BOOL
+#  define E_BOOL
+
 enum e_bool
 {
 	false,
 	true
 };
+
+# endif
 
 enum e_expect
 {

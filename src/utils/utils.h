@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 11:03:50 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/12 12:05:00 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/13 08:20:41 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,14 @@
 /* ************************************************************************** */
 /*                                 Prototypes                                 */
 /* ************************************************************************** */
+
+// utils.c
+
+extern int		ft_strncmp(
+			const char *restrict s1,
+			const char *restrict s2,
+			size_t n
+			);
 
 extern int		ft_strlen(
 			const char *restrict str

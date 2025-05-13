@@ -1,2 +1,3 @@
-prompt> ^C$
-$
+^[[?2004hprompt> hello$
+^[[?2004l^Mline ? <hello>$
+^[[?2004hprompt> 
