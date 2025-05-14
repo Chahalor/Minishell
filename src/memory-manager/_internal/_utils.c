@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 09:33:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/12 12:24:07 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/14 10:50:36 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ __attribute__((always_inline, used)) inline int	_hash(
 __attribute__((always_inline, used)) inline void	*mm_memcpy(
 	void *restrict dst,
 	const void *restrict src,
-	const register size_t n
+	register const size_t n
 )
 {
 	register size_t	i;

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:06:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/13 17:55:31 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/14 11:06:47 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 	data->terms.raw = data->terms.oldt;
 	data->terms.resore = data->terms.oldt;
 	_set_raw(&data->terms.raw);
+	write(STDOUT_FILENO, "\033[?2004h", 8);
 	write(STDOUT_FILENO, data->prompt, data->prompt_length);
 }
 
@@ -63,11 +64,12 @@ __attribute__((hot, malloc)) char	*read_line(
 	_init_cmd(&rl_data);
 	rl_data.line_length = _read(&rl_data);
 	_set_default(&rl_data.terms.resore);
+	write(STDOUT_FILENO, "\n", 1);
+	printf("line_length: %d\n", rl_data.line_length);	//rm
 	if (rl_data.status == eof || rl_data.status == interr)
 		return (mm_free(rl_data.result), mm_free(rl_data.print), NULL);
-	write(STDOUT_FILENO, "\033[?2004l\n", 10);
-	printf("line_length: %d\n", rl_data.line_length);	//rm
-	return (mm_free(rl_data.print), rl_data.result);	// maybe strupdup it to have the shortest string possible
+	else
+		return (mm_free(rl_data.print), rl_data.result);	// maybe strupdup it to have the shortest string possible
 }
 
 

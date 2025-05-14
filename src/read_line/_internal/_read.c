@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/13 17:34:13 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/14 10:59:23 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,10 @@ __attribute__((used)) static int handle_special(
 	else if (c == 4 && data->line_length == 0)
 		handle_ctrl_d(data);
 	else if (c == 3)
+	{
+		write(STDOUT_FILENO, "^C", 2);
 		data->status = interr;
+	}
 	return (1);
 }
 
@@ -159,7 +162,7 @@ __attribute__((hot)) int	_read(
 		bytes_read = read(STDIN_FILENO, &c, 1);
 		if (bytes_read < 0)
 			data->status = error;
-		else if ((c == '\r') && data->status != past)	// || c == '\n'
+		else if (data->status != past && (c == '\r'))// || c == '\n'))
 			break ;
 		else if (c < 32 || c > 126)
 			handle_special(data, c);

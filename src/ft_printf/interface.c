@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 16:12:05 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/04/07 08:18:23 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/14 10:50:09 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,6 @@ int	ft_fprintf(int fd, const char *s, ...)
 	// va_end(args);
 	(void)s;
 	(void)fd;
-	write(1, "ft_fprintf is not implemented yet\n", 36);
+	write(1, "ft_fprintf is not implemented yet\n", 34);
 	return (-1);
 }

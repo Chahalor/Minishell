@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 12:19:03 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/12 12:21:07 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/14 10:50:26 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int			_hash(
 extern void	*mm_memcpy(
 				void *restrict dst,
 				const void *restrict src,
-				const register size_t n
+				register const size_t n
 				);
 
 #endif /* _MM_H */
