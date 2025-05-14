@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/14 10:59:23 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/14 14:49:54 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,11 +95,19 @@ __attribute__((used)) int	refresh_line(
 	t_rl_data *const restrict data
 )
 {
-	const int	cursor_move = data->line_length - data->cursor_pos;
+	const int					move = data->line_length - data->cursor_pos;
+	const char	*const restrict	to_write = data->result + data->cursor_pos - 1;
 
-	ft_printf("\r\033[?2004h%s%s\033[K", data->prompt, data->result);
-	if (cursor_move > 0)
-		ft_printf("\033[%dD", cursor_move);
+	ft_printf("%s", to_write);
+	if (move > 0)
+	{
+		ft_printf("\033[K");
+		ft_printf("\033[%dD", move);
+	}
+
+	// ft_printf("\r\033[?2004h%s%s\033[K", data->prompt, data->result);
+	// if (move > 0)
+	// 	ft_printf("\033[%dD", move);
 	return (1);
 }
 
@@ -128,7 +136,7 @@ __attribute__((used)) static int	handle_ctrl_d(
 }
 
 /** */
-__attribute__((used)) static int handle_special(
+__attribute__((used)) static int	handle_special(
 	t_rl_data *const restrict data,
 	const char c
 )
@@ -143,6 +151,11 @@ __attribute__((used)) static int handle_special(
 	{
 		write(STDOUT_FILENO, "^C", 2);
 		data->status = interr;
+	}
+	else
+	{
+		data->line_length += _add(c, data);
+		refresh_line(data);
 	}
 	return (1);
 }
@@ -162,7 +175,7 @@ __attribute__((hot)) int	_read(
 		bytes_read = read(STDIN_FILENO, &c, 1);
 		if (bytes_read < 0)
 			data->status = error;
-		else if (data->status != past && (c == '\r'))// || c == '\n'))
+		else if (data->status != past && (c == '\r' || c == '\n'))
 			break ;
 		else if (c < 32 || c > 126)
 			handle_special(data, c);

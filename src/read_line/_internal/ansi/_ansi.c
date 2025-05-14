@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:19:00 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/14 11:08:47 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/14 14:42:26 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,8 @@ __attribute__((used)) int	handle_ansi(
 	len = read_ansi_sequence(ansi, sizeof(ansi));
 	if (__builtin_expect(!len || len < 0, unexpected))
 		return (0);
+	// else
+	// 	ft_printf("read_ansi_sequence: \\033%s\n", ansi + 1);	//rm
 	if (ft_strncmp(ansi, "\033[D", 3) == 0 || ft_strncmp(ansi, "\033[C", 3) == 0)
 		_move(data, ansi[2]);
 	else if (ft_strncmp(ansi, "\033[3~", 4) == 0)
