@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/15 08:32:55 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/15 11:59:26 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,38 +100,21 @@ __attribute__((used)) int	refresh_line(
 
 	ft_printf("%s", to_write);
 	if (move > 0)
-	{
-		ft_printf("\033[K");
-		ft_printf("\033[%dD", move);
-	}
-
-	// ft_printf("\r\033[?2004h%s%s\033[K", data->prompt, data->result);
-	// if (move > 0)
-	// 	ft_printf("\033[%dD", move);
+		ft_printf("\033[K\033[%dD", move);
 	return (1);
 }
 
 /** */
-__attribute__((used)) static int	handle_backspace(
+__attribute__((always_inline, used)) static inline int	handle_backspace(
 	t_rl_data *const restrict data
 )
 {
 	if (data->cursor_pos > 0)
 	{
-		data->cursor_pos--;
+		--data->cursor_pos;
 		_remove(data);
 		refresh_line(data);
 	}
-	return (1);
-}
-
-/** */
-__attribute__((used)) static int	handle_ctrl_d(
-	t_rl_data *const restrict data
-)
-{
-	data->result[data->line_length] = '\0';
-	data->status = eof;
 	return (1);
 }
 
@@ -145,8 +128,11 @@ __attribute__((used)) static int	handle_special(
 		handle_ansi(data);
 	else if (c == 127 || c == 8)
 		handle_backspace(data);
-	else if (c == 4 && data->line_length == 0)
-		handle_ctrl_d(data);
+	else if (data->line_length == 0 && c == 4)
+	{
+		data->result[data->line_length] = '\0';
+		data->status = eof;
+	}
 	else if (c == 3)
 	{
 		write(STDOUT_FILENO, "^C", 2);
@@ -179,7 +165,7 @@ __attribute__((hot)) int	_read(
 			break ;
 		else if (c < 32 || c > 126)
 			handle_special(data, c);
-		else if (c >= 32 && c <= 126)
+		else //if (c >= 32 && c <= 126)
 		{
 			data->line_length += _add(c, data);
 			refresh_line(data);

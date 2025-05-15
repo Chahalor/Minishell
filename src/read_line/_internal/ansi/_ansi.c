@@ -6,23 +6,51 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:19:00 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/15 10:09:40 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/15 11:41:50 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma region Header
 
 /* -----| Internals |----- */
-#include "../_read_line.h"
-#include "formating.h"
-#include "ft_printf.h"
-#include "exit.h"
+#include "_read_line.h"
 
 /* -----| Modules  |----- */
 #include "read_line.h"
 
 #pragma endregion Header
 #pragma region Fonctions
+
+/** */
+__attribute__((always_inline, used)) static inline int	read_ansi_sequence(
+	char *const restrict buffer,
+	register int buffer_size
+)
+{
+	int				bytes_read;
+	register int	i;
+	char			ch;
+
+	if (!buffer || buffer_size < 2)
+		return (-1);
+	i = -1;
+	buffer[++i] = '\033';
+	bytes_read = read(STDIN_FILENO, &ch, 1);
+	if (__builtin_expect(bytes_read <= 0 || ch != '[', unexpected))
+		return (-1);
+	buffer[++i] = ch;
+	while (i < buffer_size - 1)
+	{
+		bytes_read = read(STDIN_FILENO, &ch, 1);
+		if (__builtin_expect(bytes_read <= 0, unexpected))
+			return (-1);
+		buffer[++i] = ch;
+		if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z') || ch == '~')
+			break;
+	}
+	buffer[++i] = '\0';
+	return (i);
+}
 
 /** */
 __attribute__((always_inline, used)) static inline void	_move(
@@ -65,37 +93,6 @@ __attribute__((always_inline, used)) static inline void	_del(
 }
 
 /** */
-__attribute__((always_inline, used)) static inline int	read_ansi_sequence(
-	char *const restrict buffer,
-	register int buffer_size
-)
-{
-	int				bytes_read;
-	register int	i;
-	char			ch;
-
-	if (!buffer || buffer_size < 2)
-		return (-1);
-	i = -1;
-	buffer[++i] = '\033';
-	bytes_read = read(STDIN_FILENO, &ch, 1);
-	if (__builtin_expect(bytes_read <= 0 || ch != '[', unexpected))
-		return (-1);
-	buffer[++i] = ch;
-	while (i < buffer_size - 1)
-	{
-		bytes_read = read(STDIN_FILENO, &ch, 1);
-		if (__builtin_expect(bytes_read <= 0, unexpected))
-			return (-1);
-		buffer[++i] = ch;
-		if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z') || ch == '~')
-			break;
-	}
-	buffer[++i] = '\0';
-	return (i);
-}
-
-/** */
 __attribute__((always_inline, used)) static inline int	_history(
 	t_rl_data *const restrict data,
 	const char action
@@ -110,11 +107,11 @@ __attribute__((always_inline, used)) static inline int	_history(
 	{
 		mm_free(data->result);
 		data->result = line;
-		data->line_length = ft_strlen(line);
 		data->cursor_pos = 1;
 		refresh_line(data);
+		data->line_length = ft_strlen(line);
 		data->cursor_pos = data->line_length;
-		ft_printf("\033[%dC", data->line_length - 1);
+		// ft_printf("\033[%dC", data->line_length - 1);
 	}
 	return (1);
 }
@@ -130,8 +127,6 @@ __attribute__((used)) int	handle_ansi(
 	len = read_ansi_sequence(ansi, sizeof(ansi));
 	if (__builtin_expect(!len || len < 0, unexpected))
 		return (0);
-	// else
-	// 	ft_printf("read_ansi_sequence: \\033%s\n", ansi + 1);	//rm
 	if (ft_strncmp(ansi, "\033[D", 3) == 0 || ft_strncmp(ansi, "\033[C", 3) == 0)
 		_move(data, ansi[2]);
 	else if (ft_strncmp(ansi, "\033[A", 3) == 0 || ft_strncmp(ansi, "\033[B", 3) == 0)
