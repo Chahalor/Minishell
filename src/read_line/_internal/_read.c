@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/15 11:59:26 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/15 12:12:16 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ __attribute__((always_inline, used)) static inline int	handle_backspace(
 	{
 		--data->cursor_pos;
 		_remove(data);
-		refresh_line(data);
+		write(STDOUT_FILENO, "\033[D\033[P", 6);
 	}
 	return (1);
 }

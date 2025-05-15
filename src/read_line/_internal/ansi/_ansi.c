@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:19:00 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/15 11:41:50 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/15 12:37:12 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 /* -----| Modules  |----- */
 #include "read_line.h"
+#include <string.h>
 
 #pragma endregion Header
 #pragma region Fonctions
@@ -87,7 +88,7 @@ __attribute__((always_inline, used)) static inline void	_del(
 		if (data->cursor_pos < data->line_length)
 		{
 			_remove(data);
-			refresh_line(data);
+			write(STDOUT_FILENO, "\033[P", 3);
 		}
 	}
 }
@@ -107,11 +108,16 @@ __attribute__((always_inline, used)) static inline int	_history(
 	{
 		mm_free(data->result);
 		data->result = line;
-		data->cursor_pos = 1;
-		refresh_line(data);
 		data->line_length = ft_strlen(line);
 		data->cursor_pos = data->line_length;
-		// ft_printf("\033[%dC", data->line_length - 1);
+		ft_printf("\r\033[%dC\033[K%s", data->prompt_length, data->result);
+	}
+	else
+	{
+		ft_printf("\r\033[%dC\033[K", data->prompt_length);
+		memset(data->result, 0, data->line_length);	// change the function call
+		data->line_length = 0;
+		data->cursor_pos = 0;
 	}
 	return (1);
 }
