@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:57:59 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/15 08:54:28 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/15 16:39:42 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 
 /* -----| Modules  |----- */
 # include "utils.h"
+# include "get_next_line.h"
 
 /* ************************************************************************** */
 /*                                 Defines                                    */
@@ -101,13 +102,13 @@ struct	s_rl_data
 
 struct	s_rl_history
 {
-	char			*line;		/* The line string                   */
-	t_rl_history	*next;		/* The next history entry           */
-	t_rl_history	*prev;		/* The previous history entry      */
-	t_rl_history	*head;		/* The head of the history        */
-	t_rl_history	*tail;		/* The tail of the history       */
-	t_rl_history	*current;	/* The current history entry    */
-	char			*filename;	/* The filename of the history */
+	char			*line;		/* The line string                */
+	t_rl_history	*next;		/* The next history entry        */
+	t_rl_history	*prev;		/* The previous history entry   */
+	t_rl_history	*head;		/* The head of the history     */
+	t_rl_history	*tail;		/* The tail of the history    */
+	t_rl_history	*current;	/* The current history entry */
+	int				fd;			/* The history file fd      */
 };
 
 
@@ -165,6 +166,12 @@ char		*_history_manager(
 				const char *const restrict line
 				);
 
+// history/_load.c
+
+int			_load_history(
+				const char *const restrict filename,
+				t_rl_history *const restrict data
+				);
 
 // ansi/_ansi.c
 

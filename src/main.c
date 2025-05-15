@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:44:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/15 14:16:46 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/15 16:44:16 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ __attribute__((cold, unused)) int	init_all(void)
 {
 	return (
 		init_signal() ||
-		rl_load_history(NULL)
+		rl_load_history(DEFAULT_HISTORY_FILE)
 	);
 }
 

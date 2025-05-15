@@ -4,3 +4,4 @@
 
 ## Read_line:
  - [ ] the history work like a shit
+ - [ ] we can t creat the history file with the define

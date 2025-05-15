@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:06:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/15 09:06:30 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/15 17:21:31 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,6 @@
 
 #pragma endregion Header
 #pragma region Fonctions
-
-/**
- * @todo:	handle ctrl+c to exit the read_line and not just the program
- * @todo:	X update correcty the buffer when using the arrow keys
- * @todo:	X handle the backspace key
- * @todo: 	X handle the delete key /!\
- * @todo: 	make differnce between ENTER and just a '\n' (maybe read more than 1 char)
- */
 
 /** */
 __attribute__((hot, malloc)) char	*read_line(
@@ -52,7 +44,7 @@ __attribute__((hot, malloc)) char	*read_line(
 	rl_data.line_length = _read(&rl_data);
 	_set_default(&rl_data.terms.resore);
 	write(STDOUT_FILENO, "\033[?2004l\n", 9);
-	printf("line_length: %d\n", rl_data.line_length);	//rm
+	// printf("line_length: %d\n", rl_data.line_length);	//rm
 	if (rl_data.status == eof || rl_data.status == interr)
 		return (mm_free(rl_data.result), mm_free(rl_data.print), NULL);
 	else
@@ -60,7 +52,7 @@ __attribute__((hot, malloc)) char	*read_line(
 }
 
 /** */
-__attribute__(()) char	*rl_add_history(
+__attribute__((used)) char	*rl_add_history(
 	const char *const restrict line
 )
 {
@@ -68,7 +60,7 @@ __attribute__(()) char	*rl_add_history(
 }
 
 /** */
-__attribute__(()) void	rl_clear_history(void)
+__attribute__((used)) void	rl_clear_history(void)
 {
 	_history_manager(rl_clear, NULL);
 	return ;
@@ -79,8 +71,7 @@ __attribute__((cold, unused)) int	rl_load_history(
 	const char *const restrict filename
 )
 {
-	(void)filename;
-	return (_history_manager(rl_init, NULL) == NULL);
+	return (_history_manager(rl_init, filename) == NULL);
 }
 
 /** */

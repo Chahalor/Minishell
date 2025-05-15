@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 08:08:28 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/15 12:44:41 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/15 16:37:20 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,8 @@
 /* -----| Internals |----- */
 #include "_read_line.h"
 
-/* -----| Modules  |----- */
+/* -----| Modules   |----- */
 #include "read_line.h"
-#include "ft_printf.h"
 
 #pragma endregion Header
 #pragma region Fonctions
@@ -29,6 +28,7 @@ __attribute__((always_inline, used)) static inline char	*_add(
 )
 {
 	t_rl_history	*new_entry;
+	const int		len = ft_strlen(line);
 
 	if (__builtin_expect(!line, unexpected))
 		return (NULL);
@@ -36,8 +36,8 @@ __attribute__((always_inline, used)) static inline char	*_add(
 	if (__builtin_expect(!new_entry, unexpected))
 		return (NULL);
 	new_entry->line = (char *)(new_entry + 1);
-	ft_memcpy(new_entry->line, line, ft_strlen(line));
-	new_entry->line[ft_strlen(line)] = '\0';
+	ft_memcpy(new_entry->line, line, len);
+	new_entry->line[len] = '\0';
 	new_entry->next = NULL;
 	new_entry->prev = data->tail;
 	new_entry->head = data->head;
@@ -47,6 +47,10 @@ __attribute__((always_inline, used)) static inline char	*_add(
 	data->current = new_entry;
 	if (__builtin_expect(data->head == data->tail, unexpected))
 		data->head = new_entry;
+	if (__builtin_expect(data->fd < 0, unexpected))
+		return (new_entry->line);
+	write(data->fd, new_entry->line, len);
+	write(data->fd, "\n", 1);
 	return (new_entry->line);
 }
 
@@ -118,7 +122,6 @@ __attribute__((always_inline, used)) static inline char	*_get(
 		else
 			result = data->current;
 	}
-	// ft_printf(" _get(): line=<%s>\n", result->line);	//rm
 	return (result->line);
 }
 
@@ -146,8 +149,9 @@ __attribute__((used)) char	*_history_manager(
 		*history = (t_rl_history){
 			.line = NULL, .next = NULL, .prev = NULL,
 			.head = history, .tail = history, .current = history,
-			.filename = (char *)line
+			.fd = -1,
 		};
+		_load_history(line, history);
 		return ((char *)history);
 	}
 	else
