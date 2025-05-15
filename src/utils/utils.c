@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 11:04:28 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/15 09:01:38 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/15 12:41:24 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,22 +55,26 @@ __attribute__((always_inline, used)) inline int	ft_strlen(
 	return (i);
 }
 
-/** */
-__attribute__((always_inline, used, malloc)) inline char	*ft_strdup(
-	const char *const restrict str
-)
+__attribute__((always_inline, used))
+//	(-hidden-)
+extern inline void	_neutral(\
+	void *restrict const area,
+	const unsigned int size
+)	// v.1. >>> tag: def->neutral
 {
-	register int	i;
-	char			*dup;
+	volatile unsigned long long		*restrict	area_64b;
+	volatile unsigned char	*restrict			area_8b;
+	const unsigned int							len_64b = (size >> 3);
+	register unsigned int						i;
 
-	i = -1;
-	dup = malloc(sizeof(char) * (ft_strlen(str) + 1));
-	if (__builtin_expect(!dup, unexpected))
-		return (NULL);
-	while (str[++i])
-		dup[i] = str[i];
-	dup[i] = '\0';
-	return (dup);
+	area_64b = (volatile unsigned long long *)area;
+	i = 0;
+	while (i++ != len_64b)
+		*(area_64b++) = 0;
+	i <<= 3;
+	area_8b = (volatile unsigned char *)area + i;
+	while (!((size - i++) >> 31))
+		*(area_8b++) = 0;
 }
 
 /** */

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:19:00 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/15 12:37:12 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/15 12:45:14 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,13 +100,13 @@ __attribute__((always_inline, used)) static inline int	_history(
 )
 {
 	char *line = NULL;
-	if (action == 'B')
+	if (action == 'A')
 		line = _history_manager(rl_get_prev, NULL);
-	else if (action == 'A')
+	else if (action == 'B')
 		line = _history_manager(rl_get_next, NULL);
 	if (line)
 	{
-		mm_free(data->result);
+		// mm_free(data->result);
 		data->result = line;
 		data->line_length = ft_strlen(line);
 		data->cursor_pos = data->line_length;
@@ -115,7 +115,7 @@ __attribute__((always_inline, used)) static inline int	_history(
 	else
 	{
 		ft_printf("\r\033[%dC\033[K", data->prompt_length);
-		memset(data->result, 0, data->line_length);	// change the function call
+		_neutral(data->result, data->line_length);
 		data->line_length = 0;
 		data->cursor_pos = 0;
 	}

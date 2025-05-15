@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 08:08:28 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/15 10:06:43 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/15 12:44:41 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ __attribute__((always_inline, used)) static inline char	*_add(
 	data->tail->next = new_entry;
 	data->head->tail = new_entry;
 	data->tail = new_entry;
+	data->current = new_entry;
 	if (__builtin_expect(data->head == data->tail, unexpected))
 		data->head = new_entry;
 	return (new_entry->line);

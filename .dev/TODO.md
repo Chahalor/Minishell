@@ -1,3 +1,4 @@
 # TODO: MiniShell
 
- - [ ] replace my shity ft_printf by printfX
+## Read_line:
+ - [ ] the history work like a shit
