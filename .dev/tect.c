@@ -6,14 +6,5 @@
 
 int main(void)
 {
-	char *line;
-
-	line = readline("prompt> ");
-	while (line)
-	{
-		printf("line ? <%s>\n", line);
-		free(line);
-		line = readline("prompt> ");
-	}
-	return (0);
+	execve("/bin/ls", (char *const []){"/bin/ls", NULL}, (char *const []){"PATH=/bin:/usr/bin", NULL});
 }

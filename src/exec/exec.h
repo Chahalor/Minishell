@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/11 11:03:50 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/15 14:14:28 by nduvoid          ###   ########.fr       */
+/*   Created: 2025/05/15 12:46:56 by nduvoid           #+#    #+#             */
+/*   Updated: 2025/05/15 14:19:23 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
+#ifndef EXEC_H
+# define EXEC_H
 
 # pragma once
 
@@ -20,56 +20,35 @@
 /* ************************************************************************** */
 
 /* -----| Systems   |----- */
-# include <stdlib.h>
-# include <unistd.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <string.h>
 
 /* -----| Globals   |----- */
 # include "config.h"
 # include "type.h"
 
 /* -----| Internals |----- */
-	//...
+# include "_internal/_exec.h"
 
-/* -----| Modules  |----- */
+/* -----| Modules   |----- */
 # include "mmanager.h"
+# include "utils.h"
+# include "exit.h"
 
 /* ************************************************************************** */
 /*                                 Prototypes                                 */
 /* ************************************************************************** */
 
-// ft_split.c
+// exec.c
 
-char		**ft_split(
-				const char *const restrict s,
-				const char c
+t_exec_data	*built_exec_data(
+				char *const restrict line
 				);
 
-// utils.c
-
-extern int	ft_strncmp(
-				const char *const restrict s1,
-				const char *const restrict s2,
-				size_t n
+int			exec_cmd(
+				t_exec_data *const restrict data,
+				char *const envp[]
 				);
 
-extern int	ft_strlen(
-				const char *const restrict str
-				);
-
-extern void	_neutral(
-				void *restrict const area,
-				const unsigned int size
-				);
-
-extern void	*memdup(
-				const void *const restrict src,
-				size_t size
-				);
-
-extern void	ft_memcpy(
-				void *restrict dst,
-				const void *const restrict src,
-				size_t size
-				);
-
-#endif /* UTILS_H */
+#endif /* EXEC_H */

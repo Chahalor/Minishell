@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:19:00 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/15 12:45:14 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/15 12:48:21 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,8 @@
 /* -----| Internals |----- */
 #include "_read_line.h"
 
-/* -----| Modules  |----- */
+/* -----| Modules   |----- */
 #include "read_line.h"
-#include <string.h>
 
 #pragma endregion Header
 #pragma region Fonctions

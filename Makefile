@@ -32,13 +32,13 @@ DEBUGFLAGS	:=
 DIR_SRC		:= src
 DIR_OBJ		:= .build
 DIR_BONUS	:= 
-INCLUDE_ALL	:=-Iglobal -I$(DIR_SRC)/builtin -I$(DIR_SRC)/exit -I$(DIR_SRC)/ft_printf -I$(DIR_SRC)/memory-manager -I$(DIR_SRC)/parseur -I$(DIR_SRC)/prompt -I$(DIR_SRC)/read_line -I$(DIR_SRC)/signal -I$(DIR_SRC)/utils
+INCLUDE_ALL	:=-Iglobal -I$(DIR_SRC)/builtin -I$(DIR_SRC)/exec -I$(DIR_SRC)/exit -I$(DIR_SRC)/ft_printf -I$(DIR_SRC)/memory-manager -I$(DIR_SRC)/parseur -I$(DIR_SRC)/prompt -I$(DIR_SRC)/read_line -I$(DIR_SRC)/signal -I$(DIR_SRC)/utils
 
 DIR_LIBFT	:= 
 LIBFT		:= #$(DIR_LIBFT)/libft.a
 
 # Here we include all the makefile.mk files
-include  src/builtin/makefile.mk src/exit/makefile.mk src/ft_printf/makefile.mk src/memory-manager/makefile.mk src/parseur/makefile.mk src/prompt/makefile.mk src/read_line/makefile.mk src/signal/makefile.mk src/utils/makefile.mk
+include  src/builtin/makefile.mk src/exec/makefile.mk src/exit/makefile.mk src/ft_printf/makefile.mk src/memory-manager/makefile.mk src/parseur/makefile.mk src/prompt/makefile.mk src/read_line/makefile.mk src/signal/makefile.mk src/utils/makefile.mk
 
 SRC_MAIN	:= main.c
 SRC_BONUS	:=
@@ -46,7 +46,7 @@ SRC_BONUS	:=
 # all object files for the modules
 OBJ_MAIN	:= $(addprefix $(DIR_OBJ)/, $(SRC_MAIN:.c=.o))
 OBJ_BONUS	:= $(addprefix $(DIR_OBJ)/, $(SRC_BONUS:.c=.o))
-OBJ_ALL		:= $(OBJ_BUILTIN) $(OBJ_EXIT) $(OBJ_FT_PRINTF) $(OBJ_MEMORY-MANAGER) $(OBJ_PARSEUR) $(OBJ_PROMPT) $(OBJ_READ_LINE) $(OBJ_SIGNAL) $(OBJ_UTILS)
+OBJ_ALL		:= $(OBJ_BUILTIN) $(OBJ_EXEC) $(OBJ_EXIT) $(OBJ_FT_PRINTF) $(OBJ_MEMORY-MANAGER) $(OBJ_PARSEUR) $(OBJ_PROMPT) $(OBJ_READ_LINE) $(OBJ_SIGNAL) $(OBJ_UTILS)
 
 # ***************************************************** #
 # *                    Rules                          * #

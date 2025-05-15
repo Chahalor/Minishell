@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:44:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/15 11:30:51 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/15 14:16:46 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include "sig.h"
 #include "mmanager.h"
 #include "read_line.h"
+#include "exec/exec.h"
 #include "utils.h"
 
 volatile sig_atomic_t	g_last_signal = 0; // Global signal variable
@@ -41,11 +42,13 @@ __attribute__((cold, unused)) int	init_all(void)
 #pragma endregion Fonctions
 #pragma region Main
 
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
-	char *line;
+	(void)envp;
+	char	*line;
+	
 
 	if (__builtin_expect(init_all(), unexpected))
 	{
@@ -64,7 +67,9 @@ int	main(int argc, char **argv)
 		{
 			ft_printf("You entered: <%s>\n", line);
 			rl_add_history(line);
+			exec_cmd(built_exec_data(line), envp);
 			mm_free(line);
+			// exit_program(0, "main(): exec_cmd() exit");
 		}
 		line = read_line(DEFAULT_PROMPT);
 	}
