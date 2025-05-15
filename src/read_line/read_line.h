@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:08:04 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/12 11:28:00 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/15 09:06:44 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,16 @@
 
 char	*read_line(
 			const char *restrict prompt
+			);
+
+char	*rl_add_history(
+			const char *const restrict line
+			);
+
+void	rl_clear_history(void);
+
+int		rl_load_history(
+			const char *const restrict filename
 			);
 
 void	reset_cmd(void);

@@ -1,3 +1,56 @@
-^[[?2004hprompt> hello$
-^[[?2004l^Mline ? <hello>$
-^[[?2004hprompt> 
+ =================================================================
+                                                                       ==3207192==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6070000000dd at pc 0x0000004d3c71 bp 0x7ffd7e1c56a0 sp 0x7ffd7e1c5698
+                    READ of size 1 at 0x6070000000dd thread T0
+                                                                  #0 0x4d3c70 in ft_strlen /home/nduvoid/Desktop/Minishell/src/utils/utils.c:53:9
+                                                      #1 0x4d036a in handle_ansi (/home/nduvoid/Desktop/Minishell/Minishell+0x4d036a)
+                                          #2 0x4d15ba in handle_special /home/nduvoid/Desktop/Minishell/src/read_line/_internal/_read.c:145:3
+                                                  #3 0x4d23f4 in _read /home/nduvoid/Desktop/Minishell/src/read_line/_internal/_read.c:181:4
+                                                 #4 0x4cf1bd in read_line /home/nduvoid/Desktop/Minishell/src/read_line/read_line.c:52:24
+                                              #5 0x4d42dc in main (/home/nduvoid/Desktop/Minishell/Minishell+0x4d42dc)
+                           #6 0x723e0e229d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+                            #7 0x723e0e229e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+     #8 0x41f2e4 in _start (/home/nduvoid/Desktop/Minishell/Minishell+0x41f2e4)
+
+                                                                               0x6070000000dd is located 0 bytes to the right of 77-byte region [0x607000000090,0x6070000000dd)
+                                                                                allocated by thread T0 here:
+                 #0 0x49a1ad in malloc (/home/nduvoid/Desktop/Minishell/Minishell+0x49a1ad)
+                                                                                               #1 0x4ce077 in mm_alloc /home/nduvoid/Desktop/Minishell/src/memory-manager/mmanager.c:33:22
+                                                                                               #2 0x4d3413 in _history_manager (/home/nduvoid/Desktop/Minishell/Minishell+0x4d3413)
+                                                                                        #3 0x4cf526 in rl_add_history /home/nduvoid/Desktop/Minishell/src/read_line/read_line.c:67:10
+                                                                                          #4 0x4d42c4 in main (/home/nduvoid/Desktop/Minishell/Minishell+0x4d42c4)
+                                                                       #5 0x723e0e229d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+                                                                    SUMMARY: AddressSanitizer: heap-buffer-overflow /home/nduvoid/Desktop/Minishell/src/utils/utils.c:53:9 in ft_strlen
+                                                                                        Shadow bytes around the buggy address:
+                                 0x0c0e7fff7fc0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+   0x0c0e7fff7fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+                                                                    0x0c0e7fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+                                      0x0c0e7fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+        0x0c0e7fff8000: fa fa fa fa 00 00 00 00 00 00 00 00 00 fa fa fa
+                                                                       =>0x0c0e7fff8010: fa fa 00 00 00 00 00 00 00 00 00[05]fa fa fa fa
+                                           0x0c0e7fff8020: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+             0x0c0e7fff8030: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+                                                                              0x0c0e7fff8040: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+                                                0x0c0e7fff8050: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+                  0x0c0e7fff8060: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+                                                                                 Shadow byte legend (one shadow byte represents 8 application bytes):
+                                                        Addressable:           00
+                                                                                   Partially addressable: 01 02 03 04 05 06 07 
+                                  Heap left redzone:       fa
+                                                               Freed heap region:       fd
+                                                                                            Stack left redzone:      f1
+                          Stack mid redzone:       f2
+                                                       Stack right redzone:     f3
+                                                                                    Stack after return:      f5
+                  Stack use after scope:   f8
+                                               Global redzone:          f9
+                                                                            Global init order:       f6
+          Poisoned by user:        f7
+                                       Container overflow:      fc
+                                                                    Array cookie:            ac
+                                                                                                Intra object redzone:    bb
+                              ASan internal:           fe
+                                                           Left alloca redzone:     ca
+                                                                                        Right alloca redzone:    cb
+                      Shadow gap:              cc
+                                                 ==3207192==ABORTING

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:57:59 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/13 16:51:06 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/15 08:54:28 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,11 @@
 /*                                 Typedefs                                   */
 /* ************************************************************************** */
 
-typedef enum e_rl_status	t_rl_status;	/* */
+typedef enum e_rl_status		t_rl_status;		/* */
+typedef enum e_rl_hist_access	t_rl_hist_access;	/* */
 
-typedef struct s_rl_data	t_rl_data;		/* */
+typedef struct s_rl_data		t_rl_data;		/* */
+typedef struct s_rl_history		t_rl_history;	/* */
 
 /* ************************************************************************** */
 /*                                 Enums                                      */
@@ -60,6 +62,16 @@ enum	e_rl_status
 	exiting,	/* Exiting mode       */
 	normal,		/* Normal mode       */
 	past		/* Pasting text     */
+};
+
+enum e_rl_hist_access
+{
+	rl_add,			/* add a line to the history         */
+	rl_get_next,	/* get a line from the history      */
+	rl_get_prev,	/* get a line from the history     */
+	rl_remove,		/* remove a line from the history */
+	rl_clear,		/* clear the history             */
+	rl_init			/* init the history             */
 };
 
 /* ************************************************************************** */
@@ -87,13 +99,25 @@ struct	s_rl_data
 	struct s_terms	terms;			/* The terminal settings      */
 };
 
+struct	s_rl_history
+{
+	char			*line;		/* The line string                   */
+	t_rl_history	*next;		/* The next history entry           */
+	t_rl_history	*prev;		/* The previous history entry      */
+	t_rl_history	*head;		/* The head of the history        */
+	t_rl_history	*tail;		/* The tail of the history       */
+	t_rl_history	*current;	/* The current history entry    */
+	char			*filename;	/* The filename of the history */
+};
+
+
 /* ************************************************************************** */
 /*                                 Prototypes                                 */
 /* ************************************************************************** */
 
-// ansi/_ansi.c
+// _init.c
 
-int			handle_ansi(
+extern void	_init_cmd(
 				t_rl_data *const restrict data
 				);
 
@@ -132,6 +156,20 @@ extern void	save_cursor(
 
 extern void	restore_cursor(
 				void
+				);
+
+// history/history.c
+
+char		*_history_manager(
+				const int access,
+				const char *const restrict line
+				);
+
+
+// ansi/_ansi.c
+
+int			handle_ansi(
+				t_rl_data *const restrict data
 				);
 
 #endif /* _READ_LINE_H */

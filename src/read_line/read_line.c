@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:06:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/14 14:52:06 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/15 09:06:30 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,6 @@
  * @todo: 	X handle the delete key /!\
  * @todo: 	make differnce between ENTER and just a '\n' (maybe read more than 1 char)
  */
-
- /** */
- __attribute__((always_inline, used)) static inline void	_init_cmd(
-	t_rl_data *const restrict data
- )
- {
-	tcgetattr(STDIN_FILENO, &data->terms.oldt);
-	data->terms.raw = data->terms.oldt;
-	data->terms.resore = data->terms.oldt;
-	_set_raw(&data->terms.raw);
-	write(STDOUT_FILENO, "\033[?2004h", 8);
-	write(STDOUT_FILENO, data->prompt, data->prompt_length);
-}
 
 /** */
 __attribute__((hot, malloc)) char	*read_line(
@@ -72,6 +59,29 @@ __attribute__((hot, malloc)) char	*read_line(
 		return (mm_free(rl_data.print), rl_data.result);	// maybe strupdup it to have the shortest string possible
 }
 
+/** */
+__attribute__(()) char	*rl_add_history(
+	const char *const restrict line
+)
+{
+	return (_history_manager(rl_add, line));
+}
+
+/** */
+__attribute__(()) void	rl_clear_history(void)
+{
+	_history_manager(rl_clear, NULL);
+	return ;
+}
+
+/** */
+__attribute__((cold, unused)) int	rl_load_history(
+	const char *const restrict filename
+)
+{
+	(void)filename;
+	return (_history_manager(rl_init, NULL) == NULL);
+}
 
 /** */
 __attribute__((hot)) void	reset_cmd(void)

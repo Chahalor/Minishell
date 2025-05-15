@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:19:00 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/14 14:42:26 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/15 10:09:40 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,30 @@ __attribute__((always_inline, used)) static inline int	read_ansi_sequence(
 }
 
 /** */
+__attribute__((always_inline, used)) static inline int	_history(
+	t_rl_data *const restrict data,
+	const char action
+)
+{
+	char *line = NULL;
+	if (action == 'B')
+		line = _history_manager(rl_get_prev, NULL);
+	else if (action == 'A')
+		line = _history_manager(rl_get_next, NULL);
+	if (line)
+	{
+		mm_free(data->result);
+		data->result = line;
+		data->line_length = ft_strlen(line);
+		data->cursor_pos = 1;
+		refresh_line(data);
+		data->cursor_pos = data->line_length;
+		ft_printf("\033[%dC", data->line_length - 1);
+	}
+	return (1);
+}
+
+/** */
 __attribute__((used)) int	handle_ansi(
 	t_rl_data *const restrict data
 )
@@ -110,6 +134,8 @@ __attribute__((used)) int	handle_ansi(
 	// 	ft_printf("read_ansi_sequence: \\033%s\n", ansi + 1);	//rm
 	if (ft_strncmp(ansi, "\033[D", 3) == 0 || ft_strncmp(ansi, "\033[C", 3) == 0)
 		_move(data, ansi[2]);
+	else if (ft_strncmp(ansi, "\033[A", 3) == 0 || ft_strncmp(ansi, "\033[B", 3) == 0)
+		_history(data, ansi[2]);
 	else if (ft_strncmp(ansi, "\033[3~", 4) == 0)
 		_del(data, ansi[2]);
 	else if (ft_strncmp(ansi, "\033[200~", 6) == 0)

@@ -1,45 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   _init.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/12 08:53:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/15 08:57:43 by nduvoid          ###   ########.fr       */
+/*   Created: 2025/05/15 08:06:51 by nduvoid           #+#    #+#             */
+/*   Updated: 2025/05/15 08:08:36 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma region Header
+
 /* -----| Internals |----- */
-	//...
+#include "_read_line.h"
 
 /* -----| Modules  |----- */
-#include "exit.h"
+#include "read_line.h"
 
 #pragma endregion Header
 #pragma region Fonctions
 
-/**
- * @brief	Exit the program with a message and a status code.
- * 
- * @param	status	The exit status code.
- * @param	msg		The message to display before exiting.
- * 
- * @note	Use this function to exit the program with a message.
- * @note	/!\ This fonction Should be the only way to exit the program. /!\
- */
-__attribute__((noreturn, unused, cold)) void	exit_program(
-	const int status,
-	const char *restrict msg
-)
-{
-	reset_cmd();
-	if (msg)
-		printf("%s\n", msg);
-	rl_clear_history();
-	mm_destroy();
-	exit(status);
+ /** */
+ __attribute__((always_inline, used)) inline void	_init_cmd(
+	t_rl_data *const restrict data
+ )
+ {
+	tcgetattr(STDIN_FILENO, &data->terms.oldt);
+	data->terms.raw = data->terms.oldt;
+	data->terms.resore = data->terms.oldt;
+	_set_raw(&data->terms.raw);
+	write(STDOUT_FILENO, "\033[?2004h", 8);
+	write(STDOUT_FILENO, data->prompt, data->prompt_length);
 }
 
 #pragma endregion Fonctions

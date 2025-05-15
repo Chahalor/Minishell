@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/14 14:49:54 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/15 08:32:55 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 #pragma region Fonctions
 
 /** */
-__attribute__((used)) static int	_add(
+__attribute__((always_inline, used)) static inline int	_add(
 	const char c,
 	t_rl_data *const restrict data
 )

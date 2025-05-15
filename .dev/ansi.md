@@ -14,5 +14,5 @@
  -[ ] Ctrl+Right		\033[1;5C			Aller au mot suivant (idem)
 
 ## 🧷 Séquences "bracketed paste"
- -[ ] Début de collage	\033[200~
- -[ ] Fin de collage	\033[201~
+ -[X] Début de collage	\033[200~
+ -[X] Fin de collage	\033[201~

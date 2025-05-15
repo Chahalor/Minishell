@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 11:04:28 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/13 08:20:24 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/15 09:01:38 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 
 /** */
 __attribute__((always_inline, used)) inline int	ft_strncmp(
-	const char *restrict s1,
-	const char *restrict s2,
+	const char *const restrict s1,
+	const char *const restrict s2,
 	size_t n
 )
 {
@@ -42,7 +42,7 @@ __attribute__((always_inline, used)) inline int	ft_strncmp(
 
 /** */
 __attribute__((always_inline, used)) inline int	ft_strlen(
-	const char *restrict str
+	const char *const restrict str
 )
 {
 	register int	i;
@@ -57,7 +57,7 @@ __attribute__((always_inline, used)) inline int	ft_strlen(
 
 /** */
 __attribute__((always_inline, used, malloc)) inline char	*ft_strdup(
-	const char *restrict str
+	const char *const restrict str
 )
 {
 	register int	i;
@@ -65,7 +65,7 @@ __attribute__((always_inline, used, malloc)) inline char	*ft_strdup(
 
 	i = -1;
 	dup = malloc(sizeof(char) * (ft_strlen(str) + 1));
-	if (!dup)
+	if (__builtin_expect(!dup, unexpected))
 		return (NULL);
 	while (str[++i])
 		dup[i] = str[i];
@@ -75,7 +75,7 @@ __attribute__((always_inline, used, malloc)) inline char	*ft_strdup(
 
 /** */
 __attribute__((always_inline, used, malloc)) inline void	*memdup(
-	const void *restrict src,
+	const void *const restrict src,
 	size_t size
 )
 {
@@ -83,11 +83,29 @@ __attribute__((always_inline, used, malloc)) inline void	*memdup(
 	register size_t	i;
 
 	dup = mm_alloc(size);
-	if (!dup)
+	if (__builtin_expect(!dup, unexpected))
 		return (NULL);
 	i = -1;
 	while (++i < size)
 		((char *)dup)[i] = ((char *)src)[i];
 	return (dup);
 }
+
+/** */
+__attribute__((always_inline, used)) inline void	ft_memcpy(
+	void *const restrict dst,
+	const void *restrict src,
+	size_t size
+)
+{
+	register size_t	i;
+
+	if (__builtin_expect(!dst || !src, unexpected))
+		return ;
+	i = -1;
+	while (++i < size)
+		((char *)dst)[i] = ((char *)src)[i];
+	return ;
+}
+
 #pragma endregion Fonctions

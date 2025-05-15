@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:46:24 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/13 17:55:13 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/15 09:51:57 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ extern volatile sig_atomic_t	g_last_signal; // Global signal variable
 #pragma region Fonctions
 
 /** */
-__attribute__((hot)) void	_sigint_handler(
+__attribute__((cold)) void	_sigint_handler(
 	int signal,
 	siginfo_t *info,
 	void *context
@@ -38,7 +38,7 @@ __attribute__((hot)) void	_sigint_handler(
 }
 
 /** */
-__attribute__((hot)) void	_sigquit_handler(
+__attribute__((cold)) void	_sigquit_handler(
 	int signal,
 	siginfo_t *info,
 	void *context
