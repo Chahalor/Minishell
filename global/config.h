@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:47:53 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/15 17:20:02 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/16 08:38:25 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,6 @@
 
 # define DEFAULT_PROMPT	"Mini> "	/* default prompt string */
 
-# define DEFAULT_HISTORY_FILE	"/home/nduvoid/.minihistory"	/* default history file name */
+# define DEFAULT_HISTORY_FILE	"/home/nduvoid/.minihistory" /* default file */
 
 #endif /* CONFIG_H */

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 08:08:28 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/15 16:37:20 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/16 09:25:33 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,37 +22,39 @@
 #pragma region Fonctions
 
 /** */
-__attribute__((always_inline, used)) static inline char	*_add(
+__attribute__((always_inline, used)) static inline char	*history_add(
 	const char *const restrict line,
 	t_rl_history *const restrict data
 )
 {
 	t_rl_history	*new_entry;
-	const int		len = ft_strlen(line);
+	int				len;
 
-	if (__builtin_expect(!line, unexpected))
+	if (!line || !*line)
 		return (NULL);
+	len = ft_strlen(line);
 	new_entry = mm_alloc(sizeof(t_rl_history) + sizeof(char) * (_RL_ALLOC_SIZE + 1));
 	if (__builtin_expect(!new_entry, unexpected))
 		return (NULL);
 	new_entry->line = (char *)(new_entry + 1);
-	ft_memcpy(new_entry->line, line, len);
-	new_entry->line[len] = '\0';
+	ft_memcpy(new_entry->line, line, len + 1);
 	new_entry->next = NULL;
 	new_entry->prev = data->tail;
-	new_entry->head = data->head;
-	data->tail->next = new_entry;
-	data->head->tail = new_entry;
+	new_entry->head = data->head ? data->head : new_entry;
+	if (data->tail)
+		data->tail->next = new_entry;
+	else
+		data->head = new_entry;
 	data->tail = new_entry;
 	data->current = new_entry;
-	if (__builtin_expect(data->head == data->tail, unexpected))
-		data->head = new_entry;
-	if (__builtin_expect(data->fd < 0, unexpected))
-		return (new_entry->line);
-	write(data->fd, new_entry->line, len);
-	write(data->fd, "\n", 1);
-	return (new_entry->line);
+	if (data->fd >= 0)
+	{
+		write(data->fd, line, len);
+		write(data->fd, "\n", 1);
+	}
+	return new_entry->line;
 }
+
 
 /** */
 __attribute__((always_inline, used)) inline char	*_remove_history(
@@ -136,7 +138,7 @@ __attribute__((used)) char	*_history_manager(
 	if (access == rl_get_prev || access == rl_get_next)
 		return (_get(history, access));
 	else if (access == rl_add)
-		return (_add(line, history));
+		return (history_add(line, history));
 	else if (access == rl_remove)
 		return (_remove_history(history));
 	else if (__builtin_expect(access == rl_clear, unexpected))

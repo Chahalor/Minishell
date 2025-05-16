@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:06:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/15 17:21:31 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/16 08:57:54 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@
 #pragma endregion Header
 #pragma region Fonctions
 
-/** */
+/**
+ * @todo: maybe strupdup the return to have the shortest string possible
+ * @todo: reset the history.current at the end of the read_line
+ */
 __attribute__((hot, malloc)) char	*read_line(
 	const char *const restrict prompt
 )
@@ -44,11 +47,10 @@ __attribute__((hot, malloc)) char	*read_line(
 	rl_data.line_length = _read(&rl_data);
 	_set_default(&rl_data.terms.resore);
 	write(STDOUT_FILENO, "\033[?2004l\n", 9);
-	// printf("line_length: %d\n", rl_data.line_length);	//rm
 	if (rl_data.status == eof || rl_data.status == interr)
 		return (mm_free(rl_data.result), mm_free(rl_data.print), NULL);
 	else
-		return (mm_free(rl_data.print), rl_data.result);	// maybe strupdup it to have the shortest string possible
+		return (mm_free(rl_data.print), rl_data.result);
 }
 
 /** */
@@ -75,9 +77,8 @@ __attribute__((cold, unused)) int	rl_load_history(
 }
 
 /** */
-__attribute__((hot)) void	reset_cmd(void)
+__attribute__((cold, unused)) void	reset_cmd(void)
 {
-
 	struct termios	oldt;
 	struct termios	resore;
 
@@ -85,6 +86,5 @@ __attribute__((hot)) void	reset_cmd(void)
 	resore = oldt;
 	_set_default(&resore);
 }
-
 
 #pragma endregion Fonctions

@@ -6,80 +6,69 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 11:36:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/16 15:38:19 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/16 16:23:17 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#pragma region Header
+
+/* -----| Internals |----- */
+#include "_ft_printf.h"
+
+/* -----| Modules   |----- */
 #include "ft_printf.h"
 
-enum e_bool	in_lst(const void *lst, unsigned char item, size_t lstlen)
-{
-	size_t	i;
+#pragma endregion Header
+#pragma region Fonctions
 
-	i = 0;
-	while (i < lstlen)
-	{
-		if (((unsigned char *)lst)[i] == item)
-			return (TRUE);
-		i++;
-	}
-	return (FALSE);
-}
-
-static int	write_arg(const char *s, va_list args)
+/** */
+__attribute__((always_inline, used)) static inline int	write_arg(
+	const char *const restrict s,
+	va_list args,
+	t_print *const restrict print
+)
 {
 	char	symb;
 
 	symb = s[1];
 	if (symb == 'c')
-		return (writechar(va_arg(args, int)));
+		return (print->add(print, va_arg(args, char)));
 	else if (symb == 's')
-		return (writestr(va_arg(args, char *)));
+		return (writestr(va_arg(args, char *), print));
 	else if (symb == 'p')
-		return (writeptr(va_arg(args, void *)));
+		return (writeptr(va_arg(args, void *), print));
 	else if (symb == 'd' || symb == 'i')
-		return (writedec(va_arg(args, int)));
+		return (writedec(va_arg(args, int), print));
 	else if (symb == 'u')
-		return (writeuint(va_arg(args, unsigned int)));
+		return (writeuint(va_arg(args, unsigned int), print));
 	else if (symb == 'x')
-		return (writelhex(va_arg(args, int)));
+		return (writelhex(va_arg(args, int), print));
 	else if (symb == 'X')
 		return (writeuhex(va_arg(args, int)));
 	else if (symb == '%')
-		return (writechar('%'));
+		return (print->add(print, '%'));
 	else
 		return (0);
 }
 
-int	write_loop(
+/** */
+__attribute__((used)) int	write_loop(
 	const char *s,
 	va_list args,
-	int *nb_char
+	t_print *const restrict print
 )
 {
-	__uint32_t	i;
-	int			wout;
-	const __uint32_t strlen = ft_strlen(s);
+	const int		len = ft_strlen(s);
+	register int	i;
 
-	i = 0;
-	while (i < strlen)
+	i = -1;
+	while (++i < len && !print->error)
 	{
 		if (s[i] == '%')
-		{
-			wout = write_arg(&s[i], args);
-			if (wout == -1)
-				return (*nb_char);
-			*nb_char += wout;
-			i++;
-		}
+			write_arg(s, args, print);
 		else
-		{
-			wout = write(1, &s[i], 1);
-			if (wout == -1)
-				return (*nb_char);
-			*nb_char += wout;
-		}
-		i++;
+			print->add(print, s[i]);
 	}
-	return (*nb_char);
 }
+
+#pragma endregion Fonctions

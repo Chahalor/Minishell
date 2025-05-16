@@ -6,16 +6,20 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 11:39:16 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/15 16:40:51 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/16 08:29:21 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char	*line_getter(char *str)
+/** */
+__attribute__((always_inline, used)) static inline char	*line_getter(
+	const char *const restrict str,
+	const int access
+)
 {
-	int		i;
-	char	*line;
+	register int	i;
+	char			*line;
 
 	i = 0;
 	if (!str)
@@ -33,17 +37,20 @@ static char	*line_getter(char *str)
 		line[i] = str[i];
 		i++;
 	}
-	if (str[i] == '\n')
+	if (access && str[i] == '\n')
 		line[i++] = '\n';
 	line[i] = '\0';
 	return (line);
 }
 
-static char	*update_remainder(char *str)
+/** */
+__attribute__((always_inline, used)) static inline char	*update_remainder(
+	char *str
+)
 {
-	int		i;
-	int		j;
-	char	*remainder;
+	register int	i;
+	register int	j;
+	char			*remainder;
 
 	i = 0;
 	j = 0;
@@ -67,7 +74,11 @@ static char	*update_remainder(char *str)
 	return (remainder);
 }
 
-static char	*read_and_store(int fd, char *remainder)
+/** */
+__attribute__((always_inline, used)) static inline char	*read_and_store(
+	const int fd,
+	char *remainder
+)
 {
 	char	*buffer;
 	int		bytes_read;
@@ -118,7 +129,28 @@ char	*get_next_line(int fd)
 		remainder[fd] = NULL;
 		return (NULL);
 	}
-	line = line_getter(remainder[fd]);
+	line = line_getter(remainder[fd], 1);
+	remainder[fd] = update_remainder(remainder[fd]);
+	return (line);
+}
+
+/** */
+__attribute__((used)) char	*gnl(
+	const int fd
+)
+{
+	static char	*remainder[MAX_FD];
+	char		*line;
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	remainder[fd] = read_and_store(fd, remainder[fd]);
+	if (!remainder[fd] || remainder[fd][0] == '\0')
+	{
+		free(remainder[fd]);
+		remainder[fd] = NULL;
+		return (NULL);
+	}
+	line = line_getter(remainder[fd], 0);
 	remainder[fd] = update_remainder(remainder[fd]);
 	return (line);
 }

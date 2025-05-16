@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/15 12:12:16 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/16 08:52:47 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,24 @@
 
 /* -----| Internals |----- */
 #include "_read_line.h"
-#include "formating.h"
-#include "ft_printf.h"
-#include "exit.h"
 
-/* -----| Modules  |----- */
+/* -----| Modules   |----- */
 #include "read_line.h"
 
 #pragma endregion Header
 #pragma region Fonctions
 
-/** */
+/**
+ * @brief	Add a character to the line at the cursor position.
+ * 
+ * @param	c The character to add.
+ * @param	data The data structure containing the line and cursor position.
+ * 
+ * @return	1 on success, -1 on failure.
+ * 
+ * @note	Yes it increases the line length by 1.
+ * @note	No it doesn't change the cursor position.
+ */
 __attribute__((always_inline, used)) static inline int	_add(
 	const char c,
 	t_rl_data *const restrict data
@@ -34,7 +41,7 @@ __attribute__((always_inline, used)) static inline int	_add(
 
 	if (data->line_length == _RL_ALLOC_SIZE - 1)
 	{
-		data->result = mm_realloc(data->result,
+		data->result = mm_realloc(data->result, \
 			data->line_length, data->line_length + _RL_ALLOC_SIZE + 1);
 		if (!data->result)
 			return (-1);
@@ -61,11 +68,13 @@ __attribute__((always_inline, used)) static inline int	_add(
  * @return	The new cursor position after the removal.
  * 
  * @note	Yes it decreases the line length by 1.
- */
+*/
 __attribute__((used)) int	_remove(
 	t_rl_data *const restrict data
 )
 {
+	register int	i;
+
 	if (data->line_length == 0)
 		return (0);
 	else if (data->cursor_pos == data->line_length)
@@ -75,8 +84,6 @@ __attribute__((used)) int	_remove(
 	}
 	else
 	{
-		int	i;
-
 		i = data->cursor_pos;
 		while (i < data->line_length)
 		{
@@ -90,13 +97,20 @@ __attribute__((used)) int	_remove(
 	return (0);
 }
 
-/** */
+/**
+ * @brief	Refresh the line by writing all char after the cursor position.
+ * 
+ * @param	data The data structure containing the line and cursor position.
+ * 
+ * @return	1 on success, -1 on failure.
+*/
 __attribute__((used)) int	refresh_line(
 	t_rl_data *const restrict data
 )
 {
-	const int					move = data->line_length - data->cursor_pos;
-	const char	*const restrict	to_write = data->result + data->cursor_pos - 1;
+	const int						move = data->line_length - data->cursor_pos;
+	const char *const	restrict	to_write = data->result + data->cursor_pos \
+				- 1;
 
 	ft_printf("%s", to_write);
 	if (move > 0)
@@ -104,31 +118,28 @@ __attribute__((used)) int	refresh_line(
 	return (1);
 }
 
-/** */
-__attribute__((always_inline, used)) static inline int	handle_backspace(
-	t_rl_data *const restrict data
-)
-{
-	if (data->cursor_pos > 0)
-	{
-		--data->cursor_pos;
-		_remove(data);
-		write(STDOUT_FILENO, "\033[D\033[P", 6);
-	}
-	return (1);
-}
-
-/** */
+/**
+ * @brief	Handle special characters (ANSI, Ctrl+D, Ctrl+C, etc.).
+ * 
+ * @param	data The data structure containing the line and cursor position.
+ * @param	c The character to handle.
+ * 
+ * @return	1 on success, -1 on failure.
+*/
 __attribute__((used)) static int	handle_special(
 	t_rl_data *const restrict data,
 	const char c
 )
 {
 	if (c == '\033')
-		handle_ansi(data);
-	else if (c == 127 || c == 8)
-		handle_backspace(data);
-	else if (data->line_length == 0 && c == 4)
+		return (handle_ansi(data));
+	else if ((c == 127 || c == 8) && data->cursor_pos > 0)
+	{
+		--data->cursor_pos;
+		_remove(data);
+		write(STDOUT_FILENO, "\033[D\033[P", 6);
+	}
+	else if (c == 4 && data->line_length == 0)
 	{
 		data->result[data->line_length] = '\0';
 		data->status = eof;
@@ -146,7 +157,13 @@ __attribute__((used)) static int	handle_special(
 	return (1);
 }
 
-/** */
+/**
+ * @brief	Read a line from the standard input and refresh the displayed line.
+ * 
+ * @param	data The data structure containing the line and cursor position.
+ * 
+ * @return	The length of the line read.
+*/
 __attribute__((hot)) int	_read(
 	t_rl_data *const restrict data
 )
@@ -165,7 +182,7 @@ __attribute__((hot)) int	_read(
 			break ;
 		else if (c < 32 || c > 126)
 			handle_special(data, c);
-		else //if (c >= 32 && c <= 126)
+		else
 		{
 			data->line_length += _add(c, data);
 			refresh_line(data);

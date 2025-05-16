@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:57:59 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/15 16:39:42 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/16 08:55:54 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@
 /* -----| Modules  |----- */
 # include "utils.h"
 # include "get_next_line.h"
+# include "ft_printf.h"
+# include "exit.h"
+# include "formating.h"
 
 /* ************************************************************************** */
 /*                                 Defines                                    */
@@ -45,11 +48,11 @@
 /*                                 Typedefs                                   */
 /* ************************************************************************** */
 
-typedef enum e_rl_status		t_rl_status;		/* */
-typedef enum e_rl_hist_access	t_rl_hist_access;	/* */
+typedef enum e_rl_status		t_rl_status;		/* The status or rl:_read */
+typedef enum e_rl_hist_access	t_rl_hist_access;	/* access to the history */
 
-typedef struct s_rl_data		t_rl_data;		/* */
-typedef struct s_rl_history		t_rl_history;	/* */
+typedef struct s_rl_data		t_rl_data;			/* rl:_read data struct */
+typedef struct s_rl_history		t_rl_history;		/* rl:hist data struct */
 
 /* ************************************************************************** */
 /*                                 Enums                                      */
@@ -62,7 +65,7 @@ enum	e_rl_status
 	interr,		/* Interrupt (Ctrl+C)  */
 	exiting,	/* Exiting mode       */
 	normal,		/* Normal mode       */
-	past		/* Pasting text     */
+	past,		/* Pasting text     */
 };
 
 enum e_rl_hist_access
@@ -72,7 +75,7 @@ enum e_rl_hist_access
 	rl_get_prev,	/* get a line from the history     */
 	rl_remove,		/* remove a line from the history */
 	rl_clear,		/* clear the history             */
-	rl_init			/* init the history             */
+	rl_init,		/* init the history             */
 };
 
 /* ************************************************************************** */
@@ -85,7 +88,6 @@ struct	s_terms
 	struct termios	raw;	/* Raw terminal settings      */
 	struct termios	resore;	/* Restore terminal settings */
 };
-
 
 struct	s_rl_data
 {
@@ -110,7 +112,6 @@ struct	s_rl_history
 	t_rl_history	*current;	/* The current history entry */
 	int				fd;			/* The history file fd      */
 };
-
 
 /* ************************************************************************** */
 /*                                 Prototypes                                 */
@@ -151,13 +152,9 @@ extern void	move_cursor(
 				const int col
 				);
 
-extern void	save_cursor(
-				void
-				);
+extern void	save_cursor(void);
 
-extern void	restore_cursor(
-				void
-				);
+extern void	restore_cursor(void);
 
 // history/history.c
 

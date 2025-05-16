@@ -1,37 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   _init.c                                            :+:      :+:    :+:   */
+/*   _utils.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/15 08:06:51 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/16 08:43:02 by nduvoid          ###   ########.fr       */
+/*   Created: 2025/05/16 15:51:15 by nduvoid           #+#    #+#             */
+/*   Updated: 2025/05/16 15:55:41 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma region Header
 
 /* -----| Internals |----- */
-#include "_read_line.h"
+#include "_ft_printf.h"
 
-/* -----| Modules  |----- */
-#include "read_line.h"
+/* -----| Modules   |----- */
+#include "ft_printf.h"
 
 #pragma endregion Header
 #pragma region Fonctions
 
 /** */
-__attribute__((always_inline, used)) inline void	_init_cmd(
-	t_rl_data *const restrict data
+__attribute__((always_inline, used)) inline int	ft_strlen(
+	const char *const restrict s
 )
 {
-	tcgetattr(STDIN_FILENO, &data->terms.oldt);
-	data->terms.raw = data->terms.oldt;
-	data->terms.resore = data->terms.oldt;
-	_set_raw(&data->terms.raw);
-	write(STDOUT_FILENO, "\033[?2004h", 8);
-	write(STDOUT_FILENO, data->prompt, data->prompt_length);
+	register int	i;
+
+	if (__builtin_expect(!s, unexpected))
+		return (0);
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
 }
 
 #pragma endregion Fonctions

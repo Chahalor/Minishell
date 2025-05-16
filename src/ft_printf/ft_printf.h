@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 11:37:23 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/13 17:55:57 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/16 15:38:41 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int				writelhex(int nb);
 int				writeuhex(int nb);
 
 enum e_bool		in_lst(const void *lst, unsigned char item, size_t lstlen);
-int				write_loop(const char *s, va_list args, __uint32_t strlen,
+int				write_loop(const char *s, va_list args,
 			int *nb_char);
 int				ft_printf(const char *str, ...)
 				__attribute__ ((format(printf, 1, 2)));

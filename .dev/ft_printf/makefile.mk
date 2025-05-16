@@ -1,0 +1,13 @@
+DIR_MODULE_FT_PRINTF		:= ft_printf
+DIR_INTERFACE_FT_PRINTF	:= $(DIR_MODULE_FT_PRINTF)
+DIR_INTERNAL_FT_PRINTF	:= $(DIR_MODULE_FT_PRINTF)/_internal
+
+SRC_INTERFACE_FT_PRINTF	:= ft_printf.c put_func.c put_func2.c put_func3.c interface.c 
+SRC_INTERNAL_FT_PRINTF	:= 
+
+OBJ_FT_PRINTF			:= $(addprefix $(DIR_OBJ)/$(DIR_INTERFACE_FT_PRINTF)/, $(SRC_INTERFACE_FT_PRINTF:.c=.o))
+OBJ_FT_PRINTF			+= $(addprefix $(DIR_OBJ)/$(DIR_INTERNAL_FT_PRINTF)/, $(SRC_INTERNAL_FT_PRINTF:.c=.o))
+
+$(DIR_OBJ)/$(DIR_MODULE_FT_PRINTF)/%.o: $(DIR_SRC)/$(DIR_MODULE_FT_PRINTF)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) $(DEBUGFLAGS) $(INCLUDE_ALL) -I$(DIR_SRC)/$(DIR_MODULE_FT_PRINTF)/_internal -c $< -o $@

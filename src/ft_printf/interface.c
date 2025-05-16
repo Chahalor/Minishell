@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 16:12:05 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/14 10:50:09 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/16 15:38:56 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ __attribute__((__format__(__printf__, 1, 2)))
 int	ft_printf(const char *s, ...)
 {
 	va_list		args;
-	__uint32_t	strlen;
 	int			nb_char;
 
 	if (write(1, "", 0) == -1)
@@ -36,8 +35,7 @@ int	ft_printf(const char *s, ...)
 		return (-1);
 	va_start(args, s);
 	nb_char = 0;
-	strlen = ft_strlen(s);
-	nb_char = write_loop(s, args, strlen, &nb_char);
+	nb_char = write_loop(s, args, &nb_char);
 	va_end(args);
 	return (nb_char);
 }
@@ -97,4 +95,23 @@ int	ft_fprintf(int fd, const char *s, ...)
 	(void)fd;
 	write(1, "ft_fprintf is not implemented yet\n", 34);
 	return (-1);
+}
+
+
+__attribute__((__format__(__printf__, 2, 3))) int ft_sprintf(
+	const char *const restrict s,
+	char *const restrict buffer,
+	...
+)
+{
+	va_list		args;
+	int			nb_char;
+
+	if (__builtin_expect(!s || !buffer, 0))
+		return (-1);
+	va_start(args, buffer);
+	nb_char = 0;
+	nb_char = write_loop(s, args, &nb_char);
+	va_end(args);
+	return (nb_char);
 }
