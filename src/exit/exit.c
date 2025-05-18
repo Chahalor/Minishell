@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:53:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/15 08:57:43 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/17 11:51:57 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 /* -----| Internals |----- */
 	//...
 
-/* -----| Modules  |----- */
+/* -----| Modules   |----- */
 #include "exit.h"
 
 #pragma endregion Header
