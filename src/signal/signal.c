@@ -6,13 +6,13 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:46:24 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/15 09:51:57 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/19 11:20:38 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma region Header
 /* -----| Internals |----- */
-	//...
+#include "_sig.h"
 
 /* -----| Modules  |----- */
 #include "sig.h"
@@ -33,8 +33,8 @@ __attribute__((cold)) void	_sigint_handler(
 	(void)context;
 	g_last_signal = signal;
 	reset_cmd();
+	kill(get_last_child(), SIGINT);
 	printf("\nSIGINT received\n");
-	exit_program(signal, "SIGINT received");
 }
 
 /** */
@@ -48,6 +48,7 @@ __attribute__((cold)) void	_sigquit_handler(
 	(void)context;
 	g_last_signal = signal;
 	reset_cmd();
+	kill(get_last_child(), SIGQUIT);
 	printf("\nSIGQUIT received\n");
 	exit_program(signal, "SIGQUIT received");
 }

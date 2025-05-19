@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/15 14:21:09 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/19 13:42:36 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 
 /* -----| Modules   |----- */
 #include "exec.h"
-#include <errno.h>
 
 #pragma endregion Header
 #pragma region Fonctions
@@ -108,15 +107,18 @@ __attribute__((hot))	int	exec_cmd(
 	{
 		ft_printf("execve: %s\n", data->cmd);
 		const int out = execve(data->cmd, data->args, envp);
-		exit_program(out, "execve()\n");
+		ft_printf("execve: %d\n", out);
+		exit_program(out, "exit after execve()\n");
 	}
 	else
 	{
+		set_last_child(pid);
 		waitpid(pid, &data->status, 0);
 		if (WIFEXITED(data->status))
 			data->status = WEXITSTATUS(data->status);
 		else
 			data->status = -1;
+		set_last_child(0);
 	}
 	// free(data->cmd);
 	// free(data->args);

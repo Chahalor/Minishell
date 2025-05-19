@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   _exec.h                                            :+:      :+:    :+:   */
+/*   _global-manager.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/15 12:49:39 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/19 11:03:26 by nduvoid          ###   ########.fr       */
+/*   Created: 2025/05/19 10:52:02 by nduvoid           #+#    #+#             */
+/*   Updated: 2025/05/19 15:07:31 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef _EXEC_H
-# define _EXEC_H
+#ifndef _GLOBAL_MANAGER_H
+# define _GLOBAL_MANAGER_H
 
 # pragma once
 
@@ -20,10 +20,9 @@
 /* ************************************************************************** */
 
 /* -----| Systems   |----- */
-# include <stdlib.h>
+# include <sys/types.h>
+# include <linux/limits.h>
 # include <unistd.h>
-# include <stdio.h>
-#include <errno.h>
 
 /* -----| Globals   |----- */
 # include "config.h"
@@ -32,34 +31,46 @@
 /* -----| Internals |----- */
 	//...
 
-/* -----| Modules   |----- */
-# include "ft_printf.h"
-# include "global-manager.h"
+/* -----| Modules  |----- */
+	//...
 
 /* ************************************************************************** */
 /*                                 Typedefs                                   */
 /* ************************************************************************** */
 
-typedef struct s_exec_data	t_exec_data;	/* Execution data structure */
+/* -----| Types   |----- */
+	//...
+
+/* -----| Enums   |----- */
+
+typedef enum e_gbl_access_	t_gbl_access;	/**/
+
+/* -----| Structs |----- */
+
+typedef struct s_global_mamager_	t_global_manager;	/**/
 
 /* ************************************************************************** */
 /*                                 Enums                                      */
 /* ************************************************************************** */
 
+enum e_gbl_access_
+{
+	_do_init,			/* Initialize the global manager */
+	_get_last_child,	/* Get the last child pid       */
+	_set_last_child,	/* Set the last child pid      */
+	_get_curent_path,	/* Get the current path       */
+	_set_curent_path,	/* Set the current path      */
+};
 
 /* ************************************************************************** */
 /*                                 Structs                                    */
 /* ************************************************************************** */
 
-struct s_exec_data
+struct s_global_mamager_
 {
-	char		*cmd;	/* command to execute                          */
-	char		**args;	/* arguments for the command                  */
-	int			status;	/* status of the command                     */
-	t_exec_data	*pipe;	/* next commande to pipe output in          */
-	t_exec_data	*next;	/* next commande to execute after this one */
+	pid_t	last_child;				/* Pid if the last children */
+	char	curent_path[PATH_MAX];	/* Current path            */
 };
-
 
 /* ************************************************************************** */
 /*                                 Prototypes                                 */
@@ -67,4 +78,4 @@ struct s_exec_data
 
 //...
 
-#endif /* _EXEC_H */
+#endif /* _GLOBAL_MANAGER_H */

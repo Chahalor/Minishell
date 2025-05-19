@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+// n/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:44:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/16 15:11:55 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/19 12:15:17 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,17 @@
 
 /* -----| Systems   |----- */
 #include <stdio.h>
+#include <signal.h>
 
 /* -----| Internals |----- */
 	//...
 
-/* -----| Modules  |----- */
+/* -----| Modules   |----- */
 #include "sig.h"
 #include "mmanager.h"
 #include "read_line.h"
-#include "exec/exec.h"
+#include "exec.h"
+#include "builtin.h"
 #include "utils.h"
 
 volatile sig_atomic_t	g_last_signal = 0; // Global signal variable
@@ -48,24 +50,21 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	(void)envp;
 	init_all();
-	line = read_line(DEFAULT_PROMPT);
-	while (ft_strncmp("exit", line, 4) != 0 && !g_last_signal)
+	line = NULL;
+	ft_printf("Welcome to the shell!\n");
+	while (1)
 	{
-		if (!line)
-		{
-			perror("Error: read_line failed\n");
-			exit_program(1, "main(): read_line() failed");
-		}
-		else
-		{
-			ft_printf("You entered: <%s>\n", line);
-			rl_add_history(line);
-			exec_cmd(built_exec_data(line), envp);
-			mm_free(line);
-		}
 		line = read_line(DEFAULT_PROMPT);
+		ft_printf("You entered: <%s>\n", line);
+		if (__builtin_expect(!line, unexpected))
+			continue ;
+		else if (is_builtin(line))
+			exec_builtin(line);
+		else
+			exec_cmd(built_exec_data(line), envp);
+		rl_add_history(line);
+		mm_free(line);
 	}
 	exit_program(0, "main(): Exiting program");
 	return (0);

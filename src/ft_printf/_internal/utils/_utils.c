@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:51:15 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/19 08:28:38 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/19 10:31:56 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
  * 
  * @note	returns 0 if s is NULL
 */
-__attribute__((always_inline, used)) inline int	ft_strlen(
+__attribute__((always_inline, used)) inline int	printf_strlen(
 	const char *const restrict s
 )
 {

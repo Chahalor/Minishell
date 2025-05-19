@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/16 08:52:47 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/19 14:05:11 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@
  * 
  * @return	1 on success, -1 on failure.
  * 
- * @note	Yes it increases the line length by 1.
- * @note	No it doesn't change the cursor position.
+ * @note	Yes it doesn't increases the line length by 1.
+ * @note	YEs it change the cursor position.
  */
 __attribute__((always_inline, used)) static inline int	_add(
 	const char c,
@@ -137,24 +137,25 @@ __attribute__((used)) static int	handle_special(
 	{
 		--data->cursor_pos;
 		_remove(data);
-		write(STDOUT_FILENO, "\033[D\033[P", 6);
+		return (write(STDOUT_FILENO, "\033[D\033[P", 6));
 	}
 	else if (c == 4 && data->line_length == 0)
 	{
 		data->result[data->line_length] = '\0';
-		data->status = eof;
+		return (data->status = eof);
 	}
 	else if (c == 3)
 	{
 		write(STDOUT_FILENO, "^C", 2);
-		data->status = interr;
+		return (data->status = interr);
 	}
+	else if (c == 28)
+		return (write(STDOUT_FILENO, "should write this\n", 18));
 	else
 	{
 		data->line_length += _add(c, data);
-		refresh_line(data);
+		return (refresh_line(data));
 	}
-	return (1);
 }
 
 /**
@@ -176,6 +177,7 @@ __attribute__((hot)) int	_read(
 	while (data->status > exiting)
 	{
 		bytes_read = read(STDIN_FILENO, &c, 1);
+		// ft_printf("<%d>(%d)", c, data->cursor_pos);
 		if (bytes_read < 0)
 			data->status = error;
 		else if (data->status != past && (c == '\r' || c == '\n'))

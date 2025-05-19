@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:06:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/16 08:57:54 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/19 13:57:46 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ __attribute__((hot, malloc)) char	*read_line(
 	rl_data.line_length = _read(&rl_data);
 	_set_default(&rl_data.terms.resore);
 	write(STDOUT_FILENO, "\033[?2004l\n", 9);
-	if (rl_data.status == eof || rl_data.status == interr)
+	ft_printf("line_length: %d\n", rl_data.line_length);
+	if (rl_data.status == eof || rl_data.status == interr || !rl_data.line_length)
 		return (mm_free(rl_data.result), mm_free(rl_data.print), NULL);
 	else
 		return (mm_free(rl_data.print), rl_data.result);

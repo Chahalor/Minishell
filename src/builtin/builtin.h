@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sig.h                                              :+:      :+:    :+:   */
+/*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/09 16:46:07 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/19 11:08:20 by nduvoid          ###   ########.fr       */
+/*   Created: 2025/05/19 14:10:39 by nduvoid           #+#    #+#             */
+/*   Updated: 2025/05/19 14:46:14 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SIG_H
-# define SIG_H
+#ifndef BUILTIN_H
+# define BUILTIN_H
 
 # pragma once
 
@@ -24,18 +24,53 @@
 
 /* -----| Globals   |----- */
 # include "config.h"
+# include "type.h"
 
 /* -----| Internals |----- */
-// # include "_sig.h"
+	//...
 
 /* -----| Modules  |----- */
-# include "read_line.h"
+# include "utils.h"
 # include "exit.h"
 
 /* ************************************************************************** */
 /*                                 Prototypes                                 */
 /* ************************************************************************** */
 
-extern int	init_signal(void);
+// builtin.c
 
-#endif /* SIG_H */
+extern char	is_builtin(
+				const char *const restrict args
+				);
+
+extern char	exec_builtin(
+				const char *const restrict args
+				);
+
+// different builtin functions
+
+char		bltin_cd(
+				const char *const restrict *const restrict args
+				);
+
+char		bltin_echo(
+				const char *const restrict *const restrict args
+				);
+
+char		bltin_env(
+				const char *const restrict *const restrict args
+				);
+
+char		bltin_export(
+				const char *const restrict *const restrict args
+				);
+
+char		bltin_pwd(
+				const char *const restrict *const restrict args
+				);
+
+char		bltin_unset(
+				const char *const restrict *const restrict args
+				);
+
+#endif /* BUILTIN_H */

@@ -1,39 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   _utils.c                                           :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/16 15:51:15 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/16 15:55:41 by nduvoid          ###   ########.fr       */
+/*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
+/*   Updated: 2025/05/19 14:32:57 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma region Header
 
 /* -----| Internals |----- */
-#include "_ft_printf.h"
+#include "_builtin.h"
 
 /* -----| Modules   |----- */
-#include "ft_printf.h"
+#include "builtin.h"
 
 #pragma endregion Header
 #pragma region Fonctions
 
 /** */
-__attribute__((always_inline, used)) inline int	ft_strlen(
-	const char *const restrict s
+__attribute__((used)) char	bltin_unset(
+	const char *const restrict *const restrict args
 )
 {
-	register int	i;
-
-	if (__builtin_expect(!s, unexpected))
-		return (0);
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
+	(void)args;
+	write(STDERR_FILENO, "unset is not implemented yet\n", 30);
+	return (0);
 }
 
 #pragma endregion Fonctions

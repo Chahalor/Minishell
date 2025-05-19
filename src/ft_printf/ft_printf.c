@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 11:36:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/19 10:16:09 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/19 11:18:59 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ __attribute__((used)) int	write_loop(
 	t_print *const restrict print
 )
 {
-	const int		len = ft_strlen(s);
+	const int		len = printf_strlen(s);
 	register int	i;
 
 	i = -1;

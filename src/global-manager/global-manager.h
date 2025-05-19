@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sig.h                                              :+:      :+:    :+:   */
+/*   global-manager.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/09 16:46:07 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/19 11:08:20 by nduvoid          ###   ########.fr       */
+/*   Created: 2025/05/19 10:58:47 by nduvoid           #+#    #+#             */
+/*   Updated: 2025/05/19 15:16:56 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SIG_H
-# define SIG_H
+#ifndef GLOBAL_MANAGER_H
+# define GLOBAL_MANAGER_H
 
 # pragma once
 
@@ -20,22 +20,29 @@
 /* ************************************************************************** */
 
 /* -----| Systems   |----- */
-	//...
+# include <sys/types.h>
+# include <unistd.h>
 
 /* -----| Globals   |----- */
 # include "config.h"
+# include "type.h"
 
 /* -----| Internals |----- */
-// # include "_sig.h"
+	//...
 
 /* -----| Modules  |----- */
-# include "read_line.h"
-# include "exit.h"
+	//...
 
 /* ************************************************************************** */
 /*                                 Prototypes                                 */
 /* ************************************************************************** */
 
-extern int	init_signal(void);
+int	get_last_child(void);
 
-#endif /* SIG_H */
+int	set_last_child(
+		pid_t pid
+		);
+
+int	set_curent_path(void);
+
+#endif /* GLOBAL_MANAGER_H */

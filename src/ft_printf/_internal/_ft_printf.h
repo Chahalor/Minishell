@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:40:52 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/19 09:50:01 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/19 10:32:03 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ extern void		ft_bzero(
 					register const int n
 					);
 
-extern int		ft_strlen(
+extern int		printf_strlen(
 					const char *const restrict str
 					);
 
