@@ -116,9 +116,11 @@ INCLUDE_ALL	:=$INCLUDE_ALL
 
 DIR_LIBFT	:= $DIR_LIBFT
 LIBFT		:= #\$(DIR_LIBFT)/libft.a
+DEPS		:= \$(OBJ_ALL:.o=.d)
 
 # Here we include all the makefile.mk files
 include $MAKEFILE_MK_LIST
+-include \$(DEPS)
 
 SRC_MAIN	:= main.c
 SRC_BONUS	:=

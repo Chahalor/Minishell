@@ -6,112 +6,160 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 16:12:05 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/16 15:38:56 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/19 10:11:01 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#pragma region Header
+
+/* -----| Internals |----- */
+#include "_ft_printf.h"
+
+/* -----| Modules   |----- */
 #include "ft_printf.h"
 
-/**
- * @file ft_printf.c
- * @dir ft_printf
- * @brief ft_printf is a function that will print a formatted string
- * to the standard output (aka printf of wish)
- * @author nduvoid
- * 
- * @param s the string to print
- * @param ... the arguments to print
- * @return int the number of characters printed
- */
-__attribute__((__format__(__printf__, 1, 2)))
-int	ft_printf(const char *s, ...)
-{
-	va_list		args;
-	int			nb_char;
+#pragma endregion Header
+#pragma region Fonctions
 
-	if (write(1, "", 0) == -1)
+/**
+ * @brief	Write The formatted string to the standard output.
+ * 
+ * @param	format	The format string.
+ * @param	...		The values to format.
+ * 
+ * @return	The number of characters written, or -1 on error.
+*/
+__attribute__((__format__(__printf__, 1, 2))) int	ft_printf(
+	const char *const restrict format,
+	...
+)
+{
+	va_list	args;
+	t_print	print;
+	char	buffer[PRINTF_BUFFER_SIZE];
+
+	if (__builtin_expect(!format || write(1, "", 0) == -1, unexpected))
 		return (-1);
-	else if (!s)
-		return (-1);
-	va_start(args, s);
-	nb_char = 0;
-	nb_char = write_loop(s, args, &nb_char);
+	va_start(args, format);
+	ft_bzero(buffer, PRINTF_BUFFER_SIZE);
+	print = _init_print(buffer, 1, PRINTF_BUFFER_SIZE);
+	write_loop(format, args, &print);
+	write(print.fd, print.buffer, print.buff_pos);
 	va_end(args);
-	return (nb_char);
+	return (print.nb_char);
 }
 
 #if defined(DEBUG) && DEBUG == 1
 
-/** */
-__attribute__((__format__(__printf__, 1, 2)))
-int	debug_printf(const char *s, ...)
+/**
+ * @brief	Write The formatted string to the standard output. But Only if DEBUG is
+ * defined and set to 1.
+ * 
+ * @param	format	The format string.
+ * @param	...		The values to format.
+ * 
+ * @return	The number of characters written, or -1 on error.
+*/
+__attribute__((__format__(__printf__, 1, 2))) int	debug_printf(
+	const char *const restrict format,
+	...
+)
 {
-	va_list		args;
-	__uint32_t	strlen;
-	int			nb_char;
+	va_list	args;
+	t_print	print;
+	char	buffer[PRINTF_BUFFER_SIZE];
 
-	if (write(1, "", 0) == -1)
+	if (__builtin_expect(!format || write(1, "", 0) == -1, unexpected))
 		return (-1);
-	else if (!s)
-		return (-1);
-	va_start(args, s);
-	nb_char = 0;
-	strlen = ft_strlen(s);
-	nb_char = write_loop(s, args, strlen, &nb_char);
+	va_start(args, format);
+	ft_bzero(buffer, PRINTF_BUFFER_SIZE);
+	print = _init_print(buffer, 1, PRINTF_BUFFER_SIZE);
+	write_loop(format, args, &print);
+	write(print.fd, print.buffer, print.buff_pos);
 	va_end(args);
-	return (nb_char);
+	return (print.nb_char);
 }
 
 #else
 
-/** */
-__attribute__((__format__(__printf__, 1, 2)))
-int	debug_printf(const char *s, ...)
+/**
+ * @brief	Do nothing cause DEBUG is not defined or set to 0.
+ * 
+ * @param	format	The format string.
+ * @param	...		The values to format.
+ * 
+ * @return	0
+*/
+__attribute__((__format__(__printf__, 1, 2))) int	debug_printf(
+	const char *const restrict format,
+	...
+)
 {
-	(void)s;
+	(void)format;
 	return (0);
 }
 
 #endif
 
-/** */
-__attribute__((deprecated))
-int	ft_fprintf(int fd, const char *s, ...)
-{
-	// va_list		args;
-	// __uint32_t	strlen;
-	// int			nb_char;
-
-	// if (write(fd, "", 0) == -1)
-	// 	return (-1);
-	// else if (!s)
-	// 	return (-1);
-	// va_start(args, s);
-	// nb_char = 0;
-	// strlen = ft_strlen(s);
-	// nb_char = write_loop(s, args, strlen, &nb_char);
-	// va_end(args);
-	(void)s;
-	(void)fd;
-	write(1, "ft_fprintf is not implemented yet\n", 34);
-	return (-1);
-}
-
-
-__attribute__((__format__(__printf__, 2, 3))) int ft_sprintf(
-	const char *const restrict s,
-	char *const restrict buffer,
+/**
+ * @brief	Write The formatted string to the file descriptor.
+ * 
+ * @param	fd		The file descriptor to write to.
+ * @param	format	The format string.
+ * 
+ * @param	...		The values to format.
+ * 
+ * @return	The number of characters written, or -1 on error.
+*/
+__attribute__((__format__(__printf__, 2, 3))) int	ft_fprintf(
+	const int fd,
+	const char *const restrict format,
 	...
 )
 {
-	va_list		args;
-	int			nb_char;
+	va_list	args;
+	t_print	print;
+	char	buffer[PRINTF_BUFFER_SIZE];
 
-	if (__builtin_expect(!s || !buffer, 0))
+	if (__builtin_expect(!format || fd == -1 || write(fd, "", 0) == -1,
+			unexpected))
 		return (-1);
-	va_start(args, buffer);
-	nb_char = 0;
-	nb_char = write_loop(s, args, &nb_char);
+	va_start(args, format);
+	ft_bzero(buffer, PRINTF_BUFFER_SIZE);
+	print = _init_print(buffer, fd, PRINTF_BUFFER_SIZE);
+	write_loop(format, args, &print);
+	write(print.fd, print.buffer, print.buff_pos);
 	va_end(args);
-	return (nb_char);
+	return (print.nb_char);
 }
+
+/**
+ * @brief	Write The formatted string to the buffer.
+ * 
+ * @param	buffer	The buffer to write to.
+ * @param	format	The format string.
+ * @param	...		The values to format.
+ * 
+ * @return	The number of characters written, or -1 on error.
+*/
+__attribute__((__format__(__printf__, 2, 3))) int	ft_sprintf(
+	char *const restrict buffer,
+	const char *const restrict format,
+	...
+)
+{
+	va_list	args;
+	t_print	print;
+
+	if (__builtin_expect(!format || write(1, "", 0) == -1, unexpected))
+		return (-1);
+	va_start(args, format);
+	ft_bzero(buffer, PRINTF_BUFFER_SIZE);
+	print = _init_print(buffer, 1, PRINTF_BUFFER_SIZE);
+	write_loop(format, args, &print);
+	write(print.fd, print.buffer, print.buff_pos);
+	va_end(args);
+	return (print.nb_char);
+}
+
+#pragma endregion Fonctions

@@ -6,80 +6,124 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 11:36:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/16 15:38:19 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/19 10:16:09 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#pragma region Header
+
+/* -----| Internals |----- */
+#include "_ft_printf.h"
+
+/* -----| Modules   |----- */
 #include "ft_printf.h"
 
-enum e_bool	in_lst(const void *lst, unsigned char item, size_t lstlen)
-{
-	size_t	i;
+#pragma endregion Header
+#pragma region Fonctions
 
-	i = 0;
-	while (i < lstlen)
-	{
-		if (((unsigned char *)lst)[i] == item)
-			return (TRUE);
-		i++;
-	}
-	return (FALSE);
-}
-
-static int	write_arg(const char *s, va_list args)
-{
-	char	symb;
-
-	symb = s[1];
-	if (symb == 'c')
-		return (writechar(va_arg(args, int)));
-	else if (symb == 's')
-		return (writestr(va_arg(args, char *)));
-	else if (symb == 'p')
-		return (writeptr(va_arg(args, void *)));
-	else if (symb == 'd' || symb == 'i')
-		return (writedec(va_arg(args, int)));
-	else if (symb == 'u')
-		return (writeuint(va_arg(args, unsigned int)));
-	else if (symb == 'x')
-		return (writelhex(va_arg(args, int)));
-	else if (symb == 'X')
-		return (writeuhex(va_arg(args, int)));
-	else if (symb == '%')
-		return (writechar('%'));
-	else
-		return (0);
-}
-
-int	write_loop(
-	const char *s,
-	va_list args,
-	int *nb_char
+/**
+ * @brief	add a char to the buffer. If the buffer is full, write it to the fd.
+ * 
+ * @param	print	The print structure.
+ * @param	c		The char to add.
+ * 
+ * @return	0 if the buffer is full, 1 if the char is added.
+ * 
+ * @note	write nothing if the fd is -1.
+*/
+__attribute__((used)) int	_add(
+	t_print *const restrict print,
+	const char c
 )
 {
-	__uint32_t	i;
-	int			wout;
-	const __uint32_t strlen = ft_strlen(s);
+	if (__builtin_expect(print->buff_pos >= print->buffer_len, unexpected))
+	{
+		if (print->fd != -1)
+			write(print->fd, print->buffer, print->buff_pos);
+		ft_bzero(print->buffer, print->buffer_len);
+		print->buff_pos = 0;
+		return (0);
+	}
+	else
+	{
+		print->buffer[print->buff_pos++] = c;
+		++print->nb_char;
+	}
+	return (1);
+}
 
-	i = 0;
-	while (i < strlen)
+/**
+ * @brief	redirects the arguments to the appropriate function.
+ * 
+ * @param	s		The format string.
+ * @param	args	The arguments to format.
+ * @param	print	The print structure.
+ * 
+ * @return	0.
+*/
+__attribute__((always_inline, used)) static inline int	write_arg(
+	const char *const restrict s,
+	va_list args,
+	t_print *const restrict print
+)
+{
+	const char	symb = s[1];
+
+	if (symb == 'c')
+		return (print->add(print, va_arg(args, int)));
+	else if (symb == 's')
+		return (writestr(va_arg(args, char *), print));
+	else if (symb == 'p')
+		return (writeptr(va_arg(args, void *), print));
+	else if (symb == 'd' || symb == 'i')
+		return (writedec(va_arg(args, int), print));
+	else if (symb == 'u')
+		return (writedec(va_arg(args, unsigned int), print));
+	else if (symb == 'x')
+		return (writehex(va_arg(args, unsigned int), print, LHEX_CHAR));
+	else if (symb == 'X')
+		return (writehex(va_arg(args, unsigned int), print, UHEX_CHAR));
+	else if (symb == '%')
+		return (print->add(print, '%'));
+	else
+	{
+		print->add(print, '%');
+		print->add(print, symb);
+	}
+	return (0);
+}
+
+/**
+ * @brief	Parses the format string and redirects the arguments to the
+ * appropriate function.
+ * 
+ * @param	s		The format string.
+ * @param	args	The arguments to format.
+ * @param	print	The print structure.
+ * 
+ * @return	The number of characters written.
+*/
+__attribute__((used)) int	write_loop(
+	const char *s,
+	va_list args,
+	t_print *const restrict print
+)
+{
+	const int		len = ft_strlen(s);
+	register int	i;
+
+	i = -1;
+	while (++i < len && !print->error)
 	{
 		if (s[i] == '%')
 		{
-			wout = write_arg(&s[i], args);
-			if (wout == -1)
-				return (*nb_char);
-			*nb_char += wout;
-			i++;
+			write_arg(s + i, args, print);
+			++i;
 		}
 		else
-		{
-			wout = write(1, &s[i], 1);
-			if (wout == -1)
-				return (*nb_char);
-			*nb_char += wout;
-		}
-		i++;
+			print->add(print, s[i]);
 	}
-	return (*nb_char);
+	return (print->nb_char);
 }
+
+#pragma endregion Fonctions

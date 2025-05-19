@@ -36,9 +36,11 @@ INCLUDE_ALL	:=-Iglobal -I$(DIR_SRC)/builtin -I$(DIR_SRC)/exec -I$(DIR_SRC)/exit 
 
 DIR_LIBFT	:= 
 LIBFT		:= #$(DIR_LIBFT)/libft.a
+DEPS		:= $(OBJ_ALL:.o=.d)
 
 # Here we include all the makefile.mk files
 include  src/builtin/makefile.mk src/exec/makefile.mk src/exit/makefile.mk src/ft_printf/makefile.mk src/memory-manager/makefile.mk src/parseur/makefile.mk src/prompt/makefile.mk src/read_line/makefile.mk src/signal/makefile.mk src/utils/makefile.mk
+-include $(DEPS)
 
 SRC_MAIN	:= main.c
 SRC_BONUS	:=
