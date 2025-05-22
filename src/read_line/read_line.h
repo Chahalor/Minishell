@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:08:04 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/16 08:41:54 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/22 13:51:46 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 /* ************************************************************************** */
 
 # define RL_VERSION_MAJOR		0
-# define RL_VERSION_MINOR		1
+# define RL_VERSION_MINOR		2
 # define RL_VERSION_PATCH		0
 
 /* ************************************************************************** */
@@ -63,6 +63,8 @@ int		rl_load_history(
 			);
 
 void	reset_cmd(void);
+
+char **	rl_get_history(void);
 
 # endif
 

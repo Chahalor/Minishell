@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:47:53 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/16 08:38:25 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/22 13:32:39 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,19 @@
 #  define VERIONS
 # endif	/* VERIONS */
 
+# define _WHILE while
+
+# define _LIKELY	__glibc_likely		/* __builtin_expect((cond), 1) */
+# define _UNLIKELY	__glibc_unlikely	/* __builtin_expect((cond), 0) */
+
 # ifndef DEBUG
 #  define DEBUG		0				/* 0: debug disabled, 1: debug enabled */
 # endif	/* DEBUG */
 
 # define ENABLE_RL	1				/* 0: disable read_line, 1: enable it */
 
-# define DEFAULT_PROMPT	"Mini> "	/* default prompt string */
+# define DEFAULT_PROMPT	"Mini> "				/* default prompt string */
 
-# define DEFAULT_HISTORY_FILE	"/home/nduvoid/.minihistory" /* default file */
+# define DEFAULT_HISTORY_FILE	"./.minihistory"	/* default file */
 
 #endif /* CONFIG_H */

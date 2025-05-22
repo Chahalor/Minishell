@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 08:08:28 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/16 09:25:33 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/22 14:38:01 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,143 +21,118 @@
 #pragma endregion Header
 #pragma region Fonctions
 
-/** */
-__attribute__((always_inline, used)) static inline char	*history_add(
+/**
+ * @brief	Add a line to the history by duplicating it.
+ * 
+ * @param	line	The line to add
+ * @param	data	The history data
+ * 
+ * @return	The line added to the history
+ * @retval		NULL if the history is NULL
+ * @retval		The line added to the history
+ * 
+ * @version 2.0
+*/
+__attribute__((always_inline, used)) static inline char	*_history_add(
 	const char *const restrict line,
 	t_rl_history *const restrict data
 )
 {
-	t_rl_history	*new_entry;
-	int				len;
+	const int	len = ft_strlen(line);
 
-	if (!line || !*line)
+	if (_UNLIKELY(!data))
 		return (NULL);
-	len = ft_strlen(line);
-	new_entry = mm_alloc(sizeof(t_rl_history) + sizeof(char) * (_RL_ALLOC_SIZE + 1));
-	if (__builtin_expect(!new_entry, unexpected))
-		return (NULL);
-	new_entry->line = (char *)(new_entry + 1);
-	ft_memcpy(new_entry->line, line, len + 1);
-	new_entry->next = NULL;
-	new_entry->prev = data->tail;
-	new_entry->head = data->head ? data->head : new_entry;
-	if (data->tail)
-		data->tail->next = new_entry;
 	else
-		data->head = new_entry;
-	data->tail = new_entry;
-	data->current = new_entry;
-	if (data->fd >= 0)
 	{
-		write(data->fd, line, len);
-		write(data->fd, "\n", 1);
+		data->storage[data->pos] = memdup(line, len + 1);
+		data->pos = (data->pos + 1) % _RL_HIST_SIZE;
+		data->size += (data->size < _RL_HIST_SIZE);
+		if (_LIKELY(data->fd > 0))
+			ft_fprintf(data->fd, "%s\n", line);
+		return (data->storage[data->pos]);
 	}
-	return new_entry->line;
 }
 
-
-/** */
-__attribute__((always_inline, used)) inline char	*_remove_history(
-	t_rl_history *const restrict data
-)
-{
-	t_rl_history	*tmp;
-
-	if (__builtin_expect(!data, unexpected))
-		return (NULL);
-	if (data->tail == data->head)
-		return (NULL);
-	tmp = data->tail;
-	data->tail = data->tail->prev;
-	data->tail->next = NULL;
-	mm_free(tmp);
-	return (data->tail->line);
-}
-
-/** */
+/**
+ * @brief	Clear the history by freeing all the lines.
+ * 
+ * @param	data	The history data
+ * 
+ * @return	NULL always
+ * 
+ * @version 2.0
+ */
 __attribute__((always_inline, used)) static inline char	*_clear(
 	t_rl_history *const restrict data
 )
 {
-	t_rl_history	*actual;
-	t_rl_history	*tmp;
-
-	if (__builtin_expect(!data, unexpected))
+	if (_UNLIKELY(!data))
 		return (NULL);
-	actual = data->next;
-	while (actual)
+	else
 	{
-		tmp = actual->next;
-		mm_free(actual);
-		actual = tmp;
+		while (--data->size > 0)
+		{
+			mm_free(data->storage[data->size]);
+			data->storage[data->size] = NULL;
+		}
 	}
-	mm_free(data);
+	data->pos = 0;
 	return (NULL);
 }
 
-/** */
-__attribute__((always_inline, used)) static inline char	*_get(
-	t_rl_history *const restrict data,
-	const t_rl_hist_access access
-)
-{
-	t_rl_history	*result;
-
-	result = data->current;
-	if (access == rl_get_prev)
-	{
-		if (data->current->prev)
-		{
-			result = data->current->prev;
-			data->current = result;
-		}
-		else
-			result = data->current;
-	}
-	else if (access == rl_get_next)
-	{
-		if (data->current->next)
-		{
-			result = data->current->next;
-			data->current = result;
-		}
-		else
-			result = data->current;
-	}
-	return (result->line);
-}
-
-/** */
+/**
+ * @brief	Manage the history by adding, clearing or getting the next/previous line.
+ * 
+ * @param	access	The access type
+ * @param	line	The line to add
+ * 
+ * @return	The line added to the history
+ * @retval		NULL if an error occurs or when clearing the history
+ * @retval		The line added to the history or the next/previous line
+ * 
+ * @version 2.0
+*/
 __attribute__((used)) char	*_history_manager(
 	const int access,
 	const char *const restrict line
 )
 {
-	static t_rl_history	*history = NULL;
+	static t_rl_history	history = {0};
+	char				*result;
 
-	if (access == rl_get_prev || access == rl_get_next)
-		return (_get(history, access));
-	else if (access == rl_add)
-		return (history_add(line, history));
-	else if (access == rl_remove)
-		return (_remove_history(history));
-	else if (__builtin_expect(access == rl_clear, unexpected))
-		return (_clear(history));
-	else if (__builtin_expect(access == rl_init, unexpected))
+	if (_LIKELY(access == rl_get_next))
 	{
-		history = mm_alloc(sizeof(t_rl_history));
-		if (!history)
-			return (NULL);
-		*history = (t_rl_history){
-			.line = NULL, .next = NULL, .prev = NULL,
-			.head = history, .tail = history, .current = history,
-			.fd = -1,
-		};
-		_load_history(line, history);
-		return ((char *)history);
+		result = history.storage[history.pos];
+		if (result)
+			history.pos = (history.pos + 1) % _RL_HIST_SIZE;
+		// ft_printf("result: %s (%d)\n", result, history.pos);	//rm
+		return (result);
 	}
-	else
+	else if (_LIKELY(access == rl_get_prev))
+	{
+		history.pos = (history.pos - 1 + _RL_HIST_SIZE) % _RL_HIST_SIZE;
+		result = history.storage[history.pos];
+		if (!result)
+			history.pos = (history.pos + 1) % _RL_HIST_SIZE;
+		// ft_printf("result: %s (%d)\n", result, history.pos);	//rm
+		return (result);
+	}
+	else if (_LIKELY(access == rl_add))
+		return (_history_add(line, &history));
+	else if (access == rl_reset_pos)
+		history.pos = history.size;
+	else if (access == rl_get_all)
 		return (NULL);
+	else if (_UNLIKELY(access == rl_load))
+	{
+		if (_UNLIKELY(_load_history(line, &history) < 0))
+			return (NULL);
+		else
+			return (history.storage[history.pos]);
+	}
+	else if (_UNLIKELY(access == rl_clear))
+		return (_clear(&history));
+	return (NULL);
 }
 
 #pragma endregion Fonctions
