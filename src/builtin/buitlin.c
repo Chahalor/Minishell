@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/19 15:45:50 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/22 13:52:57 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ __attribute__((always_inline, used)) inline char	is_builtin(
 		|| ft_strncmp(args, "pwd", 3) == 0
 		|| ft_strncmp(args, "unset", 5) == 0
 		|| ft_strncmp(args, "relaunch", 7) == 0
+		|| ft_strncmp(args, "history", 7) == 0
 	);
 }
 
@@ -95,6 +96,8 @@ __attribute__((always_inline, used)) inline char	exec_builtin(
 		return (bltin_unset((const char *const *restrict)split));
 	else if (ft_strncmp(args, "relaunch", 7) == 0)
 		return (execv("./Minishell", (char *const[]){"./Minishell", NULL}), 1);
+	else if (ft_strncmp(args, "history", 7) == 0)
+		return (bltin_history((const char *const *restrict)split));
 	return (-1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 15:54:17 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/16 08:37:24 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/22 14:02:13 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,54 +22,46 @@
 #pragma endregion Header
 #pragma region Fonctions
 
-/** */
-__attribute__((always_inline, used)) static inline int	_creat_file(
-	const char *const restrict filename
-)	// v.1 >> 
-{
-	const int	fd = open(filename, O_CREAT | O_WRONLY | O_APPEND, 0644);
-
-	ft_printf("rl->history->_load_history(): open() %s\n", filename);	//rm
-	if (__builtin_expect(fd < 0, unexpected))
-	{
-		perror("rl->history->_load_history(): open() failed");
-		return (-1);
-	}
-	return (fd);
-}
-
-/** */
+/**
+ * @brief	Load the history from a file.
+ * 
+ * @param	filename	The file to load
+ * @param	data		The history data
+ * 
+ * @return	0 on success, -1 on error
+ * @retval		 0 if the file is loaded successfully
+ * @retval		-1 if the file descriptor is invalid
+ * @retval		-2 if adding the history fails
+ * 
+ * @version 2.0
+ */
 __attribute__((cold, unused)) int	_load_history(
 	const char *const restrict filename,
 	t_rl_history *const restrict data
-)	// v.1 >> fonction struct will change
+)
 {
-	const int		fd = open(filename, O_RDONLY, 0644);
-	t_rl_history	*history;
+	const int		fd = open(filename, O_CREAT | O_RDWR | O_APPEND, 0644);
 	char			*line;
+	register int	i;
 
-	history = mm_alloc(sizeof(t_rl_history));
-	if (__builtin_expect(!history, unexpected))
-	{
-		perror("Error: mm_alloc() failed");
-		close(fd);
-		return (-1);
-	}
+	if (_UNLIKELY(fd < 0))
+		return (perror("Error: open() failed"), -1);
 	line = gnl(fd);
-	while (line)
+	i = -1;
+	while (line && ++i < _RL_HIST_SIZE)
 	{
-		if (__builtin_expect(!rl_add_history(line), unexpected))
+		if (__builtin_expect(!_history_manager(rl_add, line), unexpected))
 		{
-			perror("Error: rl_add_history() failed");
-			free(line);
 			close(fd);
-			return (-1);
+			return (free(line), perror("Error: rl_add_history() failed"), -2);
 		}
+		ft_printf("lr:_load(): line: %s\n", line);	//rm
 		free(line);
 		line = gnl(fd);
 	}
-	data->fd = _creat_file(filename);
-	close(fd);
+	while (++i < _RL_HIST_SIZE)
+		data->storage[i] = NULL;
+	data->fd = fd;
 	return (0);
 }
 

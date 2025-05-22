@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:06:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/19 13:57:46 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/22 13:50:33 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,13 @@ __attribute__((hot, malloc)) char	*read_line(
 
 	rl_data = (t_rl_data){
 		.result = mm_alloc(_RL_ALLOC_SIZE + 1),
-		.print = mm_alloc(_RL_ALLOC_SIZE + 1),
-		.print_length = 0,
 		.line_length = 0,
 		.cursor_pos = 0,
 		.prompt = (char *)prompt,
 		.prompt_length = ft_strlen(prompt),
 		.status = normal,
 	};
-	if (__builtin_expect(!rl_data.result || !rl_data.print, unexpected))
+	if (__builtin_expect(!rl_data.result, unexpected))
 		return (NULL);
 	_init_cmd(&rl_data);
 	rl_data.line_length = _read(&rl_data);
@@ -49,9 +47,9 @@ __attribute__((hot, malloc)) char	*read_line(
 	write(STDOUT_FILENO, "\033[?2004l\n", 9);
 	ft_printf("line_length: %d\n", rl_data.line_length);
 	if (rl_data.status == eof || rl_data.status == interr || !rl_data.line_length)
-		return (mm_free(rl_data.result), mm_free(rl_data.print), NULL);
+		return (mm_free(rl_data.result), NULL);
 	else
-		return (mm_free(rl_data.print), rl_data.result);
+		return (rl_data.result);
 }
 
 /** */
@@ -70,11 +68,17 @@ __attribute__((used)) void	rl_clear_history(void)
 }
 
 /** */
+__attribute__((cold, unused)) char	**rl_get_history(void)
+{
+	return ((char **)_history_manager(rl_get_all, NULL));
+}
+
+/** */
 __attribute__((cold, unused)) int	rl_load_history(
 	const char *const restrict filename
 )
 {
-	return (_history_manager(rl_init, filename) == NULL);
+	return (_history_manager(rl_load, filename) == NULL);
 }
 
 /** */

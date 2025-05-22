@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:57:59 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/19 12:17:24 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/22 14:39:59 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@
 
 # define _RL_ALLOC_SIZE	1024	/* Size of every alloc/realloc of Read_line */
 # define _RL_ANSI_BUFF	16		/* Size of the ANSI handler buffer         */
+# define _RL_HIST_SIZE	1024	/* Size of the history buffer             */
 
 /* ************************************************************************** */
 /*                                 Typedefs                                   */
@@ -70,12 +71,13 @@ enum	e_rl_status
 
 enum e_rl_hist_access
 {
-	rl_add,			/* add a line to the history         */
-	rl_get_next,	/* get a line from the history      */
-	rl_get_prev,	/* get a line from the history     */
-	rl_remove,		/* remove a line from the history */
+	rl_get_next,	/* get a line from the history       */
+	rl_get_prev,	/* get a line from the history      */
+	rl_get_all,		/* get all the lines from the history */
+	rl_add,			/* add a line to the history       */
+	rl_reset_pos,	/* reset the history position     */
 	rl_clear,		/* clear the history             */
-	rl_init,		/* init the history             */
+	rl_load,		/* load the history from a file */
 };
 
 /* ************************************************************************** */
@@ -91,9 +93,7 @@ struct	s_terms
 
 struct	s_rl_data
 {
-	char			*result;		/* The result string                  */
-	char			*print;			/* The buffer string                 */
-	int				print_length;	/* The length of the buffer string  */
+	char			*result;		/* The result string                */
 	int				line_length;	/* The length of the line          */
 	int				cursor_pos;		/* The position of the cursor     */
 	char			*prompt;		/* The prompt string             */
@@ -104,14 +104,11 @@ struct	s_rl_data
 
 struct	s_rl_history
 {
-	char			*line;		/* The line string                */
-	t_rl_history	*next;		/* The next history entry        */
-	t_rl_history	*prev;		/* The previous history entry   */
-	t_rl_history	*head;		/* The head of the history     */
-	t_rl_history	*tail;		/* The tail of the history    */
-	t_rl_history	*current;	/* The current history entry */
-	int				fd;			/* The history file fd      */
-};
+	char	*storage[_RL_HIST_SIZE];	/* history storage                    */
+	int		pos;						/* current position in the history   */
+	int		size;						/* number of cmd in the history     */
+	int		fd;							/* file descriptor for the history */
+};	// the fd will be moved to the manager
 
 /* ************************************************************************** */
 /*                                 Prototypes                                 */
