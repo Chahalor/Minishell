@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 15:54:17 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/22 14:02:13 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/22 16:32:41 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ __attribute__((cold, unused)) int	_load_history(
 	t_rl_history *const restrict data
 )
 {
-	const int		fd = open(filename, O_CREAT | O_RDWR | O_APPEND, 0644);
+	const int		fd = open(filename, O_RDONLY, 0644);
 	char			*line;
 	register int	i;
 
@@ -55,13 +55,13 @@ __attribute__((cold, unused)) int	_load_history(
 			close(fd);
 			return (free(line), perror("Error: rl_add_history() failed"), -2);
 		}
-		ft_printf("lr:_load(): line: %s\n", line);	//rm
 		free(line);
 		line = gnl(fd);
 	}
 	while (++i < _RL_HIST_SIZE)
 		data->storage[i] = NULL;
-	data->fd = fd;
+	close(fd);
+	data->fd = open(filename, O_RDWR | O_APPEND);
 	return (0);
 }
 

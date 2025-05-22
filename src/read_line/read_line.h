@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:08:04 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/22 13:51:46 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/22 16:55:19 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ int		rl_load_history(
 			);
 
 void	reset_cmd(void);
-
-char **	rl_get_history(void);
 
 # endif
 

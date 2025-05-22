@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/19 14:05:11 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/22 16:56:36 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,8 @@ __attribute__((used)) int	refresh_line(
  * @param	c The character to handle.
  * 
  * @return	1 on success, -1 on failure.
+ * 
+ * @version 2.0
 */
 __attribute__((used)) static int	handle_special(
 	t_rl_data *const restrict data,
@@ -164,6 +166,11 @@ __attribute__((used)) static int	handle_special(
  * @param	data The data structure containing the line and cursor position.
  * 
  * @return	The length of the line read.
+ * 
+ * @note	The function will block until a newline is received or an error
+ * 	occurs.
+ * 
+ * @version 2.0
 */
 __attribute__((hot)) int	_read(
 	t_rl_data *const restrict data
@@ -177,7 +184,6 @@ __attribute__((hot)) int	_read(
 	while (data->status > exiting)
 	{
 		bytes_read = read(STDIN_FILENO, &c, 1);
-		// ft_printf("<%d>(%d)", c, data->cursor_pos);
 		if (bytes_read < 0)
 			data->status = error;
 		else if (data->status != past && (c == '\r' || c == '\n'))

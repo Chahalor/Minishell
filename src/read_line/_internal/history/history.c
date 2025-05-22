@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 08:08:28 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/22 14:38:01 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/22 16:52:52 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ __attribute__((always_inline, used)) static inline char	*_history_add(
 {
 	const int	len = ft_strlen(line);
 
-	if (_UNLIKELY(!data))
+	if (_UNLIKELY(!data || !line || len < 1))
 		return (NULL);
 	else
 	{
@@ -49,8 +49,52 @@ __attribute__((always_inline, used)) static inline char	*_history_add(
 		data->size += (data->size < _RL_HIST_SIZE);
 		if (_LIKELY(data->fd > 0))
 			ft_fprintf(data->fd, "%s\n", line);
-		return (data->storage[data->pos]);
+		return ((char *)line);
 	}
+}
+
+/**
+ * @brief	retrun the next/previous line in the history.
+ * 
+ * @param	data		The history data
+ * @param	direction	The direction to go
+ * 
+ * @return	The line in the history
+ * @retval		NULL if there is no line in this direction
+ * @retval		The line in the history
+ * 
+ * @version 1.0
+*/
+__attribute__((always_inline, used)) static inline char	*_history_get(
+	t_rl_history *const restrict data,
+	const int access
+)
+{
+	char	*result;
+
+	if (_UNLIKELY(!data))
+		return (NULL);
+	else if (_LIKELY(access == rl_get_next))
+	{
+		data->pos = (data->pos + 1) % _RL_HIST_SIZE;
+		result = data->storage[data->pos];
+		if (!result)
+			data->pos = (data->pos - 1 + _RL_HIST_SIZE) % _RL_HIST_SIZE;
+		return (result);
+	}
+	else if (_LIKELY(access == rl_get_prev))
+	{
+		data->pos = (data->pos - 1 + _RL_HIST_SIZE) % _RL_HIST_SIZE;
+		result = data->storage[data->pos];
+		if (!result)
+		{
+			data->pos = (data->pos + 1) % _RL_HIST_SIZE;
+			return (data->storage[data->pos]);
+		}
+		else
+			return (result);
+	}
+	return (NULL);
 }
 
 /**
@@ -81,7 +125,8 @@ __attribute__((always_inline, used)) static inline char	*_clear(
 }
 
 /**
- * @brief	Manage the history by adding, clearing or getting the next/previous line.
+ * @brief	Manage the history by adding, clearing or getting the next/previous
+ *  line.
  * 
  * @param	access	The access type
  * @param	line	The line to add
@@ -98,25 +143,9 @@ __attribute__((used)) char	*_history_manager(
 )
 {
 	static t_rl_history	history = {0};
-	char				*result;
 
-	if (_LIKELY(access == rl_get_next))
-	{
-		result = history.storage[history.pos];
-		if (result)
-			history.pos = (history.pos + 1) % _RL_HIST_SIZE;
-		// ft_printf("result: %s (%d)\n", result, history.pos);	//rm
-		return (result);
-	}
-	else if (_LIKELY(access == rl_get_prev))
-	{
-		history.pos = (history.pos - 1 + _RL_HIST_SIZE) % _RL_HIST_SIZE;
-		result = history.storage[history.pos];
-		if (!result)
-			history.pos = (history.pos + 1) % _RL_HIST_SIZE;
-		// ft_printf("result: %s (%d)\n", result, history.pos);	//rm
-		return (result);
-	}
+	if (_LIKELY(access == rl_get_next || access == rl_get_prev))
+		return (_history_get(&history, access));
 	else if (_LIKELY(access == rl_add))
 		return (_history_add(line, &history));
 	else if (access == rl_reset_pos)
