@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 08:08:28 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/22 16:52:52 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/22 17:20:24 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ __attribute__((always_inline, used)) static inline char	*_history_add(
 }
 
 /**
- * @brief	retrun the next/previous line in the history.
+ * @brief	return the next/previous line in the history.
  * 
  * @param	data		The history data
  * @param	direction	The direction to go
@@ -114,7 +114,7 @@ __attribute__((always_inline, used)) static inline char	*_clear(
 		return (NULL);
 	else
 	{
-		while (--data->size > 0)
+		while (--data->size >= 0)
 		{
 			mm_free(data->storage[data->size]);
 			data->storage[data->size] = NULL;
