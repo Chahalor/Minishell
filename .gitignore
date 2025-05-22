@@ -54,3 +54,5 @@ dkms.conf
 # Our unwanted files
 .vscode/
 .build/
+Minishell
+.minihistory

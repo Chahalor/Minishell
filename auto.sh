@@ -17,20 +17,7 @@ DIR_LIBFT="" #"src/libft"
 DIR_BONUS=""
 
 # nice but useless config
-HEADER=" \\
-╔════════════════════════════════════════════════════════════════════════════════════════════╗\n \\
-║                                                                                            ║\n \\
-║       ________        ___  ___          ___          ___               ________            ║\n \\
-║      |\   __  \      |\  \|\  \        |\  \        |\  \             |\   __  \           ║\n \\
-║      \ \  \|\  \     \ \  \ \  \       \ \  \       \ \  \            \ \  \|\  \          ║\n \\
-║       \ \   ____\     \ \   __  \       \ \  \       \ \  \            \ \  \ \  \         ║\n \\
-║        \ \  \___|      \ \  \ \  \       \ \  \       \ \  \____        \ \  \ \  \        ║\n \\
-║         \ \__\          \ \__\ \__\       \ \__\       \ \_______\       \ \_______\       ║\n \\
-║          \|__|           \|__|\|__|        \|__|        \|_______|        \|_______|       ║\n \\
-║                                                                                            ║\n \\
-║    By: nduvoid <nduvoid@student.42mulhouse.fr>                                             ║\n \\
-║    A 42 cursus Project                                                                     ║\n \\
-╚════════════════════════════════════════════════════════════════════════════════════════════╝\n"
+HEADER="Big Fat Header\n"
 
 # Check if DIR_SRC exists
 if [ ! -d "$DIR_SRC" ]; then
@@ -182,12 +169,8 @@ debug:
 	\$(eval DEBUGFLAGS=\$(DEBUGFLAGS) -g3 -D DEBUG=1)
 	@echo "\033[1;33m DEBUG MODE ACTIVATED \033[0m"
 
-
 debug.fsanitize: debug
 	\$(eval DEBUGFLAGS=\$(DEBUGFLAGS) -fsanitize=address)
-
-debug.fthread: debug
-	\$(eval DEBUGFLAGS=\$(DEBUGFLAGS) -fsanitize=thread)
 
 debug.fs: debug.fsanitize
 
