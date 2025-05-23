@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:44:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/23 14:18:31 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/23 15:14:03 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ __attribute__((cold, unused)) int	init_all(void)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*line;
+	char		*line;
+	t_exec_data	*data;
 
 	(void)argc;
 	(void)argv;
@@ -56,13 +57,20 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		line = read_line(DEFAULT_PROMPT);
-		ft_printf("You entered: <%s>\n", line);
 		if (__builtin_expect(!line, unexpected))
 			continue ;
 		else if (is_builtin(line))
 			exec_builtin(line);
 		else
-			exec_cmd(built_exec_data(line), envp);
+		{
+			data = built_exec_data(line);
+			if (_UNLIKELY(!data))
+				perror("main(): built_exec_data() failed");
+			else if (data->pipe)
+				piping(data, envp);
+			else
+				data->status = exec_cmd(data, envp);
+		}
 		rl_add_history(line);
 		mm_free(line);
 	}
