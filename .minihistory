@@ -12,3 +12,10 @@ exit
 mexit
 echo start
 
+ls -A
+cd /home/
+ls
+de nduvoid/Desktop/minishell
+cd nduvoid/Desktop/minishell
+cd /nduvoid/Desktop/minishell
+cd nduvoid/Desktop/minishell

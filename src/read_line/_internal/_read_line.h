@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:57:59 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/23 11:06:16 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/23 14:38:52 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 
 /* -----| Modules  |----- */
 # include "utils.h"
-# include "get_next_line.h"
+# include "gnl/get_next_line.h"
 # include "ft_printf.h"
 # include "exit.h"
 # include "formating.h"
