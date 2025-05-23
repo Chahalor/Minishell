@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/22 16:55:39 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/23 15:18:48 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,25 +20,6 @@
 
 #pragma endregion Header
 #pragma region Fonctions
-
-void	free_tab(
-	char ***tab
-)
-{
-	char	**tmp;
-
-	if (__builtin_expect(!tab || !*tab, unexpected))
-		return ;
-	tmp = *tab;
-	while (*tmp)
-	{
-		free(*tmp);
-		tmp++;
-	}
-	free(*tab);
-	*tab = NULL;
-	return ;
-}
 
 /**
  * @brief Check if the command is a builtin
@@ -75,7 +56,7 @@ __attribute__((always_inline, used)) inline char	exec_builtin(
 	const char *const restrict args
 )
 {
-	/*__attribute__((cleanup(free_tab)))*/ char	**split;
+	__attribute__((cleanup(free_tab))) char	**split;
 
 	split = ft_split(args, ' ');
 	if (__builtin_expect(!split, unexpected))
@@ -96,7 +77,8 @@ __attribute__((always_inline, used)) inline char	exec_builtin(
 		return (bltin_unset((const char *const *restrict)split));
 	else if (ft_strncmp(args, "relaunch", 7) == 0)
 		return (execv("./Minishell", (char *const[]){"./Minishell", NULL}), 1);
-	return (-1);
+	else
+		return (-1);
 }
 
 #pragma endregion Fonctions

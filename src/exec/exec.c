@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/19 13:42:36 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/23 15:01:25 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,26 @@ __attribute__((deprecated)) t_exec_data	*built_exec_data(
 	t_exec_data	*data;
 	register int	len_cmd;
 
+	if (line[0] == '/' || (line[0] == '.' && line[1] == '/'))
+	{
+		data = mm_alloc(sizeof(t_exec_data));
+		if (!data)
+		{
+			perror("built_exec_data(): mm_alloc() failed\n");
+			return (NULL);
+		}
+		else
+		{
+			data->args = ft_split(line, ' ');
+			data->cmd = data->args[0];
+			if (!data->cmd || !data->args)
+			{
+				perror("built_exec_data(): a memdup() failed");
+				return (mm_free(data->cmd), mm_free(data->args), mm_free(data), NULL);
+			}
+			return (data);
+		}
+	}
 	data = mm_alloc(sizeof(t_exec_data));
 	if (!data)
 	{

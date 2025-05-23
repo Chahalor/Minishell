@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 09:51:43 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/15 14:14:06 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/23 15:44:58 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,97 +21,60 @@
 #pragma endregion Header
 #pragma region Fonctions
 
-static void	free_tab(char **tab, int len)
+/** */
+__attribute__((always_inline, used)) static inline char	**_allocing(
+	const char *const restrict s,
+	const char c
+)
 {
-	int	i;
+	register int	words;
+	register int	i;
+	register int	j;
+	char			**result;
 
-	i = 0;
-	while (i < len)
-	{
-		mm_free(tab[i]);
-		i++;
-	}
-	free(tab);
-	tab = NULL;
-}
-
-static size_t	get_buffer(const char *s, char c)
-{
-	size_t	nb;
-	size_t	i;
-
-	i = 0;
-	nb = 0;
-	while (s[i])
-	{
-		if (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0'))
-			nb++;
-		i++;
-	}
-	return (nb);
-}
-
-static void	fill_tab(char *dest, const char *s, char c)
-{
-	size_t	i;
-
-	i = 0;
-	while (s[i] && s[i] != c)
-	{
-		dest[i] = s[i];
-		i++;
-	}
-	dest[i] = '\0';
-}
-
-static void	alloc_tab(char **r, const char *s, char c)
-{
-	size_t	count;
-	size_t	i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	while (s[i])
-	{
-		count = 0;
-		while (s[i + count] && s[i + count] != c)
-			count++;
-		if (count > 0)
-		{
-			r[j] = mm_alloc(sizeof(char) * (count + 1));
-			if (!r[j])
-				return (free_tab(r, j));
-			fill_tab(r[j], (s + i), c);
-			j++;
-			i = i + count;
-		}
-		else
-			i++;
-	}
-	r[j] = NULL;
-}
-
-/**
- * @brief Allocates and returns an array of strings obtained by splitting 's'
- * using the character 'c' as a delimiter.
- * 
- * @param s String to be split.
- * @param c Delimiter character.
- * @return char** Array of strings obtained by splitting 's'. Or NULL
- * if the allocation fails.
- */
-char	**ft_split(char const *s, char c)
-{
-	size_t	nb_tab;
-	char	**r;
-
-	nb_tab = get_buffer(s, c);
-	r = (char **)mm_alloc(sizeof(char *) * (nb_tab + 1));
-	if (!r)
+	words = 0;
+	i = -1;
+	while (s[++i])
+		if (s[i] == c)
+			++words;
+	result = mm_alloc(sizeof(char *) * (words + 2));
+	if (__builtin_expect(!result, unexpected))
 		return (NULL);
-	alloc_tab(r, s, c);
-	if (!r)
-		return (NULL);
-	return (r);
+	j = -1;
+	while (j <= words)
+		result[++j] = NULL;
+	return (result);
 }
+
+int	_split(
+	char **result,
+	const char *const restrict s,
+	const char c
+)
+{
+	register int	i;
+	register int	j;
+	register int	k;
+
+	i = -1;
+	
+}
+
+/** */
+char **ft_split(
+	const char *const restrict s,
+	const char c
+)
+{
+	char		**result;
+
+	if (__builtin_expect(!s, unexpected))
+		return (NULL);
+	result = (char **)_allocing(s, c);
+	if (__builtin_expect(!result, unexpected))
+		return (NULL);
+	_split(s, c, result);
+	return (result);
+}
+
+#pragma endregion Fonctions

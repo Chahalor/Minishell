@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 11:03:50 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/15 14:14:28 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/23 15:19:31 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,10 @@
 char		**ft_split(
 				const char *const restrict s,
 				const char c
+				);
+
+void		free_tab(
+				char ***tab,
 				);
 
 // utils.c

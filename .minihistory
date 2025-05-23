@@ -11,7 +11,6 @@ xit
 exit
 mexit
 echo start
-
 ls -A
 cd /home/
 ls
@@ -19,3 +18,11 @@ de nduvoid/Desktop/minishell
 cd nduvoid/Desktop/minishell
 cd /nduvoid/Desktop/minishell
 cd nduvoid/Desktop/minishell
+echo sus
+env
+env
+env
+env
+echo hey
+./Minishell
+env
