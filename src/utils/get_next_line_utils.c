@@ -6,87 +6,132 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:35:00 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/15 16:40:58 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/23 13:47:43 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#pragma region Header
+
+/* -----| Internals |----- */
 #include "get_next_line.h"
 
-/**
- * @file get_next_line_utils.c
- * @brief Get the length of a string
- * 
- * @param s The string
- * @return The length of the string
- */
-size_t	gnl_strlen(const char *s)
-{
-	size_t	len;
-
-	if (!s)
-		return (0);
-	len = 0;
-	while (s[len])
-		len++;
-	return (len);
-}
+#pragma endregion Header
+#pragma region Fonctions
 
 /**
- * @file get_next_line_utils.c
- * @brief Locate a character in a string
+ * @brief		Reallocate the line buffer to a new size. If the line buffer is
+ * 				NULL, it will be allocated with the new size. If the new size
+ * 				is 0, the line buffer will be freed and NULL will be returned.
  * 
- * @param s The string
- * @param c The character to locate
- * @return A pointer to the located character or NULL 
- * 			if the character does not appear in the string
- */
-char	*ft_strchr(const char *s, int c)
-{
-	unsigned int	i;
-
-	if (!s)
-		return (NULL);
-	i = 0;
-	while (s[i])
-		if (s[i++] == (unsigned char)c)
-			return (&((char *)s)[i - 1]);
-	if (s[i++] == (unsigned char)c)
-		return (&((char *)s)[i - 1]);
-	return (NULL);
-}
-
-/**
- * @file get_next_line_utils.c
- * @brief Join two strings
+ * @param line		The line buffer to reallocate.
+ * @param old_size	The old size of the line buffer.
+ * @param new_size	The new size of the line buffer.
  * 
- * @param s1 The first string
- * @param s2 The second string
- * @return The new string or NULL if an error occurs
+ * @return	char* The reallocated line buffer.
+ * @retval		NULL Error occurred.
+ * @retval 		the reallocated line buffer.
+ * 
+ * @version	1.0
  */
-char	*str_join(char *s1, char *s2)
+__attribute__((used)) char *_gnl_realloc(
+	char *const line,
+	const size_t old_size,
+	const size_t new_size
+)
 {
-	int		i;
-	int		j;
-	char	*result;
-	int		len;
+	char			*new_line;
+	register size_t	i;
 
-	i = 0;
-	j = 0;
-	len = gnl_strlen(s1) + gnl_strlen(s2);
-	result = (char *)malloc(sizeof(char) * (len + 1));
-	if (!result)
-		return (NULL);
-	while (s1 && s1[i])
+	if (!line)
+		return (malloc(new_size));
+	else if (!new_size)
+		return (free(line), NULL);
+	else
 	{
-		result[i] = s1[i];
-		i++;
+		new_line = malloc(new_size);
+		if (!new_line)
+			return (free(line), NULL);
+		i = 0;
+		while (i < old_size && i < new_size)
+		{
+			new_line[i] = line[i];
+			++i;
+		}
+		free(line);
+		while (i < new_size)
+			new_line[i++] = '\0';
 	}
-	while (s2 && s2[j])
-	{
-		result[i + j] = s2[j];
-		j++;
-	}
-	result[i + j] = '\0';
-	free(s1);
-	return (result);
+	return (new_line);
 }
+
+/**
+ * @brief		Set the memory area to zero. This function is used to clear the
+ * 				memory area before using it.
+ * 
+ * @param area	The memory area to set to zero.
+ * @param size	The size of the memory area.
+ * 
+ * @return	void
+ * 
+ * @version	1.0
+ */
+__attribute__((used)) void	_gnl_bzero(
+	void *const restrict area,
+	const size_t size
+)
+{
+	volatile unsigned long long		*restrict	area_64b;
+	volatile unsigned char	*restrict			area_8b;
+	const unsigned int							len_64b = (size >> 3);
+	register unsigned int						i;
+
+	area_64b = (volatile unsigned long long *)area;
+	i = 0;
+	while (i++ != len_64b)
+		*(area_64b++) = 0;
+	i <<= 3;
+	area_8b = (volatile unsigned char *)area + i;
+	while (!((size - i++) >> 31))
+		*(area_8b++) = 0;
+}
+
+/** */
+void *_gnl_memmove(
+	void *const restrict dst,
+	const void *const restrict src,
+	size_t size
+)
+{
+	register int	i;
+
+	if (dst == src || size == 0)
+		return (dst);
+	if (dst < src)
+	{
+		i = -1;
+		while (++i < (int)size)
+			((char *)dst)[i] = ((char *)src)[i];
+	}
+	else
+	{
+		i = size;
+		while (--i >= 0)
+			((char *)dst)[i] = ((char *)src)[i];
+	}
+	// ((char *)dst)[size] = '\0';
+	return (dst);
+}
+
+void	_reset(
+	t_storage *const storage
+)
+{
+	if (!storage->storage_len)
+		_gnl_bzero(storage->storage, BUFFER_SIZE);
+	storage->byte_read = 0;
+	storage->line_len = 0;
+	storage->status = 0;
+	storage->line = NULL;
+}
+
+#pragma endregion Fonctions
