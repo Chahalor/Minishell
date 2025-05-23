@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 15:54:17 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/22 16:32:41 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/23 14:24:23 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ __attribute__((cold, unused)) int	_load_history(
 	register int	i;
 
 	if (_UNLIKELY(fd < 0))
-		return (perror("Error: open() failed"), -1);
+		return (perror(RED "Error:" RESET " loading history failed"), -1);
 	line = gnl(fd);
 	i = -1;
 	while (line && ++i < _RL_HIST_SIZE)
@@ -53,7 +53,7 @@ __attribute__((cold, unused)) int	_load_history(
 		if (__builtin_expect(!_history_manager(rl_add, line), unexpected))
 		{
 			close(fd);
-			return (free(line), perror("Error: rl_add_history() failed"), -2);
+			return (free(line), perror("Error: loading history failed"), -2);
 		}
 		free(line);
 		line = gnl(fd);
