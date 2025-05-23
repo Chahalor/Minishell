@@ -6,29 +6,73 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:35:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/16 08:30:42 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/23 13:52:47 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_BONUS_H
-# define GET_NEXT_LINE_BONUS_H
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
+# pragma once
+
+/* ************************************************************************** */
+/*                                 Headers                                    */
+/* ************************************************************************** */
+
+/* -----| Systems   |----- */
 # include <stdlib.h>
 # include <unistd.h>
 
+/* -----| Globals   |----- */
+#include "formating.h"
+
+/* -----| Internals |----- */
+#include "ft_printf.h"
+
+
+/* ************************************************************************** */
+/*                                 Marcos                                     */
+/* ************************************************************************** */
+
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1024
+# endif
+
+# ifndef GNL_ALLOC_SIZE
+#  define GNL_ALLOC_SIZE 1024
 # endif
 
 # ifndef MAX_FD
 #  define MAX_FD 1024
 # endif
 
-size_t	gnl_strlen(const char *s);
-char	*ft_strchr(const char *s, int c);
-char	*str_join(char *s1, char *s2);
+/* ************************************************************************** */
+/*                                 typedefs                                   */
+/* ************************************************************************** */
 
-char	*get_next_line(int fd);
+typedef struct s_gnl_storage	t_storage;	/* */
+
+/* ************************************************************************** */
+/*                                 Structs                                    */
+/* ************************************************************************** */
+
+struct s_gnl_storage
+{
+	char	storage[BUFFER_SIZE + 1];	/**/
+	char	*line;						/**/
+	ssize_t	byte_read;					/**/
+	size_t	line_len;					/**/
+	int		storage_len;				/**/
+	char	status;						/**/
+};
+
+/* ************************************************************************** */
+/*                                 Prototypes                                 */
+/* ************************************************************************** */
+
+// get_next_line.c
+
+char	*get_next_line(const int fd);
 char	*gnl(const int fd);
 
 #endif

@@ -6,151 +6,241 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 11:39:16 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/16 08:29:21 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/23 14:11:44 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#pragma region Header
+
+/* -----| Internals |----- */
 #include "get_next_line.h"
 
-/** */
-__attribute__((always_inline, used)) static inline char	*line_getter(
-	const char *const restrict str,
-	const int access
+#pragma endregion Header
+#pragma region Prototypes
+
+/* -----| Internals |----- */
+
+extern char	*_gnl_realloc(
+	char *const line,
+	const size_t old_size,
+	const size_t new_size
+);
+
+extern void	_gnl_bzero(
+	void *const restrict area,
+	const size_t size
+);
+
+extern char	*_gnl_memmove(
+	void *const restrict dst,
+	const void *const restrict src,
+	size_t size
+);
+
+extern void	_reset(
+	t_storage *const storage
+);
+
+#pragma endregion Prototypes
+#pragma region Fonctions
+
+/**
+ * @brief		Add a character to the line buffer. If the line buffer is full,
+ * 				it will be reallocated to accommodate the new character.
+ * 
+ * @param storage	The storage structure to store the line.
+ * @param c		The character to add to the line buffer.
+ * 
+ * @return	char* The reallocated line buffer.
+ * @retval		NULL Error occurred.
+ * @retval 		0 Character added successfully.
+ * 
+ * @version	1.0
+*/
+__attribute__((always_inline, used)) static inline char	_add(
+	t_storage *const storage,
+	const char c
 )
 {
-	register int	i;
-	char			*line;
-
-	i = 0;
-	if (!str)
-		return (NULL);
-	while (str[i] && str[i] != '\n')
-		i++;
-	if (str[i] == '\n')
-		i++;
-	line = (char *)malloc(sizeof(char) * (i + 1));
-	if (!line)
-		return (NULL);
-	i = 0;
-	while (str[i] && str[i] != '\n')
+	if (__builtin_expect(!storage->line
+		|| !(storage->line_len % GNL_ALLOC_SIZE), 0))
 	{
-		line[i] = str[i];
-		i++;
+		storage->line = _gnl_realloc(storage->line, storage->line_len,
+			 storage->line_len + GNL_ALLOC_SIZE);
+		if (!storage->line)
+			return (-1);
 	}
-	if (access && str[i] == '\n')
-		line[i++] = '\n';
-	line[i] = '\0';
-	return (line);
-}
-
-/** */
-__attribute__((always_inline, used)) static inline char	*update_remainder(
-	char *str
-)
-{
-	register int	i;
-	register int	j;
-	char			*remainder;
-
-	i = 0;
-	j = 0;
-	if (!str)
-		return (NULL);
-	while (str[i] && str[i] != '\n')
-		i++;
-	if (!str[i] || !str[i + 1])
-	{
-		free(str);
-		return (NULL);
-	}
-	remainder = (char *)malloc(sizeof(char) * (gnl_strlen(str) - i));
-	if (!remainder)
-		return (NULL);
-	i++;
-	while (str[i])
-		remainder[j++] = str[i++];
-	remainder[j] = '\0';
-	free(str);
-	return (remainder);
-}
-
-/** */
-__attribute__((always_inline, used)) static inline char	*read_and_store(
-	const int fd,
-	char *remainder
-)
-{
-	char	*buffer;
-	int		bytes_read;
-
-	buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!buffer)
-		return (NULL);
-	bytes_read = 1;
-	while (bytes_read > 0)
-	{
-		bytes_read = read(fd, buffer, BUFFER_SIZE);
-		if (bytes_read < 0 && remainder)
-			return (free(buffer), free(remainder), NULL);
-		else if (bytes_read < 0)
-			return (free(buffer), NULL);
-		buffer[bytes_read] = '\0';
-		remainder = str_join(remainder, buffer);
-		if (!remainder)
-			return (free(buffer), free(remainder), NULL);
-		if (bytes_read == 0 || (bytes_read > 0 && remainder
-				&& (ft_strchr(remainder, '\n'))))
-			break ;
-	}
-	free(buffer);
-	return (remainder);
+	storage->line[storage->line_len++] = c;
+	storage->line[storage->line_len] = '\0';
+	return (0);
 }
 
 /**
- * @file get_next_line.c
- * @brief Read a line from a file descriptor
- * @author nduvoid
+ * @brief		Read BUFFER_SIZE bytes from the file descriptor fd and store
+ * 				them in the storage structure. If it needs to be reallocated,
+ * 				it will be done.
  * 
- * @param fd File descriptor
- * @return The line read from the file descriptor, NULL if an error occurs
- * or the end of the file is reached
- */
-char	*get_next_line(int fd)
+ * @param fd		The file descriptor to read from.
+ * @param storage	The storage structure to store the read bytes.
+ * 
+ * @return	nt the line status:
+ * @retval		-1 Error occurred.
+ * @retval		+0 Partial line read.
+ * @retval		+1 '\n' found
+ * @retval		+2 End of file reached.
+ * 
+ * @version	1.0
+*/
+__attribute__((used)) static inline char	_read(
+	const int fd,
+	t_storage *const storage
+)
 {
-	static char	*remainder[MAX_FD];
-	char		*line;
-
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
-	remainder[fd] = read_and_store(fd, remainder[fd]);
-	if (!remainder[fd] || remainder[fd][0] == '\0')
+	storage->byte_read = read(fd, storage->storage, BUFFER_SIZE);
+	if (storage->byte_read < 0)
+		return (storage->status = -1);
+	else if (storage->byte_read == 0)
+		return (storage->status = 2);
+	else
 	{
-		free(remainder[fd]);
-		remainder[fd] = NULL;
-		return (NULL);
+		storage->storage[storage->byte_read] = '\0';
+		storage->storage_len = storage->byte_read;
 	}
-	line = line_getter(remainder[fd], 1);
-	remainder[fd] = update_remainder(remainder[fd]);
-	return (line);
+	return (storage->status = 0);
 }
 
 /** */
-__attribute__((used)) char	*gnl(
+__attribute__((used)) static inline char	_get(
+	t_storage *const storage
+)
+{
+	register ssize_t	i;
+	char				result;
+
+	i = -1;
+	while (++i < storage->storage_len && storage->storage[i] != '\n')
+		if (__builtin_expect(_add(storage, storage->storage[i]) < 0, 0))
+			return (-1);
+	_gnl_memmove(storage->storage, storage->storage + i + 1,
+		storage->storage_len - i - 1);
+	_gnl_bzero(storage->storage + storage->storage_len - i - 1,
+		BUFFER_SIZE - storage->storage_len + i + 1);
+	storage->storage_len -= i + 1;
+	if (i != storage->storage_len)
+	{
+		_add(storage, '\n');
+		_add(storage, '\0');
+		result = 1;
+		storage->status = 1;
+	}
+	else
+		result = 0;
+	return (result);
+}
+
+
+/**
+ * * @brief		Main loop of the get_next_line function. It will read from the
+ * 				file descriptor and store the bytes in the storage structure.
+ * 
+ * * @param storage	The storage structure to store the read bytes.
+ * * @param fd		The file descriptor to read from.
+ * 
+ * * @return		int the line status:
+ * * @retval -1		Error occurred.
+ * * @retval +0		Partial line read.
+ * * @retval +1		'\n' found
+ * * @retval +2		End of file reached.
+*/
+__attribute__((used)) static inline char	_loop(
+	t_storage *const storage,
 	const int fd
 )
 {
-	static char	*remainder[MAX_FD];
-	char		*line;
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
-	remainder[fd] = read_and_store(fd, remainder[fd]);
-	if (!remainder[fd] || remainder[fd][0] == '\0')
+	if (!storage->storage_len)
 	{
-		free(remainder[fd]);
-		remainder[fd] = NULL;
-		return (NULL);
+		_read(fd, storage);
+		if (__builtin_expect(storage->status < 0, 0))
+		{
+			free(storage->line);
+			_gnl_bzero(storage, sizeof(t_storage));
+			return (storage->status);
+		}
 	}
-	line = line_getter(remainder[fd], 0);
-	remainder[fd] = update_remainder(remainder[fd]);
+	if (!storage->byte_read && !storage->storage[0])
+		return (storage->status = 1);
+	_get(storage);
+	if (__builtin_expect(storage->status < 0, 0))
+	{
+		free(storage->line);
+		_gnl_bzero(storage, sizeof(t_storage));
+		return (storage->status);
+	}
+	return (storage->status);
+}
+
+/**
+ * @brief		Get the next line from the file descriptor.
+ * 
+ * @param fd	The file descriptor to read from.
+ * 
+ * @return	char* The line read from the file descriptor.
+ * @retval		NULL Error occurred.
+ * @retval 		the line read from the file descriptor.
+ * 
+ * @note This fonction read in evry file descriptor lower than MAX_FD.
+ * 
+ * @version	2.0
+ */
+char	*get_next_line(
+	const int fd
+)
+{
+	static t_storage	storage[MAX_FD] = {0};
+	int					out;
+	char				*result;
+
+	if (__glibc_unlikely(fd < 0 || fd >= MAX_FD))
+		return (NULL);
+	while (storage[fd].status >= 0 && storage[fd].status != 1)
+	{
+		out = _loop(&storage[fd], fd);
+		if (out < 0)
+			return (_reset(&storage[fd]), NULL);
+	}
+	result = storage[fd].line;
+	_reset(&storage[fd]);
+	return (result);
+}
+
+/**
+ * @brief		Get the next line from the file descriptor and remove the
+ * 				newline character at the end of the line.
+ * 
+ * @param fd	The file descriptor to read from.
+ * 
+ * @return	char* The line read from the file descriptor.
+ * @retval		NULL Error occurred.
+ * @retval 		the line read from the file descriptor.
+ * 
+ * @version	1.0
+ */
+char	*gnl(
+	const int fd
+)
+{
+	char			*line;
+	register int	len;
+
+	line = get_next_line(fd);
+	if (__builtin_expect(!line, 0))
+		return (NULL);
+	len = -1;
+	while (line[++len] != '\n' && line[len] != '\0')
+		;
+	if (line[len] == '\n')
+		line[len] = '\0';
 	return (line);
 }
+
+#pragma endregion Fonctions

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 15:54:17 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/22 16:32:41 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/23 13:29:02 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ __attribute__((cold, unused)) int	_load_history(
 			close(fd);
 			return (free(line), perror("Error: rl_add_history() failed"), -2);
 		}
+		ft_printf("Loaded: <%s>\n", line); // rm
 		free(line);
 		line = gnl(fd);
 	}
