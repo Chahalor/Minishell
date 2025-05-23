@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:35:00 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/23 13:47:43 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/23 14:49:08 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
 #pragma region Fonctions
 
 /**
- * @brief		Reallocate the line buffer to a new size. If the line buffer is
- * 				NULL, it will be allocated with the new size. If the new size
- * 				is 0, the line buffer will be freed and NULL will be returned.
+ * @brief	Reallocate the line buffer to a new size. If the line buffer is
+ * 			NULL, it will be allocated with the new size. If the new size
+ * 			is 0, the line buffer will be freed and NULL will be returned.
  * 
  * @param line		The line buffer to reallocate.
  * @param old_size	The old size of the line buffer.
@@ -29,11 +29,11 @@
  * 
  * @return	char* The reallocated line buffer.
  * @retval		NULL Error occurred.
- * @retval 		the reallocated line buffer.
+ * @retval		the reallocated line buffer.
  * 
  * @version	1.0
  */
-__attribute__((used)) char *_gnl_realloc(
+__attribute__((visibility("hidden"), cold)) char	*_gnl_realloc(
 	char *const line,
 	const size_t old_size,
 	const size_t new_size
@@ -75,7 +75,7 @@ __attribute__((used)) char *_gnl_realloc(
  * 
  * @version	1.0
  */
-__attribute__((used)) void	_gnl_bzero(
+__attribute__((visibility("hidden"), cold)) void	_gnl_bzero(
 	void *const restrict area,
 	const size_t size
 )
@@ -95,8 +95,21 @@ __attribute__((used)) void	_gnl_bzero(
 		*(area_8b++) = 0;
 }
 
-/** */
-void *_gnl_memmove(
+/**
+ * @brief	Copy the memory area from src to dst. This function is used to
+ * 			copy the memory area from one location to another.
+ * 
+ * @param dst	The destination memory area.
+ * @param src	The source memory area.
+ * @param size	The size of the memory area.
+ * 
+ * @return	void* The destination memory area.
+ * @retval		NULL Error occurred.
+ * @retval		the destination memory area.
+ * 
+ * @version	1.0
+*/
+__attribute__((visibility("hidden"),cold)) void	*_gnl_memmove(
 	void *const restrict dst,
 	const void *const restrict src,
 	size_t size
@@ -118,10 +131,19 @@ void *_gnl_memmove(
 		while (--i >= 0)
 			((char *)dst)[i] = ((char *)src)[i];
 	}
-	// ((char *)dst)[size] = '\0';
 	return (dst);
 }
 
+/**
+ * @brief	Reset the storage structure to its initial state. This function is
+ * 			used to clear the storage structure before using it.
+ * 
+ * @param storage	The storage structure to reset.
+ * 
+ * @return	void
+ * 
+ * @version	1.0
+ */
 void	_reset(
 	t_storage *const storage
 )
