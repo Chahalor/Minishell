@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 10:48:15 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/19 15:18:30 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/24 15:35:05 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ __attribute__((hot, used)) int	get_last_child(void)
 }
 
 /** */
-__attribute__((hot, used)) int set_last_child(
+__attribute__((hot, used)) int	set_last_child(
 	pid_t pid
 )
 {

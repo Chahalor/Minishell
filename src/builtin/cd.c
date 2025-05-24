@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/19 15:19:40 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/24 15:31:19 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ __attribute__((used)) char	bltin_cd(
 {
 	ft_printf("cd: <%s>\n", args[1]);
 	if (__builtin_expect(!args || !args[1], unexpected))
-		chdir(getenv("HOME"));	// @todo: check to chdir with NULL
+		chdir(getenv("HOME"));
 	else
 	{
 		if (__builtin_expect(chdir(args[1]), unexpected))
@@ -37,7 +37,6 @@ __attribute__((used)) char	bltin_cd(
 			return (-1);
 		}
 	}
-	
 	return (0);
 }
 

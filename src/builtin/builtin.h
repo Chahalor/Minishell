@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:10:39 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/22 16:55:34 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/24 15:31:33 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,5 @@ char		bltin_pwd(
 char		bltin_unset(
 				const char *const restrict *const restrict args
 				);
-
 
 #endif /* BUILTIN_H */

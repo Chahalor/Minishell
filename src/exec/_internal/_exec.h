@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:49:39 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/22 09:42:58 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/24 15:38:50 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
-#include <errno.h>
+# include <errno.h>
 
 /* -----| Globals   |----- */
 # include "config.h"
@@ -34,7 +34,7 @@
 
 /* -----| Modules   |----- */
 # include "ft_printf.h"
-# include "global-manager.h"
+# include "global_manager.h"
 
 /* ************************************************************************** */
 /*                                 Typedefs                                   */
@@ -46,6 +46,7 @@ typedef struct s_exec_data	t_exec_data;	/* Execution data structure */
 /*                                 Enums                                      */
 /* ************************************************************************** */
 
+//...
 
 /* ************************************************************************** */
 /*                                 Structs                                    */
@@ -59,7 +60,6 @@ struct s_exec_data
 	t_exec_data	*pipe;	/* next commande to pipe output in          */
 	t_exec_data	*next;	/* next commande to execute after this one */
 };
-
 
 /* ************************************************************************** */
 /*                                 Prototypes                                 */

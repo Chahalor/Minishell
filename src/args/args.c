@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 15:05:39 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/24 15:22:26 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/24 15:28:46 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ __attribute__((always_inline, used)) static inline void	show_help(void)
 		UNDERLINE BLUE "Author:\n" RESET
 		"  nduvoid <" UNDERLINE "nduvoid@student.42mulhouse.fr" RESET ">\n"
 		"  rcreuzea <" UNDERLINE "rcreuzea@student.42mulhouse.fr" RESET ">\n"
-	);
+		);
 	exit(0);
 }
 

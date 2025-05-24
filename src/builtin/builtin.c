@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   buitlin.c                                          :+:      :+:    :+:   */
+/*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/23 15:18:48 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/24 15:34:12 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,7 @@ __attribute__((always_inline, used)) inline char	exec_builtin(
 	const char *const restrict args
 )
 {
-	__attribute__((cleanup(free_tab))) char	**split;
-
+	__attribute__((cleanup(free_tab))) char **split;
 	split = ft_split(args, ' ');
 	if (__builtin_expect(!split, unexpected))
 		return (-1);
@@ -75,10 +74,11 @@ __attribute__((always_inline, used)) inline char	exec_builtin(
 		return (bltin_pwd((const char *const *restrict)split));
 	else if (ft_strncmp(args, "unset", 5) == 0)
 		return (bltin_unset((const char *const *restrict)split));
-	else if (ft_strncmp(args, "relaunch", 7) == 0)
-		return (execv("./Minishell", (char *const[]){"./Minishell", NULL}), 1);
 	else
 		return (-1);
 }
+
+// else if (ft_strncmp(args, "relaunch", 7) == 0)
+// 		return (execv("./Minishell", (char *const[]){"./Minishell", NULL}), 1);
 
 #pragma endregion Fonctions

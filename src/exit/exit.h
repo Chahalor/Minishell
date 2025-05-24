@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:53:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/12 08:58:44 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/24 15:34:24 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,5 @@ void	exit_program(
 			const int status,
 			const char *restrict msg
 			);
-
 
 #endif /* EXIT_H */

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 16:12:05 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/19 10:11:01 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/24 15:46:08 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ __attribute__((__format__(__printf__, 1, 2))) int	ft_printf(
 	return (print.nb_char);
 }
 
-#if defined(DEBUG) && DEBUG == 1
+#if DEBUG == 1
 
 /**
- * @brief	Write The formatted string to the standard output. But Only if DEBUG is
- * defined and set to 1.
+ * @brief	Write The formatted string to the standard output.
+ *  But Only if DEBUG is defined and set to 1.
  * 
  * @param	format	The format string.
  * @param	...		The values to format.
