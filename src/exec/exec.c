@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/23 15:01:25 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/24 11:52:10 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 #pragma endregion Header
 #pragma region Fonctions
 
-__attribute__((deprecated)) char *ft_strcat(
+__attribute__((cold)) char *ft_strcat(
 	const char *const restrict s1,
 	const char *const restrict s2,
 	const int size

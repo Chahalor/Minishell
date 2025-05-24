@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/19 14:31:42 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/24 11:51:43 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ __attribute__((used)) char	bltin_env(
 )
 {
 	(void)args;
-	write(STDERR_FILENO, "env is not implemented yet\n", 31);
+	write(STDERR_FILENO, "env is not implemented yet\n", 27);
 	return (0);
 }
 
