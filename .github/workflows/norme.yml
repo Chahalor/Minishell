@@ -25,6 +25,6 @@ jobs:
         run: |
           if grep -q "Error" norme_result.txt; then
             echo "::error::Norminette found errors."
-            cat norme_result.txt
+            cat norme_result.txt | grep Error
             exit 1
           fi
