@@ -1,0 +1,29 @@
+name: Norminette Check
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  norm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install norminette
+        run: pip install norminette
+
+      - name: Run norminette
+        run: norminette | tee norme_result.txt
+
+      - name: Fail if norminette has errors
+        run: |
+          if grep -q "Error" norme_result.txt; then
+            echo "::error::Norminette found errors."
+            exit 1
+          fi
