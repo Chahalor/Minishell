@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:35:00 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/23 14:49:08 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/24 15:28:22 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ __attribute__((visibility("hidden"), cold)) void	_gnl_bzero(
  * 
  * @version	1.0
 */
-__attribute__((visibility("hidden"),cold)) void	*_gnl_memmove(
+__attribute__((visibility("hidden"), cold)) void	*_gnl_memmove(
 	void *const restrict dst,
 	const void *const restrict src,
 	size_t size
