@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:46:24 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/19 11:20:38 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/23 11:18:30 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ __attribute__((always_inline, used)) inline int	init_signal(void)
 	struct sigaction	sigint_action;
 	struct sigaction	sigquit_action;
 
+	return (0);
 	sigint_action.sa_sigaction = _sigint_handler;
 	sigint_action.sa_flags = SA_SIGINFO;
 	sigemptyset(&sigint_action.sa_mask);

@@ -6,7 +6,11 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 15:54:17 by nduvoid           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/05/23 14:24:23 by nduvoid          ###   ########.fr       */
+=======
+/*   Updated: 2025/05/23 13:29:02 by nduvoid          ###   ########.fr       */
+>>>>>>> 57c7163 (fix: gnl: no more leak and cleanner version)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +59,7 @@ __attribute__((cold, unused)) int	_load_history(
 			close(fd);
 			return (free(line), perror("Error: loading history failed"), -2);
 		}
+		ft_printf("Loaded: <%s>\n", line); // rm
 		free(line);
 		line = gnl(fd);
 	}
