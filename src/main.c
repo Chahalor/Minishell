@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:44:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/24 13:48:32 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/24 15:20:11 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 	//...
 
 /* -----| Modules   |----- */
+#include "args.h"
 #include "sig.h"
 #include "mmanager.h"
 #include "read_line.h"
@@ -44,11 +45,17 @@ __attribute__((cold, unused)) int	init_all(void)
 #pragma endregion Fonctions
 #pragma region Main
 
+/**
+ *
+ */
 int	main(int argc, char **argv, char **envp)
 {
+	const t_args	args = args_parser(argc, (const char **)argv);
 	char		*line;
 	t_exec_data	*data;
 
+	if (args.error || args.help)
+		return (EINVAL);
 	(void)argc;
 	(void)argv;
 	init_all();
