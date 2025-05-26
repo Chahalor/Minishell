@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 11:03:50 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/26 12:26:46 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/26 15:49:14 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,12 @@ extern void	ft_memcpy(
 				void *restrict dst,
 				const void *const restrict src,
 				size_t size
+				);
+
+// utils2.c
+
+int			ft_atoi(
+				const char *restrict str
 				);
 
 #endif /* UTILS_H */
