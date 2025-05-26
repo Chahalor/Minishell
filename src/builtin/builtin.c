@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/24 15:34:12 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/26 11:04:00 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ __attribute__((always_inline, used)) inline char	is_builtin(
  * 
  * @return 1 if the command is a builtin, -1 otherwise
 */
-__attribute__((always_inline, used)) inline char	exec_builtin(
+char	exec_builtin(
 	const char *const restrict args
 )
 {

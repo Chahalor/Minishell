@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/22 16:56:36 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/26 12:36:51 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ __attribute__((used)) static int	handle_special(
 		return (data->status = interr);
 	}
 	else if (c == 28)
-		return (write(STDOUT_FILENO, "should write this\n", 18));
+		return (write(STDOUT_FILENO, &c, 1));
 	else
 	{
 		data->line_length += _add(c, data);

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/24 15:41:44 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/26 12:41:21 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,131 +21,229 @@
 #pragma endregion Header
 #pragma region Fonctions
 
-// __attribute__((cold)) char	*ft_strcat(
-// 	const char *const restrict s1,
-// 	const char *const restrict s2,
-// 	const int size
-// )
-// {
-// 	char	*restrict	result;
-// 	register const int	len_result = ft_strlen(s1) + ft_strlen(s2);
-// 	register int		i;
-// 	register int		j;
+/**
+ * @brief	Redirects the output of a file descriptor to another file descriptor.
+ * 
+ * @param	fd		The file descriptor to redirect.
+ * @param	new_fd	The file descriptor to redirect to.
+ * 
+ * @return	Returns the status of the redirection.
+ * @retval		~0 if the redirection was successful.
+ * @retval		-1 if the file descriptor is invalid.
+ * @retval		-2 if the dup2() failed.
+ * @retval		-3 if the close() failed.
+ * 
+ * @version	1.0
+*/
+__attribute__((always_inline, used)) static inline int	_redirect(
+	const int fd,
+	const int new_fd
+)
+{
+	return ((
+		(fd < 0 || new_fd < 0) * -1)
+		|| (dup2(fd, new_fd) < 0) * -2
+		|| (close(fd) < 0) * -3);
+}
 
-// 	result = mm_alloc(len_result + 1);
-// 	if (__builtin_expect(!result, unexpected))
-// 	{
-// 		perror("ft_strcat(): mm_alloc() failed\n");
-// 		return (NULL);
-// 	}
-// 	i = 0;
-// 	while (s1[i])
-// 	{
-// 		result[i] = s1[i];
-// 		++i;
-// 	}
-// 	j = 0;
-// 	while (s2[j] && j < size)
-// 	{
-// 		result[i + j] = s2[j];
-// 		++j;
-// 	}
-// 	result[i + j] = '\0';
-// 	return (result);
-// }
+__attribute__((always_inline, used)) static inline int	_analyse(
+	const int status
+)
+{
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	else if (WIFSIGNALED(status))
+		return (128 + WTERMSIG(status));
+	else
+		return (-1);
+}
 
-// __attribute__((deprecated)) t_exec_data	*built_exec_data(
-// 	char *const restrict line
-// )
-// {
-// 	t_exec_data		*data;
-// 	register int	len_cmd;
+__attribute__((always_inline, used)) static inline int	_wait_childrens(
+	t_exec_data *const restrict data
+)
+{
+	int						status;
+	pid_t					pid;
+	t_exec_data	*restrict	current;
 
-// 	if (line[0] == '/' || (line[0] == '.' && line[1] == '/'))
-// 	{
-// 		data = mm_alloc(sizeof(t_exec_data));
-// 		if (!data)
-// 		{
-// 			perror("built_exec_data(): mm_alloc() failed\n");
-// 			return (NULL);
-// 		}
-// 		else
-// 		{
-// 			data->args = ft_split(line, ' ');
-// 			data->cmd = data->args[0];
-// 			if (!data->cmd || !data->args)
-// 			{
-// 				perror("built_exec_data(): a memdup() failed");
-// 				return (mm_free(data->cmd), mm_free(data->args),
-// 					mm_free(data), NULL);
-// 			}
-// 			return (data);
-// 		}
-// 	}
-// 	data = mm_alloc(sizeof(t_exec_data));
-// 	if (!data)
-// 	{
-// 		perror("built_exec_data(): mm_alloc() failed\n");
-// 		return (NULL);
-// 	}
-// 	else
-// 	{
-// 		data->args = ft_split(line, ' ');
-// 		len_cmd = 0;
-// 		while (data->args[0][len_cmd])
-// 			++len_cmd;
-// 		data->cmd = ft_strcat("/bin/", data->args[0], len_cmd);
-// 		if (!data->cmd || !data->args)
-// 		{
-// 			perror("built_exec_data(): a memdup() failed");
-// 			return (mm_free(data->cmd), mm_free(data->args),
-				// mm_free(data), NULL);
-// 		}
-// 	}
-// 	return (data);
-// }
+	current = data;
+	while (current)
+	{
+		pid = waitpid(data->pid, &status, 0);
+		if (_UNLIKELY(pid < 0))
+			return (perror("_wait_childrens(): waitpid() failed"), -1);
+		data->status = _analyse(status);
+		current = data->next;
+	}
+	return (0);
+}
 
-// /** */
-// __attribute__((hot))	int	exec_cmd(
-// 	t_exec_data *const restrict data,
-// 	char *const envp[]
-// )
-// {
-// 	int	pid;
+/**
+ * @brief	Executes a command with its arguments. And if it need to execute
+ * 			another command after it, it will do so.
+ * 
+ * @param	data	Execution data structure containing the command and its
+ * 				arguments.
+ * @param	envp	Environment variables to pass to the command.
+ * @param	fd		File descriptor to redirect the output of the command.
+ * 
+ * @return	Returns the status of the command execution.
+ * @retval		~0 if the command executed successfully.
+ * @retval		-1 if the execve() failed.
+ * @retval		-2 if the fork() failed.
+ * 
+ * @version	1.1
+*/
+/*__attribute__((hot))	int	exec_bin(
+	t_exec_data *const restrict data,
+	char *const envp[],
+	const int prev_read,
+	const int out_fd
+)
+{
+	int	pid;
+	int	status;
 
-// 	if (!data || !data->cmd || !data->args)
-// 	{
-// 		perror("exec_cmd(): data is NULL");
-// 		return (-1);
-// 	}
-// 	pid = fork();
-// 	ft_printf("pid: %d\n", pid);
-// 	if (pid == -1)
-// 	{
-// 		perror("exec_cmd: fork() failed\n");
-// 		return (-1);
-// 	}
-// 	else if (pid == 0)
-// 	{
-// 		ft_printf("execve: %s\n", data->cmd);
-// 		const int out = execve(data->cmd, data->args, envp);
-// 		ft_printf("execve: %d\n", out);
-// 		exit_program(out, "exit after execve()\n");
-// 	}
-// 	else
-// 	{
-// 		set_last_child(pid);
-// 		waitpid(pid, &data->status, 0);
-// 		if (WIFEXITED(data->status))
-// 			data->status = WEXITSTATUS(data->status);
-// 		else
-// 			data->status = -1;
-// 		set_last_child(0);
-// 	}
-// 	// free(data->cmd);
-// 	// free(data->args);
-// 	// free(data);
-// 	return (data->status);
-// }
+	if (_UNLIKELY(!data))
+		return (perror("exec_bin(): data is NULL"), -1);
+	pid = fork();
+	if (!pid)
+	{
+		if (fd > 0 && fd != STDOUT_FILENO)
+			dup2(fd, STDOUT_FILENO);
+		status = execve(data->cmd, data->args, envp);
+		if (_UNLIKELY(status < 0))
+			return (perror("exec_bin(): execve() failed"), -2);
+		else
+			exit_program(0, NULL);
+	}
+	else if (pid < 0)
+		return (perror("exec_bin(): fork() failed"), -3);
+	else
+	{
+		if (fd >= 0)
+			close(fd);
+		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+			return (WEXITSTATUS(status));
+		else if (WIFSIGNALED(status))
+			return (WTERMSIG(status));
+		else
+			return (-1);
+	}
+}*/
+__attribute__((hot))	int	exec_bin(
+	t_exec_data *const restrict data,
+	char *const envp[],
+	const int prev_read,
+	const int out_fd
+)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		if (prev_read != STDIN_FILENO && prev_read != -1)
+			_redirect(prev_read, STDIN_FILENO);
+		if (out_fd != STDOUT_FILENO && out_fd != -1)
+			_redirect(out_fd, STDOUT_FILENO);
+		execve(data->cmd, data->args, envp);
+		return (exit_program(127, "exec_bin(): execve() failed"), -1);
+	}
+	else if (pid < 0)
+		return (perror("exec_bin(): fork() failed"), -2);
+	else
+	{
+		data->pid = pid;
+		set_last_child(pid);
+		if (prev_read != -1 && prev_read != STDIN_FILENO)
+			close(prev_read);
+		if (out_fd != -1 && out_fd != STDOUT_FILENO)
+			close(out_fd);
+		return (0);
+	}
+}
+
+/**
+ * @brief	Executes all commands in the order of data.
+ * 				If a command has a pipe, it will create the pipe and
+ * 				redirect the output of the previous command to the input of the
+ * 				next command. It will execut all pipe one by one.
+ * @param	data	Execution data structure containing the commands and their
+ * 				arguments.
+ * @param	envp	Environment variables to pass to the commands.
+ * 
+ * @return	Returns the status of the command execution.
+ * @retval		~0 if the command executed successfully.
+ * @retval		-1 if the pipe() failed.
+ */
+/*int	full_exec(
+	t_exec_data *const restrict data,
+	char *const envp[]
+)
+{
+	int			pipe_fd[2];
+	t_exec_data	*current;
+
+	current = data;
+	while (current)
+	{
+		if (current->pipe)
+		{
+			if (_UNLIKELY(pipe(pipe_fd) < 0))
+				return (perror("full_exec(): pipe() failed"), -1);
+			exec_bin(current, envp, pipe_fd[1]);
+		}
+		else
+			exec_bin(current, envp, STDOUT_FILENO);
+
+		if (current->pipe)
+			current = current->pipe;
+		else if (current->next)
+			current = current->next;
+		else
+			current = NULL;
+	}
+	// full clean logic tkt
+}*/
+int	full_exec(
+	t_exec_data *const restrict data,
+	char *const envp[]
+)
+{
+	t_exec_data	*current = data;
+	int			pipe_fd[2];
+	int			prev_read;
+	int			out_fd;
+
+	prev_read = -1;
+	while (current)
+	{
+		out_fd = STDOUT_FILENO;
+		if (current->pipe)
+		{
+			if (_UNLIKELY(pipe(pipe_fd) < 0))
+				return (perror("pipe() failed"), -1);
+			out_fd = pipe_fd[1];
+		}
+		exec_bin(current, envp, prev_read, out_fd);
+		if (prev_read != -1)
+			close(prev_read);
+		if (current->pipe)
+		{
+			close(pipe_fd[1]);
+			prev_read = pipe_fd[0];
+			current = current->pipe;
+		}
+		else
+		{
+			prev_read = -1;
+			current = current->next;
+		}
+	}
+	_wait_childrens(data);
+	return 0;
+}
 
 #pragma endregion Fonctions

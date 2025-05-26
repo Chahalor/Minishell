@@ -1,28 +1,41 @@
-echo start
+echo maria
 ls -A
-bob is sus
-ls
-which unset
-make
-echo hey
-sus
-exi
-xit
-exit
-mexit
-echo start
+ls /bin/
+x86_64-linux-gnu-gcc-ar-10
 ls -A
-cd /home/
-ls
-de nduvoid/Desktop/minishell
-cd nduvoid/Desktop/minishell
-cd /nduvoid/Desktop/minishell
-cd nduvoid/Desktop/minishell
-echo sus
-env
-env
-env
-env
-echo hey
+zsh
+ls -A
 ./Minishell
-env
+echo sus
+./Minishell
+./Minishell
+ls
+make bonus
+exiy
+echo |ls
+ls
+ls 
+ls -A
+ls
+ls
+ls
+ls
+ls
+make debug all
+ls
+ls
+sus
+yes
+yes
+BOB=10
+./Minishell
+bash
+clear
+yes
+no
+code .
+which code
+ls
+code .
+code ..
+yes
