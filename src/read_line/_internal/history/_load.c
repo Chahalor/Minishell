@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 15:54:17 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/23 14:26:32 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/26 08:18:35 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,19 @@
 
 #pragma endregion Header
 #pragma region Fonctions
+
+/** */
+__attribute__((always_inline, used)) static inline int _create(
+	const char *const restrict filename
+)
+{
+	const int	fd = open(filename, O_RDWR | O_CREAT | O_APPEND, 0644);
+
+	if (_UNLIKELY(fd < 0))
+		return (perror(RED "Error:" RESET " creating history file failed"), -1);
+	else
+		return (fd);
+}
 
 /**
  * @brief	Load the history from a file.
@@ -45,7 +58,7 @@ __attribute__((cold, unused)) int	_load_history(
 	register int	i;
 
 	if (_UNLIKELY(fd < 0))
-		return (perror(RED "Error:" RESET " loading history failed"), -1);
+		return (data->fd = _create(filename), 0);
 	line = gnl(fd);
 	i = -1;
 	while (line && ++i < _RL_HIST_SIZE)

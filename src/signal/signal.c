@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:46:24 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/23 14:19:55 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/26 12:49:02 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,21 @@ extern volatile sig_atomic_t	g_last_signal; // Global signal variable
 #pragma endregion Header
 #pragma region Fonctions
 
-/** */
-__attribute__((cold)) void	_sigint_handler(
+/**
+ * @brief	Signal handler for SIGINT (Ctrl+C).
+ * 
+ * @param	signal	The signal number.
+ * @param	info	Pointer to a siginfo_t structure containing information
+ * 			 about the signal.
+ * @param	context	Pointer to a ucontext_t structure containing the context
+ * 			 of the signal.
+ * 
+ * @note	This function is called when the user presses Ctrl+C in the
+ * 			 terminal.
+ * 
+ * @version 1.1
+*/
+__attribute__((cold, visibility("hidden"))) void	_sigint_handler(
 	int signal,
 	siginfo_t *info,
 	void *context
@@ -37,8 +50,22 @@ __attribute__((cold)) void	_sigint_handler(
 	printf("\nSIGINT received\n");
 }
 
-/** */
-__attribute__((cold)) void	_sigquit_handler(
+/**
+ * @brief	Signal handler for SIGQUIT (Ctrl+\).
+ * 
+ * @param	signal	The signal number.
+ * @param	info	Pointer to a siginfo_t structure containing information
+ * 			 about the signal.
+ * @param	context	Pointer to a ucontext_t structure containing the context
+ * 			 of the signal.
+ *
+ * @note	This function is called when the user presses Ctrl+\ in the
+ * 			 terminal. It resets the command and sends SIGQUIT to the last
+ * 			 child process.
+ * 
+ * @version 1.1
+*/
+__attribute__((cold, visibility("hidden"))) void	_sigquit_handler(
 	int signal,
 	siginfo_t *info,
 	void *context
@@ -50,10 +77,20 @@ __attribute__((cold)) void	_sigquit_handler(
 	reset_cmd();
 	kill(get_last_child(), SIGQUIT);
 	printf("\nSIGQUIT received\n");
-	exit_program(signal, "SIGQUIT received");
+	// exit_program(signal, "SIGQUIT received");
 }
 
-/** */
+/**
+ * @brief	Initializes the signal handlers for SIGINT and SIGQUIT.
+ * 
+ * @param	None
+ * 
+ * @return	the success status of the signal initialization.
+ * @retval		0 if the signal handlers were successfully set.
+ * @retval		1 if there was an error setting the signal handlers.
+ * 
+ * @version 1.2
+*/
 __attribute__((always_inline, used)) inline int	init_signal(void)
 {
 	struct sigaction	sigint_action;
@@ -70,5 +107,4 @@ __attribute__((always_inline, used)) inline int	init_signal(void)
 		|| sigaction(SIGQUIT, &sigquit_action, NULL) == -1
 	);
 }
-
 #pragma endregion Fonctions

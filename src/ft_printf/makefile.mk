@@ -3,7 +3,7 @@ DIR_INTERFACE_FT_PRINTF	:= $(DIR_MODULE_FT_PRINTF)
 DIR_INTERNAL_FT_PRINTF	:= $(DIR_MODULE_FT_PRINTF)/_internal
 
 SRC_INTERFACE_FT_PRINTF	:= ft_printf.c interface.c 
-SRC_INTERNAL_FT_PRINTF	:= printf/writer.c utils/_utils.c 
+SRC_INTERNAL_FT_PRINTF	:= utils/_utils.c printf/writer.c 
 
 OBJ_FT_PRINTF			:= $(addprefix $(DIR_OBJ)/$(DIR_INTERFACE_FT_PRINTF)/, $(SRC_INTERFACE_FT_PRINTF:.c=.o))
 OBJ_FT_PRINTF			+= $(addprefix $(DIR_OBJ)/$(DIR_INTERNAL_FT_PRINTF)/, $(SRC_INTERNAL_FT_PRINTF:.c=.o))

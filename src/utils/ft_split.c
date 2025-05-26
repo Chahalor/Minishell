@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 09:51:43 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/24 13:49:51 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/26 12:26:55 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "utils.h"
 
 /* -----| Modules   |----- */
-	//...
+#include "ft_printf.h"
 
 #pragma endregion Header
 #pragma region Fonctions
@@ -128,18 +128,15 @@ static inline int	_split(
  * 			is set to NULL.
 */
 __attribute__((cold)) void	free_tab(
-	char ***tab
+	char **tab
 )
 {
-	register int	i;
-
+	ft_fprintf(2, "free_tab(): freeing tab %p\n", *tab);
 	if (__builtin_expect(!tab || !*tab, 0))
 		return ;
-	i = -1;
-	while ((*tab)[++i])
-		free((*tab)[i]);
-	free(*tab);
-	*tab = NULL;
+	while (*tab)
+		free(*tab++);
+	free(tab);
 }
 
 /**
@@ -165,7 +162,7 @@ char	**ft_split(
 	if (__builtin_expect(!tab, 0))
 		return (NULL);
 	if (__builtin_expect(_split(tab, s, c) < 0, 0))
-		return (free_tab(&tab), NULL);
+		return (free_tab(tab), NULL);
 	return (tab);
 }
 
