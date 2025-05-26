@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/24 15:31:19 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/26 15:56:56 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 /** */
 __attribute__((used)) char	bltin_cd(
-	const char *const restrict *const restrict args
+	const char **args
 )
 {
 	ft_printf("cd: <%s>\n", args[1]);

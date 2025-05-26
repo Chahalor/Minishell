@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 09:51:43 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/26 12:26:55 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/26 16:05:30 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static inline char	**_allocing(
 	while (s[++i])
 		if (s[i] != c && (i == 0 || s[i - 1] == c))
 			++nb_words;
-	tab = (char **)malloc(sizeof(char *) * (nb_words + 1));
+	tab = (char **)mm_alloc(sizeof(char *) * (nb_words + 1));
 	if (!tab)
 		return (NULL);
 	tab[nb_words] = NULL;
@@ -107,7 +107,7 @@ static inline int	_split(
 			k = i;
 			while (s[i] && s[i] != c && s[i + 1] != c)
 				++i;
-			tab[j] = (char *)malloc(sizeof(char) * (i - k + 2));
+			tab[j] = (char *)mm_alloc(sizeof(char) * (i - k + 2));
 			if (__builtin_expect(!tab[j], 0))
 				return (-1);
 			_copy(tab[j++], &s[k], i - k + 1);
@@ -131,12 +131,15 @@ __attribute__((cold)) void	free_tab(
 	char **tab
 )
 {
-	ft_fprintf(2, "free_tab(): freeing tab %p\n", *tab);
+	register int	i;
+
 	if (__builtin_expect(!tab || !*tab, 0))
 		return ;
-	while (*tab)
-		free(*tab++);
-	free(tab);
+	i = -1;
+	while (tab[++i])
+		mm_free(tab[i]);
+	mm_free(tab[i]);
+	mm_free(tab);
 }
 
 /**

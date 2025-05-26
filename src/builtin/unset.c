@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/19 14:32:57 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/26 15:57:21 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 /** */
 __attribute__((used)) char	bltin_unset(
-	const char *const restrict *const restrict args
+	const char **args
 )
 {
 	(void)args;

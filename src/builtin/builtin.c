@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/26 11:04:00 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/26 16:06:34 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,18 @@
 
 #pragma endregion Header
 #pragma region Fonctions
+
+/** */
+__attribute__((used)) char	bltin_exit(
+	const char **args
+)
+{
+	const int exit_code = ft_atoi(args[1]);
+
+	free_tab((char **)args);
+	exit_program(exit_code, "see you soon ^^");
+	return (1);
+}
 
 /**
  * @brief Check if the command is a builtin
@@ -40,8 +52,6 @@ __attribute__((always_inline, used)) inline char	is_builtin(
 		|| ft_strncmp(args, "export", 6) == 0
 		|| ft_strncmp(args, "pwd", 3) == 0
 		|| ft_strncmp(args, "unset", 5) == 0
-		|| ft_strncmp(args, "relaunch", 7) == 0
-		|| ft_strncmp(args, "history", 7) == 0
 	);
 }
 
@@ -50,35 +60,38 @@ __attribute__((always_inline, used)) inline char	is_builtin(
  * 
  * @param args The command to execute
  * 
- * @return 1 if the command is a builtin, -1 otherwise
+ * @return The exit code of the command
+ * @retval 	-1 if the command is not a builtin
+ * 
+ * @version 1.0
 */
 char	exec_builtin(
 	const char *const restrict args
 )
 {
-	__attribute__((cleanup(free_tab))) char **split;
-	split = ft_split(args, ' ');
-	if (__builtin_expect(!split, unexpected))
-		return (-1);
-	else if (ft_strncmp(args, "cd", 2) == 0)
-		return (bltin_cd((const char *const *restrict)split));
-	else if (ft_strncmp(args, "echo", 4) == 0)
-		return (bltin_echo((const char *const *restrict)split));
-	else if (ft_strncmp(args, "env", 3) == 0)
-		return (bltin_env((const char *const *restrict)split));
-	else if (ft_strncmp(args, "exit", 4) == 0)
-		return (exit_program(1, NULL), 1);
-	else if (ft_strncmp(args, "export", 6) == 0)
-		return (bltin_export((const char *const *restrict)split));
-	else if (ft_strncmp(args, "pwd", 3) == 0)
-		return (bltin_pwd((const char *const *restrict)split));
-	else if (ft_strncmp(args, "unset", 5) == 0)
-		return (bltin_unset((const char *const *restrict)split));
-	else
-		return (-1);
-}
+	static const t_blt_link	builtins[] = {
+		{"cd", bltin_cd},
+		{"echo", bltin_echo},
+		{"env", bltin_env},
+		{"exit", bltin_exit},
+		{"export", bltin_export},
+		{"pwd", bltin_pwd},
+		{"unset", bltin_unset},
+		{NULL, NULL}};
+	register int			i;
+	char					**split_args;
+	int						output;
 
-// else if (ft_strncmp(args, "relaunch", 7) == 0)
-// 		return (execv("./Minishell", (char *const[]){"./Minishell", NULL}), 1);
+	i = 0;
+	while (builtins[i].name && ft_strncmp(args,
+		builtins[i].name, ft_strlen(builtins[i].name)) != 0)
+		++i;
+	if (_UNLIKELY(!builtins[i].name))
+		return (-1);
+	split_args = ft_split(args, ' ');
+	output = builtins[i].func((const char **)split_args);
+	free_tab(split_args);
+	return (output);
+}
 
 #pragma endregion Fonctions
