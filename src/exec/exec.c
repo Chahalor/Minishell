@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/26 12:41:21 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/26 16:16:20 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,44 +94,6 @@ __attribute__((always_inline, used)) static inline int	_wait_childrens(
  * 
  * @version	1.1
 */
-/*__attribute__((hot))	int	exec_bin(
-	t_exec_data *const restrict data,
-	char *const envp[],
-	const int prev_read,
-	const int out_fd
-)
-{
-	int	pid;
-	int	status;
-
-	if (_UNLIKELY(!data))
-		return (perror("exec_bin(): data is NULL"), -1);
-	pid = fork();
-	if (!pid)
-	{
-		if (fd > 0 && fd != STDOUT_FILENO)
-			dup2(fd, STDOUT_FILENO);
-		status = execve(data->cmd, data->args, envp);
-		if (_UNLIKELY(status < 0))
-			return (perror("exec_bin(): execve() failed"), -2);
-		else
-			exit_program(0, NULL);
-	}
-	else if (pid < 0)
-		return (perror("exec_bin(): fork() failed"), -3);
-	else
-	{
-		if (fd >= 0)
-			close(fd);
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			return (WEXITSTATUS(status));
-		else if (WIFSIGNALED(status))
-			return (WTERMSIG(status));
-		else
-			return (-1);
-	}
-}*/
 __attribute__((hot))	int	exec_bin(
 	t_exec_data *const restrict data,
 	char *const envp[],
@@ -177,36 +139,9 @@ __attribute__((hot))	int	exec_bin(
  * @return	Returns the status of the command execution.
  * @retval		~0 if the command executed successfully.
  * @retval		-1 if the pipe() failed.
+ * 
+ * @version	0.2
  */
-/*int	full_exec(
-	t_exec_data *const restrict data,
-	char *const envp[]
-)
-{
-	int			pipe_fd[2];
-	t_exec_data	*current;
-
-	current = data;
-	while (current)
-	{
-		if (current->pipe)
-		{
-			if (_UNLIKELY(pipe(pipe_fd) < 0))
-				return (perror("full_exec(): pipe() failed"), -1);
-			exec_bin(current, envp, pipe_fd[1]);
-		}
-		else
-			exec_bin(current, envp, STDOUT_FILENO);
-
-		if (current->pipe)
-			current = current->pipe;
-		else if (current->next)
-			current = current->next;
-		else
-			current = NULL;
-	}
-	// full clean logic tkt
-}*/
 int	full_exec(
 	t_exec_data *const restrict data,
 	char *const envp[]
@@ -216,9 +151,10 @@ int	full_exec(
 	int			pipe_fd[2];
 	int			prev_read;
 	int			out_fd;
+	int i = 0;	//rm
 
 	prev_read = -1;
-	while (current)
+	while (current && i++ < 10)
 	{
 		out_fd = STDOUT_FILENO;
 		if (current->pipe)
@@ -241,6 +177,7 @@ int	full_exec(
 			prev_read = -1;
 			current = current->next;
 		}
+		ft_fprintf(STDERR_FILENO, "Executing: %s (%d)\n", current->cmd, i);	//rm
 	}
 	_wait_childrens(data);
 	return 0;

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/26 12:27:18 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/26 16:39:28 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ __attribute__((cold, visibility("hidden"))) char	*ft_strcat(
 	const int size
 )
 {
-	char	*restrict	result;
+	char *restrict		result;
 	register const int	len_result = ft_strlen(s1) + ft_strlen(s2);
 	register int		i;
 	register int		j;
@@ -54,6 +54,32 @@ __attribute__((cold, visibility("hidden"))) char	*ft_strcat(
 	return (result);
 }
 
+static char	*get_in_path(
+	const char *const restrict name
+)
+{
+	char			**paths;
+	register int	i;
+	char 			*full_path;
+
+	paths = ft_split(getenv("PATH"), ':');
+	if (_UNLIKELY(!paths))
+		return (perror("get_in_path(): ft_split() failed\n"), NULL);
+	i = -1;
+	while (paths[++i])
+	{
+		full_path = ft_strcat(paths[i], name, ft_strlen(name));
+		if (_UNLIKELY(!full_path))
+			return (perror("get_in_path(): ft_strcat() failed\n"), NULL);
+		if (!access(full_path, F_OK))
+			return (free_tab(paths), full_path);
+		else
+			mm_free(full_path);
+	}
+	return (free_tab(paths), perror("get_in_path(): command not found\n"),
+		NULL);
+}
+
 /**
  * @version 0.1
 */
@@ -62,46 +88,22 @@ __attribute__((used)) t_exec_data	*built_exec_data(
 )
 {
 	t_exec_data		*data;
-	register int	len_cmd;
 
-	if (line[0] == '/' || (line[0] == '.' && line[1] == '/'))
-	{
-		data = mm_alloc(sizeof(t_exec_data));
-		if (!data)
-		{
-			perror("built_exec_data(): mm_alloc() failed\n");
-			return (NULL);
-		}
-		else
-		{
-			data->args = ft_split(line, ' ');
-			data->cmd = data->args[0];
-			if (!data->cmd || !data->args)
-			{
-				perror("built_exec_data(): a memdup() failed");
-				return (mm_free(data->cmd), mm_free(data->args),
-					mm_free(data), NULL);
-			}
-			return (data);
-		}
-	}
-	data = mm_alloc(sizeof(t_exec_data));
-	if (!data)
+	data = (t_exec_data *)mm_alloc(sizeof(t_exec_data));
+	if (_UNLIKELY(!data))
 		return (perror("built_exec_data(): mm_alloc() failed\n"), NULL);
-	else
+	data->args = ft_split(line, ' ');
+	if (_UNLIKELY(!data->args))
+		return (mm_free(data), perror("built_exec_data(): ft_split() failed\n"),
+			NULL);
+	if (!access(data->args[0], F_OK))
 	{
-		data->args = ft_split(line, ' ');
-		len_cmd = 0;
-		while (data->args[0][len_cmd])
-			++len_cmd;
-		data->cmd = ft_strcat("/bin/", data->args[0], len_cmd);
-		if (!data->cmd || !data->args)
-		{
-			perror("built_exec_data(): a memdup() failed");
-			return (mm_free(data->cmd), mm_free(data->args),
-				mm_free(data), NULL);
-		}
+		data->cmd = data->args[0];
+		return (data);
 	}
+	data->cmd = get_in_path(data->args[0]);
+	if (_UNLIKELY(!data->cmd))
+		return (mm_free(data->args), mm_free(data), NULL);
 	return (data);
 }
 
@@ -122,7 +124,7 @@ __attribute__((hot)) t_exec_data	*lexer(
 	{
 		ft_fprintf(STDERR_FILENO, "raw_cmds: %s\n", *raw_cmds);
 		current->pipe = built_exec_data(*raw_cmds);
-		if (!data)
+		if (_UNLIKELY(!data))
 			return (perror("lexer(): built_exec_data() failed"), NULL);
 		if (data->pipe)
 			data->pipe->next = data;
@@ -130,7 +132,8 @@ __attribute__((hot)) t_exec_data	*lexer(
 			data->pipe = data;
 		current = current->pipe;
 	}
-	current->pipe = NULL;
+	if (_LIKELY(current != NULL))
+		current->pipe = NULL;
 	free_tab(raw_cmds);
 	return (data);
 }
