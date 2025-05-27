@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 08:08:28 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/27 10:11:01 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/27 14:47:24 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,17 @@ __attribute__((always_inline, used)) static inline char	*_history_add(
 )
 {
 	const int	len = ft_strlen(line);
+	const int	alloc_size = (_RL_ALLOC_SIZE / len + 1) * _RL_ALLOC_SIZE;
 
 	if (_UNLIKELY(!data || !line || len < 1))
 		return (NULL);
 	else
 	{
-		data->storage[data->pos] = memdup(line, len + 10);
+		data->storage[data->pos] = (char *)mm_alloc(alloc_size + 1);
+		if (_UNLIKELY(!data->storage[data->pos]))
+			return (NULL);
+		ft_memcpy(data->storage[data->pos], line, len);
+		data->storage[data->pos][len] = '\0';
 		data->pos = (data->pos + 1) % _RL_HIST_SIZE;
 		data->size += (data->size < _RL_HIST_SIZE);
 		if (_LIKELY(data->fd > 0))
