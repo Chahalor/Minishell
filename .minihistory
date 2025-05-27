@@ -55,3 +55,9 @@ ls -A
 ls -A
 ls -A
 																																																																																																																													ls -	A                            
+ls | grep auto
+ls | grep
+yes | head -n 10
+yes | head -n 10
+yes | head -n 10
+€A

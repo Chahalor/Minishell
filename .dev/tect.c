@@ -1,24 +1,37 @@
 #include <stdio.h>
 #include <sys/stat.h>
+#include <unistd.h>
 
 int main(int argc, const char *argv[])
 {
-	char *path = "/bin/ls";
-	struct stat tkt = {0};
+	const char *path = "../.dev";
+	struct stat sb;
 
-	if (argc > 1)
-		path = (char *)argv[1];
-	
-	printf("%d\n", stat(path, &tkt));
-	printf("st_mode: %o\n", tkt.st_mode);
-	printf("st_size: %ld\n", tkt.st_size);
-	if (S_ISREG(tkt.st_mode))
-		printf("It's a regular file.\n");
-	else if (S_ISDIR(tkt.st_mode))
-		printf("It's a directory.\n");
-	else if (S_ISLNK(tkt.st_mode))
-		printf("It's a symbolic link.\n");
+	if (access(path, F_OK) == 0)
+	{
+		printf("Path exists: %s\n", path);
+		if (stat(path, &sb) == 0)
+		{
+			printf("File type: ");
+			if (S_ISREG(sb.st_mode))
+				printf("regular file\n");
+			else if (S_ISDIR(sb.st_mode))
+				printf("directory\n");
+			else if (S_ISLNK(sb.st_mode))
+				printf("symbolic link\n");
+			else
+				printf("other\n");
+		}
+		else
+		{
+			perror("Error getting file status");
+			return 1;
+		}
+	}
 	else
-		printf("It's something else.\n");
+	{
+		perror("Error accessing path");
+		return 1;
+	}
 	return 0;
 }
