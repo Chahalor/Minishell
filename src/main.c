@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:44:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/27 13:10:08 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/27 13:47:24 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ int	main(int argc, const char **argv, char **envp)
 			if (data)
 			{
 				rl_add_history(line);
-				data->status = full_exec(data, envp);
+				(void)envp;
+				full_exec(data, envp);
 			}
 			else
 				perror("command not found");

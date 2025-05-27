@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/27 13:09:36 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/27 14:18:01 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,40 +37,27 @@ __attribute__((used)) char	bltin_exit(
 	return (1);
 }
 
-static t_blt_link	*get_builtins(void)
-{
-	static const t_blt_link	builtins[8] = {
-		{"cd", bltin_cd},
-		{"echo", bltin_echo},
-		{"env", bltin_env},
-		{"exit", bltin_exit},
-		{"export", bltin_export},
-		{"pwd", bltin_pwd},
-		{"unset", bltin_unset},
-		{NULL, NULL}};
-	
-	return ((t_blt_link *)builtins);
-}
-
-/**
- * @brief Check if the command is a builtin
- * 
- * @param args The command to check
- * 
- * @return 1 if the command is a builtin, 0 otherwise
-*/
-__attribute__((always_inline, used)) inline char	is_builtin(
+t_blt_link	*get_builtins(
 	const char *const restrict args
 )
 {
-	const t_blt_link	*builtins = get_builtins();
-	register int		i;
+	static t_blt_link	builtins[] = {
+	{ "cd", bltin_cd },
+	{ "exit", bltin_exit },
+	{ "env", bltin_env },
+	{ "pwd", bltin_pwd },
+	{ "echo", bltin_echo },
+	{ "export", bltin_export },
+	{ "unset", bltin_unset },
+	{ NULL, NULL }};
 
-	i = 0;
-	while (builtins[i].name)
-		if (ft_strncmp(args, builtins[i].name, ft_strlen(builtins[i].name)) == 0)
-			return (i);
-	return (8);
+	register int	i;
+
+	i = -1;
+	while (builtins[++i].name)
+		if (ft_strncmp(builtins[i].name, args, ft_strlen(args)) == 0)
+			return (&builtins[i]);
+	return (NULL);
 }
 
 /**
@@ -84,19 +71,19 @@ __attribute__((always_inline, used)) inline char	is_builtin(
  * @version 1.0
 */
 char	exec_builtin(
-	const t_exec_data *args,
+	t_exec_data *args,
 	char *const envp[],
 	const int fd_in,
 	const int fd_out
 )
 {
-	const t_blt_link	*builtins = get_builtins();
-	const int			cmd_index = is_builtin(args->cmd);
+	const t_blt_link	*builtins = get_builtins(args->args[0]);
 
 	(void)envp;
-	if (_UNLIKELY(!args || !args->cmd || !builtins || cmd_index < 0))
+	if (_UNLIKELY(!args || !args->cmd || !builtins))
 		return (-1);
-	return (builtins[cmd_index].func((const char **)args->args, fd_in, fd_out));
+	args->pid = 0;
+	return (builtins->func((const char **)args->args, fd_in, fd_out));
 }
 
 #pragma endregion Fonctions

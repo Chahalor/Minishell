@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/27 10:57:38 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/27 15:08:52 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,16 +62,16 @@ __attribute__((always_inline, used)) static inline int	_wait_childrens(
 )
 {
 	int						status;
-	pid_t					pid;
 	t_exec_data	*restrict	current;
 
 	current = data;
 	while (current)
 	{
-		pid = waitpid(data->pid, &status, 0);
-		if (_UNLIKELY(pid < 0))
-			return (perror("_wait_childrens(): waitpid() failed"), -1);
-		data->status = _analyse(status);
+		if (current->pid)
+		{
+			waitpid(data->pid, &status, 0);
+			data->status = _analyse(status);
+		}
 		current = data->next;
 	}
 	return (0);
@@ -139,7 +139,7 @@ __attribute__((hot))	int	exec_bin(
  * @retval		~0 if the command executed successfully.
  * @retval		-1 if the pipe() failed.
  * 
- * @version	0.2
+ * @version	1.0
  */
 int	full_exec(
 	t_exec_data *const restrict data,
@@ -151,9 +151,11 @@ int	full_exec(
 	int			prev_read;
 	int			out_fd;
 
+	register int i = 0;
+
 	prev_read = -1;
 	current = data;
-	while (current != NULL)
+	while (current && i++ < 10)
 	{
 		out_fd = STDOUT_FILENO;
 		if (current->pipe)
@@ -163,11 +165,11 @@ int	full_exec(
 			out_fd = pipe_fd[1];
 			current->fd_out = pipe_fd[1];
 		}
-		if (is_builtin(current->cmd))
+		if (get_builtins(current->args[0]))
 			exec_builtin(current, envp, prev_read, out_fd);
 		else
 			exec_bin(current, envp, prev_read, out_fd);
-		if (prev_read != -1)
+		if (prev_read > 0 && prev_read != STDIN_FILENO)
 			close(prev_read);
 		if (current->pipe)
 		{
@@ -175,16 +177,11 @@ int	full_exec(
 			prev_read = pipe_fd[0];
 			current = current->pipe;
 		}
-		else if (current->next)
-		{
-			prev_read = -1;
-			current = current->next;
-		}
 		else
 			current = NULL;
 	}
 	_wait_childrens(data);
-	return 0;
+	return (0);
 }
 
 #pragma endregion Fonctions
