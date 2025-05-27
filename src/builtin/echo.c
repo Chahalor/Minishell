@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/26 15:57:03 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/27 13:06:18 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,24 +23,27 @@
 
 /** */
 __attribute__((used)) char	bltin_echo(
-	const char **args
+	const char **args,
+	const int fd_in,
+	const int fd_out
 )
 {
 	register int	i;
 
+	(void)fd_in;
 	if (!args || !args[0])
 		return (-1);
 	else
 	{
-		i = -1;
+		i = 0;
 		while (args[++i])
 		{
 			if (i > 0)
-				write(STDOUT_FILENO, " ", 1);
-			write(STDOUT_FILENO, args[i], ft_strlen(args[i]));
+				write(fd_out, " ", 1);
+			write(fd_out, args[i], ft_strlen(args[i]));
 		}
 	}
-	return (write(STDOUT_FILENO, "\n", 1), 0);
+	return (write(fd_out, "\n", 1), 0);
 }
 
 #pragma endregion Fonctions

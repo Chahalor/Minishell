@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/26 16:16:20 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/27 10:57:38 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,9 @@ __attribute__((always_inline, used)) static inline int	_redirect(
 	const int new_fd
 )
 {
-	return ((
-		(fd < 0 || new_fd < 0) * -1)
-		|| (dup2(fd, new_fd) < 0) * -2
-		|| (close(fd) < 0) * -3);
+	return (((fd < 0 || new_fd < 0) * -1)
+		|| ((dup2(fd, new_fd) < 0) * -2)
+		|| ((close(fd) < 0) * -3));
 }
 
 __attribute__((always_inline, used)) static inline int	_analyse(
@@ -147,14 +146,14 @@ int	full_exec(
 	char *const envp[]
 )
 {
-	t_exec_data	*current = data;
+	t_exec_data	*current;
 	int			pipe_fd[2];
 	int			prev_read;
 	int			out_fd;
-	int i = 0;	//rm
 
 	prev_read = -1;
-	while (current && i++ < 10)
+	current = data;
+	while (current != NULL)
 	{
 		out_fd = STDOUT_FILENO;
 		if (current->pipe)
@@ -162,8 +161,12 @@ int	full_exec(
 			if (_UNLIKELY(pipe(pipe_fd) < 0))
 				return (perror("pipe() failed"), -1);
 			out_fd = pipe_fd[1];
+			current->fd_out = pipe_fd[1];
 		}
-		exec_bin(current, envp, prev_read, out_fd);
+		if (is_builtin(current->cmd))
+			exec_builtin(current, envp, prev_read, out_fd);
+		else
+			exec_bin(current, envp, prev_read, out_fd);
 		if (prev_read != -1)
 			close(prev_read);
 		if (current->pipe)
@@ -172,12 +175,13 @@ int	full_exec(
 			prev_read = pipe_fd[0];
 			current = current->pipe;
 		}
-		else
+		else if (current->next)
 		{
 			prev_read = -1;
 			current = current->next;
 		}
-		ft_fprintf(STDERR_FILENO, "Executing: %s (%d)\n", current->cmd, i);	//rm
+		else
+			current = NULL;
 	}
 	_wait_childrens(data);
 	return 0;

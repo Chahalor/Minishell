@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/26 15:57:21 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/27 13:06:41 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,14 @@
 
 /** */
 __attribute__((used)) char	bltin_unset(
-	const char **args
+	const char **args,
+	const int fd_in,
+	const int fd_out
 )
 {
 	(void)args;
+	(void)fd_in;
+	(void)fd_out;
 	write(STDERR_FILENO, "unset is not implemented yet\n", 30);
 	return (0);
 }

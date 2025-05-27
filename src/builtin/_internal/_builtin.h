@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:15:37 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/26 15:56:14 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/27 13:04:07 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_blt_link	t_blt_link;	/* Builtin link structure */
 struct s_blt_link
 {
 	const char	*name;								/* Builtin name           */
-	char		(*func)(const char **);	/* Pointer to the builtin */
+	char		(*func)(const char **, const int, const int);
 };
 
 #endif /* _BUILTIN_H */

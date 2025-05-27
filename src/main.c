@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:44:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/26 16:40:24 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/27 13:10:08 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,16 @@ int	main(int argc, const char **argv, char **envp)
 		line = read_line(DEFAULT_PROMPT);
 		if (__builtin_expect(!line, unexpected))
 			continue ;
-		else if (is_builtin(line))
-			exec_builtin(line);
 		else
 		{
 			data = lexer(line);
 			if (data)
+			{
 				rl_add_history(line);
-			
-			data->status = full_exec(data, envp);
+				data->status = full_exec(data, envp);
+			}
+			else
+				perror("command not found");
 		}
 		mm_free(line);
 	}
