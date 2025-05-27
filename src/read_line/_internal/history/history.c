@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 08:08:28 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/22 17:20:24 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/27 09:44:51 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,8 @@ __attribute__((always_inline, used)) static inline char	*_clear(
 		}
 	}
 	data->pos = 0;
+	close(data->fd);
+	data->fd = -1;
 	return (NULL);
 }
 
