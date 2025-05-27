@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/27 08:40:22 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/27 08:56:16 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,10 +189,6 @@ __attribute__((hot)) t_exec_data	*lexer(
 		current->pipe = built_exec_data(*raw_cmds);
 		if (_UNLIKELY(!data))
 			return (perror("lexer(): built_exec_data() failed"), NULL);
-		if (data->pipe)	// pas convaincue par cette merde
-			data->pipe->next = data;
-		else
-			data->pipe = data;
 		current = current->pipe;
 	}
 	if (_LIKELY(current != NULL))
