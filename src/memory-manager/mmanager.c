@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 12:11:57 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/12 11:07:54 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/27 14:36:20 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,17 @@ __attribute__((malloc)) void	*mm_alloc(
 	const size_t size
 )
 {
-	t_mm_node	*node;
+	t_mm_node		*node;
+	register size_t	i;
 
 	if (size < 1)
 		return (NULL);
 	node = (t_mm_node *)malloc(sizeof(t_mm_node) + size);
 	if (node == NULL)
 		return (NULL);
+	i = -1;
+	while (++i < size)
+		((char *)(node + 1))[i] = 0;
 	node->ptr = (void *)(node + 1);
 	node->next = NULL;
 	_mm_store(node, mm_add);
@@ -46,8 +50,9 @@ __attribute__((malloc)) void	*mm_realloc(
 	const size_t osize
 )
 {
-	t_mm_node	*node;
-	void		*new_ptr;
+	t_mm_node		*node;
+	void			*new_ptr;
+	register size_t	i;
 
 	if (ptr == NULL)
 		return (mm_alloc(nsize));
@@ -58,6 +63,9 @@ __attribute__((malloc)) void	*mm_realloc(
 	if (new_ptr == NULL)
 		return (NULL);
 	mm_memcpy(new_ptr, node->ptr, osize);
+	i = osize - 1;
+	while (++i < nsize)
+		((char *)new_ptr)[i] = 0;
 	mm_free(node->ptr);
 	return (new_ptr);
 }
