@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:10:39 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/27 13:09:48 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/27 14:17:38 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # include "type.h"
 
 /* -----| Internals |----- */
-	//...
+# include "_internal/_builtin.h"
 
 /* -----| Modules  |----- */
 # include "exec.h"
@@ -42,12 +42,12 @@ typedef struct s_exec_data	t_exec_data;	/* Execution data structure */
 
 // builtin.c
 
-extern char	is_builtin(
+t_blt_link	*get_builtins(
 				const char *const restrict args
 				);
 
-char	exec_builtin(
-				const t_exec_data *args,
+char		exec_builtin(
+				t_exec_data *args,
 				char *const envp[],
 				const int fd_in,
 				const int fd_out

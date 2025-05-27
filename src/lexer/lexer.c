@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/27 10:41:30 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/27 13:56:59 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,8 @@ static char	*get_in_path(
 )
 {
 	char			**paths;
-	register int	i;
 	char			*full_path;
+	register int	i;
 
 	paths = ft_split(getenv("PATH"), ':');
 	if (_UNLIKELY(!paths))
@@ -124,8 +124,7 @@ static char	*get_in_path(
 		else
 			mm_free(full_path);
 	}
-	return (free_tab(paths), perror("get_in_path(): command not found"),
-		NULL);
+	return (free_tab(paths), NULL);
 }
 
 /* -----| Core Functions  |---- */
@@ -158,7 +157,7 @@ __attribute__((used)) static t_exec_data	*built_exec_data(
 	if (_UNLIKELY(!data->args))
 		return (mm_free(data), perror("built_exec_data(): ft_split() failed\n"),
 			NULL);
-	if (check_path(data->args[0], F_OK | X_OK) == e_file)
+	if (check_path(data->args[0], F_OK | X_OK) == e_file || get_builtins(data->args[0]))
 	{
 		data->cmd = data->args[0];
 		return (data);
@@ -181,9 +180,11 @@ __attribute__((hot)) t_exec_data	*lexer(
 
 	raw_cmds = ft_split(line, '|');
 	data = built_exec_data(raw_cmds[0]);
+	ft_printf("raw_cmds: %s\n", *raw_cmds);
 	current = data;
 	while (*++raw_cmds)
 	{
+		ft_printf("raw_cmds: %s\n", *raw_cmds);
 		current->pipe = built_exec_data(*raw_cmds);
 		ft_fprintf(STDERR_FILENO, "raw_cmds: %s\n", *raw_cmds);
 		if (_UNLIKELY(!data))

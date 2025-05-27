@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 11:04:28 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/19 12:09:02 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/27 14:28:09 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,16 +83,17 @@ __attribute__((always_inline, used, malloc)) inline void	*memdup(
 	size_t size
 )
 {
-	void			*dup;
-	register size_t	i;
+	char						*dup;
+	const char *const restrict	_src = (const char *)src;
+	register size_t				i;
 
-	dup = mm_alloc(size);
+	dup = (char *)mm_alloc(size);
 	if (__builtin_expect(!dup, unexpected))
 		return (NULL);
 	i = -1;
 	while (++i < size)
-		((char *)dup)[i] = ((char *)src)[i];
-	return (dup);
+		dup[i] = _src[i];
+	return ((void *)dup);
 }
 
 /** */
