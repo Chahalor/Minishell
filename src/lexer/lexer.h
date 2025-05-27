@@ -6,14 +6,14 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:19:39 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/27 08:39:07 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/27 08:59:51 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
 
-#pragma once
+# pragma once
 
 /* ************************************************************************** */
 /*                                 Headers                                    */
@@ -56,8 +56,7 @@ enum e_file
 /* ************************************************************************** */
 
 t_exec_data	*lexer(
-	const char *const restrict line
-);
-
+				const char *const restrict line
+				);
 
 #endif /* LEXER_H */
