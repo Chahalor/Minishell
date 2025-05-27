@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/27 08:56:16 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/27 08:59:11 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ static char	*get_in_path(
 {
 	char			**paths;
 	register int	i;
-	char 			*full_path;
+	char			*full_path;
 
 	paths = ft_split(getenv("PATH"), ':');
 	if (_UNLIKELY(!paths))
@@ -138,7 +138,7 @@ static char	*get_in_path(
  * 
  * @return	Returns a pointer to the execution data structure.
  * @retval		NULL if the command line is invalid or if an error occurs.
- * @retval		data if the command line is valid and the execution data structure
+ * @retval		data if the command line is valid and the execution data struct
  * 
  * @note it checks if the command is a file. And if it is not, it searches
  * 			for the command in the PATH environment variable.
@@ -161,7 +161,7 @@ __attribute__((used)) static t_exec_data	*built_exec_data(
 	if (check_path(data->args[0], F_OK | X_OK) == e_file)
 	{
 		data->cmd = data->args[0];
-		return (data);	// @todo: error message if we just don t have permission to execute
+		return (data);
 	}
 	else
 		data->cmd = get_in_path(data->args[0]);
