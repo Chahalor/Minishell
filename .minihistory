@@ -61,3 +61,5 @@ yes | head -n 10
 yes | head -n 10
 yes | head -n 10
 €A
+ls | grep a
+ls |grep a

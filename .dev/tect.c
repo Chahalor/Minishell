@@ -1,37 +1,49 @@
-#include <stdio.h>
-#include <sys/stat.h>
-#include <unistd.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+#include <dirent.h>
+#include <string.h>
+#include <stdlib.h>
 
-int main(int argc, const char *argv[])
+char	*file_generator(const char *text, int state)
 {
-	const char *path = "../.dev";
-	struct stat sb;
+	static DIR *dir;
+	static struct dirent *entry;
 
-	if (access(path, F_OK) == 0)
+	if (!state)
 	{
-		printf("Path exists: %s\n", path);
-		if (stat(path, &sb) == 0)
-		{
-			printf("File type: ");
-			if (S_ISREG(sb.st_mode))
-				printf("regular file\n");
-			else if (S_ISDIR(sb.st_mode))
-				printf("directory\n");
-			else if (S_ISLNK(sb.st_mode))
-				printf("symbolic link\n");
-			else
-				printf("other\n");
-		}
-		else
-		{
-			perror("Error getting file status");
-			return 1;
-		}
+		if (dir)
+			closedir(dir);
+		dir = opendir(".");
 	}
-	else
+	if (!dir)
+		return NULL;
+
+	while ((entry = readdir(dir)))
 	{
-		perror("Error accessing path");
-		return 1;
+		if (strncmp(entry->d_name, text, strlen(text)) == 0)
+			return strdup(entry->d_name);
+	}
+	return NULL;
+}
+
+char	**my_completion(const char *text, int start, int end)
+{
+	(void)start;
+	(void)end;
+	return rl_completion_matches(text, file_generator);
+}
+
+int	main(void)
+{
+	// rl_attempted_completion_function = my_completion;
+
+	while (1)
+	{
+		char *line = readline("mysh$ ");
+		if (!line)
+			break;
+		add_history(line);
+		free(line);
 	}
 	return 0;
 }
