@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/27 15:08:52 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/27 16:31:41 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,10 +118,6 @@ __attribute__((hot))	int	exec_bin(
 	{
 		data->pid = pid;
 		set_last_child(pid);
-		if (prev_read != -1 && prev_read != STDIN_FILENO)
-			close(prev_read);
-		if (out_fd != -1 && out_fd != STDOUT_FILENO)
-			close(out_fd);
 		return (0);
 	}
 }
