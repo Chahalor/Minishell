@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/27 08:59:11 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/27 10:41:30 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,20 +112,19 @@ static char	*get_in_path(
 
 	paths = ft_split(getenv("PATH"), ':');
 	if (_UNLIKELY(!paths))
-		return (perror("get_in_path(): ft_split() failed\n"), NULL);
+		return (perror("get_in_path(): ft_split() failed"), NULL);
 	i = -1;
 	while (paths[++i])
 	{
 		full_path = ft_strcat(paths[i], name, ft_strlen(name));
 		if (_UNLIKELY(!full_path))
-			return (perror("get_in_path(): ft_strcat() failed\n"), NULL);
-		ft_fprintf(STDERR_FILENO, "full_path(%d): <%s>\n", i, full_path);
+			return (perror("get_in_path(): ft_strcat() failed"), NULL);
 		if (check_path(full_path, F_OK | X_OK) == e_file)
 			return (free_tab(paths), full_path);
 		else
 			mm_free(full_path);
 	}
-	return (free_tab(paths), perror("get_in_path(): command not found\n"),
+	return (free_tab(paths), perror("get_in_path(): command not found"),
 		NULL);
 }
 
@@ -152,6 +151,7 @@ __attribute__((used)) static t_exec_data	*built_exec_data(
 	t_exec_data		*data;
 
 	data = (t_exec_data *)mm_alloc(sizeof(t_exec_data));
+	*data = (t_exec_data){0};
 	if (_UNLIKELY(!data))
 		return (perror("built_exec_data(): mm_alloc() failed\n"), NULL);
 	data->args = ft_split(line, ' ');
@@ -180,13 +180,12 @@ __attribute__((hot)) t_exec_data	*lexer(
 	t_exec_data	*current;
 
 	raw_cmds = ft_split(line, '|');
-	ft_fprintf(STDERR_FILENO, "raw_cmds: <%s>\n", *raw_cmds);
 	data = built_exec_data(raw_cmds[0]);
 	current = data;
 	while (*++raw_cmds)
 	{
-		ft_fprintf(STDERR_FILENO, "raw_cmds: <%s>\n", *raw_cmds);
 		current->pipe = built_exec_data(*raw_cmds);
+		ft_fprintf(STDERR_FILENO, "raw_cmds: %s\n", *raw_cmds);
 		if (_UNLIKELY(!data))
 			return (perror("lexer(): built_exec_data() failed"), NULL);
 		current = current->pipe;

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 08:08:28 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/27 09:44:51 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/27 10:11:01 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ __attribute__((always_inline, used)) static inline char	*_history_add(
 		return (NULL);
 	else
 	{
-		data->storage[data->pos] = memdup(line, len + 1);
+		data->storage[data->pos] = memdup(line, len + 10);
 		data->pos = (data->pos + 1) % _RL_HIST_SIZE;
 		data->size += (data->size < _RL_HIST_SIZE);
 		if (_LIKELY(data->fd > 0))
