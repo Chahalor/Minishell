@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:49:39 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/28 14:26:19 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/28 17:24:54 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@
 /*                                 Prototypes                                 */
 /* ************************************************************************** */
 
-//...
+extern int	_wait_childrens(
+				t_exec_data *const restrict data
+				);
 
 #endif /* _EXEC_H */

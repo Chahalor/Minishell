@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 15:54:17 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/26 08:18:35 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/28 16:46:05 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 /* -----| Internals |----- */
 #include "_read_line.h"
-#include <fcntl.h>
 
 /* -----| Modules   |----- */
 #include "read_line.h"
@@ -23,7 +22,7 @@
 #pragma region Fonctions
 
 /** */
-__attribute__((always_inline, used)) static inline int _create(
+__attribute__((always_inline, used)) static inline int	_create(
 	const char *const restrict filename
 )
 {

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:46:24 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/26 12:49:02 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/28 17:02:38 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ __attribute__((cold, visibility("hidden"))) void	_sigint_handler(
 	(void)context;
 	g_last_signal = signal;
 	reset_cmd();
-	kill(get_last_child(), SIGINT);
 	printf("\nSIGINT received\n");
 }
 
@@ -75,9 +74,7 @@ __attribute__((cold, visibility("hidden"))) void	_sigquit_handler(
 	(void)context;
 	g_last_signal = signal;
 	reset_cmd();
-	kill(get_last_child(), SIGQUIT);
 	printf("\nSIGQUIT received\n");
-	// exit_program(signal, "SIGQUIT received");
 }
 
 /**
