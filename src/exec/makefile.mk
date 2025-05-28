@@ -2,7 +2,7 @@ DIR_MODULE_EXEC		:= exec
 DIR_INTERFACE_EXEC	:= $(DIR_MODULE_EXEC)
 DIR_INTERNAL_EXEC	:= $(DIR_MODULE_EXEC)/_internal
 
-SRC_INTERFACE_EXEC	:= exec.c piping.c 
+SRC_INTERFACE_EXEC	:= piping.c exec.c 
 SRC_INTERNAL_EXEC	:= 
 
 OBJ_EXEC			:= $(addprefix $(DIR_OBJ)/$(DIR_INTERFACE_EXEC)/, $(SRC_INTERFACE_EXEC:.c=.o))
