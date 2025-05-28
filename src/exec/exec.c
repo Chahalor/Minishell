@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/28 14:38:45 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/28 16:35:21 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ __attribute__((hot))	int	exec_bin(
 			_redirect(prev_read, STDIN_FILENO);
 		if (out_fd != STDOUT_FILENO && out_fd != -1)
 			_redirect(out_fd, STDOUT_FILENO);
+		fdm_close_all();
 		execve(data->cmd, data->args, envp);
 		return (exit_program(127, "exec_bin(): execve() failed"), -1);
 	}
@@ -160,6 +161,8 @@ int	full_exec(
 			if (_UNLIKELY(pipe(pipe_fd) < 0))
 				return (perror("full_exec(): pipe failed"), -1);
 			out_fd = pipe_fd[1];
+			fdm_register(pipe_fd[0]);
+			fdm_register(pipe_fd[1]);
 		}
 		if (get_builtins(current->args[0]))
 			exec_builtin(current, envp, prev_read, out_fd);
