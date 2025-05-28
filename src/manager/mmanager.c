@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 12:11:57 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/27 14:36:20 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/28 16:31:38 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "mmanager.h"
 
 /* -----| Internal  |----- */
-#include "_mm.h"
+#include "_internal/memory/_mm.h"
 
 #pragma endregion Headers
 #pragma region Functions
