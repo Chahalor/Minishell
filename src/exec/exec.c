@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/27 16:31:41 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/28 11:36:43 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ __attribute__((always_inline, used)) static inline int	_redirect(
 	const int new_fd
 )
 {
-	return (((fd < 0 || new_fd < 0) * -1)
-		|| ((dup2(fd, new_fd) < 0) * -2)
-		|| ((close(fd) < 0) * -3));
+	return (((fd < 0 || new_fd < 0))
+		|| ((dup2(fd, new_fd) < 0))
+		|| ((close(fd) < 0)));
 }
 
 __attribute__((always_inline, used)) static inline int	_analyse(
