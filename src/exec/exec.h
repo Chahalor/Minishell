@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:46:56 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/27 10:56:25 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/28 15:18:41 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@
 /*                                 Typedefs                                   */
 /* ************************************************************************** */
 
+typedef struct s_pipe_data	t_pipe_data;	/* Pipe data structure       */
 typedef struct s_exec_data	t_exec_data;	/* Execution data structure */
 
 /* ************************************************************************** */
