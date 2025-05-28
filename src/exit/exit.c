@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:53:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/17 11:51:57 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/28 16:44:45 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ __attribute__((noreturn, unused, cold)) void	exit_program(
 		printf("%s\n", msg);
 	rl_clear_history();
 	mm_destroy();
+	fdm_close_all();
 	exit(status);
 }
 

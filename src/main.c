@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:44:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/27 13:47:24 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/28 16:48:43 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,12 @@ volatile sig_atomic_t	g_last_signal = 0; // Global signal variable
 #pragma region Fonctions
 
 /** */
-__attribute__((cold, unused)) int	init_all(void)
+__attribute__((cold, unused)) int	init_all(
+	int argc,
+	const char **argv
+)
 {
+	args_parser(argc, argv);
 	return (
 		init_signal() \
 		|| rl_load_history(DEFAULT_HISTORY_FILE)
@@ -54,8 +58,7 @@ int	main(int argc, const char **argv, char **envp)
 	char			*line;
 	t_exec_data		*data;
 
-	args_parser(argc, argv);
-	if (!init_all())
+	if (!init_all(argc, argv))
 		return (EXIT_FAILURE);
 	while (1)
 	{
@@ -68,7 +71,6 @@ int	main(int argc, const char **argv, char **envp)
 			if (data)
 			{
 				rl_add_history(line);
-				(void)envp;
 				full_exec(data, envp);
 			}
 			else

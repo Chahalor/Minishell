@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 11:04:28 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/27 14:41:25 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/28 17:04:15 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 #pragma region Fonctions
 
 /** */
-__attribute__((used)) int ft_atoi(
+__attribute__((used)) int	ft_atoi(
 	const char *restrict str
 )
 {

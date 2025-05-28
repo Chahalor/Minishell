@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/28 16:35:21 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/28 17:24:15 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,36 +47,38 @@ __attribute__((always_inline, used)) static inline int	_redirect(
 		|| ((close(fd) < 0)));
 }
 
-__attribute__((always_inline, used)) static inline int	_analyse(
-	const int status
+__attribute__((always_inline, used)) static inline int	_piping(
+	int *const restrict pipe_fd,
+	int *const restrict out_fd
 )
 {
-	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
-	else if (WIFSIGNALED(status))
-		return (128 + WTERMSIG(status));
-	else
-		return (-1);
+	if (_UNLIKELY(pipe(pipe_fd) < 0))
+		return (perror("full_exec(): pipe failed"), -1);
+	*out_fd = pipe_fd[1];
+	fdm_register(pipe_fd[0]);
+	fdm_register(pipe_fd[1]);
+	return (0);
 }
 
-__attribute__((always_inline, used)) static inline int	_wait_childrens(
-	t_exec_data *const restrict data
+__attribute__((always_inline, used)) static inline t_exec_data	*_closing(
+	const int prev_read,
+	const int out_fd,
+	t_exec_data *const restrict current,
 )
 {
-	int						status;
-	t_exec_data	*restrict	current;
+	t_exec_data	*next;
 
-	current = data;
-	while (current)
+	if (prev_read > 0 && prev_read != STDIN_FILENO)
+		close(prev_read);
+	if (current->pipe)
 	{
-		if (current->pid)
-		{
-			waitpid(data->pid, &status, 0);
-			data->status = _analyse(status);
-		}
-		current = data->next;
+		close(out_fd);
+		prev_read = pipe_fd[0];
+		next = current->pipe;
 	}
-	return (0);
+	else
+		next = NULL;
+	return (next);
 }
 
 /**
@@ -157,27 +159,13 @@ int	full_exec(
 	{
 		out_fd = STDOUT_FILENO;
 		if (current->pipe)
-		{
-			if (_UNLIKELY(pipe(pipe_fd) < 0))
-				return (perror("full_exec(): pipe failed"), -1);
-			out_fd = pipe_fd[1];
-			fdm_register(pipe_fd[0]);
-			fdm_register(pipe_fd[1]);
-		}
+			if (_UNLIKELY(_piping(pipe_fd, &out_fd) < 0))
+				return (-1);
 		if (get_builtins(current->args[0]))
 			exec_builtin(current, envp, prev_read, out_fd);
 		else
 			exec_bin(current, envp, prev_read, out_fd);
-		if (prev_read > 0 && prev_read != STDIN_FILENO)
-			close(prev_read);
-		if (current->pipe)
-		{
-			close(out_fd);
-			prev_read = pipe_fd[0];
-			current = current->pipe;
-		}
-		else
-			current = NULL;
+		current = _closing(prev_read, out_fd, current);
 	}
 	_wait_childrens(data);
 	return (0);
