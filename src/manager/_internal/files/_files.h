@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 12:19:03 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/28 16:23:37 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/28 16:33:54 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,10 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <fcntl.h>
+# include <unistd.h>
 
 /* -----| Globals  |----- */
-//...
+# include "config.h"
 
 /* -----| Modules  |----- */
 //...
