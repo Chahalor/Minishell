@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/28 11:36:43 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/28 14:38:45 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 
 #pragma endregion Header
 #pragma region Fonctions
+
+extern volatile sig_atomic_t	g_last_signal;
 
 /**
  * @brief	Redirects the output of a file descriptor to another file descriptor.
@@ -112,14 +114,15 @@ __attribute__((hot))	int	exec_bin(
 		execve(data->cmd, data->args, envp);
 		return (exit_program(127, "exec_bin(): execve() failed"), -1);
 	}
-	else if (pid < 0)
-		return (perror("exec_bin(): fork() failed"), -2);
-	else
+	else if (pid > 0)
 	{
 		data->pid = pid;
 		set_last_child(pid);
+		close(prev_read);
 		return (0);
 	}
+	else
+		return (perror("exec_bin(): fork() failed"), -2);
 }
 
 /**
@@ -147,19 +150,16 @@ int	full_exec(
 	int			prev_read;
 	int			out_fd;
 
-	register int i = 0;
-
 	prev_read = -1;
 	current = data;
-	while (current && i++ < 10)
+	while (current)
 	{
 		out_fd = STDOUT_FILENO;
 		if (current->pipe)
 		{
 			if (_UNLIKELY(pipe(pipe_fd) < 0))
-				return (perror("pipe() failed"), -1);
+				return (perror("full_exec(): pipe failed"), -1);
 			out_fd = pipe_fd[1];
-			current->fd_out = pipe_fd[1];
 		}
 		if (get_builtins(current->args[0]))
 			exec_builtin(current, envp, prev_read, out_fd);
@@ -169,7 +169,7 @@ int	full_exec(
 			close(prev_read);
 		if (current->pipe)
 		{
-			close(pipe_fd[1]);
+			close(out_fd);
 			prev_read = pipe_fd[0];
 			current = current->pipe;
 		}

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/27 13:56:59 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/28 15:20:23 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,12 +179,12 @@ __attribute__((hot)) t_exec_data	*lexer(
 	t_exec_data	*current;
 
 	raw_cmds = ft_split(line, '|');
+	if (_UNLIKELY(!raw_cmds))
+		return (perror("lexer(): ft_split() failed"), NULL);
 	data = built_exec_data(raw_cmds[0]);
-	ft_printf("raw_cmds: %s\n", *raw_cmds);
 	current = data;
 	while (*++raw_cmds)
 	{
-		ft_printf("raw_cmds: %s\n", *raw_cmds);
 		current->pipe = built_exec_data(*raw_cmds);
 		ft_fprintf(STDERR_FILENO, "raw_cmds: %s\n", *raw_cmds);
 		if (_UNLIKELY(!data))
