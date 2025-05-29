@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 09:51:43 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/27 10:53:07 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/29 12:52:02 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,8 @@ char	**ft_split(char const *s, char c)
 {
 	char	**r;
 
+	if (_UNLIKELY(!s))
+		return (NULL);
 	r = (char **)mm_alloc(sizeof(char *) * (get_buffer(s, c) + 1));
 	if (_UNLIKELY(!r))
 		return (NULL);
