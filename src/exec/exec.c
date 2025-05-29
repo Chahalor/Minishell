@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/28 17:24:15 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/29 12:39:46 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,19 +61,20 @@ __attribute__((always_inline, used)) static inline int	_piping(
 }
 
 __attribute__((always_inline, used)) static inline t_exec_data	*_closing(
-	const int prev_read,
+	int *const prev_read,
 	const int out_fd,
 	t_exec_data *const restrict current,
+	const int *const pipe_fd
 )
 {
 	t_exec_data	*next;
 
-	if (prev_read > 0 && prev_read != STDIN_FILENO)
-		close(prev_read);
+	if (*prev_read > 0 && *prev_read != STDIN_FILENO)
+		close(*prev_read);
 	if (current->pipe)
 	{
 		close(out_fd);
-		prev_read = pipe_fd[0];
+		*prev_read = pipe_fd[0];
 		next = current->pipe;
 	}
 	else
@@ -165,7 +166,7 @@ int	full_exec(
 			exec_builtin(current, envp, prev_read, out_fd);
 		else
 			exec_bin(current, envp, prev_read, out_fd);
-		current = _closing(prev_read, out_fd, current);
+		current = _closing(&prev_read, out_fd, current, pipe_fd);
 	}
 	_wait_childrens(data);
 	return (0);
