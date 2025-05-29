@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 11:37:23 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/24 15:43:15 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/29 15:03:22 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@
 int	ft_printf(
 		const char *const restrict str, ...);
 
-int	debug_printf(
+int raw_printf(
 		const char *const restrict str, ...);
 
 int	ft_fprintf( const int fd, const char *const restrict str, ...);

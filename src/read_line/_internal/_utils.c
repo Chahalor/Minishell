@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:57:20 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/16 08:42:12 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/29 16:12:21 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ __attribute__((always_inline, used)) inline void	_set_raw(
 	t->c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
 	t->c_oflag &= ~(OPOST);
 	t->c_cflag |= (CS8);
-	t->c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
+	t->c_lflag &= ~(ECHO | ICANON | IEXTEN);// | ISIG);
 	t->c_cc[VMIN] = 1;
 	t->c_cc[VTIME] = 0;
 	tcsetattr(STDIN_FILENO, TCSANOW, t);

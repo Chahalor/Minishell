@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/29 14:30:56 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/29 16:23:52 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ __attribute__((used)) static int	handle_special(
 	else if (c == 4 && data->line_length == 0)
 		return (data->result[data->line_length] = '\0', data->status = eof);
 	else if (c == 3)
-		return (data->status = interr, write(STDOUT_FILENO, "^C", 2));
+		return (data->status = interr);
 	else if (c == 28)
 		return (write(STDOUT_FILENO, &c, 1));
 	else
@@ -161,7 +161,7 @@ __attribute__((used)) static int	handle_special(
  * @return	The length of the line read.
  * 
  * @note	The function will block until a newline is received or an error
- * 	occurs.
+ * 				occurs.
  * 
  * @version 2.0
 */

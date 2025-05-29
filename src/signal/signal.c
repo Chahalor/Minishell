@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:46:24 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/29 14:05:26 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/29 16:46:56 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ __attribute__((cold, visibility("hidden"))) void	_sigint_handler(
 	(void)context;
 	g_last_signal = signal;
 	reset_cmd();
-	printf("\nSIGINT received\n");
+	ft_printf("^C");
+	// printf("\nSIGINT received\n");
 }
 
 /**
@@ -73,8 +74,8 @@ __attribute__((cold, visibility("hidden"))) void	_sigquit_handler(
 	(void)info;
 	(void)context;
 	g_last_signal = signal;
-	reset_cmd();
-	printf("\nSIGQUIT received\n");
+	// reset_cmd();
+	// printf("\nSIGQUIT received\n");
 }
 
 __attribute__((always_inline, used)) inline int	reset_signal(void)
@@ -105,7 +106,7 @@ __attribute__((always_inline, used)) inline int	init_signal(void)
 	sigint_action.sa_flags = SA_SIGINFO;
 	sigemptyset(&sigint_action.sa_mask);
 	sigquit_action.sa_sigaction = _sigquit_handler;
-	sigquit_action.sa_flags = SA_SIGINFO;
+	sigquit_action.sa_flags = SA_SIGINFO | SA_RESTART;
 	sigemptyset(&sigquit_action.sa_mask);
 	return (
 		sigaction(SIGINT, &sigint_action, NULL) == -1
