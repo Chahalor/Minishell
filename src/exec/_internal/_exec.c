@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/29 13:05:45 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/29 13:50:37 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,10 @@ __attribute__((always_inline, used)) inline int	_wait_childrens(
 		{
 			waitpid(current->pid, &status, 0);
 			current->status = _analyse(status);
+			ft_fprintf(STDERR_FILENO, "%s.status = %d\n",
+				current->args[0], current->status);
 		}
-		current = data->next;
+		current = current->next;
 	}
 	return (0);
 }

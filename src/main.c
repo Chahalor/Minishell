@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:44:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/28 16:48:43 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/29 13:55:05 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 /* -----| Modules   |----- */
 #include "args.h"
-#include "sig.h"
+#include "signals.h"
 #include "mmanager.h"
 #include "read_line.h"
 #include "lexer.h"

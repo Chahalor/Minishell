@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/29 13:03:43 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/29 13:53:31 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,8 +145,11 @@ __attribute__((hot))	int	exec_bin(
 		if (out_fd != STDOUT_FILENO && out_fd != -1)
 			_redirect(out_fd, STDOUT_FILENO);
 		fdm_close_all();
+		reset_signal();
 		execve(data->cmd, data->args, envp);
-		return (exit_program(127, "exec_bin(): execve() failed"), -1);
+		ft_fprintf(STDERR_FILENO, SHELL_NAME ": %s: command not found\n",
+			data->args[0]);
+		return (exit_program(127, NULL), -1);
 	}
 	else if (pid > 0)
 	{

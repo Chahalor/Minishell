@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/29 13:03:53 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/29 13:43:36 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,9 +179,8 @@ __attribute__((used)) static t_exec_data	*built_exec_data(
 	else
 		data->cmd = get_in_path(data->args[0]);
 	if (_UNLIKELY(!data->cmd))
-		return (mm_free(data->args), mm_free(data), NULL);
-	else
-		return (data);
+		data->cmd = data->args[0];
+	return (data);
 }
 
 /**
@@ -202,24 +201,23 @@ __attribute__((hot)) t_exec_data	*lexer(
 	char		**raw_cmds;
 	t_exec_data	*data;
 	t_exec_data	*current;
+	register int	i;
 
 	raw_cmds = ft_split(line, '|');
 	if (_UNLIKELY(!raw_cmds))
 		return (perror("lexer(): ft_split() failed"), NULL);
 	data = NULL;
-	while (!data && *raw_cmds)
-		data = built_exec_data(*raw_cmds++);
+	i = -1;
+	while (!data && raw_cmds[++i])
+		data = built_exec_data(raw_cmds[i]);
 	current = data;
-	while (*raw_cmds)
+	while (raw_cmds[++i])
 	{
-		current->pipe = built_exec_data(*raw_cmds++);
-		if (_UNLIKELY(!current->pipe))
-			ft_fprintf(STDERR_FILENO, SHELL_NAME ": command not found: %s\n",
-				*raw_cmds - 1);
-		else
+		current->pipe = built_exec_data(raw_cmds[i]);
+		if (_LIKELY(current->pipe != NULL))
 			current = current->pipe;
 	}
-	if (_UNLIKELY(!current && raw_cmds))
+	if (_UNLIKELY(!current && raw_cmds[i]))
 		return (free_tab(raw_cmds), NULL);
 	else if (_LIKELY(current != NULL))
 		current->pipe = NULL;
