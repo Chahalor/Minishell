@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/28 17:25:37 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/29 13:05:45 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ __attribute__((always_inline, used)) inline int	_wait_childrens(
 	{
 		if (current->pid)
 		{
-			waitpid(data->pid, &status, 0);
-			data->status = _analyse(status);
+			waitpid(current->pid, &status, 0);
+			current->status = _analyse(status);
 		}
 		current = data->next;
 	}
