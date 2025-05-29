@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:46:24 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/29 13:54:38 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/29 14:05:26 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ __attribute__((cold, visibility("hidden"))) void	_sigquit_handler(
 	printf("\nSIGQUIT received\n");
 }
 
-__attribute__((always_inline, used)) inline int reset_signal(void)
+__attribute__((always_inline, used)) inline int	reset_signal(void)
 {
 	return (
 		signal(SIGINT, SIG_DFL) == SIG_ERR
