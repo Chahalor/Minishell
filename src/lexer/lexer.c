@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/28 15:20:23 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/29 11:03:27 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,8 @@ __attribute__((used)) static t_exec_data	*built_exec_data(
 	if (_UNLIKELY(!data->args))
 		return (mm_free(data), perror("built_exec_data(): ft_split() failed\n"),
 			NULL);
-	if (check_path(data->args[0], F_OK | X_OK) == e_file || get_builtins(data->args[0]))
+	if (check_path(data->args[0], F_OK | X_OK) == e_file
+		|| get_builtins(data->args[0]))
 	{
 		data->cmd = data->args[0];
 		return (data);

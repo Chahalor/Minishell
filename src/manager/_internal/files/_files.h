@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 12:19:03 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/28 16:33:54 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/29 11:06:48 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@
 /*                                  Typedefs                                  */
 /* ************************************************************************** */
 
-typedef enum e_fd_access	t_fd_access;	/* Type for file descriptor access requests */
+typedef enum e_fd_access	t_fd_access;	/* fd access requests */
 
 /* ************************************************************************** */
 /*                                  Enums                                     */
