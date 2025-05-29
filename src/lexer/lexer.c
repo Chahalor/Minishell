@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/29 13:01:09 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/29 13:03:53 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,8 +192,8 @@ __attribute__((used)) static t_exec_data	*built_exec_data(
  * 
  * @return	Returns a pointer to the execution data structure.
  * @retval		NULL if the command line is invalid or if an error occurs.
- * @return		data if the command line is valid and the execution data structure
- * 				is built successfully.
+ * @return		data if the command line is valid and the execution data
+ * 					structure is built successfully.
 */
 __attribute__((hot)) t_exec_data	*lexer(
 	const char *const restrict line

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/29 13:02:12 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/29 13:03:43 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ __attribute__((always_inline, used)) static inline int	_piping(
  * 			the input file descriptor of the pipe.
  * 
  * @param	prev_read	Pointer to the previous read file descriptor.
- * @param	out_fd		Output file descriptor to close if the current command has a pipe.
+ * @param	out_fd		Output file descriptor to close if the current
+ * 							command has a pipe.
  * @param	current		Current execution data structure.
  * @param	pipe_fd		File descriptors of the pipe.
  * 
