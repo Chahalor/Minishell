@@ -6,16 +6,16 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:46:24 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/28 17:02:38 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/29 13:54:38 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma region Header
 /* -----| Internals |----- */
-#include "_sig.h"
+#include "_signals.h"
 
 /* -----| Modules  |----- */
-#include "sig.h"
+#include "signals.h"
 
 extern volatile sig_atomic_t	g_last_signal; // Global signal variable
 
@@ -75,6 +75,14 @@ __attribute__((cold, visibility("hidden"))) void	_sigquit_handler(
 	g_last_signal = signal;
 	reset_cmd();
 	printf("\nSIGQUIT received\n");
+}
+
+__attribute__((always_inline, used)) inline int reset_signal(void)
+{
+	return (
+		signal(SIGINT, SIG_DFL) == SIG_ERR
+		|| signal(SIGQUIT, SIG_DFL) == SIG_ERR
+	);
 }
 
 /**

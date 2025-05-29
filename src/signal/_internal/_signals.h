@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sig.h                                              :+:      :+:    :+:   */
+/*   _signal.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/09 16:46:07 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/19 11:08:20 by nduvoid          ###   ########.fr       */
+/*   Created: 2025/05/19 11:04:36 by nduvoid           #+#    #+#             */
+/*   Updated: 2025/05/29 13:54:05 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SIG_H
-# define SIG_H
+#ifndef _SIG_H
+# define _SIG_H
 
 # pragma once
 
@@ -20,22 +20,27 @@
 /* ************************************************************************** */
 
 /* -----| Systems   |----- */
-	//...
+# include <signal.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <sys/types.h>
+# include <bits/sigaction.h>
 
 /* -----| Globals   |----- */
 # include "config.h"
+# include "type.h"
 
 /* -----| Internals |----- */
-// # include "_sig.h"
+# include "signal.h"
 
-/* -----| Modules  |----- */
-# include "read_line.h"
-# include "exit.h"
+/* -----| Modules   |----- */
+# include "global_manager.h"
 
 /* ************************************************************************** */
 /*                                 Prototypes                                 */
 /* ************************************************************************** */
 
-extern int	init_signal(void);
+//...
 
-#endif /* SIG_H */
+#endif /* _SIG_H */
