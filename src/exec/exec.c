@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/29 12:39:46 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/29 13:02:12 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,18 @@ __attribute__((always_inline, used)) static inline int	_redirect(
 		|| ((close(fd) < 0)));
 }
 
+/**
+ * @brief	Creates a pipe and registers its file descriptors.
+ * 
+ * @param	pipe_fd		Array to store the file descriptors of the pipe.
+ * @param	out_fd		Pointer to store the output file descriptor.
+ * 
+ * @return	Returns the status of the pipe creation.
+ * @retval		~0 if the pipe was created successfully.
+ * @retval		-1 if the pipe() failed.
+ * 
+ * @version	2.0
+ */
 __attribute__((always_inline, used)) static inline int	_piping(
 	int *const restrict pipe_fd,
 	int *const restrict out_fd
@@ -60,6 +72,23 @@ __attribute__((always_inline, used)) static inline int	_piping(
 	return (0);
 }
 
+/**
+ * @brief	Closes the previous read file descriptor and returns the next command
+ * 			to execute. If the current command has a pipe, it will close the
+ * 			output file descriptor and set the previous read file descriptor to
+ * 			the input file descriptor of the pipe.
+ * 
+ * @param	prev_read	Pointer to the previous read file descriptor.
+ * @param	out_fd		Output file descriptor to close if the current command has a pipe.
+ * @param	current		Current execution data structure.
+ * @param	pipe_fd		File descriptors of the pipe.
+ * 
+ * @return	Returns the next command to execute.
+ * @retval		NULL if there is no next command.
+ * @retval		next if there is a next command.
+ * 
+ * @version 1.0
+ */
 __attribute__((always_inline, used)) static inline t_exec_data	*_closing(
 	int *const prev_read,
 	const int out_fd,

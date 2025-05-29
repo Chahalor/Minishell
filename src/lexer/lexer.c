@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/29 12:54:52 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/29 13:01:09 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,19 @@
 
 /* -----| Utils Functions |---- */
 
+/**
+ * @brief	Concatenates two strings with a '/' in between.
+ * 
+ * @param	s1		The first string.
+ * @param	s2		The second string.
+ * @param	size	The size of the second string to concatenate.
+ * 
+ * @return	return the concatenated string.
+ * @retval		NULL if the memory allocation fails.
+ * @retval		result if the concatenation is successful.
+ * 
+ * @version 1.1
+ */
 __attribute__((cold)) static char	*ft_strcat(
 	const char *const restrict s1,
 	const char *const restrict s2,
@@ -171,7 +184,17 @@ __attribute__((used)) static t_exec_data	*built_exec_data(
 		return (data);
 }
 
-/** */
+/**
+ * @brief	Lexer function that parses a command line and builds an execution
+ * 				data structure from it.
+ * 
+ * @param	line	The command line to parse.
+ * 
+ * @return	Returns a pointer to the execution data structure.
+ * @retval		NULL if the command line is invalid or if an error occurs.
+ * @return		data if the command line is valid and the execution data structure
+ * 				is built successfully.
+*/
 __attribute__((hot)) t_exec_data	*lexer(
 	const char *const restrict line
 )
