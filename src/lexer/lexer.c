@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/29 13:43:36 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/29 14:06:38 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,9 +198,9 @@ __attribute__((hot)) t_exec_data	*lexer(
 	const char *const restrict line
 )
 {
-	char		**raw_cmds;
-	t_exec_data	*data;
-	t_exec_data	*current;
+	char			**raw_cmds;
+	t_exec_data		*data;
+	t_exec_data		*current;
 	register int	i;
 
 	raw_cmds = ft_split(line, '|');

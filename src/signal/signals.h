@@ -6,12 +6,12 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:46:07 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/29 13:54:29 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/29 14:05:45 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SIG_H
-# define SIG_H
+#ifndef SIGNALS_H
+# define SIGNALS_H
 
 # pragma once
 
@@ -40,5 +40,4 @@ extern int	reset_signal(void);
 
 extern int	init_signal(void);
 
-
-#endif /* SIG_H */
+#endif /* SIGNALS_H */
