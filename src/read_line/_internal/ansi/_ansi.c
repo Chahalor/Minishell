@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:19:00 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/16 08:59:27 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/29 17:24:56 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 #pragma region Fonctions
 
 /** */
-__attribute__((always_inline, used)) static inline int	read_ansi_sequence(
+__attribute__((always_inline, used)) static inline int	_read_ansi(
 	char *const restrict buffer,
 	register int buffer_size
 )
@@ -133,7 +133,7 @@ __attribute__((used)) int	handle_ansi(
 	char	ansi[_RL_ANSI_BUFF + 1];
 	int		len;
 
-	len = read_ansi_sequence(ansi, sizeof(ansi));
+	len = _read_ansi(ansi, sizeof(ansi));
 	if (__builtin_expect(!len || len < 0, unexpected))
 		return (0);
 	if (ft_strncmp(ansi, "\033[D", 3) == 0
