@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/27 14:18:01 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/29 11:03:19 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ __attribute__((used)) char	bltin_exit(
 	const int fd_out
 )
 {
-	const int exit_code = ft_atoi(args[1]);
+	const int	exit_code = ft_atoi(args[1]);
 
 	(void)fd_in;
 	(void)fd_out;
@@ -42,16 +42,15 @@ t_blt_link	*get_builtins(
 )
 {
 	static t_blt_link	builtins[] = {
-	{ "cd", bltin_cd },
-	{ "exit", bltin_exit },
-	{ "env", bltin_env },
-	{ "pwd", bltin_pwd },
-	{ "echo", bltin_echo },
-	{ "export", bltin_export },
-	{ "unset", bltin_unset },
-	{ NULL, NULL }};
-
-	register int	i;
+	{"cd", bltin_cd},
+	{"exit", bltin_exit},
+	{"env", bltin_env},
+	{"pwd", bltin_pwd},
+	{"echo", bltin_echo},
+	{"export", bltin_export},
+	{"unset", bltin_unset},
+	{NULL, NULL}};
+	register int		i;
 
 	i = -1;
 	while (builtins[++i].name)
