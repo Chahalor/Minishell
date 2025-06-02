@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:57:59 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/28 17:03:17 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/02 17:36:32 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@
 # define _RL_ALLOC_SIZE	1024	/* Size of every alloc/realloc of Read_line */
 # define _RL_ANSI_BUFF	16		/* Size of the ANSI handler buffer         */
 # define _RL_HIST_SIZE	1024	/* Size of the history buffer             */
+# define _RL_COMP_LIMIT	124		/* Limit of files for the completion     */
 
 /* ************************************************************************** */
 /*                                 Typedefs                                   */
@@ -52,6 +53,7 @@
 
 typedef enum e_rl_status		t_rl_status;		/* The status or rl:_read */
 typedef enum e_rl_hist_access	t_rl_hist_access;	/* access to the history */
+typedef enum e_rl_word_type		t_rl_word_type;		/* completions types    */
 
 typedef struct s_rl_data		t_rl_data;			/* rl:_read data struct */
 typedef struct s_rl_history		t_rl_history;		/* rl:hist data struct */
@@ -70,15 +72,24 @@ enum	e_rl_status
 	past,		/* Pasting text     */
 };
 
-enum e_rl_hist_access
+enum	e_rl_hist_access
 {
-	rl_get_next,	/* get a line from the history       */
-	rl_get_prev,	/* get a line from the history      */
+	rl_get_next,	/* get a line from the history          */
+	rl_get_prev,	/* get a line from the history         */
 	rl_get_all,		/* get all the lines from the history */
-	rl_add,			/* add a line to the history       */
-	rl_reset_pos,	/* reset the history position     */
-	rl_clear,		/* clear the history             */
-	rl_load,		/* load the history from a file */
+	rl_add,			/* add a line to the history         */
+	rl_reset_pos,	/* reset the history position       */
+	rl_clear,		/* clear the history               */
+	rl_load,		/* load the history from a file   */
+};
+
+enum	e_rl_word_type
+{
+	token_cmd,			/* Command token (e.g., "ls" or "gre")           */
+	token_path_file,	/* Path to a file (e.g., "/path/to/file.txt")   */
+	token_path_dir,		/* Path to a directory (e.g., "/path/to/dir/") */
+	token_path,			/* Path to a someting (e.g., "path/to/some")  */
+	unknown,			/* Unknown token type (e.g., "1234")         */
 };
 
 /* ************************************************************************** */
@@ -173,5 +184,30 @@ int			_load_history(
 int			handle_ansi(
 				t_rl_data *const restrict data
 				);
+
+// dir/_tokenize.c
+
+int			is_dir(
+				const char *const restrict path
+				);
+
+int			is_file(
+				const char *const restrict word
+				);
+
+int			tokenize(
+				const char *const restrict word
+				);
+
+// dir/dir.c
+
+int			_show_all(
+				t_rl_data *const restrict data
+				);
+
+// int			_show_dir(
+// 				t_rl_data *const restrict data,
+// 				char *path
+// 				);
 
 #endif /* _READ_LINE_H */

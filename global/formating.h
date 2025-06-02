@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 10:16:49 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/12 15:58:16 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/02 10:36:13 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 // string
 
-# define ERROR	"Error: "
+# define ERROR	"\033[31mError:\033[0m "
 # define USAGE	"Usage: "
 # define PADD	"    └──"
 # define PADD5	"    ├──"
