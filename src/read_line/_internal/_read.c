@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/29 17:01:18 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/02 12:23:49 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ __attribute__((always_inline, used)) static inline int	_add(
 		data->result = mm_realloc(data->result, \
 			data->line_length, data->line_length + _RL_ALLOC_SIZE + 1);
 		if (!data->result)
-			return (-1);
+			return (data->status = error, -1);
 	}
 	if (data->cursor_pos == data->line_length)
 		data->result[data->line_length] = c;
@@ -147,6 +147,8 @@ __attribute__((used)) static int	handle_special(
 		return (data->result[data->line_length] = '\0', data->status = eof);
 	else if (c == 3)
 		return (data->status = interr);
+	else if (c == '\t')
+		return (_show_all(data));
 	else if (c == 28)
 		return (write(STDOUT_FILENO, &c, 1));
 	else

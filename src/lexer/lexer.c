@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/29 14:06:38 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/02 12:08:40 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,46 +23,46 @@
 
 /* -----| Utils Functions |---- */
 
-/**
- * @brief	Concatenates two strings with a '/' in between.
- * 
- * @param	s1		The first string.
- * @param	s2		The second string.
- * @param	size	The size of the second string to concatenate.
- * 
- * @return	return the concatenated string.
- * @retval		NULL if the memory allocation fails.
- * @retval		result if the concatenation is successful.
- * 
- * @version 1.1
- */
-__attribute__((cold)) static char	*ft_strcat(
-	const char *const restrict s1,
-	const char *const restrict s2,
-	const int size
-)
-{
-	const int		len_result = ft_strlen(s1) + ft_strlen(s2) + 1;
-	char			*result;
-	register int	i;
-	register int	j;
+// /**
+//  * @brief	Concatenates two strings with a '/' in between.
+//  * 
+//  * @param	s1		The first string.
+//  * @param	s2		The second string.
+//  * @param	size	The size of the second string to concatenate.
+//  * 
+//  * @return	return the concatenated string.
+//  * @retval		NULL if the memory allocation fails.
+//  * @retval		result if the concatenation is successful.
+//  * 
+//  * @version 1.1
+//  */
+// __attribute__((cold)) static char	*ft_strcat(
+// 	const char *const restrict s1,
+// 	const char *const restrict s2,
+// 	const int size
+// )
+// {
+// 	const int		len_result = ft_strlen(s1) + ft_strlen(s2) + 1;
+// 	char			*result;
+// 	register int	i;
+// 	register int	j;
 
-	result = mm_alloc((len_result + 1) * sizeof(char));
-	if (_UNLIKELY(!result))
-		return (perror("ft_strcat(): mm_alloc() failed\n"), NULL);
-	i = -1;
-	while (s1[++i])
-		result[i] = s1[i];
-	result[i++] = '/';
-	j = 0;
-	while (s2[j] && j < size)
-	{
-		result[i + j] = s2[j];
-		++j;
-	}
-	result[i + j] = '\0';
-	return (result);
-}
+// 	result = mm_alloc((len_result + 1) * sizeof(char));
+// 	if (_UNLIKELY(!result))
+// 		return (perror("ft_strcat(): mm_alloc() failed\n"), NULL);
+// 	i = -1;
+// 	while (s1[++i])
+// 		result[i] = s1[i];
+// 	result[i++] = '/';
+// 	j = 0;
+// 	while (s2[j] && j < size)
+// 	{
+// 		result[i + j] = s2[j];
+// 		++j;
+// 	}
+// 	result[i + j] = '\0';
+// 	return (result);
+// }
 
 /**
  * @brief	Checks the type of a file at the given path.
@@ -101,7 +101,7 @@ __attribute__((used)) static t_file_type	check_path(
 		else if (S_ISLNK(file_stat.st_mode))
 			return (e_symlink);
 		else
-			return (perror("check_file(): unknown file type\n"), e_unknown);
+			return (e_unknown);
 	}
 }
 
@@ -129,9 +129,9 @@ static char	*get_in_path(
 	i = -1;
 	while (paths[++i])
 	{
-		full_path = ft_strcat(paths[i], name, ft_strlen(name));
+		full_path = path_join(paths[i], name, ft_strlen(name));
 		if (_UNLIKELY(!full_path))
-			return (perror("get_in_path(): ft_strcat() failed"), NULL);
+			return (perror("get_in_path(): path_join() failed"), NULL);
 		if (check_path(full_path, F_OK | X_OK) == e_file)
 			return (free_tab(paths), full_path);
 		else
