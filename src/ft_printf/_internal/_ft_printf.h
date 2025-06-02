@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:40:52 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/29 15:02:58 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/02 11:55:51 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # include <stdlib.h>
 # include <stdarg.h>
 # include <limits.h>
+# include <errno.h>
+# include <string.h>
 
 /* -----| Globals   |----- */
 	//...
