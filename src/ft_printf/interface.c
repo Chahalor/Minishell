@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 16:12:05 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/02 11:57:03 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/02 16:25:19 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,9 +147,10 @@ __attribute__((__format__(__printf__, 1, 2))) void	ft_perror(
 	...
 )
 {
-	va_list	args;
-	t_print	print;
-	char	buffer[PRINTF_BUFFER_SIZE];
+	va_list		args;
+	t_print		print;
+	char		buffer[PRINTF_BUFFER_SIZE];
+	const int	saved_errno = errno;
 
 	if (__builtin_expect(!format || write(STDERR_FILENO, "", 0) == -1, unexpected))
 		return ;
@@ -157,7 +158,7 @@ __attribute__((__format__(__printf__, 1, 2))) void	ft_perror(
 	ft_bzero(buffer, PRINTF_BUFFER_SIZE);
 	print = _init_print(buffer, STDERR_FILENO, PRINTF_BUFFER_SIZE);
 	write_loop(format, args, &print);
-	writestr(strerror(errno), &print);
+	writestr(strerror(saved_errno), &print);
 	write(print.fd, print.buffer, print.buff_pos);
 	va_end(args);
 	return ;
