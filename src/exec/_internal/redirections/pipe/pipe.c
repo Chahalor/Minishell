@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/03 14:51:50 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/03 18:47:10 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
  * @version	2.0
  */
 __attribute__((always_inline, used)) inline int	_piping(
-	int *const restrict pipe_fd,
+	int pipe_fd[2],
 	int *const restrict out_fd
 )
 {
