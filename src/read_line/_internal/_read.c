@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/03 11:07:06 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/03 11:23:47 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ __attribute__((used)) int	_rl_add(
 
 	if (data->line_length == _RL_ALLOC_SIZE - 1)
 	{
-		data->result = mm_realloc(data->result, \
-			data->line_length, data->line_length + _RL_ALLOC_SIZE + 1);
+		data->result = mm_realloc(data->result,
+				data->line_length, data->line_length + _RL_ALLOC_SIZE + 1);
 		if (!data->result)
 			return (data->status = error, -1);
 	}
@@ -109,8 +109,8 @@ __attribute__((used)) int	refresh_line(
 )
 {
 	const int						move = data->line_length - data->cursor_pos;
-	const char *const	restrict	to_write = data->result + data->cursor_pos \
-				- 1;
+	const char *const	restrict	to_write = data->result + data->cursor_pos
+		- 1;
 
 	ft_printf("%s", to_write);
 	if (move > 0)
