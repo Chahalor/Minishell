@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:44:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/03 11:21:27 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/03 11:32:34 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ __attribute__((cold, unused)) int	init_all(
 	return (init_signal() || rl_load_history(DEFAULT_HISTORY_FILE));
 }
 
-__attribute__((always_inline, used)) int	_prompt(
+__attribute__((always_inline, used)) inline int	_prompt(
 	const char *const restrict prompt,
 	char **envp
 )

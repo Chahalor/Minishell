@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:57:20 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/29 17:01:48 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/03 11:30:47 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 #pragma region Fonctions
 
 /** 
- * // | ISIG);
+ * tkt je garde sa au ca ou (sa viennt de c_lflag) // | ISIG);
 */
 __attribute__((always_inline, used)) inline void	_set_raw(
 	struct termios *t
