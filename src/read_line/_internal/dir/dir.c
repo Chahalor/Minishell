@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/03 11:18:13 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/03 11:28:17 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ __attribute__((used)) static inline int	_show_paths(
 	entry = readdir(dir);
 	while (entry && data->nb_entries < _RL_COMP_LIMIT)
 	{
-		if (entry->d_name[0] != '.' \
+		if (entry->d_name[0] != '.'
 			&& ft_strncmp(entry->d_name, path_file, ft_strlen(path_file)) == 0)
 			data->entry[data->nb_entries++] = memdup(entry,
 					sizeof(struct dirent));
