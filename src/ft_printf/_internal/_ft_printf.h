@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:40:52 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/24 15:31:02 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/02 11:55:51 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # include <stdlib.h>
 # include <stdarg.h>
 # include <limits.h>
+# include <errno.h>
+# include <string.h>
 
 /* -----| Globals   |----- */
 	//...
@@ -114,7 +116,18 @@ extern t_print	_init_print(
 					int buffer_len
 					);
 
+extern t_print	_init_raw_print(
+					void *buffer,
+					int fd,
+					int buffer_len
+					);
+
 int				_add(
+					t_print *const restrict print,
+					const char c
+					);
+
+int				_raw_add(
 					t_print *const restrict print,
 					const char c
 					);

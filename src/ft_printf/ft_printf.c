@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 11:36:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/19 11:18:59 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/29 15:02:37 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,43 @@ __attribute__((used)) int	_add(
 	else
 	{
 		print->buffer[print->buff_pos++] = c;
+		++print->nb_char;
+	}
+	return (1);
+}
+
+/**
+ * @brief	add a char to the buffer. If the buffer is full, write it to the fd.
+ * 
+ * @param	print	The print structure.
+ * @param	c		The char to add.
+ * 
+ * @return	0 if the buffer is full, 1 if the char is added.
+ * 
+ * @note	write nothing if the fd is -1.
+*/
+__attribute__((used)) int	_raw_add(
+	t_print *const restrict print,
+	const char c
+)
+{
+	if (__builtin_expect(print->buff_pos >= print->buffer_len, unexpected))
+	{
+		if (print->fd != -1)
+			write(print->fd, print->buffer, print->buff_pos);
+		ft_bzero(print->buffer, print->buffer_len);
+		print->buff_pos = 0;
+		return (0);
+	}
+	else
+	{
+		if (c == '\n')
+		{
+			print->buffer[print->buff_pos++] = c;
+			_add(print, '\r');
+		}
+		else
+			print->buffer[print->buff_pos++] = c;
 		++print->nb_char;
 	}
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 11:39:16 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/23 14:47:12 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/02 09:05:31 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 /* -----| Internals |----- */
 #include "get_next_line.h"
+#include "ft_printf.h"
 
 #pragma endregion Header
 #pragma region Prototypes
@@ -164,7 +165,7 @@ __attribute__((used)) inline char	_loop(
 	const int fd
 )
 {
-	if (!storage->storage_len)
+	if (storage->storage_len <= 0)
 	{
 		_read(fd, storage);
 		if (__builtin_expect(storage->status < 0, 0))

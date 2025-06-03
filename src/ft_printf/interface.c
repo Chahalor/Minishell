@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 16:12:05 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/24 15:46:08 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/03 10:34:56 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,18 +49,19 @@ __attribute__((__format__(__printf__, 1, 2))) int	ft_printf(
 	return (print.nb_char);
 }
 
-#if DEBUG == 1
-
 /**
- * @brief	Write The formatted string to the standard output.
- *  But Only if DEBUG is defined and set to 1.
+ * @brief	Write The formatted string to the standard output but for raw mode.
  * 
  * @param	format	The format string.
  * @param	...		The values to format.
  * 
  * @return	The number of characters written, or -1 on error.
-*/
-__attribute__((__format__(__printf__, 1, 2))) int	debug_printf(
+ * 
+ * @note	This function is used for raw mode
+ * 
+ * @version 1.0
+ */
+__attribute__((__format__(__printf__, 1, 2))) int	raw_printf(
 	const char *const restrict format,
 	...
 )
@@ -79,27 +80,6 @@ __attribute__((__format__(__printf__, 1, 2))) int	debug_printf(
 	va_end(args);
 	return (print.nb_char);
 }
-
-#else
-
-/**
- * @brief	Do nothing cause DEBUG is not defined or set to 0.
- * 
- * @param	format	The format string.
- * @param	...		The values to format.
- * 
- * @return	0
-*/
-__attribute__((__format__(__printf__, 1, 2))) int	debug_printf(
-	const char *const restrict format,
-	...
-)
-{
-	(void)format;
-	return (0);
-}
-
-#endif
 
 /**
  * @brief	Write The formatted string to the file descriptor.
@@ -160,6 +140,29 @@ __attribute__((__format__(__printf__, 2, 3))) int	ft_sprintf(
 	write(print.fd, print.buffer, print.buff_pos);
 	va_end(args);
 	return (print.nb_char);
+}
+
+__attribute__((__format__(__printf__, 1, 2))) void	ft_perror(
+	const char *const restrict format,
+	...
+)
+{
+	const int	saved_errno = errno;
+	va_list		args;
+	t_print		print;
+	char		buffer[PRINTF_BUFFER_SIZE];
+
+	if (__builtin_expect(!format || write(STDERR_FILENO, "", 0) == -1,
+			unexpected))
+		return ;
+	va_start(args, format);
+	ft_bzero(buffer, PRINTF_BUFFER_SIZE);
+	print = _init_print(buffer, STDERR_FILENO, PRINTF_BUFFER_SIZE);
+	write_loop(format, args, &print);
+	writestr(strerror(saved_errno), &print);
+	write(print.fd, print.buffer, print.buff_pos);
+	va_end(args);
+	return ;
 }
 
 #pragma endregion Fonctions

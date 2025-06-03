@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/26 12:36:51 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/03 11:23:47 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
  * @note	Yes it doesn't increases the line length by 1.
  * @note	YEs it change the cursor position.
  */
-__attribute__((always_inline, used)) static inline int	_add(
+__attribute__((used)) int	_rl_add(
 	const char c,
 	t_rl_data *const restrict data
 )
@@ -41,10 +41,10 @@ __attribute__((always_inline, used)) static inline int	_add(
 
 	if (data->line_length == _RL_ALLOC_SIZE - 1)
 	{
-		data->result = mm_realloc(data->result, \
-			data->line_length, data->line_length + _RL_ALLOC_SIZE + 1);
+		data->result = mm_realloc(data->result,
+				data->line_length, data->line_length + _RL_ALLOC_SIZE + 1);
 		if (!data->result)
-			return (-1);
+			return (data->status = error, -1);
 	}
 	if (data->cursor_pos == data->line_length)
 		data->result[data->line_length] = c;
@@ -109,8 +109,8 @@ __attribute__((used)) int	refresh_line(
 )
 {
 	const int						move = data->line_length - data->cursor_pos;
-	const char *const	restrict	to_write = data->result + data->cursor_pos \
-				- 1;
+	const char *const	restrict	to_write = data->result + data->cursor_pos
+		- 1;
 
 	ft_printf("%s", to_write);
 	if (move > 0)
@@ -135,29 +135,24 @@ __attribute__((used)) static int	handle_special(
 {
 	if (c == '\033')
 		return (handle_ansi(data));
-	else if ((c == 127 || c == 8) && data->cursor_pos > 0)
+	else if ((c == 127 || c == 8))
 	{
+		if (!data->cursor_pos)
+			return (0);
 		--data->cursor_pos;
 		_remove(data);
 		return (write(STDOUT_FILENO, "\033[D\033[P", 6));
 	}
 	else if (c == 4 && data->line_length == 0)
-	{
-		data->result[data->line_length] = '\0';
-		return (data->status = eof);
-	}
+		return (data->result[data->line_length] = '\0', data->status = eof);
 	else if (c == 3)
-	{
-		write(STDOUT_FILENO, "^C", 2);
 		return (data->status = interr);
-	}
+	else if (c == '\t')
+		return (completion(data));
 	else if (c == 28)
 		return (write(STDOUT_FILENO, &c, 1));
 	else
-	{
-		data->line_length += _add(c, data);
-		return (refresh_line(data));
-	}
+		return (data->line_length += _rl_add(c, data), refresh_line(data));
 }
 
 /**
@@ -168,7 +163,7 @@ __attribute__((used)) static int	handle_special(
  * @return	The length of the line read.
  * 
  * @note	The function will block until a newline is received or an error
- * 	occurs.
+ * 				occurs.
  * 
  * @version 2.0
 */
@@ -192,7 +187,7 @@ __attribute__((hot)) int	_read(
 			handle_special(data, c);
 		else
 		{
-			data->line_length += _add(c, data);
+			data->line_length += _rl_add(c, data);
 			refresh_line(data);
 		}
 	}

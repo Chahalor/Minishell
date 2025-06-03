@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:44:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/29 13:55:05 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/03 11:32:34 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,34 @@ __attribute__((cold, unused)) int	init_all(
 )
 {
 	args_parser(argc, argv);
-	return (
-		init_signal() \
-		|| rl_load_history(DEFAULT_HISTORY_FILE)
-	);
+	return (init_signal() || rl_load_history(DEFAULT_HISTORY_FILE));
+}
+
+__attribute__((always_inline, used)) inline int	_prompt(
+	const char *const restrict prompt,
+	char **envp
+)
+{
+	char		*line;
+	t_exec_data	*data;
+
+	line = read_line(prompt);
+	if (__builtin_expect(!line, unexpected))
+		return (0);
+	else if (!line[0])
+		return (mm_free(line), 1);
+	else
+	{
+		data = lexer(line);
+		if (data)
+		{
+			rl_add_history(line);
+			full_exec(data, envp);
+		}
+		else
+			perror("command not found");
+	}
+	return (mm_free(line), 1);
 }
 
 #pragma endregion Fonctions
@@ -55,28 +79,14 @@ __attribute__((cold, unused)) int	init_all(
  */
 int	main(int argc, const char **argv, char **envp)
 {
-	char			*line;
-	t_exec_data		*data;
+	int	running;
 
-	if (!init_all(argc, argv))
-		return (EXIT_FAILURE);
-	while (1)
+	if (_UNLIKELY(!init_all(argc, argv)))
+		return (exit_program(1, "main(): Failed to initialize all modules"), 1);
+	running = 1;
+	while (running)
 	{
-		line = read_line(DEFAULT_PROMPT);
-		if (__builtin_expect(!line, unexpected))
-			continue ;
-		else
-		{
-			data = lexer(line);
-			if (data)
-			{
-				rl_add_history(line);
-				full_exec(data, envp);
-			}
-			else
-				perror("command not found");
-		}
-		mm_free(line);
+		running = _prompt(DEFAULT_PROMPT, envp);
 	}
 	exit_program(0, "main(): Exiting program");
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:35:00 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/24 15:28:22 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/02 08:58:01 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ __attribute__((visibility("hidden"), cold)) void	*_gnl_memmove(
  * @brief	Reset the storage structure to its initial state. This function is
  * 			used to clear the storage structure before using it.
  * 
- * @param storage	The storage structure to reset.
+ * @param storage The storage structure to reset.
  * 
  * @return	void
  * 

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:51:15 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/19 10:31:56 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/05/29 15:00:01 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,22 @@ __attribute__((always_inline, used)) inline t_print	_init_print(
 		.nb_char = 0,
 		.fd = fd,
 		.add = _add
+	});
+}
+
+__attribute__((always_inline, used)) inline t_print	_init_raw_print(
+	void *buffer,
+	int fd,
+	int buffer_len
+)
+{
+	return ((t_print){
+		.buffer = buffer,
+		.buffer_len = buffer_len,
+		.buff_pos = 0,
+		.nb_char = 0,
+		.fd = fd,
+		.add = _raw_add
 	});
 }
 
