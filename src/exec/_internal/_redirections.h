@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 14:49:10 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/03 16:12:28 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/03 21:29:04 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 /*                                 Macros                                     */
 /* ************************************************************************** */
 
-# define HEREDOC_ALLOC_SIZE 64	/* Size of the buffer for heredoc input */
+# define HEREDOC_ALLOC_SIZE 4	/* Size of the buffer for heredoc input @todo: reset the value to 64 or 32 */
 
 /* ************************************************************************** */
 /*                                 Typedefs                                   */

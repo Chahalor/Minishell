@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/03 16:16:35 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/03 18:50:01 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,13 @@ int	test_heredoc(
 	const char *const restrict delimiter
 )
 {
-	return (heredoc(delimiter, STDOUT_FILENO));
+	int fd = open(".dev/out", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd < 0)
+		return (ft_perror("test_heredoc(): open() failed"), -1);
+	int out = heredoc(delimiter, fd);
+	close(fd);
+
+	return (out);
 }
 
 #pragma endregion Fonctions
