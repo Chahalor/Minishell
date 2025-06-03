@@ -44,7 +44,7 @@ for module in "$DIR_SRC"/*/; do
 		MODULE_NAME=$(basename "$module")
 		MODULE_VAR="OBJ_${MODULE_NAME^^}"	# OBJ variable name in uppercase
 		MAKEFILE_MK_LIST+=" ${module}makefile.mk"
-		OBJ_ALL_LIST+=" \$($MODULE_VAR)"	# OBJ_ALL variable name in makefile
+		OBJ_ALL_LIST+=" \$($MODULE_VAR)"	# _OBJ_ALL variable name in makefile
 		SRC_INTERFACE=$(find "$module" -maxdepth 1 -name "*.c" | sed 's|^.*/||' | tr '\n' ' ')	# listing all .c files in the module directory
 		SRC_INTERNAL=""
 		if [ -d "$module/_internal" ]; then
@@ -103,7 +103,7 @@ INCLUDE_ALL	:=$INCLUDE_ALL
 
 DIR_LIBFT	:= $DIR_LIBFT
 LIBFT		:= #\$(DIR_LIBFT)/libft.a
-DEPS		:= \$(OBJ_ALL:.o=.d)
+DEPS		:= \$(_OBJ_ALL:.o=.d)
 
 # Here we include all the makefile.mk files
 include $MAKEFILE_MK_LIST
@@ -113,9 +113,9 @@ SRC_MAIN	:= main.c
 SRC_BONUS	:=
 
 # all object files for the modules
-OBJ_MAIN	:= \$(addprefix \$(DIR_OBJ)/, \$(SRC_MAIN:.c=.o))
-OBJ_BONUS	:= \$(addprefix \$(DIR_OBJ)/, \$(SRC_BONUS:.c=.o))
-OBJ_ALL		:=$OBJ_ALL_LIST
+_OBJ_MAIN	:= \$(addprefix \$(DIR_OBJ)/, \$(SRC_MAIN:.c=.o))
+_OBJ_BONUS	:= \$(addprefix \$(DIR_OBJ)/, \$(SRC_BONUS:.c=.o))
+_OBJ_ALL		:=$OBJ_ALL_LIST
 
 # ***************************************************** #
 # *                    Rules                          * #
@@ -123,13 +123,13 @@ OBJ_ALL		:=$OBJ_ALL_LIST
 
 .PHONY: all
 
-all: header norm \$(NAME) install
+all: header norm \$(NAME) symbols install
 
 # ***************************************************** #
 # *                  Compiling                        * #
 # ***************************************************** #
 
-\$(NAME):  \$(LIBFT) \$(OBJ_ALL) \$(OBJ_MAIN)
+\$(NAME): \$(LIBFT) \$(_OBJ_ALL) \$(_OBJ_MAIN)
 	\$(CC) \$(CFLAGS) \$(DEBUGFLAGS) \$(INCLUDE_ALL) \$^ \$(LIBFT) -o \$(NAME) 
 
 \$(DIR_OBJ)/%.o: \$(DIR_SRC)/%.c
@@ -139,7 +139,7 @@ all: header norm \$(NAME) install
 # \$(LIBFT):
 	#@make -C \$(DIR_LIBFT) NO_HEADER=true
 
-bonus: \$(LIBFT) \$(OBJ_ALL) \$(OBJ_BONUS)
+bonus: \$(LIBFT) \$(_OBJ_ALL) \$(_OBJ_BONUS)
 	\$(CC) \$(CFLAGS) \$(DEBUGFLAGS) \$(INCLUDE_ALL) \$^ \$(LIBFT)  -o \$(BONUS)
 
 # ***************************************************** #
@@ -149,7 +149,7 @@ bonus: \$(LIBFT) \$(OBJ_ALL) \$(OBJ_BONUS)
 .PHONY: clean fclean re
 
 clean:
-	rm -f \$(OBJ_ALL) \$(OBJ_MAIN) \$(OBJ_BONUS)
+	rm -f \$(_OBJ_ALL) \$(_OBJ_MAIN) \$(_OBJ_BONUS)
 #@make clean -C \$(DIR_LIBFT)
 
 fclean:
@@ -181,7 +181,7 @@ debug.pg:
 # *                      Utils                        * #
 # ***************************************************** #
 
-.PHONY: header norm crazy test install uninstall update hellgrind
+.PHONY: header norm install uninstall update symbols
 
 header:
 ifeq (\$(MAKELEVEL), 0)
@@ -219,6 +219,31 @@ update:
 	fi
 	./auto.sh
 	echo "\033[1;32m ✅ Makefile updated \033[0m";
+
+_ALLOWED_SYMBOLS := readline rl_clear_history rl_on_new_line rl_replace_line rl_redisplay add_history \\
+printf malloc free write access open read close fork wait waitpid wait3 wait4 signal \\
+sigaction sigemptyset sigaddset kill exit getcwd chdir stat lstat fstat unlink execve \\
+dup dup2 pipe opendir readdir closedir strerror perror isatty ttyname ttyslot ioctl \\
+getenv tcsetattr tcgetattr tgetent tgetflag tgetnum tgetstr tgoto tputs
+_NB_FORBIDENS = 1
+
+symbols:
+	echo "\033[1;33m Checking symbols... \033[0m"; \\
+	nm -uj \$(NAME) | sed 's/@.*//' | grep -v '^__' | while read sym; do \\
+		base_sym=\$\${sym%%@*}; \\
+		allowed=0; \\
+		for s in \$(_ALLOWED_SYMBOLS); do \\
+			if [ "\$\$sym" = "\$\$s" ]; then \\
+				allowed=1; \\
+				break; \\
+			fi; \\
+		done; \\
+		if [ \$\$allowed -eq 1 ]; then \
+			echo "	\033[32m\$\$sym (allowed)\033[0m"; \\
+		else \\
+			echo "	\033[31m\$\$sym (forbidden)\033[0m"; \\
+		fi; \\
+	done
 
 .SILENT:
 	@echo "\033[1;33m SILENT MODE ACTIVATED \033[0m
