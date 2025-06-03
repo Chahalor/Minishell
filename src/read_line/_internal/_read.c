@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/03 08:16:48 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/03 11:07:06 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
  * @note	Yes it doesn't increases the line length by 1.
  * @note	YEs it change the cursor position.
  */
-__attribute__((always_inline, used)) static inline int	_add(
+__attribute__((used)) int	_rl_add(
 	const char c,
 	t_rl_data *const restrict data
 )
@@ -152,7 +152,7 @@ __attribute__((used)) static int	handle_special(
 	else if (c == 28)
 		return (write(STDOUT_FILENO, &c, 1));
 	else
-		return (data->line_length += _add(c, data), refresh_line(data));
+		return (data->line_length += _rl_add(c, data), refresh_line(data));
 }
 
 /**
@@ -187,7 +187,7 @@ __attribute__((hot)) int	_read(
 			handle_special(data, c);
 		else
 		{
-			data->line_length += _add(c, data);
+			data->line_length += _rl_add(c, data);
 			refresh_line(data);
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:57:59 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/03 10:23:04 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/03 11:07:13 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,11 @@ extern void	_init_cmd(
 				);
 
 // _read.c
+
+int			_rl_add(
+				const char c,
+				t_rl_data *const restrict data
+				);
 
 int			_remove(
 				t_rl_data *const restrict data

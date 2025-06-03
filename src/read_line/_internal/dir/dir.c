@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/03 10:33:22 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/03 11:08:38 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,25 @@ __attribute__((used)) static inline int	_show_paths(
 	return (mm_free(path_dir), mm_free(path_file), 0);
 }
 
+static inline int	_end(
+	t_rl_completion *const restrict completion,
+	t_rl_data *const restrict data,
+	const char *const restrict word
+)
+{
+	register int	i;
+
+	(void)word;
+	if (!completion->nb_entries)
+		return (1);
+	write(STDOUT_FILENO, "\r\n", 2);
+	i = -1;
+	while (++i < completion->nb_entries)
+		ft_printf("%s ", completion->entry[i]->d_name);
+	ft_printf("\r\n%s%s", data->prompt, data->result);
+	return (0);
+}
+
 /** */
 int	completion(
 	t_rl_data *const restrict data
@@ -141,7 +160,6 @@ int	completion(
 	register int	nb_words;
 	int				token;
 	t_rl_completion	completion;
-	register int	i;
 
 	_neutral(&completion, sizeof(t_rl_completion));
 	words = ft_split(data->result, ' ');
@@ -153,13 +171,7 @@ int	completion(
 		_show_cmds(words[nb_words - 1], &completion);
 	else if (token > token_cmd && token < unknown)
 		_show_paths(words[nb_words - 1], &completion);
-	if (!completion.nb_entries)
-		return (free_tab(words), 1);
-	i = -1;
-	write(STDOUT_FILENO, "\r\n", 2);
-	while (++i < completion.nb_entries)
-		ft_printf("%s ", completion.entry[i]->d_name);
-	ft_printf("\r\n%s%s", data->prompt, data->result);
+	_end(&completion, data, words[nb_words - 1]);
 	return (free_tab(words), _free_completion(&completion), 0);
 }
 
