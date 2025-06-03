@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:57:59 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/02 17:36:32 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/03 10:23:04 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef enum e_rl_word_type		t_rl_word_type;		/* completions types    */
 
 typedef struct s_rl_data		t_rl_data;			/* rl:_read data struct */
 typedef struct s_rl_history		t_rl_history;		/* rl:hist data struct */
+typedef struct s_rl_completion	t_rl_completion;	/* rl:completion struct */
 
 /* ************************************************************************** */
 /*                                 Enums                                      */
@@ -122,6 +123,12 @@ struct	s_rl_history
 	int		fd;							/* file descriptor for the history */
 };	// the fd will be moved to the manager
 
+struct s_rl_completion
+{
+	struct dirent	*entry[_RL_COMP_LIMIT];		/* current directory entry */
+	int				nb_entries;					/* number of entries      */
+};
+
 /* ************************************************************************** */
 /*                                 Prototypes                                 */
 /* ************************************************************************** */
@@ -185,6 +192,12 @@ int			handle_ansi(
 				t_rl_data *const restrict data
 				);
 
+// dir/_free.c
+
+extern void	_free_completion(
+				t_rl_completion *const restrict data
+				);
+
 // dir/_tokenize.c
 
 int			is_dir(
@@ -201,13 +214,8 @@ int			tokenize(
 
 // dir/dir.c
 
-int			_show_all(
+int			completion(
 				t_rl_data *const restrict data
 				);
-
-// int			_show_dir(
-// 				t_rl_data *const restrict data,
-// 				char *path
-// 				);
 
 #endif /* _READ_LINE_H */

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/02 17:36:58 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/03 10:34:04 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,41 +24,33 @@
 #pragma region Fonctions
 
 /** */
-__attribute__((always_inline, used)) static inline int _has_path_chars(
-	const char *const restrict word
+__attribute__((always_inline, used)) static inline char	_is_file(
+	const char *const restrict path
 )
 {
-	register int	i;
+	const char		*p = path;
+	char			has_slash;
+	char			has_valid_char;
+	char			c;
 
-	i = 0;
-	if (word[0] == '~')
-		++i;
-	while (word[i] && (word[i] == '/' || word[i] == '.'))
-		++i;
-	return (i > 0);
-}
-
-
-/**
- * @brief	Check if the word is a file.
- *
- * @param	char	*word The word to check.
- * 
- * @return	if the word is a file
- * @retval		1 if the word is a file
- * @retval		0 if the word is not a file
- * 
- * @version 1.0
-*/
-__attribute__((always_inline, used)) static inline int	_is_file(
-	const char *const restrict word
-)
-{
-	
-	if (!word || !*word || word[ft_strlen(word) - 1] == '/')
+	if (_UNLIKELY(!path || !*path))
 		return (0);
-	else
-		return( _has_path_chars(word));
+	has_slash = false;
+	has_valid_char = false;
+	while (*p)
+	{
+		c = *p;
+		if (c == '/' || c == '\\')
+			has_slash = true;
+		else if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
+			|| (c >= '0' && c <= '9') || c == '.' || c == '-'
+			|| c == '_' || c == '~')
+			has_valid_char = true;
+		else
+			return (false);
+		++p;
+	}
+	return (has_valid_char && (has_slash || path[0] == '.'));
 }
 
 /**

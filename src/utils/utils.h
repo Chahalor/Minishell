@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 11:03:50 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/02 11:32:18 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/03 10:17:38 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,10 @@ char		*path_join(
 char		*ft_strchr(
 				const char *const restrict str,
 				const char *const restrict target
+				);
+
+int			arraylen(
+				const void *const *array
 				);
 
 #endif /* UTILS_H */

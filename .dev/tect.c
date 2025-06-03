@@ -76,9 +76,10 @@ __attribute__((always_inline)) inline t_token_type	classify_token(const char *to
 int main(int argc, char const *argv[])
 
 {
-	char *str;
-	if (argc <= 0)
-		str = "../../tect.c";
+	char	*str;
+
+	if (argc <= 1)
+		str = "/home/nduvoid/Desktop/Minishell/./";
 	else
 		str = (char *)argv[1];
 

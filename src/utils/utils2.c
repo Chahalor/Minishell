@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 11:04:28 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/02 11:31:54 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/03 10:34:41 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,18 @@ __attribute__((cold)) char	*path_join(
 	return (result);
 }
 
-/** */
-char *ft_strchr(
+/**
+ * @brief	Searches for the first occurrence of a substring in a string.
+ * 
+ * @param	str The string to search in.
+ * @param	target The substring to search for.
+ * 
+ * @return	A pointer to the first occurrence of the substring in the string.
+ * @retval		NULL if the substring is not found or if either string is NULL.
+ * 
+ * @version 1.0
+*/
+char	*ft_strchr(
 	const char *const restrict str,
 	const char *const restrict target
 )
@@ -113,6 +123,30 @@ char *ft_strchr(
 			return ((char *)(str + i));
 	}
 	return (NULL);
+}
+
+/**
+ * @brief	Returns the length of an null terminated array of pointers.
+ * 
+ * @param	array The array of pointers.
+ * 
+ * @return	The length of the array.
+ * @retval	0 if the array is NULL or empty.
+ * 
+ * @version 1.0
+ */
+int	arraylen(
+	const void *const *array
+)
+{
+	register int	i;
+
+	if (_UNLIKELY(!array))
+		return (0);
+	i = -1;
+	while (array[++i])
+		;
+	return (i);
 }
 
 #pragma endregion Fonctions

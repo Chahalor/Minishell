@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/02 12:23:49 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/03 08:16:48 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ __attribute__((used)) static int	handle_special(
 	else if (c == 3)
 		return (data->status = interr);
 	else if (c == '\t')
-		return (_show_all(data));
+		return (completion(data));
 	else if (c == 28)
 		return (write(STDOUT_FILENO, &c, 1));
 	else
