@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:46:56 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/28 15:18:41 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/03 15:33:23 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,10 @@ struct s_exec_data
 int			full_exec(
 				t_exec_data *const restrict data,
 				char *const envp[]
+				);
+
+int			test_heredoc(
+				const char *const restrict delimiter
 				);
 
 #endif /* EXEC_H */

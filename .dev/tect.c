@@ -1,96 +1,50 @@
-#include <stdlib.h>
-#include <string.h>
+#include <fcntl.h>
 #include <unistd.h>
+#include <sys/types.h>
 #include <sys/stat.h>
-# include <stdio.h>
 
-typedef enum e_token_type {
-	TOKEN_CMD,
-	TOKEN_PATH_FILE,
-	TOKEN_PATH_DIR,
-	TOKEN_PATH,
-	TOKEN_UNKNOWN
-}	t_token_type;
+int main() {
+    int fd;
 
-static inline int	_is_dir(const char *path)
-{
-	struct stat st;
+    // Nom du fichier temporaire
+    const char *filename = "/tmp/mon_fichier_temporaire_secure2";
 
-	if (stat(path, &st) == 0 && S_ISDIR(st.st_mode))
-		return (1);
-	return (0);
-}
+    // Créer le fichier avec des permissions très restrictives : rw-------
+    fd = open(filename, O_RDWR | O_CREAT | O_EXCL, 0600);
+    if (fd < 0) {
+        write(2, "Erreur lors de la création du fichier\n", 39);
+        return 1;
+    }
 
-static inline int	_is_file(const char *path)
-{
-	struct stat st;
+    // À ce stade, seul ce processus peut lire/écrire dans le fichier.
+    // Les autres ne peuvent pas l'ouvrir (ni même le modifier).
 
-	if (stat(path, &st) == 0 && S_ISREG(st.st_mode))
-		return (1);
-	return (0);
-}
+    // Exemple d'écriture
+    write(fd, "Donnees temporaires", 19);
 
-static inline char	*_get_full_path(const char *name)
-{
-	char	*path_env = getenv("PATH");
-	char	*path = strtok(path_env ? strdup(path_env) : NULL, ":");
+    close(fd);
 
-	while (path)
-	{
-		char	*full_path = malloc(strlen(path) + strlen(name) + 2);
-		if (!full_path)
-			return (NULL);
-		sprintf(full_path, "%s/%s", path, name);
-		if (access(full_path, X_OK) == 0)
-			return (full_path); // appelant doit free()
-		free(full_path);
-		path = strtok(NULL, ":");
+	fd = open(filename, O_RDONLY);
+	if (fd < 0) {
+		write(2, "Erreur lors de l'ouverture du fichier\n", 39);
+		return 1;
 	}
-	return (NULL);
-}
 
-__attribute__((always_inline)) inline t_token_type	classify_token(const char *token)
-{
-	if (!token || !*token)
-		return (TOKEN_UNKNOWN);
-	if (token[0] == '/' || strncmp(token, "./", 2) == 0 || strncmp(token, "../", 3) == 0)
-	{
-		if (_is_dir(token))
-			return (TOKEN_PATH_DIR);
-		else if (_is_file(token))
-			return (TOKEN_PATH_FILE);
-		else
-			return (TOKEN_PATH);
+	// Lire le contenu du fichier
+	char buffer[20];
+	ssize_t bytes_read = read(fd, buffer, sizeof(buffer) - 1);
+	if (bytes_read < 0) {
+		write(2, "Erreur lors de la lecture du fichier\n", 39);
+		close(fd);
+		return 1;
 	}
-	else
-	{
-		char *cmd_path = _get_full_path(token);
-		if (cmd_path)
-		{
-			free(cmd_path);
-			return (TOKEN_CMD);
-		}
-	}
-	return (TOKEN_UNKNOWN);
-}
-int main(int argc, char const *argv[])
+	buffer[bytes_read] = '\0'; // Terminer la chaîne
 
-{
-	char	*str;
+	// Afficher le contenu lu
+	write(1, buffer, bytes_read);
 
-	if (argc <= 1)
-		str = "/home/nduvoid/Desktop/Minishell/./";
-	else
-		str = (char *)argv[1];
+	close(fd);
+	unlink(filename); // Supprimer le fichier temporaire
 
-	t_token_type type = classify_token(str);
-	if (type == TOKEN_CMD)
-		printf("C’est une commande\n");
-	else if (type == TOKEN_PATH_FILE)
-		printf("C’est un fichier\n");
-	else if (type == TOKEN_PATH_DIR)
-		printf("C’est un dossier\n");
-	else
-		printf("Inconnu\n");
-	return 0;
+    return 0;
 }

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/29 13:53:31 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/03 16:16:35 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 /* -----| Internals |----- */
 #include "_exec.h"
+#include "_redirections.h"
 
 /* -----| Modules   |----- */
 #include "exec.h"
@@ -22,55 +23,6 @@
 #pragma region Fonctions
 
 extern volatile sig_atomic_t	g_last_signal;
-
-/**
- * @brief	Redirects the output of a file descriptor to another file descriptor.
- * 
- * @param	fd		The file descriptor to redirect.
- * @param	new_fd	The file descriptor to redirect to.
- * 
- * @return	Returns the status of the redirection.
- * @retval		~0 if the redirection was successful.
- * @retval		-1 if the file descriptor is invalid.
- * @retval		-2 if the dup2() failed.
- * @retval		-3 if the close() failed.
- * 
- * @version	1.0
-*/
-__attribute__((always_inline, used)) static inline int	_redirect(
-	const int fd,
-	const int new_fd
-)
-{
-	return (((fd < 0 || new_fd < 0))
-		|| ((dup2(fd, new_fd) < 0))
-		|| ((close(fd) < 0)));
-}
-
-/**
- * @brief	Creates a pipe and registers its file descriptors.
- * 
- * @param	pipe_fd		Array to store the file descriptors of the pipe.
- * @param	out_fd		Pointer to store the output file descriptor.
- * 
- * @return	Returns the status of the pipe creation.
- * @retval		~0 if the pipe was created successfully.
- * @retval		-1 if the pipe() failed.
- * 
- * @version	2.0
- */
-__attribute__((always_inline, used)) static inline int	_piping(
-	int *const restrict pipe_fd,
-	int *const restrict out_fd
-)
-{
-	if (_UNLIKELY(pipe(pipe_fd) < 0))
-		return (perror("full_exec(): pipe failed"), -1);
-	*out_fd = pipe_fd[1];
-	fdm_register(pipe_fd[0]);
-	fdm_register(pipe_fd[1]);
-	return (0);
-}
 
 /**
  * @brief	Closes the previous read file descriptor and returns the next command
@@ -203,6 +155,13 @@ int	full_exec(
 	}
 	_wait_childrens(data);
 	return (0);
+}
+
+int	test_heredoc(
+	const char *const restrict delimiter
+)
+{
+	return (heredoc(delimiter, STDOUT_FILENO));
 }
 
 #pragma endregion Fonctions
