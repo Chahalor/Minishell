@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 12:11:57 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/03 19:20:51 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/04 16:19:00 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ __attribute__((malloc)) void	*mm_realloc(
 	const size_t osize
 )
 {
-	const size_t	cpsize = osize * (osize > nsize)
+	const size_t	cpsize = osize * (osize >= nsize)
 		+ nsize * (nsize > osize);
 	t_mm_node		*node;
 	void			*new_ptr;

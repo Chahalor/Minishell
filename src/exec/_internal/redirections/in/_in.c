@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/03 15:05:07 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/04 16:21:14 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ __attribute__((always_inline, used)) inline int	_infile(
 
 	if (_UNLIKELY(!file))
 		return (ft_perror("infile: no file specified"), -1);
-	else if (_UNLIKELY(!access(file, F_OK)))
+	else if (_UNLIKELY(access(file, F_OK)))
 		return (ft_perror("infile: file does not exist"), -2);
 	fd = open(file, O_RDONLY);
 	if (_UNLIKELY(fd < 0))

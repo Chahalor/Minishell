@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 10:02:33 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/04 16:12:59 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/04 16:20:33 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static inline t_exec_data	*_pipe(
 	return (build_pipe(tokens));
 }
 
-t_exec_data	*build_exec(
+__attribute__((deprecated)) t_exec_data	*build_exec(
 	t_token *const restrict tokens
 )
 {
@@ -57,7 +57,6 @@ t_exec_data	*build_exec(
 	t_exec_data	*current;
 	t_token		*tmp;
 
-	*data = (t_exec_data){0};
 	tmp = tokens;
 	while (tmp)
 	{

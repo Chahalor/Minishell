@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 14:49:10 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/04 16:02:24 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/04 16:19:33 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ extern int	_infile(
 
 /* -----| Out      | ----- */
 
-extern int	_outtruc(
+extern int	_outtrunc(
 				const char *const restrict file
 				);
 
