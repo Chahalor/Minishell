@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:44:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/03 16:19:00 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/04 08:42:28 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,7 @@ int	main(int argc, const char **argv, char **envp)
 	running = 1;
 	while (running)
 	{
-		(void)envp;
-		running = test_heredoc("EOF");
-		// running = _prompt(DEFAULT_PROMPT, envp);
+		running = _prompt(DEFAULT_PROMPT, envp);
 	}
 	exit_program(0, "main(): Exiting program");
 	return (0);
