@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 09:19:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/04 09:52:52 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/04 16:12:06 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 
 #pragma endregion Header
 #pragma region Fonctions
+
+/*
 
 static inline int	_is_space(
 	const char c
@@ -98,7 +100,8 @@ t_token	*lex(
 		{
 			if (input[i + 1] == '<')
 			{
-				add_token(&tokens , new_token(TOKEN_REDIR_HEREDOC, input + i, 2));
+				add_token(&tokens , new_token(TOKEN_REDIR_HEREDOC,
+					input + i, 2));
 				i += 2;
 			}
 			else
@@ -135,5 +138,7 @@ void	print_tokens(
 		tok = tok->next;
 	}
 }
+	
+*/
 
 #pragma endregion Fonctions

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/04 13:06:59 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/04 16:11:31 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,8 +142,6 @@ __attribute__((used)) static t_exec_data	*built_exec_data(
 	return (data);
 }
 
-#include <fcntl.h>
-
 /**
  * @brief	Lexer function that parses a command line and builds an execution
  * 				data structure from it.
@@ -182,8 +180,10 @@ __attribute__((hot)) t_exec_data	*lexer(
 		return (free_tab(raw_cmds), NULL);
 	else if (_LIKELY(current != NULL))
 		current->pipe = NULL;
-	current->fd_out = open("tkt.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	return (free_tab(raw_cmds), data);
 }
+// current->fd_out = open("tkt.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644); // rm
+// data->fd_in = open("sus.txt", O_RDONLY); // rm
+// to manualy set the input and output files
 
 #pragma endregion Fonctions

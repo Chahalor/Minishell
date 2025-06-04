@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 09:28:52 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/04 10:47:18 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/04 16:12:25 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,14 @@
 typedef enum e_token_type	t_token_type;	/* Token type enumeration */
 
 typedef struct s_token		t_token;		/* Token structure */
+typedef struct s_exec_data	t_exec_data;	/* Execution data structure */
 
 /* ************************************************************************** */
 /*                                 Enums                                      */
 /* ************************************************************************** */
 
-enum e_token_type {
+enum e_token_type
+{
 	TOKEN_WORD,
 	TOKEN_PIPE,
 	TOKEN_REDIR_IN,
@@ -67,7 +69,6 @@ struct s_token
 /* ************************************************************************** */
 /*                                 Prototypes                                 */
 /* ************************************************************************** */
-
 
 // build/pipes
 

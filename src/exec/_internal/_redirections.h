@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 14:49:10 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/04 08:51:16 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/04 16:02:24 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ extern int	_outappend(
 
 /* -----| HereDocs | ----- */
 
-char		**heredoc(
+int			heredoc(
 				const char *const restrict delimiter,
 				int fd
 				);
