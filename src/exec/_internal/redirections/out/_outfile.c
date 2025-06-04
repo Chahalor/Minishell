@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/03 15:12:22 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/04 16:19:28 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
  *
  * @version	1.0
 */
-__attribute__((always_inline, used)) inline int	_outtruc(
+__attribute__((always_inline, used)) inline int	_outtrunc(
 	const char *const restrict file
 )
 {
