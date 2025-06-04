@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/04 08:48:56 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/04 09:49:13 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static inline int	_read(
  *
  * @version 1.0
 */
-static inline int	_write(
+__attribute__((unused)) static inline int	_write(
 	char *const *const storage,
 	const int nb_lines,
 	const int fd
@@ -133,6 +133,7 @@ char	**heredoc(
 	char			**storage;
 	register int	i;
 
+	(void)fd;
 	storage = mm_alloc(sizeof(char *) * (HEREDOC_ALLOC_SIZE + 1));
 	if (_UNLIKELY(!storage))
 		return (NULL);
