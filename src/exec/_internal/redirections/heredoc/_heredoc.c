@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/04 09:49:13 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/04 16:11:13 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@
  * 
  * @version 1.0
 */
-static inline int	_read(
-	char ***storage,
+static inline char	**_read(
+	char **storage,
 	const char *const restrict delimiter
 )
 {
@@ -54,16 +54,16 @@ static inline int	_read(
 			new_storage = mm_alloc((i + HEREDOC_ALLOC_SIZE + 1)
 					* sizeof(char *));
 			if (_UNLIKELY(!new_storage))
-				return (mm_free(line), mm_free(*storage), -1);
-			ft_memcpy(new_storage, *storage, i * sizeof(char *));
-			mm_free(*storage);
-			*storage = new_storage;
+				return (mm_free(line), mm_free(storage), NULL);
+			ft_memcpy(new_storage, storage, i * sizeof(char *));
+			mm_free(storage);
+			storage = new_storage;
 		}
-		(*storage)[i++] = line;
-		(*storage)[i] = NULL;
+		(storage)[i++] = line;
+		(storage)[i] = NULL;
 		line = read_line(DEFAULT_HEREDOC);
 	}
-	return (mm_free(line), i);
+	return (mm_free(line), storage);
 }
 
 /**
@@ -77,74 +77,84 @@ static inline int	_read(
  * * @retval	0	Success, all lines written.
  * * @retval	-1	Memory allocation failed.
  * * @retval	-2	Write operation failed.
- * 
- * @note keep it to test the heredoc
  *
  * @version 1.0
 */
-__attribute__((unused)) static inline int	_write(
-	char *const *const storage,
-	const int nb_lines,
+__attribute__((always_inline, used)) static inline int	_write(
+	const char *const *const storage,
 	const int fd
 )
 {
-	char			*final_line;
-	size_t			len;
 	register int	i;
+	int				exit_code;
 
-	len = 0;
+	exit_code = 0;
 	i = -1;
-	while (++i < nb_lines && storage[i])
-		len += ft_strlen(storage[i]) + 1;
-	final_line = mm_alloc(sizeof(char) * (len + 1));
-	if (_UNLIKELY(!final_line))
-		return (-1);
-	i = -1;
-	while (++i < nb_lines)
-	{
-		ft_memcpy(final_line + ft_strlen(final_line),
-			storage[i], ft_strlen(storage[i]));
-		final_line[ft_strlen(final_line)] = '\n';
-		mm_free((void *)storage[i]);
-	}
-	final_line[len] = '\0';
-	if (write(fd, final_line, len) == -1)
-		return (mm_free(final_line), -2);
-	else
-		return (mm_free(final_line), 0);
+	while (storage[++i] && exit_code > -1)
+		exit_code = ft_fprintf(fd, "%s\n", storage[i]);
+	return (exit_code > 0);
 }
 
 /**
  * @brief Reads lines from standard input until the delimiter is encountered,
- *  and writes them to the specified file descriptor.
+ * 		and writes them to the specified file descriptor.
  * 
- * @param	char	*delimiter The string that marks the end of input.
- * @param	int		fd		   The file descriptor to write the input to.
+ * @param	char	*const delimiter string that marks the end.
+ * @param	int		fd The file descriptor to write to.
  * 
- * @return	Returns all readed lines in a dynamically allocated array.
+ * @return	Returns the exit code of the heredoc operation.
+ * * @retval	>= 0	The exit code of the write operation.
+ * * @retval	-1	Memory allocation failed.
+ * * @retval	-2	Error occurred during reading.
+ * * @retval	-3	No lines read before the delimiter.
  * 
- * @todo: maybe we should return the char * and not an exit code (maybe)
+ * @version 3.0
+ * 
+ * @todo: avant _write faut faire la var expentions (e.g. $HOME)
  */
-char	**heredoc(
+int	heredoc(
 	const char *const restrict delimiter,
 	int fd
 )
 {
 	char			**storage;
-	register int	i;
+	int				exit_code;
 
-	(void)fd;
 	storage = mm_alloc(sizeof(char *) * (HEREDOC_ALLOC_SIZE + 1));
 	if (_UNLIKELY(!storage))
-		return (NULL);
-	i = _read(&storage, delimiter);
-	if (_UNLIKELY(i < 0))
-		return (mm_free(storage), NULL);
-	else if (!i)
-		return (mm_free(storage), NULL);
-	return (storage);
+		return (-1);
+	storage = _read(storage, delimiter);
+	if (_UNLIKELY(!storage))
+		return (mm_free(storage), -2);
+	exit_code = _write((const char *const *const)storage, fd);
+	if (_UNLIKELY(exit_code < 0))
+		return (free_tab(storage), exit_code);
+	else
+		return (mm_free(storage), exit_code);
 }
 
-// _write(storage, i, fd);
+/**
+ * Donc a priori il faut renvoyer le bout du pipe ou on write() pas dedan
+ * et faire la meme logic que pour les autres redirections
+ * tkt c est une maquette pour tester la logic
+ */
+int	heredoc_all(
+	const char *const restrict delimiter
+)
+{
+	int	here_fd[2];
+	int	out;
+
+	if (pipe(here_fd) == -1)
+		return (perror("heredoc_all(): pipe() failed"), -1);
+	else
+	{
+		out = heredoc(delimiter, here_fd[1]);
+		close(here_fd[1]);
+	}
+	if (_UNLIKELY(out < 0))
+		return (close(here_fd[0]), out);
+	return (here_fd[0]);
+}
 
 #pragma endregion Fonctions

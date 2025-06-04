@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 10:02:33 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/04 10:56:03 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/04 16:12:59 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,14 @@ t_exec_data	*build_exec(
 			current = heredoc(tmp);
 		else if (tmp->type == TOKEN_REDIR_IN)
 			current = _in(tmp);
-		else if (tmp->type == TOKEN_REDIR_OUT || tmp->type == TOKEN_REDIR_APPEND)
+		else if (tmp->type == TOKEN_REDIR_OUT
+			|| tmp->type == TOKEN_REDIR_APPEND)
 			current = _redir(tmp);
 		else if (tmp->type == TOKEN_PIPE)
 			current = _pipe(tmp);
 		else
 			current = _cmd(tmp);
 		tmp = tmp->next;
-		
 	}
 	return (data);
 }
