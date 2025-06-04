@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/04 08:52:18 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/04 13:11:28 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ __attribute__((hot))	int	exec_bin(
  * @retval		~0 if the command executed successfully.
  * @retval		-1 if the pipe() failed.
  * 
- * @version	1.0
+ * @version	1.1
  */
 int	full_exec(
 	t_exec_data *const restrict data,
@@ -143,7 +143,10 @@ int	full_exec(
 	current = data;
 	while (current)
 	{
-		out_fd = STDOUT_FILENO;
+		if (current->fd_out > 0)
+			out_fd = current->fd_out;
+		else
+			out_fd = STDOUT_FILENO;
 		if (current->pipe)
 			if (_UNLIKELY(_piping(pipe_fd, &out_fd) < 0))
 				return (-1);
@@ -156,18 +159,5 @@ int	full_exec(
 	_wait_childrens(data);
 	return (0);
 }
-
-// int	test_heredoc(
-// 	const char *const restrict delimiter
-// )
-// {
-// 	int fd = open(".dev/out", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-// 	if (fd < 0)
-// 		return (ft_perror("test_heredoc(): open() failed"), -1);
-// 	int out = heredoc(delimiter, fd);
-// 	close(fd);
-
-// 	return (out);
-// }
 
 #pragma endregion Fonctions
