@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/05 12:55:52 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/05 12:58:47 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 #pragma region Fonctions
 
 /**
- * @brief	Displays the help message for the echo command.
+ * @brief	Displays the help message for the cd command.
  * 
  * @param	None
  * 
@@ -49,14 +49,14 @@ __attribute__((always_inline, used)) static inline char	_help(void)
  * @return		Returns EXIT_FAILURE to indicate an error.
 */
 __attribute__((always_inline, used)) static inline char	_error(
-	const enum e_echo_error error
+	const enum e_builtin_error error
 )
 {
 	static const char *const	error_messages[4] = {
-	[echo_error_too_many_args] = "cd: too many arguments\n",
-	[echo_error_no_such_file] = "cd: no such file or directory\n",
-	[echo_error_not_a_directory] = "cd: not a directory\n",
-	[echo_error_none] = ""
+	[builtin_error_too_many_args] = "cd: too many arguments\n",
+	[builtin_error_no_such_file] = "cd: no such file or directory\n",
+	[builtin_error_not_a_directory] = "cd: not a directory\n",
+	[builtin_error_none] = ""
 	};
 
 	ft_fprintf(STDERR_FILENO, "%s", error_messages[error]);
@@ -64,7 +64,7 @@ __attribute__((always_inline, used)) static inline char	_error(
 }
 
 /**
- * @brief	Parses the arguments for the echo command.
+ * @brief	Parses the arguments for the cd command.
  * 
  * @param	args	Arguments to parse.
  * 
@@ -81,7 +81,7 @@ __attribute__((always_inline, used)) static inline struct s_args_cd	_parse(
 	if (_UNLIKELY(!args || !*args))
 		return (result);
 	else if (argc > 2)
-		result.error = echo_error_too_many_args;
+		result.error = builtin_error_too_many_args;
 	else if (!args[1])
 		result.home = 1;
 	else if (ft_strncmp(args[1], "-", 2) == 0)
@@ -98,9 +98,9 @@ __attribute__((always_inline, used)) static inline struct s_args_cd	_parse(
  * @param	path	Path to check.
  * 
  * @return	If the path is valid
- * @retval		echo_error_none if the path is a valid directory.
- * @retval		echo_error_no_such_file if the path does not exist.
- * @retval		echo_error_not_a_directory if the path is not a directory.
+ * @retval		builtin_error_none if the path is a valid directory.
+ * @retval		builtin_error_no_such_file if the path does not exist.
+ * @retval		builtin_error_not_a_directory if the path is not a directory.
  */
 __attribute__((always_inline, used)) static inline char	_check_path(
 	const char *const restrict path
@@ -109,15 +109,15 @@ __attribute__((always_inline, used)) static inline char	_check_path(
 	struct stat	statbuf;
 
 	if (_UNLIKELY(!path))
-		return (echo_error_no_such_file);
+		return (builtin_error_no_such_file);
 	else if (access(path, F_OK) != F_OK)
-		return (echo_error_no_such_file);
+		return (builtin_error_no_such_file);
 	else if (stat(path, &statbuf) != 0)
-		return (echo_error_not_a_directory);
+		return (builtin_error_not_a_directory);
 	else if (S_ISDIR(statbuf.st_mode) == 0)
-		return (echo_error_not_a_directory);
+		return (builtin_error_not_a_directory);
 	else
-		return (echo_error_none);
+		return (builtin_error_none);
 }
 
 /**
@@ -134,7 +134,7 @@ __attribute__((always_inline, used)) static inline char	_check_path(
  * 
  * @version	2.0
  * 
- * @todo: change the PWD/OLDPWD environment variables (in the manager)
+ * @todo: change the HOME/OLDPWD environment variables (in the manager)
 */
 __attribute__((used)) char	bltin_cd(
 	const char **args,
@@ -162,7 +162,7 @@ __attribute__((used)) char	bltin_cd(
 	if (error)
 		return (_error(error));
 	else if (chdir(dest) != 0)
-		return (_error(echo_error_no_such_file));
+		return (_error(builtin_error_no_such_file));
 	else
 		return (EXIT_SUCCESS);
 }
