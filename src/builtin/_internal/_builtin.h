@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:15:37 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/27 13:04:07 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/05 09:48:15 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,12 @@ struct s_blt_link
 	const char	*name;								/* Builtin name           */
 	char		(*func)(const char **, const int, const int);
 };
+
+struct s_args_echo
+{
+	unsigned char	nl		: 1;	/* Newline flag           */
+	unsigned char	help	: 1;	/* Help flag             */
+};
+
 
 #endif /* _BUILTIN_H */
