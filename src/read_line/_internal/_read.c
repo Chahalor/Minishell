@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/03 11:23:47 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/05 13:24:20 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,6 +181,8 @@ __attribute__((hot)) int	_read(
 		bytes_read = read(STDIN_FILENO, &c, 1);
 		if (bytes_read < 0)
 			data->status = error;
+		else if (!bytes_read)
+			data->status = eof;
 		else if (data->status != past && (c == '\r' || c == '\n'))
 			break ;
 		else if (c < 32 || c > 126)

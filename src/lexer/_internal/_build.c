@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 10:02:33 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/04 16:20:33 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/05 13:21:32 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 #pragma endregion Header
 #pragma region Fonctions
 
-static inline t_exec_data	*heredoc(
+/*static inline t_exec_data	*heredoc(
 	const t_token *const restrict tokens
 )
 {
@@ -74,6 +74,6 @@ __attribute__((deprecated)) t_exec_data	*build_exec(
 		tmp = tmp->next;
 	}
 	return (data);
-}
+}*/
 
 #pragma endregion Fonctions
