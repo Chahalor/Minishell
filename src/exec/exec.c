@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/04 16:10:29 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/05 09:43:56 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ __attribute__((always_inline, used, noreturn)) static inline int	_child(
  * @param	fd		File descriptor to redirect the output of the command.
  * 
  * @return	Returns the status of the command execution.
- * @retval		~0 if the command executed successfully.
+ * @retval		=0 if the command executed successfully.
  * @retval		-1 if the fork() failed.
  * 
  * @version	1.2
@@ -167,10 +167,8 @@ int	full_exec(
 	current = data;
 	while (current)
 	{
-		if (current->fd_out > 0)
-			out_fd = current->fd_out;
-		else
-			out_fd = STDOUT_FILENO;
+		out_fd = STDOUT_FILENO;
+		out_fd += (current->fd_out > 0) * (current->fd_out - STDOUT_FILENO);
 		if (current->pipe)
 			if (_UNLIKELY(_piping(pipe_fd, &out_fd) < 0))
 				return (-1);
