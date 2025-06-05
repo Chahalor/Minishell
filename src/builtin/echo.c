@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/05 09:50:29 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/05 12:56:01 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ __attribute__((always_inline, used)) static inline char	_help(void)
 		YELLOW "Options:\n" RESET
 		"  -n, \t\tDo not output the trailing newline\n"
 		"  -h, --help\t\tDisplay this help and exit\n"
-	);
+		);
 	return (EXIT_FAILURE);
 }
 
