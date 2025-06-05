@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:15:37 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/05 10:38:11 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/05 10:54:08 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ enum e_echo_error
 	echo_error_none = 0,			/* No error                          */
 	echo_error_too_many_args = 1,	/* Too many arguments error         */
 	echo_error_no_such_file = 2,	/* No such file or directory error */
+	echo_error_not_a_directory = 3,	/* Not a directory error          */
 };
 
 /* ************************************************************************** */

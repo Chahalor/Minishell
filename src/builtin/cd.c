@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/05 10:49:40 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/05 11:10:26 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,14 @@ __attribute__((always_inline, used)) static inline char	_error(
 	const enum e_echo_error error
 )
 {
-	if (error == echo_error_too_many_args)
-		ft_fprintf(2, SHELL_NAME ": cd: too many arguments\n");
-	else if (error == echo_error_no_such_file)
-		ft_fprintf(2, SHELL_NAME ": cd: no such file or directory\n");
+	static const char	*const error_messages[4] = {
+		[echo_error_too_many_args] = "cd: too many arguments\n",
+		[echo_error_no_such_file] = "cd: no such file or directory\n",
+		[echo_error_not_a_directory] = "cd: not a directory\n",
+		[echo_error_none] = ""
+	};
+
+	ft_fprintf(STDERR_FILENO, "%s", error_messages[error]);
 	return (EXIT_FAILURE);
 }
 
@@ -91,8 +95,10 @@ __attribute__((always_inline, used)) static inline char	_check_path(
 		return (echo_error_no_such_file);
 	else if (access(path, F_OK) != F_OK)
 		return (echo_error_no_such_file);
-	else if (stat(path, &statbuf) != 0 && !S_ISDIR(statbuf.st_mode))
-		return (echo_error_no_such_file);
+	else if (stat(path, &statbuf) != 0)
+		return (echo_error_not_a_directory);
+	else if (S_ISDIR(statbuf.st_mode) == 0)
+		return (echo_error_not_a_directory);
 	else
 		return (echo_error_none);
 }
@@ -108,6 +114,7 @@ __attribute__((used)) char	bltin_cd(
 {
 	const struct s_args_cd	opts = _parse(args);
 	char					*dest;
+	int						error;
 
 	(void)fd_in;
 	(void)fd_out;
@@ -121,8 +128,9 @@ __attribute__((used)) char	bltin_cd(
 		dest = getenv("HOME");
 	else
 		dest = (char *)args[1];
-	if (_check_path(dest) != echo_error_none)
-		return (_error(echo_error_no_such_file));
+	error = _check_path(dest);
+	if (error)
+		return (_error(error));
 	else if (chdir(dest) != 0)
 		return (_error(echo_error_no_such_file));
 	else
