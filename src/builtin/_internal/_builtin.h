@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:15:37 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/05 10:54:08 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/05 13:00:49 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ typedef struct s_blt_link	t_blt_link;	/* Builtin link structure */
 /*                                 Enums                                      */
 /* ************************************************************************** */
 
-enum e_echo_error
+enum e_builtin_error
 {
-	echo_error_none = 0,			/* No error                          */
-	echo_error_too_many_args = 1,	/* Too many arguments error         */
-	echo_error_no_such_file = 2,	/* No such file or directory error */
-	echo_error_not_a_directory = 3,	/* Not a directory error          */
+	builtin_error_none = 0,			/* No error                          */
+	builtin_error_too_many_args = 1,	/* Too many arguments error         */
+	builtin_error_no_such_file = 2,	/* No such file or directory error */
+	builtin_error_not_a_directory = 3,	/* Not a directory error          */
 };
 
 /* ************************************************************************** */
@@ -53,10 +53,10 @@ struct s_args_echo
 
 struct s_args_cd
 {
-	enum e_echo_error	error;			/* Error flag            */
-	unsigned char		help	: 1;	/* Help flag            */
-	unsigned char		oldpwd	: 1;	/* Oldpwd flag         */
-	unsigned char		home	: 1;	/* Pwd flag           */
+	enum e_builtin_error	error;			/* Error flag            */
+	unsigned char			help	: 1;	/* Help flag            */
+	unsigned char			oldpwd	: 1;	/* Oldpwd flag         */
+	unsigned char			home	: 1;	/* Pwd flag           */
 };
 
 #endif /* _BUILTIN_H */
