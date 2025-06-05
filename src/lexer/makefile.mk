@@ -3,7 +3,7 @@ DIR_INTERFACE_LEXER	:= $(DIR_MODULE_LEXER)
 DIR_INTERNAL_LEXER	:= $(DIR_MODULE_LEXER)/_internal
 
 SRC_INTERFACE_LEXER	:= lexer.c 
-SRC_INTERNAL_LEXER	:= _build.c _lexer.c 
+SRC_INTERNAL_LEXER	:= _lexer.c _build.c 
 
 OBJ_LEXER			:= $(addprefix $(DIR_OBJ)/$(DIR_INTERFACE_LEXER)/, $(SRC_INTERFACE_LEXER:.c=.o))
 OBJ_LEXER			+= $(addprefix $(DIR_OBJ)/$(DIR_INTERNAL_LEXER)/, $(SRC_INTERNAL_LEXER:.c=.o))

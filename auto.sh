@@ -10,7 +10,7 @@ EXEC_NAME=$(basename "$(pwd)")
 
 # other variables
 CC="cc"
-CFLAGS="-Wall -Wextra -Werror -MMD"
+CFLAGS="-Wall -Wextra -Werror -Werror=implicit-function-declaration -MMD"
 DEBUGFLAGS=""
 
 DIR_LIBFT="" #"src/libft"

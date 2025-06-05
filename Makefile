@@ -14,7 +14,7 @@ NAME		:= Minishell
 BONUS		:=
 
 CC			:= cc
-CFLAGS		+= -Wall -Wextra -Werror -MMD
+CFLAGS		+= -Wall -Wextra -Werror -Werror=implicit-function-declaration -MMD
 DEBUGFLAGS	:= 
 DIR_SRC		:= src
 DIR_OBJ		:= .build

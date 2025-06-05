@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:46:56 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/04 12:59:04 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/05 14:33:26 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 /* -----| Systems   |----- */
 # include <sys/types.h>
 # include <sys/wait.h>
-# include <string.h>
+# include "allowed.h"
 
 /* -----| Globals   |----- */
 # include "config.h"
