@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/05 11:10:26 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/05 12:55:52 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,26 @@ __attribute__((always_inline, used)) static inline char	_help(void)
 		YELLOW "Options:\n" RESET
 		"  -, \t\tChange to the last directory\n"
 		"  -h, --help\t\tDisplay this help and exit\n"
-	);
+		);
 	return (EXIT_FAILURE);
 }
 
+/**
+ * @brief	Displays an error message based on the provided error code.
+ * 
+ * @param	error	Error code indicating the type of error.
+ * 
+ * @return		Returns EXIT_FAILURE to indicate an error.
+*/
 __attribute__((always_inline, used)) static inline char	_error(
 	const enum e_echo_error error
 )
 {
-	static const char	*const error_messages[4] = {
-		[echo_error_too_many_args] = "cd: too many arguments\n",
-		[echo_error_no_such_file] = "cd: no such file or directory\n",
-		[echo_error_not_a_directory] = "cd: not a directory\n",
-		[echo_error_none] = ""
+	static const char *const	error_messages[4] = {
+	[echo_error_too_many_args] = "cd: too many arguments\n",
+	[echo_error_no_such_file] = "cd: no such file or directory\n",
+	[echo_error_not_a_directory] = "cd: not a directory\n",
+	[echo_error_none] = ""
 	};
 
 	ft_fprintf(STDERR_FILENO, "%s", error_messages[error]);
@@ -80,11 +87,21 @@ __attribute__((always_inline, used)) static inline struct s_args_cd	_parse(
 	else if (ft_strncmp(args[1], "-", 2) == 0)
 		result.oldpwd = 1;
 	else if (ft_strncmp(args[1], "--help", 7) == 0
-			 || ft_strncmp(args[1], "-h", 3) == 0)
+		|| ft_strncmp(args[1], "-h", 3) == 0)
 		result.help = 1;
 	return (result);
 }
 
+/**
+ * @brief	Checks if the given path is a valid directory.
+ * 
+ * @param	path	Path to check.
+ * 
+ * @return	If the path is valid
+ * @retval		echo_error_none if the path is a valid directory.
+ * @retval		echo_error_no_such_file if the path does not exist.
+ * @retval		echo_error_not_a_directory if the path is not a directory.
+ */
 __attribute__((always_inline, used)) static inline char	_check_path(
 	const char *const restrict path
 )
@@ -104,6 +121,19 @@ __attribute__((always_inline, used)) static inline char	_check_path(
 }
 
 /**
+ * @brief	Changes the current working directory.
+ * 
+ * @param	args	Arguments for the command.
+ * @param	fd_in	Input file descriptor (not used).
+ * @param	fd_out	Output file descriptor (not used).
+ * 
+ * @return	The exit status of the command.
+ * @retval		EXIT_SUCCESS if the command was successful.
+ * @retval		EXIT_FAILURE if an error occurred
+ * 		(e.g., too many arguments, no such file or directory, not a directory).
+ * 
+ * @version	2.0
+ * 
  * @todo: change the PWD/OLDPWD environment variables (in the manager)
 */
 __attribute__((used)) char	bltin_cd(

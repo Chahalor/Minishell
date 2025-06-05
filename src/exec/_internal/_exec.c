@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/05 09:24:35 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/05 11:24:58 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,16 @@ __attribute__((always_inline, used)) inline int	_wait_childrens(
 	t_exec_data *const restrict data
 )
 {
-	int		status;
-	t_exec_data *curr = (t_exec_data *)data;
+	int			status;
+	t_exec_data	*curr;
 
+	curr = (t_exec_data *)data;
 	while (curr)
 	{
 		if (curr->pid > 0)
 		{
 			if (waitpid(curr->pid, &status, 0) != -1)
-				curr->status = WIFEXITED(status) ? WEXITSTATUS(status) : -1;
+				curr->status = WIFEXITED(status);
 			else
 				curr->status = -1;
 		}
