@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/05 13:15:01 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/05 13:44:43 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ __attribute__((always_inline, used)) static inline char	_parse(
 	return (0);
 }
 
+/** */
 __attribute__((always_inline, used)) static inline char	_help(void)
 {
 	ft_fprintf(2,
@@ -51,7 +52,19 @@ __attribute__((always_inline, used)) static inline char	_help(void)
 	return (EXIT_FAILURE);
 }
 
-/** */
+/**
+ * @brief	Displays the current working directory.
+ * 
+ * @param	args	Arguments to parse.
+ * @param	fd_in	Input file descriptor (not used).
+ * @param	fd_out	Output file descriptor.
+ * 
+ * @return	The exit status of the command.
+ * @retval		EXIT_SUCCESS on success.
+ * @retval		EXIT_FAILURE on error.
+ * 
+ * @version 1.0
+*/
 __attribute__((used)) char	bltin_pwd(
 	const char **args,
 	const int fd_in,
@@ -65,7 +78,7 @@ __attribute__((used)) char	bltin_pwd(
 	if (_UNLIKELY(!args || help))
 		return (_help());
 	else if (_UNLIKELY(!pwd))
-		return (ft_perror("pwd: getcwd failed"), builtin_error_no_such_file);
+		return (ft_perror("pwd: getcwd failed"), EXIT_FAILURE);
 	else
 	{
 		ft_fprintf(fd_out, "%s\n", pwd);
