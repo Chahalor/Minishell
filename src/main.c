@@ -6,15 +6,14 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:44:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/04 08:42:28 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/05 14:36:45 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma region Header
 
 /* -----| Systems   |----- */
-#include <stdio.h>
-#include <signal.h>
+#include "allowed.h"
 
 /* -----| Internals |----- */
 	//...

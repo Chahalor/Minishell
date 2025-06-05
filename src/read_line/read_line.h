@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:08:04 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/22 16:55:19 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/05 14:30:41 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,7 @@
 /* ************************************************************************** */
 
 /* -----| Systems   |----- */
-# include <termios.h>
-# include <unistd.h>
-# include <stdio.h>
+# include "allowed.h"
 
 /* -----| Globals   |----- */
 # include "config.h"
