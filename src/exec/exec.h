@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:46:56 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/05 14:33:26 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/10 08:32:41 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,15 @@ typedef struct s_exec_data	t_exec_data;	/* Execution data structure */
 
 struct s_exec_data
 {
-	char		*cmd;	/* command to execute                             */
-	char		**args;	/* arguments for the command                     */
-	int			status;	/* status of the command                        */
-	pid_t		pid;	/* process ID of the command                   */
-	int			fd_in;	/* file descriptor for input redirection      */
-	int			fd_out;	/* file descriptor for output redirection    */
+	char		*cmd;	/* command to execute                                */
+	char		**args;	/* arguments for the command                        */
+	int			status;	/* status of the command                           */
+	pid_t		pid;	/* process ID of the command                      */
+	int			fd_in;	/* file descriptor for input redirection         */
+	int			fd_out;	/* file descriptor for output redirection       */
 	int			type;	/* type of redirection (e.g., infile, outfile) */
-	t_exec_data	*pipe;	/* next commande to pipe output in          */
-	t_exec_data	*next;	/* next commande to execute after this one */
+	t_exec_data	*pipe;	/* next commande to pipe output in            */
+	t_exec_data	*next;	/* next commande to execute after this one   */
 };
 
 /* ************************************************************************** */

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 09:28:52 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/04 16:12:25 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/10 08:22:18 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@
 /* ************************************************************************** */
 
 /* -----| Systems   |----- */
-	//...
+# include <stdlib.h>
+# include <stdio.h>
+# include <string.h>
+# include <ctype.h>
 
 /* -----| Globals   |----- */
 # include "config.h"
@@ -45,60 +48,78 @@ typedef struct s_exec_data	t_exec_data;	/* Execution data structure */
 /*                                 Enums                                      */
 /* ************************************************************************** */
 
-enum e_token_type
+typedef enum e_tok_type
 {
-	TOKEN_WORD,
-	TOKEN_PIPE,
-	TOKEN_REDIR_IN,
-	TOKEN_REDIR_HEREDOC,
-	TOKEN_REDIR_OUT,
-	TOKEN_REDIR_APPEND
-};
+	TOK_WORD,
+	TOK_PIPE,
+	TOK_LESS,
+	TOK_GREAT,
+	TOK_DLESS,
+	TOK_DGREAT,
+	TOK_EOF,
+	TOK_ERR
+}	t_tok_type;
+
+typedef enum
+{
+	REDIR_IN,
+	REDIR_OUT,
+	REDIR_APPEND,
+	REDIR_HEREDOC
+}	t_redir_type;
+
+typedef enum
+{
+	NODE_CMD,
+	NODE_PIPE
+}	t_node_type;
 
 /* ************************************************************************** */
 /*                                 Structs                                    */
 /* ************************************************************************** */
 
-struct s_token
+typedef struct s_token
 {
-	t_token_type	type;	/* Type of the token           */
-	char			*value;	/* Value of the token         */
-	struct s_token	*next;	/* Pointer to the next token */
-};
+	t_tok_type				type;
+	char					*value;
+}	t_token;
+
+typedef struct s_lexer
+{
+	t_token					*tokens;
+	size_t					pos;
+}	t_lexer;
+
+typedef struct s_redir
+{
+	t_redir_type			type;
+	char					*file;
+	struct s_redir			*next;
+}	t_redir;
+
+typedef struct s_cmd
+{
+	char					**argv;
+	t_redir					*redirs;
+}	t_cmd;
+
+typedef struct s_ast
+{
+	t_node_type				type;
+	union
+	{
+		t_cmd				cmd;
+		struct
+		{
+			struct s_ast	*lhs;
+			struct s_ast	*rhs;
+		}					pipe;
+	}						data;
+}	t_ast;
 
 /* ************************************************************************** */
 /*                                 Prototypes                                 */
 /* ************************************************************************** */
-
-// build/pipes
-
-t_exec_data	*build_pipe(
-				t_token *tokens
-				);
-
-// build/infile
-
-t_exec_data	*build_infile(
-				const t_token *const restrict tokens
-				);
-
-// build/outfile
-
-t_exec_data	*build_outfile(
-				const t_token *const restrict tokens
-				);
-
-// build/heredoc
-
-t_exec_data	*build_heredoc(
-				const t_token *const restrict tokens
-				);
-
-// _lexer
-
-t_token		*lex(
-				const char *const restrict input
-				);
 
 void		print_tokens(
 				t_token *tok
