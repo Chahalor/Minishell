@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 09:28:52 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/10 08:22:18 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/10 13:36:45 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,4 +125,8 @@ void		print_tokens(
 				t_token *tok
 				);
 
+char		*_get_bin(
+				char *name
+				);
+	
 #endif /* _LEXER_H */
