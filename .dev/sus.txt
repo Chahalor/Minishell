@@ -1,9 +1,0 @@
-auto.sh  
-en.subject.pdf  
-global  
-image.png  
-LICENSE  
-Makefile  
-Minishell  
-README.md  
-src

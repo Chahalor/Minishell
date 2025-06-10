@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:53:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/28 16:44:45 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/10 11:26:43 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,9 @@ __attribute__((noreturn, unused, cold)) void	exit_program(
 	fdm_close_all();
 	exit(status);
 }
+
+// to close vscode fd
+	// close(37);
+	// close(103);
 
 #pragma endregion Fonctions

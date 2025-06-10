@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/04 16:11:31 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/10 13:20:56 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@
  * 
  * @version	1.0
  */
-__attribute__((used)) static t_file_type	check_path(
+__attribute__((always_inline, used)) static inline t_file_type	check_path(
 	const char *const restrict path,
 	const int access_mode
 )
@@ -74,7 +74,7 @@ __attribute__((used)) static t_file_type	check_path(
  * 
  * @version	1.0
  */
-static char	*get_in_path(
+static inline char	*get_in_path(
 	const char *const restrict name
 )
 {
@@ -99,6 +99,27 @@ static char	*get_in_path(
 	return (free_tab(paths), NULL);
 }
 
+__attribute__((used)) static inline char	*_get_bin(
+	char *name
+)
+{
+	char	*path;
+	int		file_type;
+
+	if (get_builtins(name))
+		return (name);
+	path = get_in_path(name);
+	if (_LIKELY(path != NULL))
+		return (path);
+	file_type = check_path(name, F_OK | X_OK);
+	if (_UNLIKELY(file_type == e_directory))
+		return (ft_perror(SHELL_NAME ": %s: is a directory\n", name), NULL);
+	else if (_UNLIKELY(file_type == e_not_found))
+		return (ft_perror(SHELL_NAME ": %s: command not found", name), NULL);
+	else
+		return (name);
+}
+
 /* -----| Core Functions  |---- */
 
 /**
@@ -115,11 +136,11 @@ static char	*get_in_path(
  * 
  * @version	2.0
 */
-__attribute__((used)) static t_exec_data	*built_exec_data(
+/*__attribute__((used)) static t_exec_data	*built_exec_data(
 	char *const restrict line
 )
 {
-	t_exec_data		*data;
+	t_exec_data	*data;
 
 	data = (t_exec_data *)mm_alloc(sizeof(t_exec_data));
 	*data = (t_exec_data){0};
@@ -140,6 +161,81 @@ __attribute__((used)) static t_exec_data	*built_exec_data(
 	if (_UNLIKELY(!data->cmd))
 		data->cmd = data->args[0];
 	return (data);
+}*/
+
+static t_exec_data	*exec_data_new(void)
+{
+	t_exec_data	*e;
+
+	e = mm_alloc(1 * sizeof(t_exec_data));
+	if (_UNLIKELY(!e))
+		return (NULL);
+	*e = (t_exec_data){
+		.cmd = NULL,
+		.args = NULL,
+		.pipe = NULL,
+		.type = 0,
+		.fd_in = -1,
+		.fd_out = -1,
+		.status = -1,
+	};
+	return (e);
+}
+
+static inline void	apply_redirs(
+	t_exec_data *e,
+	t_redir *r
+)
+{
+	while (r)
+	{
+		if (r->type == REDIR_IN)
+		{
+			e->fd_in = open(r->file, O_RDONLY, 0644);
+			e->type = r->type;
+		}
+		else if (r->type == REDIR_HEREDOC)
+			ft_fprintf(STDERR_FILENO, SHELL_NAME ": heredoc redirection not implemented yet\n");
+		else if (r->type == REDIR_OUT || r->type == REDIR_APPEND)
+		{
+			if (r->type == REDIR_OUT)
+				e->fd_out = open(r->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			else
+				e->fd_out = open(r->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			e->type = r->type;
+		}
+		r = r->next;
+	}
+}
+
+t_exec_data	*ast_to_exec_data(t_ast *n)
+{
+	t_exec_data	*e;
+	t_exec_data	*rhs;
+
+	if (_UNLIKELY(!n))
+		return (NULL);
+	if (n->type == NODE_PIPE)
+	{
+		e = ast_to_exec_data(n->data.pipe.lhs);
+		rhs = ast_to_exec_data(n->data.pipe.rhs);
+		if (e)
+			e->pipe = rhs;
+		return (e);
+	}
+	else
+	{
+		e = exec_data_new();
+		if (_UNLIKELY(!e))
+			return (NULL);
+		e->args = n->data.cmd.argv;
+		e->cmd = _get_bin(n->data.cmd.argv[0]);
+		if (_UNLIKELY(!e->cmd))
+			return (mm_free(e), NULL);
+		apply_redirs(e, n->data.cmd.redirs);
+		return (e);
+	}
+	return (NULL);
 }
 
 /**
@@ -150,40 +246,22 @@ __attribute__((used)) static t_exec_data	*built_exec_data(
  * 
  * @return	Returns a pointer to the execution data structure.
  * @retval		NULL if the command line is invalid or if an error occurs.
- * @return		data if the command line is valid and the execution data
+ * @retval		data if the command line is valid and the execution data
  * 					structure is built successfully.
 */
-__attribute__((hot)) t_exec_data	*lexer(
+__attribute__((deprecated)) t_exec_data	*lexer(
 	const char *const restrict line
 )
 {
-	char			**raw_cmds;
 	t_exec_data		*data;
-	t_exec_data		*current;
-	register int	i;
+	t_ast			*ast;
 
-	raw_cmds = ft_split(line, '|');
-	if (_UNLIKELY(!raw_cmds))
-		return (perror("lexer(): ft_split() failed"), NULL);
-	data = NULL;
-	i = -1;
-	while (!data && raw_cmds[++i])
-		data = built_exec_data(raw_cmds[i]);
-	current = data;
-	while (raw_cmds[++i])
-	{
-		current->pipe = built_exec_data(raw_cmds[i]);
-		if (_LIKELY(current->pipe != NULL))
-			current = current->pipe;
-	}
-	if (_UNLIKELY(!current && raw_cmds[i]))
-		return (free_tab(raw_cmds), NULL);
-	else if (_LIKELY(current != NULL))
-		current->pipe = NULL;
-	return (free_tab(raw_cmds), data);
+	ast = full_ast((char **)&line);
+	if (_UNLIKELY(!ast))
+		return (perror("lexer(): full_ast() failed"), NULL);
+	else
+		data = ast_to_exec_data(ast);
+	return (/*ast_destroy(ast),*/ data);
 }
-// current->fd_out = open("tkt.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644); // rm
-// data->fd_in = open("sus.txt", O_RDONLY); // rm
-// to manualy set the input and output files
 
 #pragma endregion Fonctions

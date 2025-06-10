@@ -1,2 +1,158 @@
-sus
-EOFGGFGGF
+==3377449== Memcheck, a memory error detector
+==3377449== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==3377449== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==3377449== Command: ./Minishell
+==3377449== 
+minishell: heredoc redirection not implemented yet
+out_fd: 1
+==3377449== Invalid read of size 8
+==3377449==    at 0x402A39: full_exec (exec.c:176)
+==3377449==    by 0x40BED5: _prompt (main.c:65)
+==3377449==    by 0x40BED5: main (main.c:88)
+==3377449==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
+==3377449== 
+==3377449== 
+==3377449== Process terminating with default action of signal 11 (SIGSEGV)
+==3377449==  Access not within mapped region at address 0x0
+==3377449==    at 0x402A39: full_exec (exec.c:176)
+==3377449==    by 0x40BED5: _prompt (main.c:65)
+==3377449==    by 0x40BED5: main (main.c:88)
+==3377449==  If you believe this happened as a result of a stack
+==3377449==  overflow in your program's main thread (unlikely but
+==3377449==  possible), you can try to increase the size of the
+==3377449==  main thread stack using the --main-stacksize= flag.
+==3377449==  The main thread stack size used in this run was 8388608.
+==3377449== 
+==3377449== FILE DESCRIPTORS: 6 open (3 std) at exit.
+==3377449== Open file descriptor 3: .minihistory
+==3377449==    at 0x498953B: open (open64.c:41)
+==3377449==    by 0x408BF5: _load_history (_load.c:76)
+==3377449==    by 0x408898: _history_manager (history.c:164)
+==3377449==    by 0x4077C9: rl_load_history (read_line.c:79)
+==3377449==    by 0x40BDB2: init_all (main.c:43)
+==3377449==    by 0x40BDF5: main (main.c:83)
+==3377449== 
+==3377449== Open file descriptor 103: /usr/share/code/v8_context_snapshot.bin
+==3377449==    <inherited from parent>
+==3377449== 
+==3377449== Open file descriptor 37: /home/nduvoid/.config/Code/logs/20250610T125747/ptyhost.log
+==3377449==    <inherited from parent>
+==3377449== 
+==3377449== 
+==3377449== HEAP SUMMARY:
+==3377449==     in use at exit: 72,137,581 bytes in 351 blocks
+==3377449==   total heap usage: 697 allocs, 346 frees, 72,489,096 bytes allocated
+==3377449== 
+==3377449== 4 bytes in 1 blocks are indirectly lost in loss record 1 of 9
+==3377449==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3377449==    by 0x491D58E: strdup (strdup.c:42)
+==3377449==    by 0x406B95: read_redir (tree.c:241)
+==3377449==    by 0x406A8C: consume_redirs (tree.c:252)
+==3377449==    by 0x406367: parse_simple_command (tree.c:292)
+==3377449==    by 0x406144: parse_pipeline (tree.c:312)
+==3377449==    by 0x406966: full_ast (tree.c:457)
+==3377449==    by 0x405B44: lexer (lexer.c:262)
+==3377449==    by 0x40BEB0: _prompt (main.c:61)
+==3377449==    by 0x40BEB0: main (main.c:88)
+==3377449== 
+==3377449== 8 bytes in 1 blocks are indirectly lost in loss record 2 of 9
+==3377449==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3377449==    by 0x406310: parse_simple_command (tree.c:286)
+==3377449==    by 0x406144: parse_pipeline (tree.c:312)
+==3377449==    by 0x406966: full_ast (tree.c:457)
+==3377449==    by 0x405B44: lexer (lexer.c:262)
+==3377449==    by 0x40BEB0: _prompt (main.c:61)
+==3377449==    by 0x40BEB0: main (main.c:88)
+==3377449== 
+==3377449== 24 bytes in 1 blocks are indirectly lost in loss record 3 of 9
+==3377449==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3377449==    by 0x405D58: redir_new (tree.c:83)
+==3377449==    by 0x405D14: ast_add_redir (tree.c:105)
+==3377449==    by 0x406BB9: read_redir (tree.c:242)
+==3377449==    by 0x406A8C: consume_redirs (tree.c:252)
+==3377449==    by 0x406367: parse_simple_command (tree.c:292)
+==3377449==    by 0x406144: parse_pipeline (tree.c:312)
+==3377449==    by 0x406966: full_ast (tree.c:457)
+==3377449==    by 0x405B44: lexer (lexer.c:262)
+==3377449==    by 0x40BEB0: _prompt (main.c:61)
+==3377449==    by 0x40BEB0: main (main.c:88)
+==3377449== 
+==3377449== 60 (24 direct, 36 indirect) bytes in 1 blocks are definitely lost in loss record 4 of 9
+==3377449==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3377449==    by 0x405BB5: ast_cmd_new (tree.c:49)
+==3377449==    by 0x406335: parse_simple_command (tree.c:289)
+==3377449==    by 0x406144: parse_pipeline (tree.c:312)
+==3377449==    by 0x406966: full_ast (tree.c:457)
+==3377449==    by 0x405B44: lexer (lexer.c:262)
+==3377449==    by 0x40BEB0: _prompt (main.c:61)
+==3377449==    by 0x40BEB0: main (main.c:88)
+==3377449== 
+==3377449== 72 bytes in 1 blocks are still reachable in loss record 5 of 9
+==3377449==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3377449==    by 0x406DF0: mm_alloc (mmanager.c:34)
+==3377449==    by 0x405991: exec_data_new (lexer.c:168)
+==3377449==    by 0x40589B: ast_to_exec_data (lexer.c:226)
+==3377449==    by 0x405B88: lexer (lexer.c:266)
+==3377449==    by 0x40BEB0: _prompt (main.c:61)
+==3377449==    by 0x40BEB0: main (main.c:88)
+==3377449== 
+==3377449== 1,024 bytes in 1 blocks are still reachable in loss record 6 of 9
+==3377449==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3377449==    by 0x48F3BA3: _IO_file_doallocate (filedoalloc.c:101)
+==3377449==    by 0x4902CDF: _IO_doallocbuf (genops.c:347)
+==3377449==    by 0x4901F5F: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:744)
+==3377449==    by 0x49006D4: _IO_new_file_xsputn (fileops.c:1243)
+==3377449==    by 0x49006D4: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1196)
+==3377449==    by 0x48EA14C: outstring_func (vfprintf-internal.c:239)
+==3377449==    by 0x48EA14C: __vfprintf_internal (vfprintf-internal.c:1263)
+==3377449==    by 0x48D579E: printf (printf.c:33)
+==3377449==    by 0x405F81: ast_print (tree.c:174)
+==3377449==    by 0x4069B7: full_ast (tree.c:460)
+==3377449==    by 0x405B44: lexer (lexer.c:262)
+==3377449==    by 0x40BEB0: _prompt (main.c:61)
+==3377449==    by 0x40BEB0: main (main.c:88)
+==3377449== 
+==3377449== 1,041 bytes in 1 blocks are still reachable in loss record 7 of 9
+==3377449==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3377449==    by 0x406DF0: mm_alloc (mmanager.c:34)
+==3377449==    by 0x40761B: read_line (read_line.c:35)
+==3377449==    by 0x40BE5E: _prompt (main.c:54)
+==3377449==    by 0x40BE5E: main (main.c:88)
+==3377449== 
+==3377449== 175,121 bytes in 1 blocks are still reachable in loss record 8 of 9
+==3377449==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3377449==    by 0x406DF0: mm_alloc (mmanager.c:34)
+==3377449==    by 0x408721: _history_add (history.c:48)
+==3377449==    by 0x408721: _history_manager (history.c:157)
+==3377449==    by 0x407789: rl_add_history (read_line.c:64)
+==3377449==    by 0x40BEC8: _prompt (main.c:64)
+==3377449==    by 0x40BEC8: main (main.c:88)
+==3377449== 
+==3377449== 71,960,263 bytes in 343 blocks are still reachable in loss record 9 of 9
+==3377449==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3377449==    by 0x406DF0: mm_alloc (mmanager.c:34)
+==3377449==    by 0x408721: _history_add (history.c:48)
+==3377449==    by 0x408721: _history_manager (history.c:157)
+==3377449==    by 0x408B4F: _load_history (_load.c:65)
+==3377449==    by 0x408898: _history_manager (history.c:164)
+==3377449==    by 0x4077C9: rl_load_history (read_line.c:79)
+==3377449==    by 0x40BDB2: init_all (main.c:43)
+==3377449==    by 0x40BDF5: main (main.c:83)
+==3377449== 
+==3377449== LEAK SUMMARY:
+==3377449==    definitely lost: 24 bytes in 1 blocks
+==3377449==    indirectly lost: 36 bytes in 3 blocks
+==3377449==      possibly lost: 0 bytes in 0 blocks
+==3377449==    still reachable: 72,137,521 bytes in 347 blocks
+==3377449==         suppressed: 0 bytes in 0 blocks
+==3377449== 
+==3377449== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 0 from 0)
+==3377449== 
+==3377449== 1 errors in context 1 of 2:
+==3377449== Invalid read of size 8
+==3377449==    at 0x402A39: full_exec (exec.c:176)
+==3377449==    by 0x40BED5: _prompt (main.c:65)
+==3377449==    by 0x40BED5: main (main.c:88)
+==3377449==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
+==3377449== 
+==3377449== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 0 from 0)

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/05 09:43:56 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/10 13:16:18 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,6 @@ __attribute__((always_inline, used, noreturn)) static inline int	_child(
 	fdm_close_all();
 	reset_signal();
 	execve(data->cmd, data->args, envp);
-	ft_fprintf(STDERR_FILENO, SHELL_NAME ": %s: command not found\n",
-		data->args[0]);
 	exit_program(127, NULL);
 	exit(EXIT_FAILURE);
 }
