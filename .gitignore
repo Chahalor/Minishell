@@ -57,3 +57,4 @@ dkms.conf
 Minishell
 .minihistory
 .test
+.dev/out
