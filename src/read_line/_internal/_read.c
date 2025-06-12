@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/05 14:08:23 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/12 11:42:56 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,7 @@ __attribute__((hot)) int	_read(
 	{
 		bytes_read = read(STDIN_FILENO, &c, 1);
 		if (bytes_read < 0)
-			data->status = error;
+			data->status = interr;
 		else if (!bytes_read)
 			data->status = eof;
 		else if (data->status != past && (c == '\r' || c == '\n'))
