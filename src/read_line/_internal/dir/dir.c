@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/12 14:01:45 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/12 14:05:59 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,9 +115,9 @@ static inline int	_show(
 	while (++i < completion->nb_entries)
 	{
 		if (completion->entry[i]->d_type == DT_DIR)
-			ft_printf("%s/ ", completion->entry[i]->d_name);
+			ft_printf(BOLD BLUE "%s/ " RESET, completion->entry[i]->d_name);
 		else
-			ft_printf("%s ", completion->entry[i]->d_name);
+			ft_printf(BOLD "%s " RESET, completion->entry[i]->d_name);
 	}
 	ft_printf("\r\n%s%s", data->prompt, data->result);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/12 14:03:35 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/12 15:01:40 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,9 @@ __attribute__((used)) static inline int	_rl_add_char(
  * @param	c The character or string to add.
  * @param	mode The mode of addition (rl_chr for character, rl_str for string).
  * 
- * @return	1 on success, -1 on failure.
+ * @return	1 on success, 0 on failure.
  * @retval 		1 if the addition was successful.
+ * @retval 		0 if the addition failed (e.g., memory allocation error).
 */
 __attribute__((used, visibility("hidden")))
 int	_rl_add(
