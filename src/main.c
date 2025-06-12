@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:44:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/10 13:46:18 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/12 12:05:55 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ __attribute__((always_inline, used)) inline int	_prompt(
 
 	line = read_line(prompt);
 	if (__builtin_expect(!line, unexpected))
-		return (0);
-	else if (!line[0])
-		return (mm_free(line), 1);
+		return (1);
+	else if (line[0] == '\04')
+		return (mm_free(line), 0);
 	else
 	{
 		data = lexer(line);

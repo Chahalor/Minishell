@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:06:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/29 16:50:20 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/12 11:57:30 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ __attribute__((hot, malloc)) char	*read_line(
 	_set_default(&rl_data.terms.resore);
 	write(STDOUT_FILENO, "\033[?2004l\n", 9);
 	if (rl_data.status == eof)
-		return (mm_free(rl_data.result), NULL);
+		return (mm_free(rl_data.result), memdup("\04", 1));
 	if (rl_data.status < exiting || !rl_data.line_length)
-		return (mm_free(rl_data.result), memdup("", 1));
+		return (mm_free(rl_data.result), NULL);
 	else
 	{
 		_history_manager(rl_reset_pos, NULL);
