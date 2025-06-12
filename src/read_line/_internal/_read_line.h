@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:57:59 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/05 14:30:49 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/12 12:57:21 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,12 @@ enum	e_rl_word_type
 	unknown,			/* Unknown token type (e.g., "1234")         */
 };
 
+enum e_rl_mode
+{
+	rl_chr,	/* Add a single character to the line */
+	rl_str,	/* Add a string to the line          */
+};
+
 /* ************************************************************************** */
 /*                                 Structs                                    */
 /* ************************************************************************** */
@@ -139,8 +145,9 @@ extern void	_init_cmd(
 // _read.c
 
 int			_rl_add(
-				const char c,
-				t_rl_data *const restrict data
+				t_rl_data *const restrict data,
+				const char *const restrict c,
+				int mode
 				);
 
 int			_remove(

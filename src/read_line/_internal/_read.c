@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/12 11:42:56 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/12 13:57:35 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,45 +20,6 @@
 
 #pragma endregion Header
 #pragma region Fonctions
-
-/**
- * @brief	Add a character to the line at the cursor position.
- * 
- * @param	c The character to add.
- * @param	data The data structure containing the line and cursor position.
- * 
- * @return	1 on success, -1 on failure.
- * 
- * @note	Yes it doesn't increases the line length by 1.
- * @note	YEs it change the cursor position.
- */
-__attribute__((used)) int	_rl_add(
-	const char c,
-	t_rl_data *const restrict data
-)
-{
-	register int	i;
-
-	if (data->line_length == _RL_ALLOC_SIZE - 1)
-	{
-		data->result = mm_realloc(data->result,
-				data->line_length, data->line_length + _RL_ALLOC_SIZE + 1);
-		if (!data->result)
-			return (data->status = error, -1);
-	}
-	if (data->cursor_pos == data->line_length)
-		data->result[data->line_length] = c;
-	else
-	{
-		i = data->line_length;
-		while (i-- > data->cursor_pos)
-			(data->result)[i + 1] = (data->result)[i];
-		data->result[data->cursor_pos] = c;
-	}
-	data->result[data->line_length + 1] = '\0';
-	++(data->cursor_pos);
-	return (1);
-}
 
 /**
  * @brief	Remove the character at the cursor position.
@@ -156,7 +117,7 @@ __attribute__((used)) static int	handle_special(
 	else if (c == 28)
 		return (write(STDOUT_FILENO, &c, 1));
 	else
-		return (data->line_length += _rl_add(c, data), refresh_line(data));
+		return (_rl_add(data, &c, rl_chr), refresh_line(data));
 	return (1);
 }
 
@@ -194,7 +155,7 @@ __attribute__((hot)) int	_read(
 			handle_special(data, c);
 		else
 		{
-			data->line_length += _rl_add(c, data);
+			_rl_add(data, &c, rl_chr);
 			refresh_line(data);
 		}
 	}

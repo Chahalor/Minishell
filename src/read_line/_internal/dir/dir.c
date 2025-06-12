@@ -6,65 +6,36 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/03 11:28:17 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/12 14:01:45 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#define _GNU_SOURCE
 
 #pragma region Header
 
 /* -----| Internals |----- */
 #include "_read_line.h"
+#include <sys/types.h>
 #include <dirent.h>
+#include <sys/stat.h>
 
 /* -----| Modules   |----- */
 #include "read_line.h"
 
 #pragma endregion Header
+#pragma region Prototypes
+
+extern char	*_get_dir(
+				const char *const restrict path
+				);
+
+extern char	*_get_file(
+				const char *const restrict path
+				);
+
+#pragma endregion Prototypes
 #pragma region Fonctions
-
-/** */
-__attribute__((always_inline, used)) static inline char	*_get_dir(
-	const char *const restrict path
-)
-{
-	register int	i;
-	char			*result;
-
-	if (_UNLIKELY(!path || !*path))
-		return (NULL);
-	i = ft_strlen(path);
-	while (i > 0 && path[i - 1] != '/')
-		--i;
-	if (!path[i])
-		++i;
-	result = mm_alloc(i + 1);
-	if (_UNLIKELY(!result))
-		return (NULL);
-	ft_memcpy(result, path, i);
-	result[i] = '\0';
-	return (result);
-}
-
-/** */
-__attribute__((always_inline, used)) static inline char	*_get_file(
-	const char *const restrict path
-)
-{
-	register int	i;
-	char			*result;
-
-	if (_UNLIKELY(!path || !*path))
-		return (NULL);
-	i = ft_strlen(path);
-	while (i > 0 && path[i - 1] != '/')
-		--i;
-	result = mm_alloc(ft_strlen(path) - i + 1);
-	if (_UNLIKELY(!result))
-		return (NULL);
-	ft_memcpy(result, path + i, ft_strlen(path) - i);
-	result[ft_strlen(path) - i] = '\0';
-	return (result);
-}
 
 /**
  * @todo: replace getenv by the manager getenv function
@@ -132,24 +103,49 @@ __attribute__((used)) static inline int	_show_paths(
 	return (mm_free(path_dir), mm_free(path_file), 0);
 }
 
-// static inline int	_end(
-// 	t_rl_completion *const restrict completion,
-// 	t_rl_data *const restrict data,
-// 	const char *const restrict word
-// )
-// {
-// 	register int	i;
+static inline int	_show(
+	t_rl_completion *const restrict completion,
+	t_rl_data *const restrict data
+)
+{
+	register int	i;
 
-// 	(void)word;
-// 	if (!completion->nb_entries)
-// 		return (1);
-// 	write(STDOUT_FILENO, "\r\n", 2);
-// 	i = -1;
-// 	while (++i < completion->nb_entries)
-// 		ft_printf("%s ", completion->entry[i]->d_name);
-// 	ft_printf("\r\n%s%s", data->prompt, data->result);
-// 	return (0);
-// }
+	write(STDOUT_FILENO, "\r\n", 2);
+	i = -1;
+	while (++i < completion->nb_entries)
+	{
+		if (completion->entry[i]->d_type == DT_DIR)
+			ft_printf("%s/ ", completion->entry[i]->d_name);
+		else
+			ft_printf("%s ", completion->entry[i]->d_name);
+	}
+	ft_printf("\r\n%s%s", data->prompt, data->result);
+	return (0);
+}
+
+/**
+ * @brief	Replace the last word in the result with the completion word.
+ */
+static inline int	_replace(
+	t_rl_completion *const restrict completion,
+	t_rl_data *const restrict data
+)
+{
+	const char *const	word = completion->entry[0]->d_name;
+	register int		i;
+
+	i = data->line_length;
+	while (i > 0 && data->result[i - 1] != ' ' && data->result[i - 1] != '/')
+		--i;
+	_neutral(data->result + i, data->line_length - i);
+	data->cursor_pos = i;
+	data->line_length = i;
+	_rl_add(data, word, rl_str);
+	if (completion->entry[0]->d_type == DT_DIR)
+		_rl_add(data, "/", rl_chr);
+	ft_printf("\033[2K\r%s%s", data->prompt, data->result);
+	return (0);
+}
 
 /** */
 int	completion(
@@ -160,7 +156,6 @@ int	completion(
 	register int	nb_words;
 	int				token;
 	t_rl_completion	completion;
-	register int	i;
 
 	_neutral(&completion, sizeof(t_rl_completion));
 	words = ft_split(data->result, ' ');
@@ -174,11 +169,10 @@ int	completion(
 		_show_paths(words[nb_words - 1], &completion);
 	if (!completion.nb_entries)
 		return (1);
-	write(STDOUT_FILENO, "\r\n", 2);
-	i = -1;
-	while (++i < completion.nb_entries)
-		ft_printf("%s ", completion.entry[i]->d_name);
-	ft_printf("\r\n%s%s", data->prompt, data->result);
+	else if (completion.nb_entries == 1)
+		_replace(&completion, data);
+	else
+		_show(&completion, data);
 	return (free_tab(words), _free_completion(&completion), 0);
 }
 
