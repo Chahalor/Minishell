@@ -2,8 +2,8 @@ DIR_MODULE_EXEC		:= exec
 DIR_INTERFACE_EXEC	:= $(DIR_MODULE_EXEC)
 DIR_INTERNAL_EXEC	:= $(DIR_MODULE_EXEC)/_internal
 
-SRC_INTERFACE_EXEC	:= piping.c exec.c 
-SRC_INTERNAL_EXEC	:= redirections/heredoc/_heredoc.c redirections/in/_in.c redirections/out/_outfile.c redirections/pipe/pipe.c _exec.c 
+SRC_INTERFACE_EXEC	:= piping.c exec.c heredoc.c 
+SRC_INTERNAL_EXEC	:= redirections/in/_in.c redirections/out/_outfile.c redirections/pipe/pipe.c _exec.c 
 
 OBJ_EXEC			:= $(addprefix $(DIR_OBJ)/$(DIR_INTERFACE_EXEC)/, $(SRC_INTERFACE_EXEC:.c=.o))
 OBJ_EXEC			+= $(addprefix $(DIR_OBJ)/$(DIR_INTERNAL_EXEC)/, $(SRC_INTERNAL_EXEC:.c=.o))

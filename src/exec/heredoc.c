@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   _heredoc.c                                         :+:      :+:    :+:   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/04 16:11:13 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/12 16:01:18 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,10 @@
  * 					the address of the dynamically allocated array of strings.
  * @param	char	*restrict delimiter The string that marks the end of input.
  * 
- * @return	Returns the number of lines readed
- * * @retval	>= 0	The number of lines read and stored in the array.
- * * @retval	-1	An error occurred during memory allocation or reading.
+ * @return	Returns all readed lines
+ * * @retval	char **	All readed lines stored in a dynamically allocated array.
+ * * @retval	NULL	If memory allocation fails or if an error occurs
+ * 						during reading.
  * 
  * @version 1.0
 */
@@ -63,6 +64,8 @@ static inline char	**_read(
 		(storage)[i] = NULL;
 		line = read_line(DEFAULT_HEREDOC);
 	}
+	if (_UNLIKELY(!line))
+		return (free_tab(storage), NULL);
 	return (mm_free(line), storage);
 }
 

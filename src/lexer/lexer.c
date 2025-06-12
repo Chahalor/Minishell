@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/12 10:36:05 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/12 16:01:38 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,17 @@
 #pragma endregion Header
 #pragma region Fonctions
 
-/* -----| Core Functions  |---- */
+static inline int	_heredoc(
+	const t_redir *const restrict r,
+	t_exec_data *const restrict data
+)
+{
+	data->fd_in = heredoc_all(r->file);
+	if (_UNLIKELY(data->fd_in < 0))
+		return (mm_free(data->cmd), mm_free(data), -1);
+	else
+		return (data->fd_in);
+}
 
 static inline t_exec_data	*exec_data_new(void)
 {
@@ -42,7 +52,7 @@ static inline t_exec_data	*exec_data_new(void)
 	return (result);
 }
 
-static inline void	apply_redirs(
+static inline t_exec_data	*apply_redirs(
 	t_exec_data *data,
 	t_redir *r
 )
@@ -55,8 +65,10 @@ static inline void	apply_redirs(
 			data->type = r->type;
 		}
 		else if (r->type == REDIR_HEREDOC)
-			ft_fprintf(STDERR_FILENO, SHELL_NAME ":\
-				heredoc redirection not implemented yet\n");
+		{
+			if (_UNLIKELY(_heredoc(r, data) < 0))
+				return (mm_free(data->cmd), mm_free(data), NULL);
+		}
 		else if (r->type == REDIR_OUT || r->type == REDIR_APPEND)
 		{
 			if (r->type == REDIR_OUT)
@@ -69,6 +81,7 @@ static inline void	apply_redirs(
 		}
 		r = r->next;
 	}
+	return (data);
 }
 
 t_exec_data	*ast_to_exec_data(
@@ -95,7 +108,7 @@ t_exec_data	*ast_to_exec_data(
 		data->cmd = _get_bin(n->data.cmd.argv[0]);
 		if (_UNLIKELY(!data->cmd))
 			return (mm_free(data), NULL);
-		apply_redirs(data, n->data.cmd.redirs);
+		data = apply_redirs(data, n->data.cmd.redirs);
 		return (data);
 	}
 	return (NULL);

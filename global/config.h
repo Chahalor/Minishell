@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:47:53 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/03 16:16:01 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/12 15:16:22 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 
 # define ENABLE_RL	1				/* 0: disable read_line, 1: enable it */
 
-# define DEFAULT_PROMPT		"Mini> "		/* default prompt string   */
+# define DEFAULT_PROMPT		"$USER -- $PWD > "
 # define DEFAULT_HEREDOC	"heredoc> "		/* default heredoc prompt */
 # define SHELL_NAME			"minishell"		/* shell name            */
 
