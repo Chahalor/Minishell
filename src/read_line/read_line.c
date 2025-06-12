@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:06:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/12 16:23:44 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/12 16:28:41 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,9 @@ __attribute__((hot, malloc)) char	*read_line(
 		return (rl_data.result);
 }
 
-/** */
+/**
+ * @brief	Adds a line to the history.
+*/
 __attribute__((used)) char	*rl_add_history(
 	const char *const restrict line
 )
