@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 09:28:52 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/10 13:36:45 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/12 10:38:38 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ typedef enum e_tok_type
 	TOK_ERR
 }	t_tok_type;
 
-typedef enum
+typedef enum e_redir_type
 {
 	REDIR_IN,
 	REDIR_OUT,
@@ -68,7 +68,7 @@ typedef enum
 	REDIR_HEREDOC
 }	t_redir_type;
 
-typedef enum
+typedef enum e_node_type
 {
 	NODE_CMD,
 	NODE_PIPE
@@ -128,5 +128,5 @@ void		print_tokens(
 char		*_get_bin(
 				char *name
 				);
-	
+
 #endif /* _LEXER_H */
