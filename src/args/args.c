@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 15:05:39 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/13 12:01:45 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/13 13:35:12 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ __attribute__((always_inline, used)) static inline void	show_help(void)
 		"  nduvoid  <" BLUE UNDERLINE "nduvoid@student.42mulhouse.fr" RESET ">\n"
 		"  rcreuzea <" BLUE UNDERLINE "rcreuzea@student.42mulhouse.fr" RESET ">\n"
 		);
-	exit_program(0);
+	exit_program(0, NULL);
 }
 
 /**
@@ -122,7 +122,6 @@ __attribute__((cold, unused)) t_args	args_parser(
 	i = 0;
 	while (i < argc && !args.error && !args.help)
 	{
-		ft_fprintf(2, "Parsing argument: <%s>\n", argv[i]);
 		if (argv[i][0] == '-')
 		{
 			if (argv[i][1] == '-')
