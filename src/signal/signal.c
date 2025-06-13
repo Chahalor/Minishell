@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:46:24 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/05 11:17:17 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/13 14:21:51 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,17 @@ __attribute__((cold, visibility("hidden"))) void	_sigquit_handler(
 	g_last_signal = signal;
 }
 
+__attribute__((cold, visibility("hidden"))) void	_sigstp_handler(
+	int signal,
+	siginfo_t *info,
+	void *context
+)
+{
+	(void)info;
+	(void)context;
+	g_last_signal = signal;
+}
+
 __attribute__((always_inline, used)) inline int	reset_signal(void)
 {
 	return (
@@ -97,6 +108,7 @@ __attribute__((always_inline, used)) inline int	init_signal(void)
 {
 	struct sigaction	sigint_action;
 	struct sigaction	sigquit_action;
+	struct sigaction	sigstp_action;
 
 	sigint_action.sa_sigaction = _sigint_handler;
 	sigint_action.sa_flags = SA_SIGINFO;
@@ -104,9 +116,13 @@ __attribute__((always_inline, used)) inline int	init_signal(void)
 	sigquit_action.sa_sigaction = _sigquit_handler;
 	sigquit_action.sa_flags = SA_SIGINFO | SA_RESTART;
 	sigemptyset(&sigquit_action.sa_mask);
+	sigstp_action.sa_sigaction = _sigstp_handler;
+	sigstp_action.sa_flags = SA_SIGINFO | SA_RESTART;
+	sigemptyset(&sigstp_action.sa_mask);
 	return (
 		sigaction(SIGINT, &sigint_action, NULL) == -1
 		|| sigaction(SIGQUIT, &sigquit_action, NULL) == -1
+		|| sigaction(SIGTSTP, &sigstp_action, NULL) == -1
 	);
 }
 #pragma endregion Fonctions
