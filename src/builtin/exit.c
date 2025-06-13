@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/13 11:49:14 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/13 13:37:27 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,11 @@ __attribute__((always_inline, used)) static inline struct s_args_exit	_parse(
 	register int		i;
 
 	parsed = (struct s_args_exit){0};
+	if (!args[1])
+	{
+		parsed.exit_code = EXIT_SUCCESS;
+		return (parsed);
+	}
 	i = 1;
 	if (ft_strncmp(args[i], "-h", 3) == 0 
 		|| ft_strncmp(args[i], "--help", 7) == 0)

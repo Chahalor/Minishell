@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:15:37 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/13 11:18:03 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/13 13:53:08 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ struct s_blt_link
 
 struct s_args_echo
 {
+	int				start;			/* Start for the echo      */
 	unsigned char	nl		: 1;	/* Newline flag           */
 	unsigned char	help	: 1;	/* Help flag             */
 };

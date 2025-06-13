@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/05 12:56:01 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/13 14:01:07 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,25 @@
 
 #pragma endregion Header
 #pragma region Fonctions
+
+/** */
+__attribute__((always_inline, used)) static inline int	_is_no_nl(
+	const char *const restrict arg
+)
+{
+	register int	i;
+
+	if (!(arg[0] == '-'))
+		return (0);
+	i = 0;
+	while (arg[++i])
+	{
+		if (arg[i] != 'n')
+			return (0);
+	}
+	return (1);
+}
+
 
 /**
  * @brief	Displays the help message for the echo command.
@@ -54,19 +73,17 @@ __attribute__((always_inline, used)) static inline struct s_args_echo	_parse(
 	register int		i;
 	struct s_args_echo	result;
 
-	result = (struct s_args_echo){.nl = 1, .help = 0};
+	result = (struct s_args_echo){.start = 0, .nl = 1, .help = 0};
 	if (_UNLIKELY(!args || !*args))
 		return (result);
 	i = 0;
-	while (args[++i])
+	if (ft_strncmp(args[1], "--help", 6) == 0
+		|| ft_strncmp(args[1], "-h", 2) == 0)
+		result.help = 1;
+	while (args[++i] && _is_no_nl(args[i]))
 	{
-		if (ft_strncmp(args[i], "-n", 2) == 0)
-			result.nl = 0;
-		else if (ft_strncmp(args[i], "--help", 6) == 0
-			|| ft_strncmp(args[i], "-h", 2) == 0)
-			result.help = 1;
-		else
-			break ;
+		result.nl = 0;
+		++result.start;
 	}
 	return (result);
 }
@@ -97,10 +114,7 @@ __attribute__((used)) char	bltin_echo(
 	(void)fd_in;
 	if (_UNLIKELY(!args || !*args || parsed.help))
 		return (_help());
-	else if (!parsed.nl)
-		i = 1;
-	else
-		i = 0;
+	i = parsed.start;
 	while (args[++i])
 	{
 		write(fd_out, args[i], ft_strlen(args[i]));
