@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/12 12:38:01 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/13 10:46:03 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,15 @@
 #pragma endregion Header
 #pragma region Fonctions
 
-/** */
+/**
+ * @brief	Get the directory part of a path.
+ * 
+ * @param	path The path to extract the directory from.
+ * 
+ * @return	A dynamically allocated string containing the directory part
+ * 			of the path.
+ * @retval	NULL if the path is NULL or empty.
+*/
 __attribute__((used, visibility("hidden"))) char	*_get_dir(
 	const char *const restrict path
 )
@@ -49,7 +57,16 @@ __attribute__((used, visibility("hidden"))) char	*_get_dir(
 	return (result);
 }
 
-/** */
+/**
+ *  @brief	Get the file part of a path.
+ * 
+ *  @param	path The path to extract the file from.
+ * 
+ * @return	A dynamically allocated string containing the file part
+ * 			of the path.
+ * @retval	NULL if the path is NULL or empty.
+ * @retval	A pointer to the file name part of the path.
+*/
 __attribute__((used, visibility("hidden"))) char	*_get_file(
 	const char *const restrict path
 )

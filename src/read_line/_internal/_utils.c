@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:57:20 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/03 11:30:47 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/13 10:04:48 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,12 @@
 #pragma endregion Header
 #pragma region Fonctions
 
-/** 
- * tkt je garde sa au ca ou (sa viennt de c_lflag) // | ISIG);
+/**
+ * @brief	Sets the terminal to raw mode.
+ * 
+ * @param	t The termios structure to modify.
+ * 
+ * @return	Void
 */
 __attribute__((always_inline, used)) inline void	_set_raw(
 	struct termios *t
@@ -36,7 +40,13 @@ __attribute__((always_inline, used)) inline void	_set_raw(
 	tcsetattr(STDIN_FILENO, TCSANOW, t);
 }
 
-/** */
+/**
+ * @brief	Sets the terminal to default mode.
+ * 
+ * @param	t The termios structure to modify.
+ * 
+ * @return	Void
+*/
 __attribute__((always_inline, used)) inline void	_set_default(
 	struct termios *t
 )
@@ -69,13 +79,26 @@ __attribute__((always_inline, used)) inline void	move_cursor(
 	printf("\033[%d;%dH", row, col);
 }
 
-/** */
+/**
+ * @brief	Saves the current cursor position.
+ *
+ * @return	None
+ *
+ * @note	Use ANSI escape codes to save the cursor position.
+ *			This is useful for restoring the cursor position later.
+ */
 __attribute__((always_inline, used)) inline void	save_cursor(void)
 {
 	write(STDOUT_FILENO, "\033[s", 3);
 }
 
-/** */
+/**
+ * @brief	Restores the saved cursor position.
+ *
+ * @return	None
+ *
+ * @note	Use ANSI escape codes to restore the cursor position.
+ */
 __attribute__((always_inline, used)) inline void	restore_cursor(void)
 {
 	write(STDOUT_FILENO, "\033[u", 3);

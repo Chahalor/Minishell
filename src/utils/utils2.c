@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 11:04:28 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/03 10:34:41 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/13 11:38:16 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,21 @@
 
 #pragma endregion Header
 #pragma region Fonctions
+
+int	is_nbr(
+	const char *const restrict str
+)
+{
+	register int	i;
+
+	if (_UNLIKELY(!str))
+		return (0);
+	i = -1;
+	while (str[++i])
+		if (str[i] < '0' || str[i] > '9')
+			return (0);
+	return (1);
+}
 
 /** */
 __attribute__((used)) int	ft_atoi(

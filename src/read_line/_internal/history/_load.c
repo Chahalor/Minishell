@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 15:54:17 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/02 09:05:36 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/13 10:05:59 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,15 @@
 #pragma endregion Header
 #pragma region Fonctions
 
-/** */
+/**
+ *  @brief	Create a history file if it does not exist.
+ * 
+ * @param	filename The name of the file to create.
+ * 
+ * @return	The file descriptor of the created file.
+ * @retval		-1 if the file could not be created.
+ * @retval		>= 0 if the file was created successfully.
+*/
 __attribute__((always_inline, used)) static inline int	_create(
 	const char *const restrict filename
 )

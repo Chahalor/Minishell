@@ -2,8 +2,8 @@ DIR_MODULE_BUILTIN		:= builtin
 DIR_INTERFACE_BUILTIN	:= $(DIR_MODULE_BUILTIN)
 DIR_INTERNAL_BUILTIN	:= $(DIR_MODULE_BUILTIN)/_internal
 
-SRC_INTERFACE_BUILTIN	:= env.c export.c unset.c cd.c echo.c pwd.c builtin.c 
-SRC_INTERNAL_BUILTIN	:= _builtin.c 
+SRC_INTERFACE_BUILTIN	:= env.c export.c unset.c cd.c echo.c pwd.c builtin.c exit.c 
+SRC_INTERNAL_BUILTIN	:= 
 
 OBJ_BUILTIN			:= $(addprefix $(DIR_OBJ)/$(DIR_INTERFACE_BUILTIN)/, $(SRC_INTERFACE_BUILTIN:.c=.o))
 OBJ_BUILTIN			+= $(addprefix $(DIR_OBJ)/$(DIR_INTERNAL_BUILTIN)/, $(SRC_INTERNAL_BUILTIN:.c=.o))
