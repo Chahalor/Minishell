@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/10 13:19:46 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/13 11:01:54 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,16 @@
 #pragma endregion Header
 #pragma region Fonctions
 
-/** */
-__attribute__((used)) char	bltin_exit(
-	const char **args,
-	const int fd_in,
-	const int fd_out
-)
-{
-	const int	exit_code = ft_atoi(args[1]);
-
-	(void)fd_in;
-	(void)fd_out;
-	free_tab((char **)args);
-	exit_program(exit_code, "see you soon ^^");
-	return (1);
-}
-
+/**
+ * @brief	Get the builtin command link based on the command name.
+ * 
+ * @param	args The command name to search for.
+ * 
+ * @return	A pointer to the builtin
+ *  @retval		NULL if no matching builtin is found.
+ *  @retval		A pointer to the t_blt_link structure containing the
+ * 				builtin command name and function pointer.
+ */
 t_blt_link	*get_builtins(
 	const char *const restrict args
 )
