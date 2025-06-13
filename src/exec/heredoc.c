@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/12 16:01:18 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/13 10:54:15 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,9 +137,16 @@ int	heredoc(
 }
 
 /**
- * Donc a priori il faut renvoyer le bout du pipe ou on write() pas dedan
- * et faire la meme logic que pour les autres redirections
- * tkt c est une maquette pour tester la logic
+ * @brief Creates a pipe and reads lines from standard input until the delimiter
+ * is encountered, writing them to the write end of the pipe.
+ *
+ * @param	char	*const delimiter string that marks the end.
+ *
+ * @return	Returns the read end of the pipe.
+ *  @retval	>= 0	The read end of the pipe.
+ *  @retval	-1	Error occurred during pipe creation or heredoc operation.
+ *
+ * @version 1.0
  */
 int	heredoc_all(
 	const char *const restrict delimiter

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/12 14:05:59 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/13 10:44:41 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,17 @@ extern char	*_get_file(
 #pragma region Fonctions
 
 /**
+ * @brief	Store all commands in the PATH environment variable that
+ *  match the given word in the completion data.
+ * 
+ * @param	word	The word to match against command names.
+ * @param	data	The completion data structure to store results.
+ * 
+ * @return	The success status of the operation.
+ * @retval		0 on success
+ * @retval		-1 on error
+ * @retval		-2 on memory allocation failure.
+ * 
  * @todo: replace getenv by the manager getenv function
 */
 __attribute__((used)) static inline int	_show_cmds(
@@ -72,7 +83,18 @@ __attribute__((used)) static inline int	_show_cmds(
 	return (free_tab(paths), 0);
 }
 
-/** */
+/**
+ * @brief	Store all files and directories in the current directory
+ *  that match the given word in the completion data.
+ * 
+ *  @param	word	The word to match against file and directory names.
+ *  @param	data	The completion data structure to store results.
+ *
+ *  @return	The success status of the operation.
+ *  @retval		0 on success
+ *  @retval		1 if the directory cannot be opened
+ *  @retval		-1 on memory allocation failure.
+*/
 __attribute__((used)) static inline int	_show_paths(
 	const char *const restrict word,
 	t_rl_completion *const restrict data
@@ -103,6 +125,16 @@ __attribute__((used)) static inline int	_show_paths(
 	return (mm_free(path_dir), mm_free(path_file), 0);
 }
 
+/**
+ *  @brief	Display the completion entries in the terminal.
+ * 
+ *  @param	completion	The completion data containing entries to display.
+ *  @param	data		The read line data structure for prompt and result.
+ * 
+ * @return	Returns 0
+ * 
+ * @version 1.0
+ */
 static inline int	_show(
 	t_rl_completion *const restrict completion,
 	t_rl_data *const restrict data
@@ -125,6 +157,11 @@ static inline int	_show(
 
 /**
  * @brief	Replace the last word in the result with the completion word.
+ * 
+ *  @param	completion	The completion data containing the word to replace.
+ *  @param	data		The read line data structure for prompt and result.
+ * 
+ *  @return	Returns 0
  */
 static inline int	_replace(
 	t_rl_completion *const restrict completion,
@@ -147,7 +184,18 @@ static inline int	_replace(
 	return (0);
 }
 
-/** */
+/**
+ *  @brief	Handle the completion of the last word in the result.
+ * 
+ *  @param	data	The read line data structure containing the result.
+ * 
+ *  @return	Returns 0 on success, -1 on error.
+ *  @retval		0 on success
+ *  @retval		-1 on error (memory allocation failure or no entries found).
+ *  @retval		1 if no entries found
+ * 
+ *  @version 1.0
+*/
 int	completion(
 	t_rl_data *const restrict data
 )

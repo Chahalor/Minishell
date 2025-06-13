@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:19:00 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/29 17:24:56 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/13 10:50:18 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,17 @@
 #pragma endregion Header
 #pragma region Fonctions
 
-/** */
+/**
+ * @brief	Read an ANSI escape sequence from the input.
+ * 
+ * @param	buffer The buffer to store the ANSI sequence.
+ * @param	buffer_size The size of the buffer.
+ * 
+ * @return	The number of bytes read
+ *  @retval		>= 0 if the ANSI sequence is read successfully.
+ *  @retval		0 if no ANSI sequence is read.
+ *  @retval		-1 if an error occurs or if the buffer is too small.
+*/
 __attribute__((always_inline, used)) static inline int	_read_ansi(
 	char *const restrict buffer,
 	register int buffer_size
@@ -52,7 +62,15 @@ __attribute__((always_inline, used)) static inline int	_read_ansi(
 	return (i);
 }
 
-/** */
+/**
+ * @brief	Move the cursor left or right based on the action.
+ * 
+ * @param	data The read line data structure containing the result\
+ * 				 and prompt.
+ * @param	action The action to perform ('D' for left, 'C' for right).
+ * 
+ * @return	Void
+*/
 __attribute__((always_inline, used)) static inline void	_move(
 	t_rl_data *const restrict data,
 	const char action
@@ -76,24 +94,34 @@ __attribute__((always_inline, used)) static inline void	_move(
 	}
 }
 
-/** */
+/**
+ * @brief	Remove the char after the cursor position.
+ * 
+ * @param	data The read line data structure containing the result\
+ * 				 and prompt.
+ * @param	action The action to perform ('3' for delete).
+ * 
+ * @return	Void
+*/
 __attribute__((always_inline, used)) static inline void	_del(
-	t_rl_data *const restrict data,
-	const char action
+	t_rl_data *const restrict data
 )
 {
-	if (action == '3')
+	if (data->cursor_pos < data->line_length)
 	{
-		if (data->cursor_pos < data->line_length)
-		{
-			_remove(data);
-			write(STDOUT_FILENO, "\033[P", 3);
-		}
+		_remove(data);
+		write(STDOUT_FILENO, "\033[P", 3);
 	}
 }
 
 /**
- * @todo	check if were requesting the rigth history
+ * @brief	Handle history navigation for the read line.
+ * 
+ * @param	data The read line data structure containing the result\
+ * 				 and prompt.
+ * @param	action The action to perform ('A' for previous, 'B' for next).
+ * 
+ * @return	Return 1
  */
 __attribute__((always_inline, used)) static inline int	_history(
 	t_rl_data *const restrict data,
@@ -125,7 +153,14 @@ __attribute__((always_inline, used)) static inline int	_history(
 	return (1);
 }
 
-/** */
+/**
+ * @brief	Handle ANSI escape sequences for cursor movement and history navigation.
+ * 
+ * @param	data	The read line data structure containing the result and prompt.
+ * @return	Returns 1 if the ANSI sequence was handled successfully, 0 otherwise.
+ * @retval		1	ANSI sequence handled successfully.
+ * @retval		0	No ANSI sequence or an error occurred.
+*/
 __attribute__((used)) int	handle_ansi(
 	t_rl_data *const restrict data
 )
@@ -143,7 +178,7 @@ __attribute__((used)) int	handle_ansi(
 		|| ft_strncmp(ansi, "\033[B", 3) == 0)
 		_history(data, ansi[2]);
 	else if (ft_strncmp(ansi, "\033[3~", 4) == 0)
-		_del(data, ansi[2]);
+		_del(data);
 	else if (ft_strncmp(ansi, "\033[200~", 6) == 0)
 		data->status = past;
 	else if (ft_strncmp(ansi, "\033[201~", 6) == 0)

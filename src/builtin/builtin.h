@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:10:39 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/27 14:17:38 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/13 11:02:06 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,12 @@ char		bltin_pwd(
 				);
 
 char		bltin_unset(
+				const char **args,
+				const int fd_in,
+				const int fd_out
+				);
+
+char		bltin_exit(
 				const char **args,
 				const int fd_in,
 				const int fd_out

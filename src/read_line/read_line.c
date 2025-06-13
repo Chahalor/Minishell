@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:06:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/12 16:28:41 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/13 10:01:51 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@
  * @param	prompt The prompt to display before reading the line.
  * 
  * @return	Returns the read line as a dynamically allocated string.
- * @retval	NULL if an error occurs or if the end of file is reached.
- * @retval	"\04" if the end of file is reached (Ctrl+D).
- * @retval	Otherwise, the read line.
+ * @retval		NULL if an error occurs or if the end of file is reached.
+ * @retval		"\04" if the end of file is reached (Ctrl+D).
+ * @retval		Otherwise, the read line.
  * 
  * @version 2.0
  */
@@ -64,6 +64,14 @@ __attribute__((hot, malloc)) char	*read_line(
 
 /**
  * @brief	Adds a line to the history.
+ * 
+ *  @param	line The line to add to the history.
+ * 
+ *  @return	Returns the line that was added to the history.
+ *  @retval		NULL if an error occurs or if the line is empty.
+ *  @retval		Otherwise, the line that was added to the history.
+ * 
+ *  @version 1.0
 */
 __attribute__((used)) char	*rl_add_history(
 	const char *const restrict line
@@ -72,14 +80,32 @@ __attribute__((used)) char	*rl_add_history(
 	return (_history_manager(rl_add, line));
 }
 
-/** */
+/**
+ *  @brief	Frees the history.
+ * 
+ * @param	void
+ * 
+ *  @return	Returns nothing.
+ * 
+ * @version 1.0
+*/
 __attribute__((used)) void	rl_clear_history(void)
 {
 	_history_manager(rl_clear, NULL);
 	return ;
 }
 
-/** */
+/**
+ * @brief	Loads the history from a file.
+ * 
+ * @param	filename The name of the file to load the history from.
+ * 
+ * @return	The success status of the operation.
+ * @retval		0 if the history is loaded successfully.
+ * @retval		1 if the history somehow failed to load.
+ * 
+ * @version 1.0
+*/
 __attribute__((cold, unused)) int	rl_load_history(
 	const char *const restrict filename
 )
@@ -87,15 +113,20 @@ __attribute__((cold, unused)) int	rl_load_history(
 	return (_history_manager(rl_load, filename) == NULL);
 }
 
-/** */
+/**
+ *  @brief Resets the command line settings to their default state.
+ * 
+ *  @note This function is intended to be used when the command line
+ *  is no longer needed and should be restored to its original state.
+*/
 __attribute__((cold, unused)) void	reset_cmd(void)
 {
 	struct termios	oldt;
-	struct termios	resore;
+	struct termios	restore;
 
 	tcgetattr(STDIN_FILENO, &oldt);
-	resore = oldt;
-	_set_default(&resore);
+	restore = oldt;
+	_set_default(&restore);
 }
 
 #pragma endregion Fonctions

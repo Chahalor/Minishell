@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 11:03:50 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/05 14:29:58 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/13 11:38:27 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,10 @@ extern void	ft_memcpy(
 				);
 
 // utils2.c
+
+int			is_nbr(
+				const char *const restrict str
+				);
 
 int			ft_atoi(
 				const char *restrict str

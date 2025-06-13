@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/05 13:44:43 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/13 10:57:47 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,13 @@
 #pragma endregion Header
 #pragma region Fonctions
 
-/** */
+/**
+ * @brief	Parses the arguments for the pwd command.
+ * 
+ * @param	args	The arguments to parse.
+ * 
+ * @return	1 if help is requested, 0 otherwise.
+*/
 __attribute__((always_inline, used)) static inline char	_parse(
 	const char **args
 )
@@ -40,7 +46,13 @@ __attribute__((always_inline, used)) static inline char	_parse(
 	return (0);
 }
 
-/** */
+/**
+ *  @brief	Displays the help message for the pwd command.
+ * 
+ * @param	void
+ * 
+ * @return	EXIT_FAILURE
+*/
 __attribute__((always_inline, used)) static inline char	_help(void)
 {
 	ft_fprintf(2,

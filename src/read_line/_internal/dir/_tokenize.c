@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/03 10:34:04 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/13 10:45:14 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,16 @@ int	is_file(
 		return (0);
 }
 
-/** */
+/**
+ *  @brief	Tokenize the word to determine its type.
+ * 
+ *  @param	word The word to tokenize.
+ *
+ *  @return	The token type of the word.
+ *  @retval		token_cmd if the word is a command
+ *  @retval		token_path_file if the word is a path to a file
+ *  @retval		token_path_dir if the word is a path to a directory
+*/
 int	tokenize(
 	const char *const restrict word
 )
