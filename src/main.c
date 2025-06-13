@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:44:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/12 16:02:50 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/13 14:07:18 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	main(int argc, const char **argv, char **envp)
 	{
 		running = _prompt(DEFAULT_PROMPT, envp);
 	}
-	exit_program(0, "main(): Exiting program");
+	exit_program(0, DEFAULT_EXIT_MESSAGE);
 	return (0);
 }
 
