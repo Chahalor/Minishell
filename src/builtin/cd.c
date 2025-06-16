@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/05 12:58:47 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/16 11:37:44 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,22 +44,23 @@ __attribute__((always_inline, used)) static inline char	_help(void)
 /**
  * @brief	Displays an error message based on the provided error code.
  * 
- * @param	error	Error code indicating the type of error.
+ * @param	error Error code indicating the type of error.
  * 
- * @return		Returns EXIT_FAILURE to indicate an error.
+ * @return	Returns EXIT_FAILURE to indicate an error.
 */
 __attribute__((always_inline, used)) static inline char	_error(
-	const enum e_builtin_error error
+	const enum e_builtin_error error,
+	const char *const filename
 )
 {
 	static const char *const	error_messages[4] = {
 	[builtin_error_too_many_args] = "cd: too many arguments\n",
-	[builtin_error_no_such_file] = "cd: no such file or directory\n",
+	[builtin_error_no_such_file] = "cd: %s: no such file or directory\n",
 	[builtin_error_not_a_directory] = "cd: not a directory\n",
 	[builtin_error_none] = ""
 	};
 
-	ft_fprintf(STDERR_FILENO, "%s", error_messages[error]);
+	ft_fprintf(STDERR_FILENO, error_messages[error], filename);
 	return (EXIT_FAILURE);
 }
 
@@ -151,7 +152,7 @@ __attribute__((used)) char	bltin_cd(
 	if (_UNLIKELY(opts.help))
 		return (_help());
 	else if (_UNLIKELY(opts.error))
-		return (_error(opts.error));
+		return (_error(opts.error, NULL));
 	else if (opts.oldpwd)
 		dest = getenv("OLDPWD");
 	else if (opts.home)
@@ -160,9 +161,9 @@ __attribute__((used)) char	bltin_cd(
 		dest = (char *)args[1];
 	error = _check_path(dest);
 	if (error)
-		return (_error(error));
+		return (_error(error, dest));
 	else if (chdir(dest) != 0)
-		return (_error(builtin_error_no_such_file));
+		return (_error(builtin_error_no_such_file, dest));
 	else
 		return (EXIT_SUCCESS);
 }
