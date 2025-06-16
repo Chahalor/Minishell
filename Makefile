@@ -84,7 +84,7 @@ re: fclean all
 
 debug:
 	$(eval DEBUGFLAGS=$(DEBUGFLAGS) -g3 -D DEBUG=1)
-	@echo "\033[1;33m DEBUG MODE ACTIVATED \033[0m"
+	@echo "\033[1;33m DEBUG MODE ACTIVATED $(_RESET)"
 
 debug.fsanitize: debug
 	$(eval DEBUGFLAGS=$(DEBUGFLAGS) -fsanitize=address)
@@ -110,8 +110,12 @@ ifeq ($(MAKELEVEL), 0)
 	@echo "Big Fat Header\n"
 endif
 
-NORM_FILES := global/ src/
+help:
+	@echo "\033[1;33mUsage: make [target]$(_RESET)\n" 	"$(_YELLOW)├──$(_GREEN)all$(_RESET)			- Build the project\n" 	"$(_YELLOW)├──$(_GREEN)bonus$(_RESET)		- Build the bonus part of the project\n" 	"$(_YELLOW)├──$(_GREEN)fast$(_RESET)			- Build the project quickly\n" 	"$(_YELLOW)├──$(_GREEN)clean$(_RESET)		- Remove object files\n" 	"$(_YELLOW)├──$(_GREEN)fclean$(_RESET)		- Remove object files and executable\n" 	"$(_YELLOW)├──$(_GREEN)re$(_RESET)			- Clean and rebuild the project\n" 	"$(_YELLOW)├──$(_GREEN)debug$(_RESET)		- Enable debug mode\n" 	"$(_YELLOW)├──$(_GREEN)debug.fsanitize$(_RESET)	- Enable debug mode with address sanitizer\n" 	"$(_YELLOW)├──$(_GREEN)debug.fs$(_RESET)		- Enable debug mode with full sanitizer\n" 	"$(_YELLOW)├──$(_GREEN)debug.pg$(_RESET)		- Enable debug mode with profiling\n" 	"$(_YELLOW)├──$(_GREEN)norm$(_RESET)			- Check code style with Norminette\n" 	"$(_YELLOW)├──$(_GREEN)install$(_RESET)		- Install the executable to ~/.local/bin\n" 	"$(_YELLOW)├──$(_GREEN)uninstall$(_RESET)		- Uninstall the executable from ~/.local/bin\n" 	"$(_YELLOW)├──$(_GREEN)update$(_RESET)		- Update the Makefile using auto.sh script\n" 	"$(_YELLOW)└──$(_GREEN)symbols$(_RESET)		- Check for forbidden symbols in the binary\n"
 
+# -----| Norminette check  |----- #
+
+NORM_FILES := global/ src/
 norm:
 	@printf "$(_YELLOW)Checking norminette...$(_RESET)"
 	@NORM_OUTPUT="$$(norminette $(NORM_FILES) | grep 'Error')" ; \
@@ -133,36 +137,38 @@ norm:
 		echo "$(_RED) ❌ Norminette errors found$(_RESET)" ; \
 	fi
 
-INSTALL_DIR = $(HOME)/.local/bin
+# -----| Install / Uninstall |----- #
 
+INSTALL_DIR = $(HOME)/.local/bin
 install:
 	mkdir -p $(INSTALL_DIR)
 	cp $(NAME) $(INSTALL_DIR)/
 	chmod +x $(INSTALL_DIR)/$(NAME)
 	$(call _completion)
-	echo "\033[1;32m ✅ $(NAME) installed to $(INSTALL_DIR) \033[0m"; \
+	echo "$(_GREEN) ✅ $(NAME) installed to $(INSTALL_DIR) $(_RESET)"; \
 
 uninstall:
 	rm -rf $(INSTALL_DIR)/$(NAME)
-	echo "\033[1;32m ✅ $(NAME) uninstalled from $(INSTALL_DIR) \033[0m";
+	echo "$(_GREEN) ✅ $(NAME) uninstalled from $(INSTALL_DIR) $(_RESET)";
 
 update:
 	if [ -f ./auto.sh ]; then \
-		echo "\033[1;33m Updating Makefile... \033[0m"; \
+		echo "\033[1;33m Updating Makefile... $(_RESET)"; \
 	else \
-		echo "\033[1;31m auto.sh not found, please add the script to automate the update \033[0m"; \
+		echo "$(_RED) auto.sh not found, please add the script to automate the update $(_RESET)"; \
 		exit 1; \
 	fi
 	./auto.sh
-	echo "\033[1;32m ✅ Makefile updated \033[0m";
+	echo "$(_GREEN) ✅ Makefile updated $(_RESET)";
 
+
+# -----| Symbols check |----- #
 SUPPRESED_SYMBOLS	:=	memset
 ALLOWED_SYMBOLS		:=	readline rl_clear_history rl_on_new_line rl_replace_line rl_redisplay add_history \
 						printf malloc free write access open read close fork wait waitpid wait3 wait4 signal \
 						sigaction sigemptyset sigaddset kill exit getcwd chdir stat lstat fstat unlink execve \
 						dup dup2 pipe opendir readdir closedir strerror perror isatty ttyname ttyslot ioctl \
 						getenv tcsetattr tcgetattr tgetent tgetflag tgetnum tgetstr tgoto tputs
-
 symbols:
 	@nm -uj $(NAME) | sort -u | sed 's/@.*//' | grep -v '^__' | \
 	awk ' \
@@ -199,5 +205,5 @@ symbols:
 	}'
 
 .SILENT:
-	@echo "\033[1;33m SILENT MODE ACTIVATED \033[0m
+	@echo "\033[1;33m SILENT MODE ACTIVATED $(_RESET)
 
