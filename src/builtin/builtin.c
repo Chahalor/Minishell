@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/16 10:08:54 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/16 11:33:34 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ t_blt_link	*get_builtins(
 
 	i = -1;
 	while (builtins[++i].name)
-		if (ft_strncmp(builtins[i].name, args, ft_strlen(args)) == 0)
+		if (ft_strncmp(builtins[i].name, args,
+			ft_strlen(builtins[i].name)) == 0)
 			return (&builtins[i]);
 	return (NULL);
 }
