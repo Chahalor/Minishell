@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/16 10:01:05 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/16 10:40:22 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ __attribute__((always_inline, used)) static inline struct s_args_echo	_parse(
 	if (_UNLIKELY(!args || !*args))
 		return (result);
 	i = 0;
-	if (ft_strncmp(args[1], "--help", 6) == 0
-		|| ft_strncmp(args[1], "-h", 2) == 0)
+	if (args[1] && (ft_strncmp(args[1], "--help", 6) == 0
+		|| ft_strncmp(args[1], "-h", 2) == 0))
 		result.help = 1;
 	while (args[++i] && _is_no_nl(args[i]))
 	{
@@ -112,7 +112,7 @@ __attribute__((used)) char	bltin_echo(
 	register int				i;
 
 	(void)fd_in;
-	if (_UNLIKELY(!args || !*args || parsed.help))
+	if (_UNLIKELY(parsed.help))
 		return (_help());
 	i = parsed.start;
 	while (args[++i])
