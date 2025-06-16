@@ -10,4 +10,5 @@ OBJ_GLOBAL-MANAGER			+= $(addprefix $(DIR_OBJ)/$(DIR_INTERNAL_GLOBAL-MANAGER)/, 
 
 $(DIR_OBJ)/$(DIR_MODULE_GLOBAL-MANAGER)/%.o: $(DIR_SRC)/$(DIR_MODULE_GLOBAL-MANAGER)/%.c
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) $(DEBUGFLAGS) $(INCLUDE_ALL) -I$(DIR_SRC)/$(DIR_MODULE_GLOBAL-MANAGER)/_internal -c $< -o $@
+	@printf "\rCompiling %-60s" "$<"
+	@$(CC) $(CFLAGS) $(DEBUGFLAGS) $(INCLUDE_ALL) -I$(DIR_SRC)/$(DIR_MODULE_GLOBAL-MANAGER)/_internal -c $< -o $@

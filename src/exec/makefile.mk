@@ -10,4 +10,5 @@ OBJ_EXEC			+= $(addprefix $(DIR_OBJ)/$(DIR_INTERNAL_EXEC)/, $(SRC_INTERNAL_EXEC:
 
 $(DIR_OBJ)/$(DIR_MODULE_EXEC)/%.o: $(DIR_SRC)/$(DIR_MODULE_EXEC)/%.c
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) $(DEBUGFLAGS) $(INCLUDE_ALL) -I$(DIR_SRC)/$(DIR_MODULE_EXEC)/_internal -c $< -o $@
+	@printf "\rCompiling %-60s" "$<"
+	@$(CC) $(CFLAGS) $(DEBUGFLAGS) $(INCLUDE_ALL) -I$(DIR_SRC)/$(DIR_MODULE_EXEC)/_internal -c $< -o $@

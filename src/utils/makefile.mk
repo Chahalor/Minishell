@@ -10,4 +10,5 @@ OBJ_UTILS			+= $(addprefix $(DIR_OBJ)/$(DIR_INTERNAL_UTILS)/, $(SRC_INTERNAL_UTI
 
 $(DIR_OBJ)/$(DIR_MODULE_UTILS)/%.o: $(DIR_SRC)/$(DIR_MODULE_UTILS)/%.c
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) $(DEBUGFLAGS) $(INCLUDE_ALL) -I$(DIR_SRC)/$(DIR_MODULE_UTILS)/_internal -c $< -o $@
+	@printf "\rCompiling %-60s" "$<"
+	@$(CC) $(CFLAGS) $(DEBUGFLAGS) $(INCLUDE_ALL) -I$(DIR_SRC)/$(DIR_MODULE_UTILS)/_internal -c $< -o $@

@@ -10,4 +10,5 @@ OBJ_BUILTIN			+= $(addprefix $(DIR_OBJ)/$(DIR_INTERNAL_BUILTIN)/, $(SRC_INTERNAL
 
 $(DIR_OBJ)/$(DIR_MODULE_BUILTIN)/%.o: $(DIR_SRC)/$(DIR_MODULE_BUILTIN)/%.c
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) $(DEBUGFLAGS) $(INCLUDE_ALL) -I$(DIR_SRC)/$(DIR_MODULE_BUILTIN)/_internal -c $< -o $@
+	@printf "\rCompiling %-60s" "$<"
+	@$(CC) $(CFLAGS) $(DEBUGFLAGS) $(INCLUDE_ALL) -I$(DIR_SRC)/$(DIR_MODULE_BUILTIN)/_internal -c $< -o $@
