@@ -45,8 +45,7 @@ _OBJ_ALL		:= $(OBJ_ARGS) $(OBJ_BUILTIN) $(OBJ_EXEC) $(OBJ_EXIT) $(OBJ_FT_PRINTF)
 
 all: header norm $(NAME) symbols install
 
-# ***************************************	@echo "\n\033[1;33mCompiling $(NAME)...\033[0m"
-************** #
+# ***************************************************** #
 # *                  Compiling                        * #
 # ***************************************************** #
 
@@ -59,6 +58,8 @@ $(DIR_OBJ)/%.o: $(DIR_SRC)/%.c
 
 bonus: $(_OBJ_ALL) $(_OBJ_BONUS)
 	$(CC) $(CFLAGS) $(DEBUGFLAGS) $(INCLUDE_ALL) $^ -o $(BONUS)
+
+fast: $(NAME)
 
 # ***************************************************** #
 # *                    Clean Rules                    * #
