@@ -113,13 +113,27 @@ ifeq ($(MAKELEVEL), 0)
 	@echo "Big Fat Header\n"
 endif
 
+NORM_FILES := global/ src/
+
 norm:
-	@errors=$$(norminette --use-gitignore | grep --color=always "Error"); \
-	if [ -n "$$errors" ]; then \
-		echo "$$errors"; \
-		echo "\033[31m ❌ Norminette errors found \033[0m"; \
+	@printf "$(_YELLOW)Checking norminette...$(_RESET)"
+	@NORM_OUTPUT="$$(norminette $(NORM_FILES) | grep 'Error')" ; \
+	if [ -z "$$NORM_OUTPUT" ]; then \
+		printf "$(_GREEN) ✅ Norminette passed with no errors.$(_RESET)\n"; \
 	else \
-		echo "\033[1;32m ✅ Norminette Ok\033[0m"; \
+		printf "\r" ; 		printf "$$NORM_OUTPUT" | awk '\
+		/\.c: Error!/ || /\.h: Error!/ { file=$$0; next } \
+		/Error:/ { \
+			l=match($$0, /line: *[0-9]+/); \
+			c=match($$0, /col: *[0-9]+/); \
+			line=substr($$0, l+6, 10); \
+			col=substr($$0, c+5, 10); \
+			gsub(/\(line: *[0-9]+, *col: *[0-9]+\): */, "", $$0); \
+			sub(/Error: /, "", $$0); \
+			split(file, parts, ":"); \
+			printf "$(_RED)Error$(_RESET): %s:%-3s:%-2s: %s\n", parts[1], line+0, col+0, $$0; \
+		}' ; \
+		echo "$(_RED) ❌ Norminette errors found$(_RESET)" ; \
 	fi
 
 INSTALL_DIR = $(HOME)/.local/bin
@@ -149,7 +163,39 @@ SUPPRESED_SYMBOLS	:=	memset
 ALLOWED_SYMBOLS		:=	readline rl_clear_history rl_on_new_line rl_replace_line rl_redisplay add_history 						printf malloc free write access open read close fork wait waitpid wait3 wait4 signal 						sigaction sigemptyset sigaddset kill exit getcwd chdir stat lstat fstat unlink execve 						dup dup2 pipe opendir readdir closedir strerror perror isatty ttyname ttyslot ioctl 						getenv tcsetattr tcgetattr tgetent tgetflag tgetnum tgetstr tgoto tputs
 
 symbols:
-	@nm -uj $(NAME) | sort -u | sed 's/@.*//' | grep -v '^__' | 	awk ' 	BEGIN { 		split("$(ALLOWED_SYMBOLS)", allowed); 		split("$(SUPPRESSED_SYMBOLS)", suppressed); 		for (i in allowed) allow[allowed[i]] = 1; 		for (i in suppressed) supp[suppressed[i]] = 1; 		suppressed_count = 0; 		forbidden_count = 0; 		output = ""; 	} 	{ 		sym = $$0; 		if (sym in allow) 			output = output sprintf("$(_YELLOW)│   $(_GREEN)%s (allowed)$(_RESET)\n", sym); 		else if (sym in supp) 			suppressed_count++; 		else 		{ 			output = output sprintf("$(_YELLOW)├$(_RED)── %s (forbidden)$(_RESET)\n", sym); 			forbidden_count++; 		} 	} 	END { 		if (suppressed_count > 0 || forbidden_count > 0) 		{ 			printf "$(_YELLOW)SYMBOLS:$(_RESET)\n"; 			printf "%s", output; 		} 		else 			printf "$(_YELLOW)├──$(_GREEN)✅ Only allowed symbols found!$(_RESET)\n"; 		printf "$(_YELLOW)├── functions suppressed (%d)\n", suppressed_count; 		printf "$(_YELLOW)└── functions forbidden (%d)\n", forbidden_count; 	}'
+	@nm -uj $(NAME) | sort -u | sed 's/@.*//' | grep -v '^__' | \
+	awk ' \
+	BEGIN { \
+		split("$(ALLOWED_SYMBOLS)", allowed); \
+		split("$(SUPPRESSED_SYMBOLS)", suppressed); \
+		for (i in allowed) allow[allowed[i]] = 1; \
+		for (i in suppressed) supp[suppressed[i]] = 1; \
+		suppressed_count = 0; \
+		forbidden_count = 0; \
+		output = ""; \
+	} \
+	{ \
+		sym = $$0; \
+		if (sym in allow) \
+			output = output sprintf("$(_YELLOW)│   $(_GREEN)%s (allowed)$(_RESET)\n", sym); \
+		else if (sym in supp) \
+			suppressed_count++; \
+		else \
+		{ \
+			output = output sprintf("$(_YELLOW)├$(_RED)── %s (forbidden)$(_RESET)\n", sym); 			forbidden_count++; \
+		} \
+	} \
+	END { \
+		if (suppressed_count > 0 || forbidden_count > 0) \
+		{ \
+			printf "$(_YELLOW)SYMBOLS:$(_RESET)\n"; \
+			printf "%s", output; \
+		} \
+		else \
+			printf "$(_YELLOW)├──$(_GREEN)✅ Only allowed symbols found!$(_RESET)\n"; \
+		printf "$(_YELLOW)├── functions suppressed (%d)\n",  suppressed_count; \
+		printf "$(_YELLOW)└── functions forbidden (%d)\n", forbidden_count; \
+	}'
 
 .SILENT:
 	@echo "\033[1;33m SILENT MODE ACTIVATED \033[0m
