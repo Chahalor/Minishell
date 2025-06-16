@@ -125,8 +125,7 @@ _OBJ_ALL		:=$OBJ_ALL_LIST
 
 all: header norm \$(NAME) symbols install
 
-# ***************************************	@echo "\n\033[1;33mCompiling \$(NAME)...\033[0m"
-************** #
+# ***************************************************** #
 # *                  Compiling                        * #
 # ***************************************************** #
 
@@ -139,6 +138,8 @@ all: header norm \$(NAME) symbols install
 
 bonus: \$(_OBJ_ALL) \$(_OBJ_BONUS)
 	\$(CC) \$(CFLAGS) \$(DEBUGFLAGS) \$(INCLUDE_ALL) \$^ -o \$(BONUS)
+
+fast: \$(NAME)
 
 # ***************************************************** #
 # *                    Clean Rules                    * #
