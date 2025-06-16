@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/13 14:01:07 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/16 10:01:05 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ __attribute__((always_inline, used)) static inline int	_is_no_nl(
 */
 __attribute__((always_inline, used)) static inline char	_help(void)
 {
-	ft_fprintf(2,
+	ft_fprintf(STDERR_FILENO,
 		BLUE "Usage:" RESET " echo [options] [string ...]\n"
 		YELLOW "Options:\n" RESET
 		"  -n, \t\tDo not output the trailing newline\n"

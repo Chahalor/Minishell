@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/16 08:27:02 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/16 10:11:08 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,56 @@ __attribute__((hot))	int	exec_bin(
 		return (perror("exec_bin(): fork() failed"), -1);
 }
 
+__attribute__((always_inline, used)) static inline char	_exec_one(
+	t_exec_data *const restrict current,
+	char *const envp[]
+)
+{
+	int	in_fd;
+	int	out_fd;
+
+	in_fd = -1;
+	out_fd = STDOUT_FILENO;
+	out_fd += (current->fd_out > 0) * (current->fd_out - STDOUT_FILENO);
+	if (current->fd_in > 0)
+		in_fd = current->fd_in;
+	if (get_builtins(current->args[0]))
+		exec_builtin(current, envp, in_fd, out_fd);
+	else
+		exec_bin(current, envp, in_fd, out_fd);
+	_wait_childrens(current);
+	return (0);
+}
+
+__attribute__((always_inline, used)) static inline char	_exec_pipes(
+	t_exec_data *const restrict data,
+	char *const envp[]
+)
+{
+	t_exec_data	*current;
+	int			pipe_fd[2];
+	int			prev_read;
+	int			out_fd;
+
+	prev_read = -1;
+	current = data;
+	while (current)
+	{
+		out_fd = STDOUT_FILENO;
+		out_fd += (current->fd_out > 0) * (current->fd_out - STDOUT_FILENO);
+		if (current->pipe)
+			if (_UNLIKELY(_piping(pipe_fd, &out_fd) < 0))
+				return (-1);
+		if (get_builtins(current->args[0]))
+			exec_builtin_fork(current, envp, prev_read, out_fd);
+		else
+			exec_bin(current, envp, prev_read, out_fd);
+		current = _closing(&prev_read, out_fd, current, pipe_fd);
+	}
+	_wait_childrens(data);
+	return (0);
+}
+
 /**
  * @brief	Executes all commands in the order of data.
  * 				If a command has a pipe, it will create the pipe and
@@ -172,28 +222,10 @@ int	full_exec(
 	char *const envp[]
 )
 {
-	t_exec_data	*current;
-	int			pipe_fd[2];
-	int			prev_read;
-	int			out_fd;
-
-	prev_read = -1;
-	current = data;
-	while (current)
-	{
-		out_fd = STDOUT_FILENO;
-		out_fd += (current->fd_out > 0) * (current->fd_out - STDOUT_FILENO);
-		if (current->pipe)
-			if (_UNLIKELY(_piping(pipe_fd, &out_fd) < 0))
-				return (-1);
-		if (get_builtins(current->args[0]))
-			exec_builtin(current, envp, prev_read, out_fd);
-		else
-			exec_bin(current, envp, prev_read, out_fd);
-		current = _closing(&prev_read, out_fd, current, pipe_fd);
-	}
-	_wait_childrens(data);
-	return (0);
+	if (data->pipe)
+		return (_exec_pipes(data, envp));
+	else
+		return (_exec_one(data, envp));
 }
 
 #pragma endregion Fonctions
