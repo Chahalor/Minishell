@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/16 11:03:51 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/16 11:27:06 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ t_exec_data	*ast_to_exec_data(
 		data->args = n->data.cmd.argv;
 		data->cmd = _get_bin(n->data.cmd.argv[0]);
 		data = apply_redirs(data, n->data.cmd.redirs);
-		
 		if (_UNLIKELY(!data->cmd))
 		{
 			if (!isatty(data->fd_out))
