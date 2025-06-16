@@ -1,24 +1,11 @@
 #include <readline/readline.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
-int main(void)
+int main(int argc, const char *argv[], const char *env[])
 {
-	char *input;
 
-	// Read a line of input from the user
-	input = readline("Enter a command: ");
-	if (input == NULL)
-	{
-		perror("readline");
-		return 1;
-	}
-
-	// Print the input back to the user
-	printf("You entered: %s\n", input);
-
-	// Free the allocated memory for the input
-	free(input);
-	
+	execve(NULL, (char *const *){NULL}, env);
 	return 0;
 }

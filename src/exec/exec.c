@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/16 10:11:08 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/16 11:06:59 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,8 @@ __attribute__((always_inline, used, noreturn)) static inline int	_child(
 		_redirect(out_fd, STDOUT_FILENO);
 	fdm_close_all();
 	reset_signal();
+	if (_UNLIKELY(!data->cmd))
+		exit_program(EXIT_FAILURE, NULL);
 	execve(data->cmd, data->args, envp);
 	exit_program(127, NULL);
 	exit(EXIT_FAILURE);
@@ -136,8 +138,8 @@ __attribute__((hot))	int	exec_bin(
 {
 	pid_t	pid;
 
-	if (!_check_perms(data->cmd))	// migth be useless
-		return (-1);
+	// if (!_check_perms(data->cmd))	// migth be useless
+	// 	return (-1);
 	pid = fork();
 	if (pid == 0)
 		_child(data, envp, prev_read, out_fd);

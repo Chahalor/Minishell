@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/12 16:01:38 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/16 11:03:51 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static inline t_exec_data	*apply_redirs(
 	}
 	return (data);
 }
-
+	
 t_exec_data	*ast_to_exec_data(
 	t_ast	*n
 )
@@ -106,9 +106,16 @@ t_exec_data	*ast_to_exec_data(
 			return (NULL);
 		data->args = n->data.cmd.argv;
 		data->cmd = _get_bin(n->data.cmd.argv[0]);
-		if (_UNLIKELY(!data->cmd))
-			return (mm_free(data), NULL);
 		data = apply_redirs(data, n->data.cmd.redirs);
+		
+		if (_UNLIKELY(!data->cmd))
+		{
+			if (!isatty(data->fd_out))
+			{
+				close(data->fd_out);
+				data->fd_out = -1;
+			}
+		}
 		return (data);
 	}
 	return (NULL);
