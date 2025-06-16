@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/10 13:16:18 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/16 08:27:02 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,20 @@
 #pragma region Fonctions
 
 extern volatile sig_atomic_t	g_last_signal;
+
+/** */
+__attribute__((always_inline, used)) static inline char	_check_perms(
+	const char *const restrict path
+)
+{
+	if (access(path, X_OK) == 0)
+		return (1);
+	else if (access(path, F_OK) == 0)
+		perror("exec_bin(): Permission denied");
+	else
+		perror("exec_bin(): Command not found");
+	return (0);
+}
 
 /**
  * @brief	Closes the previous read file descriptor and returns the next command
@@ -122,6 +136,8 @@ __attribute__((hot))	int	exec_bin(
 {
 	pid_t	pid;
 
+	if (!_check_perms(data->cmd))	// migth be useless
+		return (-1);
 	pid = fork();
 	if (pid == 0)
 		_child(data, envp, prev_read, out_fd);
