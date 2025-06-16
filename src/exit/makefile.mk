@@ -10,4 +10,5 @@ OBJ_EXIT			+= $(addprefix $(DIR_OBJ)/$(DIR_INTERNAL_EXIT)/, $(SRC_INTERNAL_EXIT:
 
 $(DIR_OBJ)/$(DIR_MODULE_EXIT)/%.o: $(DIR_SRC)/$(DIR_MODULE_EXIT)/%.c
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) $(DEBUGFLAGS) $(INCLUDE_ALL) -I$(DIR_SRC)/$(DIR_MODULE_EXIT)/_internal -c $< -o $@
+	@printf "\rCompiling %-60s" "$<"
+	@$(CC) $(CFLAGS) $(DEBUGFLAGS) $(INCLUDE_ALL) -I$(DIR_SRC)/$(DIR_MODULE_EXIT)/_internal -c $< -o $@

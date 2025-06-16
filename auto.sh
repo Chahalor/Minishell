@@ -65,7 +65,8 @@ OBJ_${MODULE_NAME^^}			+= \$(addprefix \$(DIR_OBJ)/\$(DIR_INTERNAL_${MODULE_NAME
 
 \$(DIR_OBJ)/\$(DIR_MODULE_${MODULE_NAME^^})/%.o: \$(DIR_SRC)/\$(DIR_MODULE_${MODULE_NAME^^})/%.c
 	@mkdir -p \$(dir \$@)
-	\$(CC) \$(CFLAGS) \$(DEBUGFLAGS) \$(INCLUDE_ALL) -I\$(DIR_SRC)/\$(DIR_MODULE_${MODULE_NAME^^})/_internal -c \$< -o \$@
+	@printf "\rCompiling %-60s" "\$<"
+	@\$(CC) \$(CFLAGS) \$(DEBUGFLAGS) \$(INCLUDE_ALL) -I\$(DIR_SRC)/\$(DIR_MODULE_${MODULE_NAME^^})/_internal -c \$< -o \$@
 EOM
 		echo "✅ ${module}makefile.mk créé pour le module $MODULE_NAME !"
 	fi
@@ -130,11 +131,12 @@ all: header norm \$(NAME) symbols install
 # ***************************************************** #
 
 \$(NAME): \$(_OBJ_ALL) \$(_OBJ_MAIN)
-	\$(CC) \$(CFLAGS) \$(DEBUGFLAGS) \$(INCLUDE_ALL) \$^ -o \$(NAME) 
+	@echo "\nCompiling \$(NAME)..."
+	@\$(CC) \$(CFLAGS) \$(DEBUGFLAGS) \$(INCLUDE_ALL) \$^ -o \$(NAME) 
 
 \$(DIR_OBJ)/%.o: \$(DIR_SRC)/%.c
 	@mkdir -p \$(DIR_OBJ)
-	\$(CC) \$(CFLAGS) \$(DEBUGFLAGS) \$(INCLUDE_ALL) -c $< -o \$@
+	@\$(CC) \$(CFLAGS) \$(DEBUGFLAGS) \$(INCLUDE_ALL) -c $< -o \$@
 
 bonus: \$(_OBJ_ALL) \$(_OBJ_BONUS)
 	\$(CC) \$(CFLAGS) \$(DEBUGFLAGS) \$(INCLUDE_ALL) \$^ -o \$(BONUS)
@@ -301,9 +303,23 @@ symbols:
 		printf "\$(_YELLOW)└── functions forbidden (%d)\n", forbidden_count; \\
 	}'
 
-.SILENT:
-	@echo "\033[1;33m SILENT MODE ACTIVATED \$(_RESET)
+# Variables de suivi
+COMPILED := 0
+TOTAL := 100
+BAR_WIDTH := 50
 
+define compile
+	COMPILED=\$\$((COMPILED + 1)); \\
+	TOTAL=\$(TOTAL); \\
+	RATIO=\$\$(echo "\$\$COMPILED * \$(BAR_WIDTH) / \$\$TOTAL" | bc); \\
+	printf "\rCompiling %-40s \n[" "\$1"; \\
+	for i in \$\$(seq 1 \$\$RATIO); do printf "="; done; \\
+	for i in \$\$(seq \$\$((BAR_WIDTH))); do printf " "; done; \\
+	printf "]\n"
+endef
+
+# .SILENT:
+# 	@echo "\033[1;33m SILENT MODE ACTIVATED \$(_RESET)"
 EOF
 
 } > Makefile

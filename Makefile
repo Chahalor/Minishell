@@ -50,11 +50,12 @@ all: header norm $(NAME) symbols install
 # ***************************************************** #
 
 $(NAME): $(_OBJ_ALL) $(_OBJ_MAIN)
-	$(CC) $(CFLAGS) $(DEBUGFLAGS) $(INCLUDE_ALL) $^ -o $(NAME) 
+	@echo "\nCompiling $(NAME)..."
+	@$(CC) $(CFLAGS) $(DEBUGFLAGS) $(INCLUDE_ALL) $^ -o $(NAME) 
 
 $(DIR_OBJ)/%.o: $(DIR_SRC)/%.c
 	@mkdir -p $(DIR_OBJ)
-	$(CC) $(CFLAGS) $(DEBUGFLAGS) $(INCLUDE_ALL) -c $< -o $@
+	@$(CC) $(CFLAGS) $(DEBUGFLAGS) $(INCLUDE_ALL) -c $< -o $@
 
 bonus: $(_OBJ_ALL) $(_OBJ_BONUS)
 	$(CC) $(CFLAGS) $(DEBUGFLAGS) $(INCLUDE_ALL) $^ -o $(BONUS)
@@ -204,6 +205,20 @@ symbols:
 		printf "$(_YELLOW)└── functions forbidden (%d)\n", forbidden_count; \
 	}'
 
-.SILENT:
-	@echo "\033[1;33m SILENT MODE ACTIVATED $(_RESET)
+# Variables de suivi
+COMPILED := 0
+TOTAL := 100
+BAR_WIDTH := 50
 
+define compile
+	COMPILED=$$((COMPILED + 1)); \
+	TOTAL=$(TOTAL); \
+	RATIO=$$(echo "$$COMPILED * $(BAR_WIDTH) / $$TOTAL" | bc); \
+	printf "\rCompiling %-40s \n[" "$1"; \
+	for i in $$(seq 1 $$RATIO); do printf "="; done; \
+	for i in $$(seq $$((BAR_WIDTH))); do printf " "; done; \
+	printf "]\n"
+endef
+
+# .SILENT:
+# 	@echo "\033[1;33m SILENT MODE ACTIVATED $(_RESET)"
