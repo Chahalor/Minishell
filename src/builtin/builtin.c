@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/16 11:33:34 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/16 11:51:57 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_blt_link	*get_builtins(
 	i = -1;
 	while (builtins[++i].name)
 		if (ft_strncmp(builtins[i].name, args,
-			ft_strlen(builtins[i].name)) == 0)
+				ft_strlen(builtins[i].name)) == 0)
 			return (&builtins[i]);
 	return (NULL);
 }
@@ -68,7 +68,8 @@ char	exec_builtin_fork(
 		return (-1);
 	args->pid = fork();
 	if (!args->pid)
-		exit_program(builtins->func((const char **)args->args, fd_in, fd_out), NULL);
+		exit_program(builtins->func((const char **)args->args, fd_in, fd_out),
+			NULL);
 	else if (args->pid > 0)
 		set_last_child(args->pid);
 	else

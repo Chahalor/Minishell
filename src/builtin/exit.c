@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/16 10:18:03 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/16 11:53:08 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ __attribute__((always_inline, used)) static inline struct s_args_exit	_parse(
 		return (parsed);
 	}
 	i = 1;
-	if (ft_strncmp(args[i], "-h", 3) == 0 
+	if (ft_strncmp(args[i], "-h", 3) == 0
 		|| ft_strncmp(args[i], "--help", 7) == 0)
 		parsed.help = 1;
 	else
@@ -57,7 +57,7 @@ __attribute__((always_inline, used)) static inline struct s_args_exit	_parse(
 			parsed.error = builtin_error_not_numeric;
 	}
 	if (args[i + 1])
-		parsed.error =  builtin_error_too_many_args;
+		parsed.error = builtin_error_too_many_args;
 	return (parsed);
 }
 
@@ -88,9 +88,9 @@ __attribute__((always_inline, used)) static inline char	_error(
 	const char exit_code
 )
 {
-	const char *msg[5] = {
-		[builtin_error_too_many_args] = "exit: too many arguments\n",
-		[builtin_error_not_numeric] = "exit: not a numeric argument\n",
+	const char	*msg[5] = {
+	[builtin_error_too_many_args] = "exit: too many arguments\n",
+	[builtin_error_not_numeric] = "exit: not a numeric argument\n",
 	};
 
 	ft_printf("%s", msg[error]);
