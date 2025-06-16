@@ -183,6 +183,11 @@ debug.pg:
 
 .PHONY: header norm install uninstall update symbols
 
+_YELLOW	:= \033[1;33m
+_GREEN	:= \033[1;32m
+_RED	:= \033[1;31m
+_RESET	:= \033[0m
+
 header:
 ifeq (\$(MAKELEVEL), 0)
 	@echo "$HEADER"
@@ -220,30 +225,48 @@ update:
 	./auto.sh
 	echo "\033[1;32m ✅ Makefile updated \033[0m";
 
-_ALLOWED_SYMBOLS := readline rl_clear_history rl_on_new_line rl_replace_line rl_redisplay add_history \\
-printf malloc free write access open read close fork wait waitpid wait3 wait4 signal \\
-sigaction sigemptyset sigaddset kill exit getcwd chdir stat lstat fstat unlink execve \\
-dup dup2 pipe opendir readdir closedir strerror perror isatty ttyname ttyslot ioctl \\
-getenv tcsetattr tcgetattr tgetent tgetflag tgetnum tgetstr tgoto tputs
-_NB_FORBIDENS = 1
+SUPPRESED_SYMBOLS	:=	memset
+ALLOWED_SYMBOLS		:=	readline rl_clear_history rl_on_new_line rl_replace_line rl_redisplay add_history \
+						printf malloc free write access open read close fork wait waitpid wait3 wait4 signal \
+						sigaction sigemptyset sigaddset kill exit getcwd chdir stat lstat fstat unlink execve \
+						dup dup2 pipe opendir readdir closedir strerror perror isatty ttyname ttyslot ioctl \
+						getenv tcsetattr tcgetattr tgetent tgetflag tgetnum tgetstr tgoto tputs
 
 symbols:
-	echo "\033[1;33m Checking symbols... \033[0m"; \\
-	nm -uj \$(NAME) | sed 's/@.*//' | grep -v '^__' | while read sym; do \\
-		base_sym=\$\${sym%%@*}; \\
-		allowed=0; \\
-		for s in \$(_ALLOWED_SYMBOLS); do \\
-			if [ "\$\$sym" = "\$\$s" ]; then \\
-				allowed=1; \\
-				break; \\
-			fi; \\
-		done; \\
-		if [ \$\$allowed -eq 1 ]; then \
-			echo "	\033[32m\$\$sym (allowed)\033[0m"; \\
-		else \\
-			echo "	\033[31m\$\$sym (forbidden)\033[0m"; \\
-		fi; \\
-	done
+	@nm -uj \$(NAME) | sort -u | sed 's/@.*//' | grep -v '^__' | \
+	awk ' \
+	BEGIN { \
+		split("\$(ALLOWED_SYMBOLS)", allowed); \
+		split("\$(SUPPRESSED_SYMBOLS)", suppressed); \
+		for (i in allowed) allow[allowed[i]] = 1; \
+		for (i in suppressed) supp[suppressed[i]] = 1; \
+		suppressed_count = 0; \
+		forbidden_count = 0; \
+		output = ""; \
+	} \
+	{ \
+		sym = \$\$0; \
+		if (sym in allow) \
+			output = output sprintf("\$(_YELLOW)│   \$(_GREEN)%s (allowed)\$(_RESET)\n", sym); \
+		else if (sym in supp) \
+			suppressed_count++; \
+		else \
+		{ \
+			output = output sprintf("\$(_YELLOW)├\$(_RED)── %s (forbidden)\$(_RESET)\n", sym); \
+			forbidden_count++; \
+		} \
+	} \
+	END { \
+		if (suppressed_count > 0 || forbidden_count > 0) \
+		{ \
+			printf "\$(_YELLOW)SYMBOLS:\$(_RESET)\n"; \
+			printf "%s", output; \
+		} \
+		else \
+			printf "\$(_YELLOW)├──\$(_GREEN)✅ Only allowed symbols found!\$(_RESET)\n"; \
+		printf "\$(_YELLOW)├── functions suppressed (%d)\n", suppressed_count; \
+		printf "\$(_YELLOW)└── functions forbidden (%d)\n", forbidden_count; \
+	}'
 
 .SILENT:
 	@echo "\033[1;33m SILENT MODE ACTIVATED \033[0m
