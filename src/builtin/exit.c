@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/13 13:37:27 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/16 10:18:03 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,9 +125,11 @@ __attribute__((used)) char	bltin_exit(
 		return (_help());
 	else if (parsed.error)
 		return (_error(parsed.error, parsed.exit_code));
+	else if (fd_in != -1 || !isatty(fd_out))
+		exit_program(parsed.exit_code, NULL);
 	else
 		exit_program(parsed.exit_code, DEFAULT_EXIT_MESSAGE);
-	 return (EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }
 
 #pragma endregion Fonctions
