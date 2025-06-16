@@ -45,22 +45,20 @@ _OBJ_ALL		:= $(OBJ_ARGS) $(OBJ_BUILTIN) $(OBJ_EXEC) $(OBJ_EXIT) $(OBJ_FT_PRINTF)
 
 all: header norm $(NAME) symbols install
 
-# ***************************************************** #
+# ***************************************	@echo "\n\033[1;33mCompiling $(NAME)...\033[0m"
+************** #
 # *                  Compiling                        * #
 # ***************************************************** #
 
-$(NAME): $(LIBFT) $(_OBJ_ALL) $(_OBJ_MAIN)
-	$(CC) $(CFLAGS) $(DEBUGFLAGS) $(INCLUDE_ALL) $^ $(LIBFT) -o $(NAME) 
+$(NAME): $(_OBJ_ALL) $(_OBJ_MAIN)
+	$(CC) $(CFLAGS) $(DEBUGFLAGS) $(INCLUDE_ALL) $^ -o $(NAME) 
 
 $(DIR_OBJ)/%.o: $(DIR_SRC)/%.c
 	@mkdir -p $(DIR_OBJ)
 	$(CC) $(CFLAGS) $(DEBUGFLAGS) $(INCLUDE_ALL) -c $< -o $@
 
-# $(LIBFT):
-	#@make -C $(DIR_LIBFT) NO_HEADER=true
-
-bonus: $(LIBFT) $(_OBJ_ALL) $(_OBJ_BONUS)
-	$(CC) $(CFLAGS) $(DEBUGFLAGS) $(INCLUDE_ALL) $^ $(LIBFT)  -o $(BONUS)
+bonus: $(_OBJ_ALL) $(_OBJ_BONUS)
+	$(CC) $(CFLAGS) $(DEBUGFLAGS) $(INCLUDE_ALL) $^ -o $(BONUS)
 
 # ***************************************************** #
 # *                    Clean Rules                    * #
@@ -70,12 +68,10 @@ bonus: $(LIBFT) $(_OBJ_ALL) $(_OBJ_BONUS)
 
 clean:
 	rm -f $(_OBJ_ALL) $(_OBJ_MAIN) $(_OBJ_BONUS)
-#@make clean -C $(DIR_LIBFT)
 
 fclean:
 	rm -rf $(DIR_OBJ)
 	rm -f $(NAME) $(BONUS)
-#@make fclean -C $(DIR_LIBFT)
 
 re: fclean all
 
@@ -160,7 +156,11 @@ update:
 	echo "\033[1;32m ✅ Makefile updated \033[0m";
 
 SUPPRESED_SYMBOLS	:=	memset
-ALLOWED_SYMBOLS		:=	readline rl_clear_history rl_on_new_line rl_replace_line rl_redisplay add_history 						printf malloc free write access open read close fork wait waitpid wait3 wait4 signal 						sigaction sigemptyset sigaddset kill exit getcwd chdir stat lstat fstat unlink execve 						dup dup2 pipe opendir readdir closedir strerror perror isatty ttyname ttyslot ioctl 						getenv tcsetattr tcgetattr tgetent tgetflag tgetnum tgetstr tgoto tputs
+ALLOWED_SYMBOLS		:=	readline rl_clear_history rl_on_new_line rl_replace_line rl_redisplay add_history \
+						printf malloc free write access open read close fork wait waitpid wait3 wait4 signal \
+						sigaction sigemptyset sigaddset kill exit getcwd chdir stat lstat fstat unlink execve \
+						dup dup2 pipe opendir readdir closedir strerror perror isatty ttyname ttyslot ioctl \
+						getenv tcsetattr tcgetattr tgetent tgetflag tgetnum tgetstr tgoto tputs
 
 symbols:
 	@nm -uj $(NAME) | sort -u | sed 's/@.*//' | grep -v '^__' | \
