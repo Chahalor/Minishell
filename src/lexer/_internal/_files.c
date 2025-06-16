@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/16 11:32:52 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/16 12:03:35 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,10 +112,10 @@ __attribute__((used)) inline char	*_get_bin(
 	file_type = check_path(name, F_OK | X_OK);
 	if (_UNLIKELY(file_type == e_directory))
 		return (ft_fprintf(STDERR_FILENO,
-			SHELL_NAME ": %s: is a directory\n", name), NULL);
+				SHELL_NAME ": %s: is a directory\n", name), NULL);
 	else if (_UNLIKELY(file_type == e_not_found))
 		return (ft_fprintf(STDERR_FILENO,
-			SHELL_NAME ": %s: command not found\n", name), NULL);
+				SHELL_NAME ": %s: command not found\n", name), NULL);
 	else
 		return (name);
 }

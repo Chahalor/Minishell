@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 15:05:39 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/13 13:35:12 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/16 11:54:00 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@
 /**
  *  @brief	Displays the help message for the program.
  * 
- * This function prints the usage and options of the program to the standard output
- * and then exits the program with a success status.
+ * This function prints the usage and options of the program to the
+ * standard output and then exits the program with a success status.
  */
 __attribute__((always_inline, used)) static inline void	show_help(void)
 {
@@ -38,8 +38,10 @@ __attribute__((always_inline, used)) static inline void	show_help(void)
 		UNDERLINE YELLOW "Options:\n" RESET
 		"  -h, --help       Show this help message\n"
 		UNDERLINE BLUE "Author:\n" RESET
-		"  nduvoid  <" BLUE UNDERLINE "nduvoid@student.42mulhouse.fr" RESET ">\n"
-		"  rcreuzea <" BLUE UNDERLINE "rcreuzea@student.42mulhouse.fr" RESET ">\n"
+		"  nduvoid  <" BLUE UNDERLINE "nduvoid@student.42mulhouse.fr"\
+			RESET ">\n"
+		"  rcreuzea <" BLUE UNDERLINE "rcreuzea@student.42mulhouse.fr"\
+			RESET ">\n"
 		);
 	exit_program(0, NULL);
 }

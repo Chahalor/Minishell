@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:49:39 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/05 14:33:44 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/16 11:51:14 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,13 @@ extern int	_wait_childrens(
 extern int	_redirect(
 				const int fd,
 				const int new_fd
+				);
+
+int			exec_bin(
+				t_exec_data *const restrict data,
+				char *const envp[],
+				const int prev_read,
+				const int out_fd
 				);
 
 #endif /* _EXEC_H */

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/16 10:40:22 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/16 11:52:22 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ __attribute__((always_inline, used)) static inline int	_is_no_nl(
 	}
 	return (1);
 }
-
 
 /**
  * @brief	Displays the help message for the echo command.
@@ -78,7 +77,7 @@ __attribute__((always_inline, used)) static inline struct s_args_echo	_parse(
 		return (result);
 	i = 0;
 	if (args[1] && (ft_strncmp(args[1], "--help", 6) == 0
-		|| ft_strncmp(args[1], "-h", 2) == 0))
+			|| ft_strncmp(args[1], "-h", 2) == 0))
 		result.help = 1;
 	while (args[++i] && _is_no_nl(args[i]))
 	{

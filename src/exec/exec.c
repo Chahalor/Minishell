@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/16 11:06:59 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/16 11:50:42 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,82 +76,6 @@ __attribute__((always_inline, used)) static inline t_exec_data	*_closing(
 	else
 		next = NULL;
 	return (next);
-}
-
-/**
- * @brief	All logic for the child process when executing a command.
- * 
- * @param	data	Execution data structure containing the command and its
- * 				arguments.
- * @param	envp	Environment variables to pass to the command.
- * @param	prev_read	File descriptor to redirect the input of the command.
- * @param	out_fd	File descriptor to redirect the output of the command.
- * 
- * @return	Does not return, will exit the child process with an error message
- * 			if the execve() fails.
- * 
- * @version 1.0
- */
-__attribute__((always_inline, used, noreturn)) static inline int	_child(
-	t_exec_data *const restrict data,
-	char *const envp[],
-	const int prev_read,
-	const int out_fd
-)
-{
-	if (data->fd_in != STDIN_FILENO && data->fd_in > 0)
-		_redirect(data->fd_in, STDIN_FILENO);
-	else if (prev_read != STDIN_FILENO && prev_read > 0)
-		_redirect(prev_read, STDIN_FILENO);
-	if (out_fd != STDOUT_FILENO && out_fd > 0)
-		_redirect(out_fd, STDOUT_FILENO);
-	fdm_close_all();
-	reset_signal();
-	if (_UNLIKELY(!data->cmd))
-		exit_program(EXIT_FAILURE, NULL);
-	execve(data->cmd, data->args, envp);
-	exit_program(127, NULL);
-	exit(EXIT_FAILURE);
-}
-
-/**
- * @brief	Executes a command with its arguments. And if it need to execute
- * 			another command after it, it will do so.
- * 
- * @param	data	Execution data structure containing the command and its
- * 				arguments.
- * @param	envp	Environment variables to pass to the command.
- * @param	fd		File descriptor to redirect the output of the command.
- * 
- * @return	Returns the status of the command execution.
- * @retval		=0 if the command executed successfully.
- * @retval		-1 if the fork() failed.
- * 
- * @version	1.2
-*/
-__attribute__((hot))	int	exec_bin(
-	t_exec_data *const restrict data,
-	char *const envp[],
-	const int prev_read,
-	const int out_fd
-)
-{
-	pid_t	pid;
-
-	// if (!_check_perms(data->cmd))	// migth be useless
-	// 	return (-1);
-	pid = fork();
-	if (pid == 0)
-		_child(data, envp, prev_read, out_fd);
-	else if (pid > 0)
-	{
-		data->pid = pid;
-		set_last_child(pid);
-		close(prev_read);
-		return (0);
-	}
-	else
-		return (perror("exec_bin(): fork() failed"), -1);
 }
 
 __attribute__((always_inline, used)) static inline char	_exec_one(

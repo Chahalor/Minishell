@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:19:00 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/13 10:50:18 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/16 11:49:39 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,9 +154,11 @@ __attribute__((always_inline, used)) static inline int	_history(
 }
 
 /**
- * @brief	Handle ANSI escape sequences for cursor movement and history navigation.
+ * @brief	Handle ANSI escape sequences for cursor movement and
+ * 			history navigation.
  * 
- * @param	data	The read line data structure containing the result and prompt.
+ * @param	data	The read line data structure containing the result
+ * 						and prompt.
  * @return	Returns 1 if the ANSI sequence was handled successfully, 0 otherwise.
  * @retval		1	ANSI sequence handled successfully.
  * @retval		0	No ANSI sequence or an error occurred.
