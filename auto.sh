@@ -264,7 +264,7 @@ symbols:
 		} \
 		else \
 			printf "\$(_YELLOW)├──\$(_GREEN)✅ Only allowed symbols found!\$(_RESET)\n"; \
-		printf "\$(_YELLOW)├── functions suppressed (%d)\n", suppressed_count; \
+		printf "\$(_YELLOW)├── functions suppressed (%d)\n",  suppressed_count; \
 		printf "\$(_YELLOW)└── functions forbidden (%d)\n", forbidden_count; \
 	}'
 
