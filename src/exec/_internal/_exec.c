@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/17 14:25:43 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/17 15:01:56 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,10 @@ __attribute__((always_inline, used)) inline int	_wait_childrens(
 	int			status;
 	t_exec_data	*curr;
 	int			last_exit;
-	int			tkt = -10;
-
-	signal(SIGINT, SIG_IGN);
 
 	status = 0;
 	curr = (t_exec_data *)data;
-	if (_LIKELY(curr->pid > 0 && (tkt = waitpid(curr->pid, &status, 0)) != -1))
+	if (_LIKELY(curr->pid > 0 && waitpid(curr->pid, &status, 0)) != -1)
 		curr->status = _analyse(status);
 	last_exit = curr->status;
 	if (_LIKELY(curr->pipe != NULL))
@@ -77,7 +74,7 @@ __attribute__((always_inline, used)) static inline int	_redirect(
 )
 {
 	return (((fd < 0
-		|| new_fd < 0))
+				|| new_fd < 0))
 		|| ((dup2(fd, new_fd) < 0))
 		|| ((close(fd) < 0))
 	);

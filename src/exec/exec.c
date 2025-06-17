@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/17 13:04:01 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/17 15:01:17 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,27 @@
 
 #pragma endregion Header
 #pragma region Fonctions
+
+/** */
+__attribute__((always_inline, used)) static inline	int	_pipe(
+	const t_exec_data *const restrict current,
+	int pipe_fd[2],
+	int *out_fd
+)
+{
+	*out_fd = STDOUT_FILENO + (current->fd_out > 0)
+		* (current->fd_out - STDOUT_FILENO);
+	if (current->pipe)
+		if (_UNLIKELY(_piping(pipe_fd, out_fd) < 0))
+			return (-1);
+	if (current->fd_out > -1)
+	{
+		close(*out_fd);
+		*out_fd = current->fd_out;
+		pipe_fd[1] = *out_fd;
+	}
+	return (*out_fd);
+}
 
 /**
  * @brief	Closes the previous read file descriptor and returns the next command
@@ -94,23 +115,11 @@ __attribute__((always_inline, used)) static inline char	_exec_pipes(
 	int			prev_read;
 	int			out_fd;
 
-	pipe_fd[0] = -1;
-	pipe_fd[1] = -1;
 	prev_read = -1;
 	current = data;
 	while (current)
 	{
-		out_fd = STDOUT_FILENO;
-		out_fd += (current->fd_out > 0) * (current->fd_out - STDOUT_FILENO);
-		if (current->pipe)
-			if (_UNLIKELY(_piping(pipe_fd, &out_fd) < 0))
-				return (-1);
-		if (current->fd_out > -1)
-		{
-			close(out_fd);
-			out_fd = current->fd_out;
-			pipe_fd[1] = out_fd;
-		}
+		_pipe(current, pipe_fd, &out_fd);
 		if (get_builtins(current->args[0]))
 			exec_builtin_fork(current, envp, prev_read, out_fd);
 		else

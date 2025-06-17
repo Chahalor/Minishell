@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/17 14:30:46 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/17 14:59:31 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,8 @@ __attribute__((used)) int	_analyse(
 	const int status
 )
 {
-	ft_fprintf(STDERR_FILENO, "Status: %d\n", status);
 	if (WIFEXITED(status))
-	{
-		ft_fprintf(STDERR_FILENO, "Exited with status %d\n", WEXITSTATUS(status));
 		return (WEXITSTATUS(status));
-	}
 	else if (WIFSIGNALED(status))
 		return (_signals(status));
 	else if (WIFSTOPPED(status))
