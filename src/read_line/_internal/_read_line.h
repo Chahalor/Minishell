@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:57:59 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/12 12:57:21 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/17 16:42:31 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ struct	s_rl_data
 
 struct	s_rl_history
 {
-	char	*storage[_RL_HIST_SIZE];	/* history storage                    */
+	char	*storage[_RL_HIST_SIZE + 1];	/* history storage                    */
 	int		pos;						/* current position in the history   */
 	int		size;						/* number of cmd in the history     */
 	int		fd;							/* file descriptor for the history */
