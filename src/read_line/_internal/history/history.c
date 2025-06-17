@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 08:08:28 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/17 15:37:59 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/17 16:46:43 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,10 +162,8 @@ __attribute__((used)) char	*_history_manager(
 		return (NULL);
 	else if (_UNLIKELY(access == rl_load))
 	{
-		if (_UNLIKELY(_load_history(line, &history) < 0))
-			return (NULL);
-		else
-			return (history.storage[history.pos]);
+		_load_history(line, &history);
+		return (NULL);
 	}
 	else if (_UNLIKELY(access == rl_clear))
 		return (_clear(&history));
