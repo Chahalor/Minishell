@@ -65,7 +65,7 @@ OBJ_${MODULE_NAME^^}			+= \$(addprefix \$(DIR_OBJ)/\$(DIR_INTERNAL_${MODULE_NAME
 
 \$(DIR_OBJ)/\$(DIR_MODULE_${MODULE_NAME^^})/%.o: \$(DIR_SRC)/\$(DIR_MODULE_${MODULE_NAME^^})/%.c
 	@mkdir -p \$(dir \$@)
-	@printf "Compiling %-60s\n" "\$<"
+	@printf "\r ⚙️ \$(_YELLOW) Compiling\$(_RESET) %-60s" "\$<"
 	@\$(CC) \$(CFLAGS) \$(DEBUGFLAGS) \$(INCLUDE_ALL) -I\$(DIR_SRC)/\$(DIR_MODULE_${MODULE_NAME^^})/_internal -c \$< -o \$@
 
 EOM
@@ -130,7 +130,7 @@ all: header norm \$(NAME) symbols install
 # ***************************************************** #
 
 \$(NAME): \$(_OBJ_ALL) \$(_OBJ_MAIN)
-	@echo "\nCompiling \$(NAME)..."
+	@echo "\n ⚙️ \$(_YELLOW) Compiling\$(_RESET) \$(NAME)..."
 	@\$(CC) \$(CFLAGS) \$(DEBUGFLAGS) \$(INCLUDE_ALL) \$^ -o \$(NAME) 
 
 \$(DIR_OBJ)/%.o: \$(DIR_SRC)/%.c
@@ -213,7 +213,7 @@ help:
 
 NORM_FILES := global/ src/
 norm:
-	@printf "\$(_YELLOW)Checking norminette...\$(_RESET)"
+	@printf "\$(_YELLOW) 🔎 Checking norminette...\$(_RESET)"
 	@NORM_OUTPUT="\$\$(norminette \$(NORM_FILES) | grep 'Error')" ; \\
 	if [ -z "\$\$NORM_OUTPUT" ]; then \\
 		printf "\$(_GREEN) ✅ Norminette passed with no errors.\$(_RESET)\n"; \\

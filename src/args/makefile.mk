@@ -10,6 +10,6 @@ OBJ_ARGS			+= $(addprefix $(DIR_OBJ)/$(DIR_INTERNAL_ARGS)/, $(SRC_INTERNAL_ARGS:
 
 $(DIR_OBJ)/$(DIR_MODULE_ARGS)/%.o: $(DIR_SRC)/$(DIR_MODULE_ARGS)/%.c
 	@mkdir -p $(dir $@)
-	@printf "Compiling %-60s\n" "$<"
+	@printf "\r ⚙️ $(_YELLOW) Compiling$(_RESET) %-60s" "$<"
 	@$(CC) $(CFLAGS) $(DEBUGFLAGS) $(INCLUDE_ALL) -I$(DIR_SRC)/$(DIR_MODULE_ARGS)/_internal -c $< -o $@
 
