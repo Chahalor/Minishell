@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/16 11:50:42 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/17 12:28:21 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,51 @@
 #pragma region Fonctions
 
 extern volatile sig_atomic_t	g_last_signal;
+
+void	print_exec_tree(t_exec_data *exec, int depth)
+{	//rm
+	if (!exec)
+		return;
+
+	return ;
+	// Indentation visuelle
+	for (int i = 0; i < depth; ++i)
+		printf("  ");
+
+	// Affichage des infos de la commande
+	printf("Command: %s\n", exec->cmd ? exec->cmd : "(null)");
+
+	for (int i = 0; exec->args && exec->args[i]; ++i)
+	{
+		for (int j = 0; j < depth + 1; ++j)
+			printf("  ");
+		printf("Arg[%d]: %s\n", i, exec->args[i]);
+	}
+
+	for (int i = 0; i < depth + 1; ++i)
+		printf("  ");
+	printf("PID: %d, Status: %d, FD_IN: %d, FD_OUT: %d, Type: %d\n",
+		exec->pid, exec->status, exec->fd_in, exec->fd_out, exec->type);
+
+	// Affichage de la suite en pipe
+	if (exec->pipe)
+	{
+		for (int i = 0; i < depth; ++i)
+			printf("  ");
+		printf("|\n");
+		print_exec_tree(exec->pipe, depth + 1);
+	}
+
+	// Affichage de la suite logique (après un `;` par exemple)
+	if (exec->next)
+	{
+		for (int i = 0; i < depth; ++i)
+			printf("  ");
+		printf("→\n");
+		print_exec_tree(exec->next, depth);
+	}
+	printf("\n");
+}
 
 /** */
 __attribute__((always_inline, used)) static inline char	_check_perms(
@@ -65,7 +110,7 @@ __attribute__((always_inline, used)) static inline t_exec_data	*_closing(
 {
 	t_exec_data	*next;
 
-	if (*prev_read > 0 && *prev_read != STDIN_FILENO)
+	if (*prev_read > STDIN_FILENO)
 		close(*prev_read);
 	if (current->pipe)
 	{
@@ -95,8 +140,7 @@ __attribute__((always_inline, used)) static inline char	_exec_one(
 		exec_builtin(current, envp, in_fd, out_fd);
 	else
 		exec_bin(current, envp, in_fd, out_fd);
-	_wait_childrens(current);
-	return (0);
+	return (_wait_childrens(current));
 }
 
 __attribute__((always_inline, used)) static inline char	_exec_pipes(
@@ -109,6 +153,8 @@ __attribute__((always_inline, used)) static inline char	_exec_pipes(
 	int			prev_read;
 	int			out_fd;
 
+	pipe_fd[0] = -1;
+	pipe_fd[1] = -1;
 	prev_read = -1;
 	current = data;
 	while (current)
@@ -118,14 +164,19 @@ __attribute__((always_inline, used)) static inline char	_exec_pipes(
 		if (current->pipe)
 			if (_UNLIKELY(_piping(pipe_fd, &out_fd) < 0))
 				return (-1);
+		if (current->fd_out > -1)
+		{
+			close(out_fd);
+			out_fd = current->fd_out;
+			pipe_fd[1] = out_fd;
+		}
 		if (get_builtins(current->args[0]))
 			exec_builtin_fork(current, envp, prev_read, out_fd);
 		else
 			exec_bin(current, envp, prev_read, out_fd);
 		current = _closing(&prev_read, out_fd, current, pipe_fd);
 	}
-	_wait_childrens(data);
-	return (0);
+	return (_wait_childrens(data));
 }
 
 /**
@@ -148,6 +199,14 @@ int	full_exec(
 	char *const envp[]
 )
 {
+	int deep = 0;
+	t_exec_data *current = data;
+	while (current)
+	{
+		++deep;
+		current = current->pipe;
+	}
+	print_exec_tree(data, deep);	//rm
 	if (data->pipe)
 		return (_exec_pipes(data, envp));
 	else
