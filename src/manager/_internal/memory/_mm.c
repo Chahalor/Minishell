@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 12:20:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/12 14:08:34 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/17 15:21:12 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ __attribute__((always_inline, used)) static inline void	_add_to_bucket(
 	t_mm_node		*restrict	current;
 
 	current = &bucket[index];
-	while (current->next)
+	while (current && current->next)
 		current = current->next;
 	current->next = (t_mm_node *)node;
 }

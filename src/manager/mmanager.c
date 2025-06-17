@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 12:11:57 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/04 16:19:00 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/17 15:40:57 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ __attribute__((malloc)) void	*mm_alloc(
 	if (size < 1)
 		return (NULL);
 	node = (t_mm_node *)malloc(sizeof(t_mm_node) + size);
-	if (node == NULL)
+	if (__glibc_unlikely(!node))
 		return (NULL);
 	i = -1;
 	while (++i < size)
@@ -64,7 +64,7 @@ __attribute__((malloc)) void	*mm_realloc(
 	new_ptr = mm_alloc(nsize);
 	if (new_ptr == NULL)
 		return (NULL);
-	mm_memcpy(new_ptr, node->ptr, cpsize);
+	mm_memcpy(new_ptr, ptr, cpsize);
 	i = cpsize - 1;
 	while (++i < nsize)
 		((char *)new_ptr)[i] = 0;

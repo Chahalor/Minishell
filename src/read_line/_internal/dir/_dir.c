@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/13 10:46:03 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/17 16:33:19 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ __attribute__((used, visibility("hidden"))) char	*_get_dir(
 		--i;
 	if (!path[i])
 		++i;
+	else if (!i)
+		return (memdup("./", 3));
 	result = mm_alloc(i + 1);
 	if (_UNLIKELY(!result))
 		return (NULL);

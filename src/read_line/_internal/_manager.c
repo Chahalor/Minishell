@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/12 15:01:40 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/17 15:37:21 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ __attribute__((used)) static inline int	_rl_add_char(
 	if ((data->line_length + 1) % _RL_ALLOC_SIZE == 0)
 	{
 		data->result = mm_realloc(data->result,
-				data->line_length + _RL_ALLOC_SIZE + 1, data->line_length);
+				data->line_length + _RL_ALLOC_SIZE + 1, data->line_length - 1);
 		if (_UNLIKELY(!data->result))
 			return (data->status = error, 0);
 	}

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/13 10:44:41 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/17 16:18:05 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,8 @@ __attribute__((used)) static inline int	_show_cmds(
  *  @param	data	The completion data structure to store results.
  *
  *  @return	The success status of the operation.
- *  @retval		0 on success
- *  @retval		1 if the directory cannot be opened
+ *  @retval		=0 on success
+ *  @retval		+1 if the directory cannot be opened
  *  @retval		-1 on memory allocation failure.
 */
 __attribute__((used)) static inline int	_show_paths(
@@ -115,6 +115,7 @@ __attribute__((used)) static inline int	_show_paths(
 	entry = readdir(dir);
 	while (entry && data->nb_entries < _RL_COMP_LIMIT)
 	{
+		// ft_fprintf(STDERR_FILENO, "entry=<%s> file=<%s>\n", word, entry->d_name);	//rm
 		if (entry->d_name[0] != '.'
 			&& ft_strncmp(entry->d_name, path_file, ft_strlen(path_file)) == 0)
 			data->entry[data->nb_entries++] = memdup(entry,
@@ -208,12 +209,19 @@ int	completion(
 	_neutral(&completion, sizeof(t_rl_completion));
 	words = ft_split(data->result, ' ');
 	if (_UNLIKELY(!words))
-		return (data->status = error, -1);
+		return (-1);
 	nb_words = arraylen((const void *const *)words);
-	token = tokenize(words[nb_words - 1]);
-	if (token == token_cmd)
-		_show_cmds(words[nb_words - 1], &completion);
-	else if (token > token_cmd && token < unknown)
+	if (nb_words < 2 && data->result[data->line_length - 1] != ' ')
+	{
+		token = tokenize(words[nb_words - 1]);
+		if (token == token_cmd)
+			_show_cmds(words[nb_words - 1], &completion);
+		else if (token > token_cmd && token < unknown)
+			_show_paths(words[nb_words - 1], &completion);
+	}
+	else if (data->result[data->line_length - 1] == ' ')
+		_show_paths("./", &completion);
+	else
 		_show_paths(words[nb_words - 1], &completion);
 	if (!completion.nb_entries)
 		return (1);
