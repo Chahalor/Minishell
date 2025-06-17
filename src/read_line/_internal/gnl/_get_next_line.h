@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:34:51 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/23 14:47:49 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/17 15:19:16 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@
 /* ************************************************************************** */
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1024
+#  define BUFFER_SIZE 4096
 # endif
 
 # ifndef GNL_ALLOC_SIZE
-#  define GNL_ALLOC_SIZE 1024
+#  define GNL_ALLOC_SIZE 4096
 # endif
 
 # ifndef MAX_FD

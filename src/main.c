@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:44:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/13 14:07:18 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/17 15:07:22 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 #include "builtin.h"
 #include "utils.h"
 
-volatile sig_atomic_t	g_last_signal = 0; // Global signal variable
+volatile sig_atomic_t	g_last_signal = 0;	/* Global signal variable */
 
 #pragma endregion Header
 #pragma region Fonctions

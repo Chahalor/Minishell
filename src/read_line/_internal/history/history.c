@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 08:08:28 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/27 14:47:24 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/17 15:37:59 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ __attribute__((always_inline, used)) static inline char	*_history_add(
 )
 {
 	const int	len = ft_strlen(line);
-	const int	alloc_size = (_RL_ALLOC_SIZE / len + 1) * _RL_ALLOC_SIZE;
+	const int	alloc_size = ((len + _RL_ALLOC_SIZE - 1) / _RL_ALLOC_SIZE)
+		* _RL_ALLOC_SIZE + 1;
 
 	if (_UNLIKELY(!data || !line || len < 1))
 		return (NULL);

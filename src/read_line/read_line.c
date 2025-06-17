@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:06:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/13 10:01:51 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/17 15:42:35 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ __attribute__((cold, unused)) void	reset_cmd(void)
 	struct termios	oldt;
 	struct termios	restore;
 
+	_neutral(&restore, sizeof(struct termios));
 	tcgetattr(STDIN_FILENO, &oldt);
 	restore = oldt;
 	_set_default(&restore);
