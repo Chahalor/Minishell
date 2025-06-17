@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/17 10:39:59 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/17 14:25:43 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,30 +19,12 @@
 #include "exec.h"
 
 #pragma endregion Header
-#pragma region Fonctions
+#pragma region Prototypes
 
-/**
- * @brief	Analyses the status of a child process.
- * 
- * @param	status	The status returned by waitpid.
- * 
- * @return	Returns the exit status of the child process.
- * @retval		>0 if the child process exited normally.
- * @retval		<0 if the child process was terminated by a signal.
- * 
- * @version	1.0
- */
-__attribute__((always_inline, used)) static inline int	_analyse(
-	const int status
-)
-{
-	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
-	else if (WIFSIGNALED(status))
-		return (128 + WTERMSIG(status));
-	else
-		return (-1);
-}
+extern int	_analyse(const int status);
+
+#pragma endregion Prototypes
+#pragma region Fonctions
 
 /**
  * @brief	Waits for all child processes to finish and updates their status.
@@ -60,18 +42,19 @@ __attribute__((always_inline, used)) inline int	_wait_childrens(
 {
 	int			status;
 	t_exec_data	*curr;
+	int			last_exit;
+	int			tkt = -10;
 
+	signal(SIGINT, SIG_IGN);
+
+	status = 0;
 	curr = (t_exec_data *)data;
-	while (curr)
-	{
-		if (curr->pid > 0)
-			if (waitpid(curr->pid, &status, 0) != -1)
-				curr->status = _analyse(status);
-		if (curr->pipe)
-			_wait_childrens(curr->pipe);
-		curr = curr->next;
-	}
-	return (0);
+	if (_LIKELY(curr->pid > 0 && (tkt = waitpid(curr->pid, &status, 0)) != -1))
+		curr->status = _analyse(status);
+	last_exit = curr->status;
+	if (_LIKELY(curr->pipe != NULL))
+		last_exit = _wait_childrens(curr->pipe);
+	return (last_exit);
 }
 
 /**
@@ -88,14 +71,16 @@ __attribute__((always_inline, used)) inline int	_wait_childrens(
  * 
  * @version	1.0
 */
-__attribute__((always_inline, used)) inline int	_redirect(
+__attribute__((always_inline, used)) static inline int	_redirect(
 	const int fd,
 	const int new_fd
 )
 {
-	return (((fd < 0 || new_fd < 0))
+	return (((fd < 0
+		|| new_fd < 0))
 		|| ((dup2(fd, new_fd) < 0))
-		|| ((close(fd) < 0)));
+		|| ((close(fd) < 0))
+	);
 }
 
 /**
