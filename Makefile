@@ -116,7 +116,7 @@ help:
 
 NORM_FILES := global/ src/
 norm:
-	@printf "$(_YELLOW)Checking norminette...$(_RESET)"
+	@printf "$(_YELLOW) 🔎 Checking norminette...$(_RESET)"
 	@NORM_OUTPUT="$$(norminette $(NORM_FILES) | grep 'Error')" ; \
 	if [ -z "$$NORM_OUTPUT" ]; then \
 		printf "$(_GREEN) ✅ Norminette passed with no errors.$(_RESET)\n"; \
