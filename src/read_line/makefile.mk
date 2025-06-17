@@ -10,6 +10,6 @@ OBJ_READ_LINE			+= $(addprefix $(DIR_OBJ)/$(DIR_INTERNAL_READ_LINE)/, $(SRC_INTE
 
 $(DIR_OBJ)/$(DIR_MODULE_READ_LINE)/%.o: $(DIR_SRC)/$(DIR_MODULE_READ_LINE)/%.c
 	@mkdir -p $(dir $@)
-	@printf "Compiling %-60s\n" "$<"
+	@printf "\r ⚙️ $(_YELLOW) Compiling$(_RESET) %-60s" "$<"
 	@$(CC) $(CFLAGS) $(DEBUGFLAGS) $(INCLUDE_ALL) -I$(DIR_SRC)/$(DIR_MODULE_READ_LINE)/_internal -c $< -o $@
 

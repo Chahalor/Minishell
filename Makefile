@@ -48,7 +48,7 @@ all: header norm $(NAME) symbols install
 # ***************************************************** #
 
 $(NAME): $(_OBJ_ALL) $(_OBJ_MAIN)
-	@echo "\nCompiling $(NAME)..."
+	@echo "\n ⚙️ $(_YELLOW) Compiling$(_RESET) $(NAME)..."
 	@$(CC) $(CFLAGS) $(DEBUGFLAGS) $(INCLUDE_ALL) $^ -o $(NAME) 
 
 $(DIR_OBJ)/%.o: $(DIR_SRC)/%.c
