@@ -21,13 +21,11 @@ DIR_OBJ		:= .build
 DIR_BONUS	:= 
 INCLUDE_ALL	:=-Iglobal -I$(DIR_SRC)/args -I$(DIR_SRC)/builtin -I$(DIR_SRC)/exec -I$(DIR_SRC)/exit -I$(DIR_SRC)/ft_printf -I$(DIR_SRC)/global-manager -I$(DIR_SRC)/lexer -I$(DIR_SRC)/manager -I$(DIR_SRC)/read_line -I$(DIR_SRC)/signal -I$(DIR_SRC)/utils
 
-DIR_LIBFT	:= 
-LIBFT		:= #$(DIR_LIBFT)/libft.a
-DEPS		:= $(_OBJ_ALL:.o=.d)
+_DEPS		:= $(_OBJ_ALL:.o=.d)
 
 # Here we include all the makefile.mk files
 include  src/args/makefile.mk src/builtin/makefile.mk src/exec/makefile.mk src/exit/makefile.mk src/ft_printf/makefile.mk src/global-manager/makefile.mk src/lexer/makefile.mk src/manager/makefile.mk src/read_line/makefile.mk src/signal/makefile.mk src/utils/makefile.mk
--include $(DEPS)
+-include $(_DEPS)
 
 SRC_MAIN	:= main.c
 SRC_BONUS	:=
@@ -220,5 +218,5 @@ define compile
 	printf "]\n"
 endef
 
-# .SILENT:
-# 	@echo "\033[1;33m SILENT MODE ACTIVATED $(_RESET)"
+.SILENT:
+	@echo "\033[1;33m SILENT MODE ACTIVATED $(_RESET)"
