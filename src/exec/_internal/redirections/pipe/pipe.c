@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/03 18:47:10 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/17 12:03:26 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ __attribute__((always_inline, used)) inline int	_piping(
 {
 	if (_UNLIKELY(pipe(pipe_fd) < 0))
 		return (perror("full_exec(): pipe failed"), -1);
-	*out_fd = pipe_fd[1];
+	if (_LIKELY(out_fd != NULL))
+		*out_fd = pipe_fd[1];
 	fdm_register(pipe_fd[0]);
 	fdm_register(pipe_fd[1]);
 	return (0);
