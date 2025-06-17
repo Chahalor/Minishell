@@ -65,8 +65,9 @@ OBJ_${MODULE_NAME^^}			+= \$(addprefix \$(DIR_OBJ)/\$(DIR_INTERNAL_${MODULE_NAME
 
 \$(DIR_OBJ)/\$(DIR_MODULE_${MODULE_NAME^^})/%.o: \$(DIR_SRC)/\$(DIR_MODULE_${MODULE_NAME^^})/%.c
 	@mkdir -p \$(dir \$@)
-	@printf "\rCompiling %-60s" "\$<"
+	@printf "Compiling %-60s\n" "\$<"
 	@\$(CC) \$(CFLAGS) \$(DEBUGFLAGS) \$(INCLUDE_ALL) -I\$(DIR_SRC)/\$(DIR_MODULE_${MODULE_NAME^^})/_internal -c \$< -o \$@
+
 EOM
 		echo "✅ ${module}makefile.mk créé pour le module $MODULE_NAME !"
 	fi
@@ -102,13 +103,11 @@ DIR_OBJ		:= $DIR_OBJ
 DIR_BONUS	:= $DIR_BONUS
 INCLUDE_ALL	:=$INCLUDE_ALL
 
-DIR_LIBFT	:= $DIR_LIBFT
-LIBFT		:= #\$(DIR_LIBFT)/libft.a
-DEPS		:= \$(_OBJ_ALL:.o=.d)
+_DEPS		:= \$(_OBJ_ALL:.o=.d)
 
 # Here we include all the makefile.mk files
 include $MAKEFILE_MK_LIST
--include \$(DEPS)
+-include \$(_DEPS)
 
 SRC_MAIN	:= main.c
 SRC_BONUS	:=
@@ -318,8 +317,8 @@ define compile
 	printf "]\n"
 endef
 
-# .SILENT:
-# 	@echo "\033[1;33m SILENT MODE ACTIVATED \$(_RESET)"
+.SILENT:
+	@echo "\033[1;33m SILENT MODE ACTIVATED \$(_RESET)"
 EOF
 
 } > Makefile

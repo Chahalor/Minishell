@@ -10,5 +10,6 @@ OBJ_LEXER			+= $(addprefix $(DIR_OBJ)/$(DIR_INTERNAL_LEXER)/, $(SRC_INTERNAL_LEX
 
 $(DIR_OBJ)/$(DIR_MODULE_LEXER)/%.o: $(DIR_SRC)/$(DIR_MODULE_LEXER)/%.c
 	@mkdir -p $(dir $@)
-	@printf "\rCompiling %-60s" "$<"
+	@printf "Compiling %-60s\n" "$<"
 	@$(CC) $(CFLAGS) $(DEBUGFLAGS) $(INCLUDE_ALL) -I$(DIR_SRC)/$(DIR_MODULE_LEXER)/_internal -c $< -o $@
+

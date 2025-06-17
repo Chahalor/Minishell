@@ -10,5 +10,6 @@ OBJ_FT_PRINTF			+= $(addprefix $(DIR_OBJ)/$(DIR_INTERNAL_FT_PRINTF)/, $(SRC_INTE
 
 $(DIR_OBJ)/$(DIR_MODULE_FT_PRINTF)/%.o: $(DIR_SRC)/$(DIR_MODULE_FT_PRINTF)/%.c
 	@mkdir -p $(dir $@)
-	@printf "\rCompiling %-60s" "$<"
+	@printf "Compiling %-60s\n" "$<"
 	@$(CC) $(CFLAGS) $(DEBUGFLAGS) $(INCLUDE_ALL) -I$(DIR_SRC)/$(DIR_MODULE_FT_PRINTF)/_internal -c $< -o $@
+
