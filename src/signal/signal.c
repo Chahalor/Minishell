@@ -6,9 +6,13 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:46:24 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/18 09:21:52 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/18 10:13:35 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#ifndef _GNU_SOURCE
+# define _GNU_SOURCE
+#endif /* _GNU_SOURCE */
 
 #pragma region Header
 /* -----| Internals |----- */
@@ -111,7 +115,7 @@ __attribute__((always_inline, used)) inline int	init_signal(void)
 	struct sigaction	sigstp_action;
 
 	sigint_action.sa_sigaction = _sigint_handler;
-	sigint_action.sa_flags = SA_SIGINFO;
+	sigint_action.sa_flags = SA_SIGINFO | SA_RESTART;
 	sigemptyset(&sigint_action.sa_mask);
 	sigquit_action.sa_sigaction = _sigquit_handler;
 	sigquit_action.sa_flags = SA_SIGINFO | SA_RESTART;
