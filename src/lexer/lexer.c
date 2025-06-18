@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/17 10:57:48 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/18 09:52:04 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static inline t_exec_data	*apply_redirs(
 				return (mm_free(data->cmd), mm_free(data), NULL);
 		}
 		else if (r->type == REDIR_OUT)
-			data->fd_out  = open(r->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			data->fd_out = open(r->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		else
 			data->fd_out = open(r->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		data->type = r->type;

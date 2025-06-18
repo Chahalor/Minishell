@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/18 08:31:32 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/18 09:51:32 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,18 @@ static inline char	**_read(
 	const char *const restrict delimiter
 )
 {
-	const t_read_line	*const rl = get_read_lines();
-	char				*line;
-	char				**new_storage;
-	register int		i;
+	const t_read_line *const	rl = get_read_lines();
+	char						*line;
+	char						**new_storage;
+	register int				i;
 
 	line = rl->read_line(DEFAULT_HEREDOC);
 	i = 0;
 	while (line && ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1))
 	{
-		if ((i + 1) % HEREDOC_ALLOC_SIZE == 0)
+		if ((i + 1) % HD_ALLOC_SIZE == 0)
 		{
-			new_storage = mm_alloc((i + HEREDOC_ALLOC_SIZE + 1)
-					* sizeof(char *));
+			new_storage = mm_alloc((i + HD_ALLOC_SIZE + 1) * sizeof(char *));
 			if (_UNLIKELY(!new_storage))
 				return (mm_free(line), mm_free(storage), NULL);
 			ft_memcpy(new_storage, storage, i * sizeof(char *));
@@ -124,7 +123,7 @@ int	heredoc(
 	char			**storage;
 	int				exit_code;
 
-	storage = mm_alloc(sizeof(char *) * (HEREDOC_ALLOC_SIZE + 1));
+	storage = mm_alloc(sizeof(char *) * (HD_ALLOC_SIZE + 1));
 	if (_UNLIKELY(!storage))
 		return (-1);
 	storage = _read(storage, delimiter);

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:53:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/18 08:32:31 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/18 09:50:26 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ __attribute__((noreturn, unused, cold)) void	exit_program(
 	const char *restrict msg
 )
 {
-	const t_read_line	*const rl = get_read_lines();
+	const t_read_line *const	rl = get_read_lines();
 
 	rl->reset_cmd();
 	rl->clear_history();
