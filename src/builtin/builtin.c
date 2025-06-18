@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/16 11:51:57 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/18 10:26:00 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ t_blt_link	*get_builtins(
 	{"echo", bltin_echo},
 	{"export", bltin_export},
 	{"unset", bltin_unset},
+	{"history", bltin_history},
 	{NULL, NULL}};
 	register int		i;
 
