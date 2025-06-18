@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/18 09:21:36 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/18 10:05:14 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,9 @@ __attribute__((hot)) int	_read(
 	while (data->status > exiting)
 	{
 		bytes_read = read(STDIN_FILENO, &c, 1);
-		_rl_reset_cmd();
+		#if DEBUG == 1
+			_rl_reset_cmd();
+		#endif
 		if (bytes_read < 0)
 			data->status = interr;
 		else if (!bytes_read)
@@ -159,7 +161,9 @@ __attribute__((hot)) int	_read(
 			_rl_add(data, &c, rl_chr);
 			refresh_line(data);
 		}
-		_set_raw(&data->terms.raw);
+		#if DEBUG == 1
+			_set_raw(&data->terms.raw);
+		#endif
 	}
 	return (data->line_length);
 }
