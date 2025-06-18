@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 15:54:17 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/18 08:02:54 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/18 08:09:00 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,15 @@
 #pragma endregion Header
 #pragma region Fonctions
 
-/** */
+/**
+ * @brief	Count the number of lines in a file.
+ * 
+ * @param	filename The name of the file to count the lines in.
+ * 
+ * @return	The number of lines in the file.
+ * @retval		>=0 if the file was opened successfully.
+ * @retval		 -1 if the file could not be opened.
+*/
 __attribute__((always_inline, used)) static inline int	_count(
 	const char *const restrict filename
 )
@@ -36,15 +44,31 @@ __attribute__((always_inline, used)) static inline int	_count(
 	return (count);
 }
 
-/** */
+/**
+ * @brief	Skip the all lines if the file descriptor until only the 
+ * 				_RL_HIST_SIZE lines are left.
+ * 
+ * @param	fd The file descriptor to read from.
+ * @param	nb_lines The number of lines to skip.
+ * 
+ * @return	the number of lines skipped.
+*/
 __attribute__((always_inline, used)) static inline int	_skip(
 	const int fd,
 	int nb_lines
 )
 {
+	int	nb_skipped;
+
+	if (_LIKELY(nb_lines <= _RL_HIST_SIZE))
+		return (0);
+	nb_skipped = 0;
 	while (nb_lines-- > _RL_HIST_SIZE)
+	{
 		free(gnl(fd));
-	return (0);
+		++nb_skipped;
+	}
+	return (nb_skipped);
 }
 
 /**
@@ -79,7 +103,7 @@ __attribute__((always_inline, used)) static inline int	_create(
  * @retval		-1 if the file descriptor is invalid
  * @retval		-2 if adding the history fails
  * 
- * @version 2.0
+ * @version 2.1
  */
 __attribute__((cold, unused)) int	_load_history(
 	const char *const restrict filename,
