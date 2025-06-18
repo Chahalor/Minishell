@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:35:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/02 09:05:34 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/18 07:55:55 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,6 @@
 
 char	*get_next_line(const int fd);
 char	*gnl(const int fd);
+int		count_lines(const int fd);
 
 #endif
