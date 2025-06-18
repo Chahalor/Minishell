@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 08:08:28 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/17 16:46:43 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/18 08:45:12 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,21 @@
 
 #pragma endregion Header
 #pragma region Fonctions
+
+/** */
+__attribute__((always_inline, used)) static inline char	*_history_get_all(
+	t_rl_history *const restrict data
+)
+{
+	static t_history	result = (t_history){
+		.storage = {0},
+		.pos = 0
+	};
+
+	ft_memcpy(result.storage, data->storage, sizeof(char *) * _RL_HIST_SIZE);
+	result.pos = data->pos;
+	return ((char *)&result);
+}
 
 /**
  * @brief	Add a line to the history by duplicating it.
@@ -159,7 +174,7 @@ __attribute__((used)) char	*_history_manager(
 	else if (access == rl_reset_pos)
 		history.pos = history.size;
 	else if (access == rl_get_all)
-		return (NULL);
+		return (_history_get_all(&history));
 	else if (_UNLIKELY(access == rl_load))
 	{
 		_load_history(line, &history);

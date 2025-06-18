@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:46:24 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/13 14:21:51 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/18 09:21:52 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ __attribute__((cold, visibility("hidden"))) void	_sigint_handler(
 	(void)info;
 	(void)context;
 	g_last_signal = signal;
-	reset_cmd();
+	get_read_lines()->reset_cmd();
 }
 
 /**

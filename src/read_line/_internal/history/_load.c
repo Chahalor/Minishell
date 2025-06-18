@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 15:54:17 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/18 08:09:00 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/18 09:33:49 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ __attribute__((always_inline, used)) static inline int	_count(
 	int			count;
 
 	if (_UNLIKELY(fd < 0))
-		return (ft_perror(ERROR "hsitory load: opening %s file failed", filename), -1);
+		return (ft_perror(ERROR
+				"history load: opening %s file failed", filename), -1);
 	count = count_lines(fd);
 	close(fd);
 	return (count);

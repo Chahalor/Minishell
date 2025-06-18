@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:06:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/17 16:44:33 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/18 09:30:32 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
  * 
  * @version 2.0
  */
-__attribute__((hot, malloc)) char	*read_line(
+__attribute__((visibility("hidden"), used, hot, malloc)) char	*_read_line(
 	const char *const restrict prompt
 )
 {
@@ -73,7 +73,7 @@ __attribute__((hot, malloc)) char	*read_line(
  * 
  *  @version 1.0
 */
-__attribute__((used)) char	*rl_add_history(
+__attribute__((visibility("hidden"), used)) char	*_rl_add_history(
 	const char *const restrict line
 )
 {
@@ -89,7 +89,7 @@ __attribute__((used)) char	*rl_add_history(
  * 
  * @version 1.0
 */
-__attribute__((used)) void	rl_clear_history(void)
+__attribute__((visibility("hidden"), used, cold)) void	_rl_clear_history(void)
 {
 	_history_manager(rl_clear, NULL);
 	return ;
@@ -106,28 +106,25 @@ __attribute__((used)) void	rl_clear_history(void)
  * 
  * @version 1.0
 */
-__attribute__((cold, unused)) int	rl_load_history(
+__attribute__((visibility("hidden"), used, cold)) int	_rl_load_history(
 	const char *const restrict filename
 )
 {
 	return (_history_manager(rl_load, filename) == NULL);
 }
 
-/**
- *  @brief Resets the command line settings to their default state.
- * 
- *  @note This function is intended to be used when the command line
- *  is no longer needed and should be restored to its original state.
-*/
-__attribute__((cold, unused)) void	reset_cmd(void)
+__attribute__((cold, unused))	t_read_line	*get_read_lines(void)
 {
-	struct termios	oldt;
-	struct termios	restore;
+	static t_read_line	rl = {
+		.read_line = _read_line,
+		.add_history = _rl_add_history,
+		.clear_history = _rl_clear_history,
+		.load_history = _rl_load_history,
+		.reset_cmd = _rl_reset_cmd,
+		.get_all_history = _rl_get_all
+	};
 
-	_neutral(&restore, sizeof(struct termios));
-	tcgetattr(STDIN_FILENO, &oldt);
-	restore = oldt;
-	_set_default(&restore);
+	return (&rl);
 }
 
 #pragma endregion Fonctions

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 11:39:16 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/18 07:56:33 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/18 09:33:57 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ int	count_lines(
 
 	if (__glibc_unlikely(fd < 0 || fd >= MAX_FD))
 		return (-1);
-
 	count = 0;
 	bytes_read = read(fd, buffer, BUFFER_SIZE);
 	while (bytes_read > 0)

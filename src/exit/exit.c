@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:53:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/10 11:26:43 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/18 08:32:31 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,14 @@ __attribute__((noreturn, unused, cold)) void	exit_program(
 	const char *restrict msg
 )
 {
-	reset_cmd();
-	if (msg)
-		printf("%s\n", msg);
-	rl_clear_history();
+	const t_read_line	*const rl = get_read_lines();
+
+	rl->reset_cmd();
+	rl->clear_history();
 	mm_destroy();
 	fdm_close_all();
+	if (msg)
+		printf("%s\n", msg);
 	exit(status);
 }
 
