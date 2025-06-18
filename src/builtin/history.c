@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/18 10:33:29 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/18 10:45:28 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ __attribute__((always_inline, used)) static inline int	_parse(
 	if (_UNLIKELY(!args))
 		return (0);
 	i = 1;
-	if (ft_strncmp(args[i], "-h", 2) == 0 || ft_strncmp(args[i], "--help", 7) == 0)
+	if (ft_strncmp(args[i], "-h", 2) == 0
+		|| ft_strncmp(args[i], "--help", 7) == 0)
 		return (1);
 	else
 		return (0);
@@ -46,7 +47,7 @@ __attribute__((always_inline, used)) static inline int	_help(void)
 		"\n"
 		YELLOW "Options:\n" RESET
 		"  -h, --help\tDisplay this help message and exit.\n"
-	);
+		);
 	return (EXIT_SUCCESS);
 }
 
