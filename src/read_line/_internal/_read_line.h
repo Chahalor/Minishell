@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:57:59 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/17 16:42:31 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/18 09:33:04 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@
 
 # define _RL_ALLOC_SIZE	1024	/* Size of every alloc/realloc of Read_line */
 # define _RL_ANSI_BUFF	16		/* Size of the ANSI handler buffer         */
-# define _RL_HIST_SIZE	1024	/* Size of the history buffer             */
-# define _RL_COMP_LIMIT	124		/* Limit of files for the completion     */
+# define _RL_COMP_LIMIT	124		/* Limit of files for the completion      */
 
 /* ************************************************************************** */
 /*                                 Typedefs                                   */
@@ -120,11 +119,11 @@ struct	s_rl_data
 
 struct	s_rl_history
 {
-	char	*storage[_RL_HIST_SIZE + 1];	/* history storage                    */
-	int		pos;						/* current position in the history   */
-	int		size;						/* number of cmd in the history     */
-	int		fd;							/* file descriptor for the history */
-};	// the fd will be moved to the manager
+	char	*storage[_RL_HIST_SIZE + 1];	/* history storage                */
+	int		pos;							/* current position              */
+	int		size;							/* number of cmd in the history */
+	int		fd;								/* history file descriptor     */
+};
 
 struct s_rl_completion
 {
@@ -135,6 +134,11 @@ struct s_rl_completion
 /* ************************************************************************** */
 /*                                 Prototypes                                 */
 /* ************************************************************************** */
+
+// _read_line.c
+
+void		_rl_reset_cmd(void);
+t_history	*_rl_get_all(void);
 
 // _init.c
 

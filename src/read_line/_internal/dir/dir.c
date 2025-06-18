@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/17 16:18:05 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/18 09:47:53 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,6 @@ __attribute__((used)) static inline int	_show_paths(
 	entry = readdir(dir);
 	while (entry && data->nb_entries < _RL_COMP_LIMIT)
 	{
-		// ft_fprintf(STDERR_FILENO, "entry=<%s> file=<%s>\n", word, entry->d_name);	//rm
 		if (entry->d_name[0] != '.'
 			&& ft_strncmp(entry->d_name, path_file, ft_strlen(path_file)) == 0)
 			data->entry[data->nb_entries++] = memdup(entry,
@@ -152,7 +151,8 @@ static inline int	_show(
 		else
 			ft_printf(BOLD "%s " RESET, completion->entry[i]->d_name);
 	}
-	ft_printf("\r\n%s%s", data->prompt, data->result);
+	if (_LIKELY(i))
+		ft_printf("\r\n%s%s", data->prompt, data->result);
 	return (0);
 }
 
@@ -219,15 +219,11 @@ int	completion(
 		else if (token > token_cmd && token < unknown)
 			_show_paths(words[nb_words - 1], &completion);
 	}
-	else if (data->result[data->line_length - 1] == ' ')
-		_show_paths("./", &completion);
 	else
 		_show_paths(words[nb_words - 1], &completion);
-	if (!completion.nb_entries)
-		return (1);
-	else if (completion.nb_entries == 1)
+	if (completion.nb_entries == 1)
 		_replace(&completion, data);
-	else
+	else if (completion.nb_entries > 0)
 		_show(&completion, data);
 	return (free_tab(words), _free_completion(&completion), 0);
 }

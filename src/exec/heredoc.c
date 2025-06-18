@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/13 10:54:15 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/18 08:31:32 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,12 @@ static inline char	**_read(
 	const char *const restrict delimiter
 )
 {
-	char			*line;
-	char			**new_storage;
-	register int	i;
+	const t_read_line	*const rl = get_read_lines();
+	char				*line;
+	char				**new_storage;
+	register int		i;
 
-	line = read_line(DEFAULT_HEREDOC);
+	line = rl->read_line(DEFAULT_HEREDOC);
 	i = 0;
 	while (line && ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1))
 	{
@@ -62,7 +63,7 @@ static inline char	**_read(
 		}
 		(storage)[i++] = line;
 		(storage)[i] = NULL;
-		line = read_line(DEFAULT_HEREDOC);
+		line = rl->read_line(DEFAULT_HEREDOC);
 	}
 	if (_UNLIKELY(!line))
 		return (free_tab(storage), NULL);

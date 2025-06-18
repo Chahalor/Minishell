@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:44:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/17 15:07:22 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/18 09:27:07 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,23 @@ __attribute__((cold, unused)) int	init_all(
 )
 {
 	args_parser(argc, argv);
-	return (init_signal() || rl_load_history(DEFAULT_HISTORY_FILE));
+	return (
+		init_signal()
+		|| get_read_lines()->load_history(DEFAULT_HISTORY_FILE));
 }
 
-__attribute__((always_inline, used)) inline int	_prompt(
+__attribute__((always_inline, used)) static inline int	_prompt(
 	const char *const restrict prompt,
 	char **envp
 )
 {
-	char		*line;
-	t_exec_data	*data;
+	static t_read_line	*rl = NULL;
+	char				*line;
+	t_exec_data			*data;
 
-	line = read_line(prompt);
+	if (_UNLIKELY(!rl))
+		rl = get_read_lines();
+	line = rl->read_line(prompt);
 	if (__builtin_expect(!line, unexpected))
 		return (1);
 	else if (line[0] == '\04')
@@ -61,7 +66,7 @@ __attribute__((always_inline, used)) inline int	_prompt(
 		data = lexer(line);
 		if (_LIKELY(data != NULL))
 		{
-			rl_add_history(line);
+			rl->add_history(line);
 			full_exec(data, envp);
 		}
 	}
