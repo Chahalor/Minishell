@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 15:54:17 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/13 10:05:59 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/18 08:02:54 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,32 @@
 
 #pragma endregion Header
 #pragma region Fonctions
+
+/** */
+__attribute__((always_inline, used)) static inline int	_count(
+	const char *const restrict filename
+)
+{
+	const int	fd = open(filename, O_RDONLY, 0644);
+	int			count;
+
+	if (_UNLIKELY(fd < 0))
+		return (ft_perror(ERROR "hsitory load: opening %s file failed", filename), -1);
+	count = count_lines(fd);
+	close(fd);
+	return (count);
+}
+
+/** */
+__attribute__((always_inline, used)) static inline int	_skip(
+	const int fd,
+	int nb_lines
+)
+{
+	while (nb_lines-- > _RL_HIST_SIZE)
+		free(gnl(fd));
+	return (0);
+}
 
 /**
  *  @brief	Create a history file if it does not exist.
@@ -66,6 +92,7 @@ __attribute__((cold, unused)) int	_load_history(
 
 	if (_UNLIKELY(fd < 0))
 		return (data->fd = _create(filename), 0);
+	_skip(fd, _count(filename));
 	line = gnl(fd);
 	i = -1;
 	while (line && ++i < _RL_HIST_SIZE)

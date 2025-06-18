@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 11:39:16 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/02 09:05:24 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/18 07:56:33 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*get_next_line(
  * @brief		Get the next line from the file descriptor and remove the
  * 				newline character at the end of the line.
  * 
- * @param fd	The file descriptor to read from.
+ * @param		fd The file descriptor to read from.
  * 
  * @return	char* The line read from the file descriptor.
  * @retval		NULL Error occurred.
@@ -80,6 +80,33 @@ char	*gnl(
 	if (line[len] == '\n')
 		line[len] = '\0';
 	return (line);
+}
+
+/** */
+int	count_lines(
+	const int fd
+)
+{
+	int				count;
+	char			buffer[BUFFER_SIZE + 1];
+	ssize_t			bytes_read;
+	register int	i;
+
+	if (__glibc_unlikely(fd < 0 || fd >= MAX_FD))
+		return (-1);
+
+	count = 0;
+	bytes_read = read(fd, buffer, BUFFER_SIZE);
+	while (bytes_read > 0)
+	{
+		buffer[bytes_read] = '\0';
+		i = -1;
+		while (++i < bytes_read)
+			if (__glibc_unlikely(buffer[i] == '\n'))
+				++count;
+		bytes_read = read(fd, buffer, BUFFER_SIZE);
+	}
+	return (count);
 }
 
 #pragma endregion Functions
