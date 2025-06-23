@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:46:24 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/18 10:13:35 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/23 14:49:41 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,11 +94,12 @@ __attribute__((always_inline, used)) inline int	reset_signal(void)
 	return (
 		signal(SIGINT, SIG_DFL) == SIG_ERR
 		|| signal(SIGQUIT, SIG_DFL) == SIG_ERR
+		|| signal(SIGTSTP, SIG_DFL) == SIG_ERR
 	);
 }
 
 /**
- * @brief	Initializes the signal handlers for SIGINT and SIGQUIT.
+ * @brief	Initializes the signal handlers for all differents signals.
  * 
  * @param	None
  * 
