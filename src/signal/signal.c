@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:46:24 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/23 14:49:41 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/23 14:58:35 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,20 @@ __attribute__((cold, visibility("hidden"))) void	_sigquit_handler(
 	g_last_signal = signal;
 }
 
+/**
+ * @brief	Signal handler for SIGTSTP (Ctrl+Z).
+ * 
+ * @param	signal	The signal number.
+ * @param	info	Pointer to a siginfo_t structure containing information
+ * 			 about the signal.
+ * @param	context	Pointer to a ucontext_t structure containing the context
+ * 			 of the signal.
+ *
+ * @note	This function is called when the user presses Ctrl+Z in the
+ * 			 terminal. It sets the last signal to SIGTSTP.
+ * 
+ * @version 1.0
+*/
 __attribute__((cold, visibility("hidden"))) void	_sigstp_handler(
 	int signal,
 	siginfo_t *info,
