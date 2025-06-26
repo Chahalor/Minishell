@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:19:00 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/16 11:49:39 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/26 14:00:39 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,38 +60,6 @@ __attribute__((always_inline, used)) static inline int	_read_ansi(
 	}
 	buffer[++i] = '\0';
 	return (i);
-}
-
-/**
- * @brief	Move the cursor left or right based on the action.
- * 
- * @param	data The read line data structure containing the result\
- * 				 and prompt.
- * @param	action The action to perform ('D' for left, 'C' for right).
- * 
- * @return	Void
-*/
-__attribute__((always_inline, used)) static inline void	_move(
-	t_rl_data *const restrict data,
-	const char action
-)
-{
-	if (action == 'D')
-	{
-		if (data->cursor_pos > 0)
-		{
-			--(data->cursor_pos);
-			write(STDOUT_FILENO, "\b", 1);
-		}
-	}
-	else if (action == 'C')
-	{
-		if (data->cursor_pos < data->line_length)
-		{
-			++(data->cursor_pos);
-			write(STDOUT_FILENO, "\033[C", 3);
-		}
-	}
 }
 
 /**
@@ -173,9 +141,9 @@ __attribute__((used)) int	handle_ansi(
 	len = _read_ansi(ansi, sizeof(ansi));
 	if (__builtin_expect(!len || len < 0, unexpected))
 		return (0);
-	if (ft_strncmp(ansi, "\033[D", 3) == 0
-		|| ft_strncmp(ansi, "\033[C", 3) == 0)
-		_move(data, ansi[2]);
+	// ft_fprintf(STDERR_FILENO, "ANSI: \\033[%s\n", ansi + 2); // rm
+	if (_move(data, ansi) > 0)
+		return (1);
 	else if (ft_strncmp(ansi, "\033[A", 3) == 0
 		|| ft_strncmp(ansi, "\033[B", 3) == 0)
 		_history(data, ansi[2]);

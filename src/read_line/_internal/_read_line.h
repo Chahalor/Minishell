@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:57:59 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/18 09:33:04 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/26 13:57:28 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,6 +200,11 @@ int			_load_history(
 				);
 
 // ansi/_ansi.c
+
+int			_move(
+				t_rl_data *const restrict data,
+				const char *const restrict cmd
+				);
 
 int			handle_ansi(
 				t_rl_data *const restrict data
