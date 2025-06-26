@@ -1,0 +1,165 @@
+.
+├── api.drawio
+├── config
+│   ├── config.h
+│   └── _internal_
+│       ├── _config.h
+│       └── _default.h
+├── dev
+│   └── todo.md
+├── manager
+│   ├── access.c
+│   ├── init.c
+│   ├── _internal_
+│   │   ├── _access.c
+│   │   ├── env
+│   │   │   ├── _internal_
+│   │   │   │   ├── state
+│   │   │   │   │   ├── _internal_
+│   │   │   │   │   │   ├── _init.c
+│   │   │   │   │   │   ├── _state.c
+│   │   │   │   │   │   ├── _state.h
+│   │   │   │   │   │   └── _types.h
+│   │   │   │   │   ├── _public_
+│   │   │   │   │   │   ├── init.c
+│   │   │   │   │   │   ├── state.c
+│   │   │   │   │   │   ├── state.h
+│   │   │   │   │   │   └── types.h
+│   │   │   │   ├── _env.c
+│   │   │   │   ├── _env.h
+│   │   │   │   ├── _find.c
+│   │   │   │   ├── _init.c
+│   │   │   │   └── _types.h
+│   │   │   ├── _public_
+│   │   │   │   ├── env.c
+│   │   │   │   ├── env.h
+│   │   │   │   ├── find.c
+│   │   │   │   ├── init.c
+│   │   │   │   └── types.h
+│   │   ├── exec
+│   │   │   ├── exec.h
+│   │   │   ├── _internal_
+│   │   │   │   ├── _exec.h
+│   │   │   │   └── _types.h
+│   │   │   ├── _public_
+│   │   │   └── types.h
+│   │   ├── history
+│   │   │   ├── history.c
+│   │   │   ├── history.h
+│   │   │   ├── init.c
+│   │   │   ├── _internal_
+│   │   │   │   ├── _history.c
+│   │   │   │   ├── _history.h
+│   │   │   │   ├── _init.c
+│   │   │   │   └── _types.h
+│   │   │   ├── _public_
+│   │   │   └── types.h
+│   │   ├── _init.c
+│   │   ├── _manager.h
+│   │   ├── memory
+│   │   │   ├── alloc.c
+│   │   │   ├── clean.c
+│   │   │   ├── compare.c
+│   │   │   ├── copy.c
+│   │   │   ├── format.c
+│   │   │   ├── init.c
+│   │   │   ├── _internal_
+│   │   │   │   ├── _access.c
+│   │   │   │   ├── _alloc.c
+│   │   │   │   ├── _clean.c
+│   │   │   │   ├── _compare.c
+│   │   │   │   ├── _copy.c
+│   │   │   │   ├── _format.c
+│   │   │   │   ├── _init.c
+│   │   │   │   ├── _manage.c
+│   │   │   │   ├── _memory.h
+│   │   │   │   ├── _read.c
+│   │   │   │   ├── _search.c
+│   │   │   │   ├── _shift.c
+│   │   │   │   ├── _size.c
+│   │   │   │   ├── _types.h
+│   │   │   │   └── _write.c
+│   │   │   ├── manage.c
+│   │   │   ├── memory.h
+│   │   │   ├── _public_
+│   │   │   ├── read.c
+│   │   │   ├── search.c
+│   │   │   ├── shift.c
+│   │   │   ├── size.c
+│   │   │   ├── types.h
+│   │   │   └── write.c
+│   │   ├── output
+│   │   │   ├── _internal_
+│   │   │   │   ├── _output.c
+│   │   │   │   ├── _output.h
+│   │   │   │   └── _types.h
+│   │   │   ├── output.c
+│   │   │   ├── output.h
+│   │   │   └── types.h
+│   │   ├── processor
+│   │   │   ├── _internal_
+│   │   │   │   ├── _init.c
+│   │   │   │   ├── _parse.c
+│   │   │   │   ├── _processor.c
+│   │   │   │   ├── _processor.h
+│   │   │   │   ├── tokenizer
+│   │   │   │   │   ├── init.c
+│   │   │   │   │   ├── _internal_
+│   │   │   │   │   │   ├── _init.c
+│   │   │   │   │   │   ├── _tokenizer.c
+│   │   │   │   │   │   ├── _tokenizer.h
+│   │   │   │   │   │   └── _types.h
+│   │   │   │   │   ├── tokenizer.c
+│   │   │   │   │   ├── tokenizer.h
+│   │   │   │   │   └── types.h
+│   │   │   │   ├── tree
+│   │   │   │   │   ├── _internal_
+│   │   │   │   │   │   ├── _tree.c
+│   │   │   │   │   │   ├── _tree.h
+│   │   │   │   │   │   └── _types.h
+│   │   │   │   │   ├── tree.h
+│   │   │   │   │   └── types.h
+│   │   │   │   └── _types.h
+│   │   │   ├── processor.h
+│   │   │   ├── _public_
+│   │   │   └── types.h
+│   │   ├── reader
+│   │   │   ├── _internal_
+│   │   │   │   ├── _open.c
+│   │   │   │   ├── _read.c
+│   │   │   │   ├── _reader.h
+│   │   │   │   ├── _search.c
+│   │   │   │   ├── _types.h
+│   │   │   │   └── _write.c
+│   │   │   ├── open.c
+│   │   │   ├── read.c
+│   │   │   ├── reader.h
+│   │   │   ├── search.c
+│   │   │   └── write.c
+│   │   ├── _setup.c
+│   │   ├── _types.h
+│   │   └── utils
+│   │       ├── _internal_
+│   │       │   ├── _size.c
+│   │       │   ├── _types.h
+│   │       │   └── _utils.h
+│   │       ├── size.c
+│   │       └── utils.h
+│   ├── manager.h
+│   ├── setup.c
+│   └── types.h
+├── standards
+│   ├── _internal_
+│   │   ├── _dependencies.h
+│   │   ├── _standards.h
+│   │   ├── _support.h
+│   │   └── _types.h
+│   ├── standards.h
+│   └── wrappers
+│       ├── expect.c
+│       ├── _internal_
+│       │   ├── _expect.c
+│       │   ├── _types.h
+│       │   └── _wrappers.h
+│       └── wrappers.h
+└── tree_dev.c
