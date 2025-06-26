@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:19:00 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/26 16:16:44 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/26 16:19:55 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ static inline int	_skip(
 {
 	register int	i = data->cursor_pos;
 
-	if (action == 'D')
+	// ft_fprintf(STDERR_FILENO, "i=%d, action=%c\n", i, action);
+	if (i > 0 && action == 'D')
 	{
 		while (i > 0 && _is_whitespace(data->result[i - 1]))
 			--i;
@@ -41,7 +42,7 @@ static inline int	_skip(
 			--i;
 		ft_printf("\033[%dD", data->cursor_pos - i);
 	}
-	else if (action == 'C')
+	else if (i < data->line_length && action == 'C')
 	{
 		while (i < data->line_length && !_is_whitespace(data->result[i]))
 			++i;
