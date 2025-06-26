@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/18 10:45:28 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/26 13:23:22 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ __attribute__((always_inline, used)) static inline int	_parse(
 {
 	int	i;
 
-	if (_UNLIKELY(!args))
+	if (_UNLIKELY(!args || !args[1]))
 		return (0);
 	i = 1;
 	if (ft_strncmp(args[i], "-h", 2) == 0
