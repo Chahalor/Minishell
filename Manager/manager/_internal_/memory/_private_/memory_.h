@@ -6,7 +6,7 @@
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 08:52:57 by delta_0ne         #+#    #+#             */
-/*   Updated: 2025/06/24 16:23:24 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/06/26 13:19:52 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,8 +140,8 @@ extern char			_mem_clean_all(\
 						const unsigned int size_
 						)
 					__attribute__((\
-						cold, used, \
-						visibility("hidden")));
+						destructor, cold, \
+						used, visibility("hidden")));
 // size :
 extern unsigned int	_mem_size(\
 						const unsigned char *restrict const mode_,
