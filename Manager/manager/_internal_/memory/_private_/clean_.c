@@ -6,7 +6,7 @@
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 08:52:57 by delta_0ne         #+#    #+#             */
-/*   Updated: 2025/06/20 10:58:41 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/06/26 13:19:11 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ extern char	_mem_clean_ptr(\
 }
 
 // doc ...
-__attribute__((cold, used))
+__attribute__((destructor, cold, used))
 //	(-private-)
 extern char	_mem_clean_all(\
 	const char code_,
