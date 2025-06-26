@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:19:00 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/26 16:19:55 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/26 16:32:07 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,19 @@ static inline void	_simple(
 			write(STDOUT_FILENO, "\033[C", 3);
 		}
 	}
-	else if (action == 'H')
+	else if (data->cursor_pos > 0 && action == 'H')
 	{
+		ft_printf("\r\033[%dC", data->prompt_length);
 		data->cursor_pos = 0;
-		ft_printf("\r\033[%dC", data->line_length);
 	}
+	else if (action == 'F') // END
+	{
+		int move = data->line_length - data->cursor_pos;
+		if (move > 0)
+			ft_printf("\033[%dC", move);
+		data->cursor_pos = data->line_length;
+	}
+
 }
 
 
@@ -98,7 +106,7 @@ __attribute__((always_inline, used)) inline int	_move(
 	const char *const restrict cmd
 )
 {
-	if (cmd[2] == 'D' || cmd[2] == 'C' || cmd[2] == 'H')
+	if (cmd[2] == 'D' || cmd[2] == 'C' || cmd[2] == 'H' || cmd[2] == 'F')
 	{
 		_simple(data, cmd[2]);
 		return (1);
