@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:19:00 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/26 16:24:30 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/26 16:45:31 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,6 @@ __attribute__((used)) int	handle_ansi(
 	len = _read_ansi(ansi, sizeof(ansi));
 	if (__builtin_expect(!len || len < 0, unexpected))
 		return (0);
-	// ft_fprintf(STDERR_FILENO, "ANSI: \\033[%s\n", ansi + 2); // rm
 	if (_move(data, ansi) > 0)
 		return (1);
 	else if (ft_strncmp(ansi, "\033[A", 3) == 0

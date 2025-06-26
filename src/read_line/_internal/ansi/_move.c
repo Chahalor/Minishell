@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:19:00 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/26 16:32:07 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/26 16:48:50 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,23 @@
 #pragma endregion Header
 #pragma region Fonctions
 
-static inline int	_is_whitespace(const char c)
+/** */
+__attribute__((always_inline, used)) static inline int	_is_whitespace(
+	const char c
+)
 {
-	return (c == ' ' || c == '\t' || c == '\n' || c == '\r');
+	return (c == ' ' | c == '\t' | c == '\n' | c == '\r');
 }
 
+/** */
 static inline int	_skip(
 	t_rl_data *const restrict data,
 	const char action
 )
 {
-	register int	i = data->cursor_pos;
+	register int	i;
 
-	// ft_fprintf(STDERR_FILENO, "i=%d, action=%c\n", i, action);
+	i = data->cursor_pos;
 	if (i > 0 && action == 'D')
 	{
 		while (i > 0 && _is_whitespace(data->result[i - 1]))
@@ -54,43 +58,47 @@ static inline int	_skip(
 	return (1);
 }
 
-
-static inline void	_simple(
+/**
+ * @brief	Handle simple cursor movements. (Left, Right, Home, End)
+ * 
+ * @param	data The read line data structure containing the result\
+ * 				 and prompt.
+ * @param	cmd The command string containing the cursor movement\
+ * 				 information.
+ * 
+ * @return	1 on movement, 0 on nothing.
+*/
+static inline int	_simple(
 	t_rl_data *const restrict data,
-	const char action
+	const char *const restrict cmd
 )
 {
-	if (action == 'D')
+	if (data->cursor_pos > 0 && cmd[2] == 'D')
 	{
-		if (data->cursor_pos > 0)
-		{
-			--(data->cursor_pos);
-			write(STDOUT_FILENO, "\b", 1);
-		}
+		--(data->cursor_pos);
+		write(STDOUT_FILENO, "\b", 1);
+		return (1);
 	}
-	else if (action == 'C')
+	else if (data->cursor_pos < data->line_length && cmd[2] == 'C')
 	{
-		if (data->cursor_pos < data->line_length)
-		{
-			++(data->cursor_pos);
-			write(STDOUT_FILENO, "\033[C", 3);
-		}
+		++(data->cursor_pos);
+		write(STDOUT_FILENO, "\033[C", 3);
+		return (1);
 	}
-	else if (data->cursor_pos > 0 && action == 'H')
+	else if (data->cursor_pos > 0 && cmd[2] == 'H')
 	{
 		ft_printf("\r\033[%dC", data->prompt_length);
 		data->cursor_pos = 0;
+		return (1);
 	}
-	else if (action == 'F') // END
+	else if (cmd[2] == 'F' && data->line_length - data->cursor_pos > 0)
 	{
-		int move = data->line_length - data->cursor_pos;
-		if (move > 0)
-			ft_printf("\033[%dC", move);
+		ft_printf("\033[%dC", data->line_length - data->cursor_pos);
 		data->cursor_pos = data->line_length;
+		return (1);
 	}
-
+	return (0);
 }
-
 
 /**
  * @brief	Move the cursor left or right based on the action.
@@ -106,16 +114,11 @@ __attribute__((always_inline, used)) inline int	_move(
 	const char *const restrict cmd
 )
 {
-	if (cmd[2] == 'D' || cmd[2] == 'C' || cmd[2] == 'H' || cmd[2] == 'F')
-	{
-		_simple(data, cmd[2]);
+	if (_simple(data, cmd))
 		return (1);
-	}
-	else if (ft_strncmp(cmd, "\033[1;5D", 7) == 0 || ft_strncmp(cmd, "\033[1;5C", 7) == 0)
-	{
-		_skip(data, cmd[5]);
-		return (1);
-	}
+	else if (ft_strncmp(cmd, "\033[1;5D", 7) == 0
+		|| ft_strncmp(cmd, "\033[1;5C", 7) == 0)
+		return (_skip(data, cmd[5]));
 	else
 		return (0);
 }
