@@ -9,7 +9,7 @@
 ## 🧻 Édition de ligne
  -[X] Suppr (Delete)	\033[3~				Supprimer le caractère sous le curseur
  -[X] Home				\033[H ou \033[1~	Début de ligne
- -[ ] End				\033[F ou \033[4~	Fin de ligne
+ -[X] End				\033[F ou \033[4~	Fin de ligne
  -[X] Ctrl+Left			\033[1;5D			Aller au mot précédent (ou autre selon terminal)
  -[X] Ctrl+Right		\033[1;5C			Aller au mot suivant (idem)
 
