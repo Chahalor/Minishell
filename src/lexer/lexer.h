@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:19:39 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/10 13:37:41 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/27 09:57:42 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@
 /*                                 Typedefs                                   */
 /* ************************************************************************** */
 
-typedef enum e_file		t_file_type;	/* File type enumeration */
-
 typedef struct s_ast	t_ast;		/* Abstract syntax tree structure */
 typedef struct s_lexer	t_lexer;	/* Lexer structure               */
 typedef struct s_token	t_token;	/* Token structure              */
@@ -46,14 +44,7 @@ typedef struct s_token	t_token;	/* Token structure              */
 /*                                 Enums                                      */
 /* ************************************************************************** */
 
-enum	e_file
-{
-	e_not_found = 0,	/* File not found             */
-	e_file,				/* File is a regular file    */
-	e_directory,		/* File is a directory      */
-	e_symlink,			/* File is a symbolic link */
-	e_unknown,			/* Unknown file type      */
-};
+//...
 
 /* ************************************************************************** */
 /*                                 Prototypes                                 */

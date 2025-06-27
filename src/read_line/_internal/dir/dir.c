@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/27 09:39:07 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/27 10:04:24 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,11 @@ extern char	*_get_dir(
 
 extern char	*_get_file(
 				const char *const restrict path
+				);
+
+extern void	_add_builtin(
+				t_rl_completion *const restrict completion,
+				const char *const restrict path_file
 				);
 
 #pragma endregion Prototypes
@@ -64,6 +69,7 @@ __attribute__((used)) static inline int	_show_cmds(
 	paths = ft_split(getenv("PATH"), ':');
 	if (_UNLIKELY(!paths))
 		return (-2);
+	_add_builtin(data, word);
 	i = -1;
 	while (paths[++i])
 	{
@@ -141,13 +147,19 @@ static inline int	_show(
 )
 {
 	register int	i;
+	t_file_type		type;
 
 	write(STDOUT_FILENO, "\r\n", 2);
 	i = -1;
 	while (++i < completion->nb_entries)
 	{
-		if (completion->entry[i]->d_type == DT_DIR)
+		type = check_path(completion->entry[i]->d_name, F_OK | X_OK);
+		if (type == e_directory)
 			ft_printf(BOLD BLUE "%s/ " RESET, completion->entry[i]->d_name);
+		else if (type == e_symlink)
+			ft_printf(BOLD MAGENTA "%s@ " RESET, completion->entry[i]->d_name);
+		else if (type == e_executable)
+			ft_printf(BOLD GREEN "%s* " RESET, completion->entry[i]->d_name);
 		else
 			ft_printf(BOLD "%s " RESET, completion->entry[i]->d_name);
 	}
