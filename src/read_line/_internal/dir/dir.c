@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/26 13:30:52 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/27 08:07:10 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,16 +211,16 @@ int	completion(
 	if (_UNLIKELY(!words))
 		return (-1);
 	nb_words = arraylen((const void *const *)words);
-	if (nb_words < 2 && data->result[data->line_length - 1] != ' ')
-	{
+	// if (nb_words < 2 && data->result[data->line_length - 1] != ' ')
+	// {
 		token = tokenize(words[nb_words - 1]);
 		if (token == token_cmd)
 			_show_cmds(words[nb_words - 1], &completion);
 		else if (token > token_cmd && token < unknown)
 			_show_paths(words[nb_words - 1], &completion);
-	}
-	else
-		_show_paths(words[nb_words - 1], &completion);
+	// }
+	// else
+	// 	_show_paths(words[nb_words - 1], &completion);
 	if (completion.nb_entries == 1)
 		_replace(&completion, data);
 	else if (completion.nb_entries > 0)
