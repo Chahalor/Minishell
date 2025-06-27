@@ -6,7 +6,7 @@
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 08:52:57 by delta_0ne         #+#    #+#             */
-/*   Updated: 2025/06/20 14:07:21 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/06/27 14:36:45 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,27 @@ extern inline char	__mem_copy_raw(\
 // doc ...
 __attribute__((always_inline, used))
 // (-internal-)
+extern inline char	__mem_duplicate(\
+	void *src__,
+	void **dest__,
+	const unsigned int len__
+)	// v.1. >>> tag: def->_mem_duplicate
+{
+	if (unexpect(\
+			_mem_alloc((unsigned char [1]){mem_new_}, dest__, \
+						len__, mem_buffer_) \
+			!= no_error))
+		return (mem_allocation_failure_);
+	if (unexpect(\
+			_mem_copy((unsigned char [1]){mem_raw_}, src__, *dest__, len__) \
+			!= no_error))
+		return (mem_copy_failure_);
+	return (no_error);
+}
+
+// doc ...
+__attribute__((always_inline, used))
+// (-internal-)
 extern inline char	__mem_replace(\
 	t_mem_alloc_ *src__,
 	unsigned char *dest__,
@@ -119,8 +140,8 @@ extern inline char	__mem_copy(\
 	const unsigned int len__
 )	// v.1. >>> tag: def->mem_copy
 {
-	return ((t_mem_copy_func_ [2]){\
-				_mem_copy_raw, _mem_replace}[\
+	return ((t_mem_copy_func_ [3]){\
+				_mem_copy_raw, NULL, _mem_replace}[\
 					mode__[0]](src__, dest__, len__));
 }
 

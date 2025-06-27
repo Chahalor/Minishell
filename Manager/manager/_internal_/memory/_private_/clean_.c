@@ -6,7 +6,7 @@
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 08:52:57 by delta_0ne         #+#    #+#             */
-/*   Updated: 2025/06/26 13:19:11 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/06/27 13:26:08 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ extern char	_mem_clean_buffer(\
 	const unsigned int size_
 )	// v.1. >>> tag: exp->_mem_clean_buffer
 {
-	return ((void)code_, __mem_clean_buffer(ptr_, size_));
+	return (__mem_clean_buffer(code_, ptr_, size_));
 }
 
 // doc ...
@@ -53,7 +53,7 @@ extern char	_mem_clean_ptr(\
 	const unsigned int size_
 )	// v.1. >>> tag: exp->_mem_clean_ptr
 {
-	return ((void)code_, __mem_clean_ptr(ptr_, size_));
+	return (__mem_clean_ptr(code_, ptr_, size_));
 }
 
 // doc ...

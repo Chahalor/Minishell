@@ -1,36 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   _write.c                                           :+:      :+:    :+:   */
+/*   remove__.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 08:52:57 by delta_0ne         #+#    #+#             */
-/*   Updated: 2025/05/22 13:45:35 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/06/27 13:51:57 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef _WRITE_C
-# define _WRITE_C
+#ifndef REMOVE___C
+# define REMOVE___C
 
 /* -------- modules --------- */
 	// ---- access ----- //
-# include "_reader.h"
+# include "reader__.h"
 
 /* -------- inlines --------- */
 
 // doc ...
 __attribute__((always_inline, used))
-// (-hidden-)
-extern inline char	_write(\
-	const unsigned int fd,
-	const char *restrict const buffer,
-	const unsigned int size
-)	// v.1. >>> tag: def->write
+// (-internal-)
+extern inline char	__reader_remove_container(\
+	const t_reader_ *restrict const reader__,
+	const t_mem *restrict const mem__,
+	const unsigned int target__
+)	// v.1. >>> tag: def->_reader_remove_container
 {
-	if (unexpect(write(fd, buffer, size) < size))
-		return (failed_to_write);
-	return (no_error);
+	t_container_	*container__;
+	char			code__;
+
+	if (unexpect(\
+			_reader_find((unsigned char [1]){reader_container_}, \
+						(char *)target__, (void**)&container__) \
+			!= no_error))
+		return (reader_not_registered_);
+	reader__->qty__--;
+	return (mem__->clean((unsigned char [1]){mem_buffer}, \
+							no_error, (void **)&container__, \
+							reader_container_size_ + container__->size__));
 }
 
 #endif

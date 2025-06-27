@@ -6,7 +6,7 @@
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 08:52:57 by delta_0ne         #+#    #+#             */
-/*   Updated: 2025/06/24 16:24:38 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/06/27 14:20:59 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ extern char			__mem_clean(\
 						always_inline, used, \
 						visibility("hidden")));
 extern char			__mem_clean_buffer(\
+						const char code__,
 						void *ptr__,
 						const unsigned int size__
 						)
@@ -133,6 +134,7 @@ extern char			__mem_clean_buffer(\
 						always_inline, used, \
 						visibility("hidden")));
 extern char			__mem_clean_ptr(\
+						const char code__,
 						void *ptr__,
 						const unsigned int size__
 						)
@@ -267,7 +269,7 @@ extern unsigned int	__mem_shift(\
 						always_inline, used, \
 						visibility("hidden")));
 extern unsigned int	__mem_shift_by(\
-						const unsigned char spec__,
+						const unsigned char *restrict const mode__,
 						unsigned char *restrict const area__,
 						const unsigned int shift__,
 						const unsigned int len__
@@ -282,7 +284,7 @@ extern unsigned int	__mem_rewind(\
 						always_inline, used, \
 						visibility("hidden")));
 extern unsigned int	__mem_avoid_by(\
-						const unsigned char target__,
+						const unsigned char *restrict const mode__,
 						const unsigned char *restrict const area__,
 						const unsigned char *restrict const end__
 						)

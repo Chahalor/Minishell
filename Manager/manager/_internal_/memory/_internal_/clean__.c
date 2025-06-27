@@ -6,7 +6,7 @@
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 08:52:57 by delta_0ne         #+#    #+#             */
-/*   Updated: 2025/06/20 13:00:34 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/06/27 13:25:34 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 __attribute__((always_inline, used))
 // (-internal-)
 extern inline char	__mem_clean_buffer(\
+	const char code__,
 	void *ptr__,
 	const unsigned int size__
 )	// v.1. >>> tag: def->mem_clean_buffer
@@ -40,13 +41,14 @@ extern inline char	__mem_clean_buffer(\
 	area_8b__ = (volatile unsigned char *)ptr__ + i__;
 	while (i__++ != size__)
 		*(area_8b__++) = 0;
-	return (no_error);
+	return (code__);
 }
 
 // doc ...
 __attribute__((always_inline, used))
 // (-internal-)
 extern inline char	__mem_clean_ptr(\
+	const char code__,
 	void *ptr__,
 	const unsigned int size__
 )	// v.1. >>> tag: def->mem_clean_ptr
@@ -57,7 +59,7 @@ extern inline char	__mem_clean_ptr(\
 	if (unexpect(!alloc__))
 		return (mem_rewinding_failure_);
 	_mem_manage((unsigned char [1]){mem_drop_}, ptr__, size__);
-	return (free(alloc__), no_error);
+	return (free(alloc__), code__);
 }
 
 // doc ...
