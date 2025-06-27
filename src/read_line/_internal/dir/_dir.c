@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/27 09:53:21 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/27 12:56:47 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,10 @@ __attribute__((used, visibility("hidden"))) void	_add_builtin(
 	const char *const restrict path_file
 )
 {
-	static const char	*builtins[] = {"cd", "echo", "env", "exit", "export", "pwd", "unset", "history", NULL};
-	struct dirent		entry;
+	static const char	*builtins[] = {
+		"cd", "echo", "env", "exit", "export",
+		"pwd", "unset", "history", NULL};
+	t_dirent			entry;
 	register int		i;
 
 	i = -1;
@@ -106,7 +108,8 @@ __attribute__((used, visibility("hidden"))) void	_add_builtin(
 			_neutral(entry.d_name, sizeof(entry.d_name));
 			entry.d_type = DT_REG;
 			ft_memcpy(entry.d_name, builtins[i], ft_strlen(builtins[i]));
-			completion->entry[completion->nb_entries++] = memdup(&entry, sizeof(struct dirent));
+			completion->entry[completion->nb_entries++]
+				= memdup(&entry, sizeof(t_dirent));
 		}
 	}
 }
