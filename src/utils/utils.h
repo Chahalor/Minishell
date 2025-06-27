@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 11:03:50 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/13 11:38:27 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/27 10:04:07 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,18 @@
 
 /* -----| Modules  |----- */
 # include "mmanager.h"
+
+typedef enum e_file	t_file_type;	/* File type enumeration */
+
+enum	e_file
+{
+	e_not_found = 0,	/* File not found             */
+	e_file,				/* File is a regular file    */
+	e_directory,		/* File is a directory      */
+	e_symlink,			/* File is a symbolic link */
+	e_unknown,			/* Unknown file type      */
+	e_executable		/* File is executable    */
+};
 
 /* ************************************************************************** */
 /*                                 Prototypes                                 */
@@ -98,6 +110,13 @@ char		*ft_strchr(
 
 int			arraylen(
 				const void *const *array
+				);
+
+// files.c
+
+int			check_path(
+				const char *const restrict path,
+				const int flags
 				);
 
 #endif /* UTILS_H */
