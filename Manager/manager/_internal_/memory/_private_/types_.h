@@ -6,7 +6,7 @@
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 08:52:57 by delta_0ne         #+#    #+#             */
-/*   Updated: 2025/06/25 15:05:38 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/06/27 14:37:08 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ enum e_mem_modes_	// v.1. >>> .
 	mem_link_						= mem_link__,
 	mem_file_						= mem_file__,
 	mem_raw_						= mem_raw__,
+	mem_duplicate_					= mem_duplicate__,
 	mem_replace_					= mem_replace__,
 	mem_val_						= mem_val__,
 	mem_left_						= mem_left__,
@@ -78,7 +79,7 @@ enum e_mem_errors_	// v.1. >>> tag: exp->e_mem_errors_
 	mem_rebasing_failure_			= mem_rebasing_failure__,
 	mem_untracked_data_expired_		= mem_untracked_data_expired__,
 	mem_rewinding_failure_			= mem_rewinding_failure__,
-	mem_opening_failure_			= mem_opening_failure__,
+	mem_copy_failure_				= mem_copy_failure__,
 	mem_reading_failure_			= mem_reading_failure__,
 	mem_writing_failure_			= mem_writing_failure__,
 };
@@ -123,7 +124,7 @@ typedef char			(*t_mem_copy_func_)(\
 							void *, \
 							const unsigned int);			// v.1. >>> .
 typedef unsigned int	(*t_mem_shift_func_)(\
-							const unsigned char, \
+							const unsigned char *restrict const, \
 							void *restrict const, \
 							char *restrict const);			// v.1. >>> .
 typedef int				(*t_mem_search_func_)(\

@@ -6,7 +6,7 @@
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 08:52:57 by delta_0ne         #+#    #+#             */
-/*   Updated: 2025/06/25 15:05:12 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/06/27 14:37:28 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ enum e_mem_modes	// v.1. >>> tag: exp->e_mem_types
 	mem_link		= mem_link__,
 	mem_file		= mem_file__,
 	mem_raw			= mem_raw__,
+	mem_duplicate	= mem_duplicate__,
 	mem_replace		= mem_replace__,
 	mem_val			= mem_val__,
 	mem_left		= mem_left__,

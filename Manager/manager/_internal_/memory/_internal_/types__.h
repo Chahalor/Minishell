@@ -6,7 +6,7 @@
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 08:52:57 by delta_0ne         #+#    #+#             */
-/*   Updated: 2025/06/25 14:45:37 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/06/27 14:36:33 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 /* -------- modules --------- */
 	// --- externals --- //
-# include "../../../../standards/standards.h"
+# include "../../../../standards/_public_/standards.h"
 
 /* --------- enums ---------- */
 	// ---- memory ----- //
@@ -69,7 +69,8 @@ enum e_mem_modes__	// v.1. >>> tag: set->e_mem_types
 	// mem_file__						= +2,
 	// copy :
 	mem_raw__							= +0,
-	mem_replace__						= +1,
+	mem_duplicate__						= +1,
+	mem_replace__						= +2,
 	// shift :
 	mem_val__							= +0,
 	mem_left__							= +0,
@@ -98,7 +99,7 @@ enum e_mem_errors__	// v.1. >>> tag: set->e_mem_errors_
 	mem_rebasing_failure__				= -6,
 	mem_untracked_data_expired__		= -5,
 	mem_rewinding_failure__				= -4,
-	mem_opening_failure__				= -3,
+	mem_copy_failure__					= -3,
 	mem_reading_failure__				= -2,
 	mem_writing_failure__				= -1,
 };

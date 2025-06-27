@@ -6,7 +6,7 @@
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 08:52:57 by delta_0ne         #+#    #+#             */
-/*   Updated: 2025/06/24 15:43:02 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/06/27 14:19:46 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@ extern unsigned int	_mem_shift(\
 __attribute__((hot, used))
 //	(-private-)
 extern unsigned int	_mem_shift_by(\
-	const unsigned char spec_,
+	const unsigned char *restrict const mode_,
 	void *restrict const area_,
 	const unsigned char *restrict const val_
 )	// v.1. >>> tag: exp->mem_shift_by
 {
-	return (__mem_shift_by(spec_, (unsigned char *)area_, (unsigned int)val_, \
+	return (__mem_shift_by(mode_, (unsigned char *)area_, (unsigned int)val_, \
 							_mem_size((unsigned char [1]){mem_len_}, \
 										area_, '\0')));
 }
@@ -49,24 +49,24 @@ extern unsigned int	_mem_shift_by(\
 __attribute__((hot, used))
 //	(-private-)
 extern unsigned int	_mem_rewind(\
-	const unsigned char spec_,
+	const unsigned char *restrict const mode_,
 	void *restrict const area_,
 	const unsigned char *restrict const val_
 )	// v.1. >>> tag: exp->mem_rewind
 {
-	return ((void)spec_, (void)val_, __mem_rewind((unsigned char *)area_));
+	return ((void)mode_, (void)val_, __mem_rewind((unsigned char *)area_));
 }
 
 // doc ...
 __attribute__((hot, used))
 //	(-private-)
 extern unsigned int	_mem_avoid_by(\
-	const unsigned char spec_,
+	const unsigned char *restrict const mode_,
 	void *restrict const area_,
 	const unsigned char *restrict const val_
 )	// v.1. >>> tag: exp->mem_avoid_by
 {
-	return (__mem_avoid_by(spec_, (unsigned char *)area_, val_));
+	return (__mem_avoid_by(mode_, (unsigned char *)area_, val_));
 }
 
 #endif
