@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:57:59 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/27 09:38:17 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/27 12:55:08 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@
 /* ************************************************************************** */
 /*                                 Typedefs                                   */
 /* ************************************************************************** */
+
+typedef struct dirent			t_dirent;
 
 typedef enum e_rl_status		t_rl_status;		/* The status or rl:_read */
 typedef enum e_rl_hist_access	t_rl_hist_access;	/* access to the history */

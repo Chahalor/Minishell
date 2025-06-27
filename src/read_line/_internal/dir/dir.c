@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/27 10:04:24 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/27 12:58:02 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 /* -----| Internals |----- */
 #include "_read_line.h"
 #include <sys/types.h>
-#include <dirent.h>
 #include <sys/stat.h>
+#include <dirent.h>
 
 /* -----| Modules   |----- */
 #include "read_line.h"
@@ -50,7 +50,7 @@ extern void	_add_builtin(
  * @param	data	The completion data structure to store results.
  * 
  * @return	The success status of the operation.
- * @retval		0 on success
+ * @retval		+0 on success
  * @retval		-1 on error
  * @retval		-2 on memory allocation failure.
  * 
@@ -58,7 +58,7 @@ extern void	_add_builtin(
 */
 __attribute__((used)) static inline int	_show_cmds(
 	const char *const restrict word,
-	t_rl_completion *const restrict data
+	t_rl_completion *const restrict dt
 )
 {
 	char			**paths;
@@ -69,19 +69,18 @@ __attribute__((used)) static inline int	_show_cmds(
 	paths = ft_split(getenv("PATH"), ':');
 	if (_UNLIKELY(!paths))
 		return (-2);
-	_add_builtin(data, word);
+	_add_builtin(dt, word);
 	i = -1;
-	while (paths[++i])
+	while (paths[++i] && dt->nb_entries < _RL_COMP_LIMIT)
 	{
 		dir = opendir(paths[i]);
 		if (_UNLIKELY(!dir))
 			continue ;
 		entry = readdir(dir);
-		while (entry && data->nb_entries < _RL_COMP_LIMIT)
+		while (entry && dt->nb_entries < _RL_COMP_LIMIT)
 		{
 			if (ft_strncmp(entry->d_name, word, ft_strlen(word)) == 0)
-				data->entry[data->nb_entries++] = memdup(entry,
-						sizeof(struct dirent));
+				dt->entry[dt->nb_entries++] = memdup(entry, sizeof(t_dirent));
 			entry = readdir(dir);
 		}
 		closedir(dir);
@@ -106,10 +105,10 @@ __attribute__((used)) static inline int	_show_paths(
 	t_rl_completion *const restrict data
 )
 {
-	char			*path_dir;
-	char			*path_file;
-	DIR				*dir;
-	struct dirent	*entry;
+	char		*path_dir;
+	char		*path_file;
+	DIR			*dir;
+	t_dirent	*entry;
 
 	path_dir = _get_dir(word);
 	path_file = _get_file(word);
@@ -123,8 +122,7 @@ __attribute__((used)) static inline int	_show_paths(
 	{
 		if (ft_strncmp(entry->d_name, path_file, ft_strlen(path_file)) == 0
 			&& (entry->d_name[0] != '.' || path_file[0] == '.'))
-			data->entry[data->nb_entries++] = memdup(entry,
-					sizeof(struct dirent));
+			data->entry[data->nb_entries++] = memdup(entry, sizeof(t_dirent));
 		entry = readdir(dir);
 	}
 	closedir(dir);
