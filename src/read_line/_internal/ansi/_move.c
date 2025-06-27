@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:19:00 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/26 16:48:50 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/06/27 08:11:49 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ __attribute__((always_inline, used)) static inline int	_is_whitespace(
 	const char c
 )
 {
-	return (c == ' ' | c == '\t' | c == '\n' | c == '\r');
+	return (c == ' ' | c == '\t' | c == '\n' | c == '\r' | c == '/');
 }
 
 /** */
