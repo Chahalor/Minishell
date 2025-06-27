@@ -1,33 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   open.c                                             :+:      :+:    :+:   */
+/*   init__.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 08:52:57 by delta_0ne         #+#    #+#             */
-/*   Updated: 2025/05/23 11:22:32 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/06/27 16:41:12 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef OPEN_C
-# define OPEN_C
+#ifndef INIT___C
+# define INIT___C
 
 /* -------- modules --------- */
 	// ---- access ----- //
-# include "reader.h"
+# include "reader__.h"
 
-/* ------- functions -------- */
+/* -------- inlines --------- */
 
 // doc ...
-__attribute__((cold, used))
-//	(-public-)
-extern char	open(\
-	const char *restrict const path,
-	unsigned int *restrict fd
-)	// v.1. >>> tag: exp->open
+__attribute__((always_inline, used))
+// (-internal-)
+extern inline char	__reader_init(\
+	t_reader_ *restrict const reader__
+)	// v.1. >>> tag: def->reader_init
 {
-	return (_open(path, fd));
+	char	code__;
+
+	*reader__ = (t_reader_){\
+		.find_ = _reader_find, \
+		.read_ = _reader_proc \
+	};
+	code__ = _reader_proc(0, ((void **) 0));
+	if (unexpect(code__ != no_error && code__ != reader_invalid_target_))
+		return (failed_to_setup);
+	return (no_error);
 }
 
 #endif
