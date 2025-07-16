@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/16 11:37:44 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/16 09:04:27 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "_builtin.h"
 #include <unistd.h>
 #include <sys/stat.h>
+#include <errno.h>
 
 /* -----| Modules   |----- */
 #include "builtin.h"
@@ -45,6 +46,7 @@ __attribute__((always_inline, used)) static inline char	_help(void)
  * @brief	Displays an error message based on the provided error code.
  * 
  * @param	error Error code indicating the type of error.
+ * @param	filename Name of the file or directory involved in the error.
  * 
  * @return	Returns EXIT_FAILURE to indicate an error.
 */
@@ -53,14 +55,7 @@ __attribute__((always_inline, used)) static inline char	_error(
 	const char *const filename
 )
 {
-	static const char *const	error_messages[4] = {
-	[builtin_error_too_many_args] = "cd: too many arguments\n",
-	[builtin_error_no_such_file] = "cd: %s: no such file or directory\n",
-	[builtin_error_not_a_directory] = "cd: not a directory\n",
-	[builtin_error_none] = ""
-	};
-
-	ft_fprintf(STDERR_FILENO, error_messages[error], filename);
+	ft_fprintf(2, RED "cd: <%s>: %s\n" RESET, filename, strerror(error));
 	return (EXIT_FAILURE);
 }
 
@@ -109,14 +104,12 @@ __attribute__((always_inline, used)) static inline char	_check_path(
 {
 	struct stat	statbuf;
 
-	if (_UNLIKELY(!path))
-		return (builtin_error_no_such_file);
-	else if (access(path, F_OK) != F_OK)
-		return (builtin_error_no_such_file);
+	if (_UNLIKELY(!path || !*path || access(path, F_OK) != F_OK))
+		return (ENOENT);
 	else if (stat(path, &statbuf) != 0)
-		return (builtin_error_not_a_directory);
-	else if (S_ISDIR(statbuf.st_mode) == 0)
-		return (builtin_error_not_a_directory);
+		return (errno);
+	else if (!S_ISDIR(statbuf.st_mode))
+		return (ENOTDIR);
 	else
 		return (builtin_error_none);
 }
@@ -163,7 +156,7 @@ __attribute__((used)) char	bltin_cd(
 	if (error)
 		return (_error(error, dest));
 	else if (chdir(dest) != 0)
-		return (_error(builtin_error_no_such_file, dest));
+		return (_error(errno, dest));
 	else
 		return (EXIT_SUCCESS);
 }
