@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   _init.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 08:52:57 by delta_0ne         #+#    #+#             */
-/*   Updated: 2025/05/23 11:14:56 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/06/12 16:05:28 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,16 @@
 	// ---- access ----- //
 # include "history.h"
 
-/* ------- functions -------- */
+/* -------- inlines --------- */
 
 // doc ...
-__attribute__((cold, used))
+__attribute__((always_inline, used))
 //	(-public-)
-extern char	init_history(\
-	t_histo *restrict history
-)	// v.1. >>> tag: exp->init_history
+extern inline char	histo_init(\
+	t_histo_ *restrict histo
+)	// v.1. >>> tag: exp->histo_init
 {
-	return (_init_history((t_histo_ *restrict)history));
+	return (__histo_init(histo));
 }
 
 #endif

@@ -17,10 +17,9 @@
 
 /* -------- modules --------- */
 	// --- internals ---- //
-# include "_internal_/_standards.h"
+# include "../_internal_/_standards.h"
 
 	// ----- locals ----- //
-# include "types.h"
-# include "wrappers/wrappers.h"
+# include "./types.h"
 
 #endif

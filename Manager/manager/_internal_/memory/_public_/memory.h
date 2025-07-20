@@ -24,9 +24,9 @@
 
 /* ------- prototypes ------- */
 	// ---- public ----- //
-// init :
-extern char			mem_init(\
-						void *restrict const mem
+// setup :
+extern char			mem_setup(\
+						void **mem
 						)
 					__attribute__((\
 						cold, used, \

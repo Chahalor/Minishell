@@ -23,7 +23,7 @@
 __attribute__((always_inline, used))
 //	(-internal-) x (-local-)
 static inline char	__reader_return(\
-	t_container_ *container__,
+	t_container__ *container__,
 	const t_mem *restrict const mem__,
 	char **buffer__,
 	const unsigned int len__
@@ -59,7 +59,7 @@ static inline char	__reader_return(\
 __attribute__((always_inline, used))
 //	(-internal-)
 extern inline char	__reader_read(\
-	t_container_ **container__,
+	t_container__ **container__,
 	const t_mem *restrict const mem__,
 	const unsigned int target__,
 	char **buffer__
@@ -99,16 +99,16 @@ extern inline char	__reader_proc(\
 	char **buffer__
 )	// v.1. >>> tag: def->_reader_proc
 {
-	t_container_	*container__;
+	t_container__	*container__;
 
-	if (unexpect(target__ > 0)
+	if (unexpect(target__ > 0))
 		return (reader_invalid_target_);
 	else if (unexpect(\
 				_reader_find((unsigned char [1]){reader_container_}, \
 							(char *)target__, (void **)container__) \
 				!= no_error))
 		if (unexpect(\
-				_reader_add_container(mem__, target__, (void **)&container__) \
+				_reader_add_container(target__, (void **)&container__) \
 				!= no_error))
 			return (reader_fatal_crash_);
 	if (unexpect(!target__))

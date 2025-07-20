@@ -26,7 +26,7 @@
 #  define E_READER__
 
 // all internal reader modes for module methods.
-enum e_mem_modes__	// v.1. >>> tag: set->e_mem_modes
+enum e_reader_modes__	// v.1. >>> tag: set->e_reader_modes
 {
 	reader_container__		= +0,
 	reader_file__			= +1,

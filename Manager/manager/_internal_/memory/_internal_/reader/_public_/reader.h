@@ -16,35 +16,21 @@
 # pragma once
 
 /* -------- modules --------- */
-	// --- internals --- //
-# include "_internal_/_reader.h"
+	// --- internal ---- //
+# include "../_internal_/reader__.h"
+
+	// ----- local ----- //
+# include "./types.h"
 
 /* ------- prototypes ------- */
-	// ---- exposed ---- //
-// open :
-extern char		open(\
-					const char *restrict const path,
-					unsigned int *restrict fd
-					)
-				__attribute__((\
-					cold, used, \
-					visibility("default")));
-// read :
-extern char		read(\
-					unsigned int *restrict fd,
-					char *restrict const buffer
-					)
-				__attribute__((\
-					hot, used, \
-					visibility("default")));
-// write :
-extern char		write(\
-					const unsigned int fd,
-					const char *restrict const buffer,
-					const unsigned int size
-					)
-				__attribute__((\
-					hot, used, \
-					visibility("default")));
+	// ---- public ----- //
+// setup :
+extern char reader_setup(\
+				t_reader **reader,
+				const t_mem *restrict const mem
+				)
+			__attribute__((\
+				always_inline, used, \
+				visibility("default")));
 
 #endif

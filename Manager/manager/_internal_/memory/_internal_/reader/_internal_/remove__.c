@@ -23,12 +23,12 @@
 __attribute__((always_inline, used))
 // (-internal-)
 extern inline char	__reader_remove_container(\
-	const t_reader_ *restrict const reader__,
+	const t_reader__ *restrict const reader__,
 	const t_mem *restrict const mem__,
 	const unsigned int target__
 )	// v.1. >>> tag: def->_reader_remove_container
 {
-	t_container_	*container__;
+	t_container__	*container__;
 	char			code__;
 
 	if (unexpect(\

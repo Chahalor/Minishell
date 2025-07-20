@@ -18,6 +18,6 @@
 
 /* -------- modules --------- */
 	// --- externals --- //
-# include "../../_internal_/_standards.h"
+# include "../../_standards.h"
 
 #endif
