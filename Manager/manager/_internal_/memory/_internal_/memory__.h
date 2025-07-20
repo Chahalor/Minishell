@@ -18,6 +18,8 @@
 /* -------- modules --------- */
 	// ----- local ----- //
 # include "./types__.h"
+# include "reader/_public_/reader.h"
+# include "writer/_public_/writer.h"
 
 	// ---- private ---- //
 # include "../_private_/memory_.h"

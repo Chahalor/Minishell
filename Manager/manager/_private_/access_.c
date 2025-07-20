@@ -10,22 +10,24 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ACCESS_C
-# define ACCESS_C
+#ifndef ACCESS__C
+# define ACCESS__C
 
 /* -------- modules --------- */
 	// ---- access ----- //
-# include "manager.h"
+# include "manager_.h"
 
 /* ------- functions -------- */
 
+// doc ...
 __attribute__((hot, used))
-//	(-public-)
-extern t_manager	*get_manager(\
-	t_manager	*restrict const new
-)	// v.1. >>> tag: exp->get_manager
+//	(-private-)
+extern inline t_manager_	*_manager(\
+	t_manager_	*restrict const new_
+)	// v.1. >>> tag: exp->_manager
 {
-	return (_get_manager(new));
+	return (__manager(new_));
 }
+
 
 #endif

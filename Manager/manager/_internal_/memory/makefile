@@ -9,12 +9,17 @@ PUBLIC			:= _public_
 GLOBAL			:= ../../..
 CONFIG			:= $(GLOBAL)/config
 STANDARDS		:= $(GLOBAL)/standards
-WRAPPERS		:= $(STANDARDS)/wrappers
+WRAPPERS		:= $(STANDARDS)/$(INTERNAL)/wrappers
+READER			:= $(INTERNAL)/reader
+WRITER			:= $(INTERNAL)/writer
+LIB_READER		:= $(READER)/reader.a
+LIB_WRITER		:= $(WRITER)/writer.a
+LIBS       		:= $(LIB_READER) $(LIB_WRITER)
 
 INCLUDES		:= \
-				$(CONFIG)/$(INTERNAL)/_default.h \
-				$(CONFIG)/$(INTERNAL)/_config.h \
-				$(CONFIG)/config.h \
+				$(CONFIG)/$(INTERNAL)/default__.h \
+				$(CONFIG)/$(INTERNAL)/config__.h \
+				$(CONFIG)/$(PUBLIC)/config.h \
 				\
 				$(STANDARDS)/$(INTERNAL)/_dependencies.h \
 				$(STANDARDS)/$(INTERNAL)/_types.h \
@@ -22,9 +27,9 @@ INCLUDES		:= \
 				$(STANDARDS)/$(INTERNAL)/_standards.h \
 				$(WRAPPERS)/$(INTERNAL)/_types.h \
 				$(WRAPPERS)/$(INTERNAL)/_wrappers.h \
-				$(WRAPPERS)/wrappers.h \
-				$(STANDARDS)/types.h \
-				$(STANDARDS)/standards.h \
+				$(WRAPPERS)/$(PUBLIC)/wrappers.h \
+				$(STANDARDS)/$(PUBLIC)/types.h \
+				$(STANDARDS)/$(PUBLIC)/standards.h \
 				\
 				$(INTERNAL)/types__.h \
 				$(INTERNAL)/memory__.h \
@@ -37,7 +42,7 @@ INCLUDES		:= \
 
 SRC				:= \
 				$(WRAPPERS)/$(INTERNAL)/_expect.c \
-				$(WRAPPERS)/expect.c \
+				$(WRAPPERS)/$(PUBLIC)/expect.c \
 				\
 				$(INTERNAL)/format__.c \
 				$(INTERNAL)/access__.c \
@@ -84,19 +89,29 @@ _build_/%.o: $(GLOBAL)/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
 
-all: $(NAME)
+$(LIB_READER):
+	@$(MAKE) -C $(READER)
 
-$(NAME): $(OBJ)
-	$(AR) rcs $@ $^
+$(LIB_WRITER):
+	@$(MAKE) -C $(WRITER)
+
+all: $(LIBS) $(NAME)
+
+$(NAME): $(OBJ) $(LIBS)
+	$(AR) rcs $@ $(OBJ) $(LIBS)
 
 clean:
-	@rm -rf _build_ $(OBJ) $(DEP)
+	@rm -rf _build_
+	@$(MAKE) -C $(READER) clean
+	@$(MAKE) -C $(WRITER) clean
 
 fclean: clean
 	@rm -f $(NAME)
+	@$(MAKE) -C $(READER) fclean
+	@$(MAKE) -C $(WRITER) fclean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re $(LIB_READER) $(LIB_WRITER)
 
 -include $(DEP)

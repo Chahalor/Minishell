@@ -144,6 +144,8 @@ struct s_mem_	// v.1. >>> .
 {
 	// data :
 	char			_internal_[sizeof(t_mem__)];
+	t_reader		reader_;
+	t_writer		writer_;
 	// >>>
 	// access :
 	char			(*alloc_)(\

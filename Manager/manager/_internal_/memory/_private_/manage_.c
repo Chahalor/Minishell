@@ -28,8 +28,12 @@ extern int	_mem_manage(\
 	const unsigned int size_
 )	// v.1. >>> .
 {
-	return (__mem_manage((t_mem__ *)_mem_self()->_internal_, \
-				mode_, area_, size_));
+	t_mem__	*mem__;
+
+	mem__ = (t_mem__ *)_mem_self()->_internal_;
+	if (unexpect(!mem__))
+		return (0);
+	return (__mem_manage(mem__, mode_, area_, size_));
 }
 
 #endif

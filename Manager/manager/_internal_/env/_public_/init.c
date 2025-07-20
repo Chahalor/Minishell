@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   _init.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 08:52:57 by delta_0ne         #+#    #+#             */
-/*   Updated: 2025/05/23 15:07:47 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/05/26 12:40:27 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,16 @@
 	// ---- access ----- //
 # include "env.h"
 
-/* ------- functions -------- */
+/* -------- inlines --------- */
 
 // doc ...
-__attribute__((cold, used))
+__attribute__((always_inline, used))
 //	(-public-)
-extern char	init_env(\
-	t_env *restrict env
-)	// v.1. >>> tag: exp->init_env
+extern inline char	env_init(\
+	t_env *restrict const env
+)	// v.1. >>> tag: exp->env_init
 {
-	return (_init_env((t_env_ *restrict)env));
+	return (__env_init((t_env_ *)env));
 }
 
 #endif

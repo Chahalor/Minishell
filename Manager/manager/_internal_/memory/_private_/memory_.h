@@ -24,6 +24,13 @@
 
 /* ------- prototypes ------- */
 	// ---- private ---- //
+// init :
+extern char			_mem_init(\
+						t_mem_ *restrict const mem_
+						)
+					__attribute__((\
+						always_inline, used, \
+						visibility("hidden")));
 // format :
 extern unsigned int	_mem_format(\
 						const unsigned char *restrict const mode_,

@@ -32,7 +32,13 @@ extern char			__reader_init(\
 						always_inline, used, \
 						visibility("hidden")));
 // setup :
-// ...
+extern char			__reader_setup(\
+						t_reader_ **reader__,
+						const t_mem *restrict const mem__
+						)
+					__attribute__((\
+						always_inline, used, \
+						visibility("hidden")));
 // access :
 extern t_reader_	*__reader_get(\
 						t_reader_	*restrict const new__
@@ -46,7 +52,7 @@ extern t_reader_	*__reader_self(void)
 						visibility("hidden")));
 // add :
 extern char			__reader_add_container(\
-						const t_reader_ *restrict const reader__,
+						const t_reader__ *restrict const reader__,
 						const t_mem *restrict const mem__,
 						const unsigned int target__,
 						void **buffer__
@@ -56,7 +62,7 @@ extern char			__reader_add_container(\
 						visibility("hidden")));
 // remove :
 extern char			__reader_remove_container(\
-						const t_reader_ *restrict const reader__,
+						const t_reader__ *restrict const reader__,
 						const t_mem *restrict const mem__,
 						const unsigned int target__
 						)
@@ -73,7 +79,7 @@ extern char			__reader_find(\
 						always_inline, used, \
 						visibility("hidden")));
 extern char 		__reader_find_container(\
-						const t_reader_ *restrict const reader__,
+						const t_reader__ *restrict const reader__,
 						const unsigned int target__,
 						void **buffer__
 						)
@@ -89,7 +95,7 @@ extern char			__reader_find_file(\
 						visibility("hidden")));
 // read :
 extern char			__reader_proc(\
-						t_reader_ *restrict const reader__,
+						t_reader__ *restrict const reader__,
 						const t_mem *restrict const mem__,
 						const int target__,
 						char **buffer__

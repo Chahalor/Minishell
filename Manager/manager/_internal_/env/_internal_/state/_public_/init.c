@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   _init.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 08:52:57 by delta_0ne         #+#    #+#             */
-/*   Updated: 2025/05/23 15:10:15 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/05/27 10:16:30 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,16 @@
 	// ---- access ----- //
 # include "state.h"
 
-/* ------- functions -------- */
+/* -------- inlines --------- */
 
 // doc ...
-__attribute__((cold, used))
+__attribute__((always_inline, used))
 //	(-public-)
-extern char	init_state(\
-	t_state *restrict state
-)	// v.1. >>> tag: exp->init_state
+extern inline char	state_init(\
+	t_state *restrict const state
+)	// v.1. >>> tag: exp->state_init
 {
-	return (_init_state((t_state_ *restrict)state));
+	return (__state_init((t_state_ *)state));
 }
 
 #endif
