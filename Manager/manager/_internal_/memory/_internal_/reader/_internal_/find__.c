@@ -23,7 +23,7 @@
 __attribute__((always_inline, used))
 // (-internal-)
 extern inline char __reader_find_container(\
-	const t_reader_ *restrict const reader__,
+	const t_reader__ *restrict const reader__,
 	const unsigned int target__,
 	void **buffer__
 )	// v.1. >>> tag: def->_reader_find_container
@@ -35,7 +35,7 @@ extern inline char __reader_find_container(\
 	current__ = reader__->gate__;
 	while (TRUE)
 	{
-		if (current__->fd__ == target__)
+		if (current__->target__ == target__)
 			return ((void)(*buffer__ = current__), no_error);
 		else if (unexpect(!current__->gate__))
 			return ((void)(*buffer__ = current__), reader_not_registered_);

@@ -24,7 +24,7 @@ __attribute__((always_inline, used))
 // (-internal-)
 extern inline char	__reader_init(\
 	t_reader_ *restrict const reader__
-)	// v.1. >>> tag: def->reader_init
+)	// v.1. >>> tag: def->_reader_init
 {
 	char	code__;
 
@@ -32,8 +32,10 @@ extern inline char	__reader_init(\
 		.find_ = _reader_find, \
 		.read_ = _reader_proc \
 	};
+	if (unexpect(!_reader_get(reader__)))
+		return (failed_to_setup);
 	code__ = _reader_proc(0, ((void **) 0));
-	if (unexpect(code__ != no_error && code__ != reader_invalid_target_))
+	if ((unexpect(code__ != no_error && code__ != reader_invalid_target_)))
 		return (failed_to_setup);
 	return (no_error);
 }

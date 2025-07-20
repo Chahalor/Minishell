@@ -85,6 +85,8 @@ struct s_mem	// v.1. >>> tag: exp->s_mem
 {
 	// data :
 	char			_internal_[sizeof(t_mem__)];
+	t_reader		reader;
+	t_writer		writer;
 	// >>>
 	// access :
 	char			(*alloc)(\

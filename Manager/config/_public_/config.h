@@ -17,6 +17,6 @@
 
 /* -------- modules --------- */
 	// --- internals --- //
-# include "_internal_/_config.h"
+# include "../_internal_/config__.h"
 
 #endif

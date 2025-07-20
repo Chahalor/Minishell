@@ -17,7 +17,7 @@
 
 /* -------- modules --------- */
 	// --- internals --- //
-# include "_internal_/_wrappers.h"
+# include "../_internal_/_wrappers.h"
 
 /* ------- prototypes ------- */
 	// ---- exposed ---- //

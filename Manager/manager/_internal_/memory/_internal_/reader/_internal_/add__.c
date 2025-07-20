@@ -23,7 +23,7 @@
 __attribute__((always_inline, used))
 // (-internal-)
 extern inline char	__reader_add_container(\
-	const t_reader_ *restrict const reader__,
+	const t_reader__ *restrict const reader__,
 	const t_mem *restrict const mem__,
 	const unsigned int target__,
 	void **buffer__
@@ -36,7 +36,7 @@ extern inline char	__reader_add_container(\
 
 	if (unexpect(\
 			mem__->alloc((unsigned char [1]){mem_new}, (void **)&container__, \
-						alloc_size__, mem_buffer) \
+						size__, mem_buffer) \
 			!= no_error))
 		return (error);
 	base__ = (void *)((char *)container__ + reader_container_size_);

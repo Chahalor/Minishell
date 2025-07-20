@@ -26,7 +26,7 @@
 #  define E_READER_
 
 // all private reader modes for module methods.
-enum e_mem_modes_	// v.1. >>> tag: exp->e_mem_modes_
+enum e_reader_modes_	// v.1. >>> tag: exp->e_reader_modes_
 {
 	reader_container_		= reader_container__,
 	reader_file_			= reader_container__,
@@ -73,8 +73,8 @@ struct s_reader_		// v.1. >>> def:  exp->s_reader_
 	// >>>
 	// access :
 	char		(*find_)(\
-						const unsigned char *restrict const,
-						const char *,
+						const unsigned char *restrict const, \
+						const char *, \
 						void **);
 	char		(*read_)(\
 						const int, \

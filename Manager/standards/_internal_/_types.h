@@ -18,7 +18,7 @@
 
 /* -------- modules --------- */
 	// ----- config ----- //
-# include "../../config/config.h"
+# include "../../config/_public_/config.h"
 
 	// ----- locals ----- //
 # include "./_dependencies.h"
