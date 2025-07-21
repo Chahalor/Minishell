@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage__.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
+/*   By: Delta_0ne <romain.creuzeau.pro@gmail.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 08:52:57 by delta_0ne         #+#    #+#             */
-/*   Updated: 2025/06/20 10:51:52 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/07/21 13:03:46 by Delta_0ne        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,14 @@ extern inline int	__mem_manage(\
 	else if (mode__[0] == mem_keep_)
 	{
 		index__ = _mem_search((unsigned char [2]){mem_keep_, mem_empty_}, \
-						NULL, NULL);
+							NULL, NULL);
 		if (index__ != -1)
 		{
 			mem__->free__[index__] = size__;
 			mem__->pool__[index__] = area__;
 		}
+		else
+			_mem_clean((unsigned char [1]){mem_ptr}, none, area__, size__);
 	}
 	else if (mode__[0] == mem_drop_)
 		mem__->total__ -= size__;
