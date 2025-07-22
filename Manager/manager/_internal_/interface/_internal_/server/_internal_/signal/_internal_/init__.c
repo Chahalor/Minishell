@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:46:24 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/22 14:46:32 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/22 15:09:40 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ extern volatile sig_atomic_t	g_last_signal;
  * 
  * @version 1.1
 */
-__attribute__((cold, visibility("hidden"))) void	_sigint_handler(
+__attribute__((cold, always_inline)) void	_sigint_handler__(
 	int signal,
 	siginfo_t *info,
 	void *context
@@ -49,7 +49,6 @@ __attribute__((cold, visibility("hidden"))) void	_sigint_handler(
 	(void)info;
 	(void)context;
 	g_last_signal = signal;
-	// get_read_lines()->reset_cmd();
 }
 
 /**
@@ -67,7 +66,7 @@ __attribute__((cold, visibility("hidden"))) void	_sigint_handler(
  * 
  * @version 1.1
 */
-__attribute__((cold, visibility("hidden"))) void	_sigquit_handler(
+__attribute__((cold, always_inline)) void	_sigquit_handler__(
 	int signal,
 	siginfo_t *info,
 	void *context
@@ -92,7 +91,7 @@ __attribute__((cold, visibility("hidden"))) void	_sigquit_handler(
  * 
  * @version 1.0
 */
-__attribute__((cold, visibility("hidden"))) void	_sigstp_handler(
+__attribute__((cold, always_inline)) void	_sigstp_handler__(
 	int signal,
 	siginfo_t *info,
 	void *context
@@ -103,7 +102,7 @@ __attribute__((cold, visibility("hidden"))) void	_sigstp_handler(
 	g_last_signal = signal;
 }
 
-__attribute__((always_inline, used)) inline int	reset_signal(void)
+__attribute__((always_inline, used)) inline int	_reset_signal__(void)
 {
 	return (
 		signal(SIGINT, SIG_DFL) == SIG_ERR
@@ -111,3 +110,5 @@ __attribute__((always_inline, used)) inline int	reset_signal(void)
 		|| signal(SIGTSTP, SIG_DFL) == SIG_ERR
 	);
 }
+
+#pragma endregion Fonctions
