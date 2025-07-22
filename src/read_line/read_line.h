@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:08:04 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/18 09:29:46 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/22 15:17:07 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,11 @@ struct	s_read_line
 /*                                 Prototypes                                 */
 /* ************************************************************************** */
 
-t_read_line	*get_read_lines(void);
+char		*read_line(const char *restrict prompt);
+char		*rl_add_history(const char *const restrict line);
+void		rl_clear_history(void);
+int			rl_load_history(const char *const restrict filename);
+t_history	*rl_get_history(void);
+void		rl_reset_cmd(void);
 
 #endif /* READ_LINE_H */

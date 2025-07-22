@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/26 13:23:22 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/22 15:17:23 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	bltin_history(
 	const int fd_out
 )
 {
-	const t_history	*rl = get_read_lines()->get_all_history();
+	const t_history	*rl = rl_get_history();
 	const int		help = _parse(args);
 	register int	i;
 

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:06:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/18 09:30:32 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/22 15:22:32 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
  * 
  * @version 2.0
  */
-__attribute__((visibility("hidden"), used, hot, malloc)) char	*_read_line(
+__attribute__((used, hot, malloc)) char	*read_line(
 	const char *const restrict prompt
 )
 {
@@ -73,7 +73,7 @@ __attribute__((visibility("hidden"), used, hot, malloc)) char	*_read_line(
  * 
  *  @version 1.0
 */
-__attribute__((visibility("hidden"), used)) char	*_rl_add_history(
+__attribute__((used)) char	*rl_add_history(
 	const char *const restrict line
 )
 {
@@ -89,7 +89,7 @@ __attribute__((visibility("hidden"), used)) char	*_rl_add_history(
  * 
  * @version 1.0
 */
-__attribute__((visibility("hidden"), used, cold)) void	_rl_clear_history(void)
+__attribute__((used, cold)) void	rl_clear_history(void)
 {
 	_history_manager(rl_clear, NULL);
 	return ;
@@ -106,25 +106,28 @@ __attribute__((visibility("hidden"), used, cold)) void	_rl_clear_history(void)
  * 
  * @version 1.0
 */
-__attribute__((visibility("hidden"), used, cold)) int	_rl_load_history(
+__attribute__((used, cold)) int	rl_load_history(
 	const char *const restrict filename
 )
 {
 	return (_history_manager(rl_load, filename) == NULL);
 }
 
-__attribute__((cold, unused))	t_read_line	*get_read_lines(void)
+__attribute__((used, cold)) t_history	*rl_get_history(void)
 {
-	static t_read_line	rl = {
-		.read_line = _read_line,
-		.add_history = _rl_add_history,
-		.clear_history = _rl_clear_history,
-		.load_history = _rl_load_history,
-		.reset_cmd = _rl_reset_cmd,
-		.get_all_history = _rl_get_all
-	};
+	return ((t_history *)_history_manager(rl_get_all, NULL));
+}
 
-	return (&rl);
+/** */
+__attribute__((used, cold)) void	rl_reset_cmd(void)
+{
+	struct termios	t;
+
+	tcgetattr(STDIN_FILENO, &t);
+	t.c_lflag |= (ICANON | ECHO);
+	tcsetattr(STDIN_FILENO, TCSANOW, &t);
+	_set_default(&t);
+	return ;
 }
 
 #pragma endregion Fonctions
