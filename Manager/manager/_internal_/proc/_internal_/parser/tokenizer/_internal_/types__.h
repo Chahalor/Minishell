@@ -28,19 +28,19 @@
 // all internal token module types.
 enum e_token_type__	// v.1. >>> tag: set->e_token_type_
 {
-	token_word__		= +0,
-	token_pipe__		= '|',
-	token_left__		= '<',
-	token_right__		= '>',
-	token_dleft__		= '<' + '<',
-	token_dright__		= '>' + '>',
-	token_eof__			= +6,
+	token_word__	= +0,
+	token_pipe__	= '|',
+	token_left__	= '<',
+	token_right__	= '>',
+	token_dleft__	= '<' + '<',
+	token_dright__	= '>' + '>',
+	token_eof__		= +6,
 };
 
 // all internal token module error codes.
 enum e_token_errors__	// v.1. >>> tag: set->e_token_errors_
 {
-	none	// placeholder.
+	// ...
 };
 
 # endif
@@ -81,7 +81,7 @@ struct	s_token__		// v.1. >>> tag: def->s_token
 # endif
 
 /* ---------- size ---------- */
-	// ---- memory ----- //
+	// --- tokenizer --- //
 # ifndef SZ_TOKEN__
 #  define SZ_TOKEN__
 
@@ -89,12 +89,12 @@ struct	s_token__		// v.1. >>> tag: def->s_token
 enum e_token_sizes__	// v.1. >>> tag: set->e_token_sizes_
 {
 	// sizes :
-	token_object_size__	= (\
-							sizeof(t_token_object__)),
-	token_size__		= (\
-							sizeof(t_token_type__)),
+	token_object_size__		= (\
+								sizeof(t_token_object__)),
+	token_size__			= (\
+								sizeof(t_token__)),
 	// offsets :
-	// ...
+	token_object_offset__	= (0),
 };
 
 # endif
