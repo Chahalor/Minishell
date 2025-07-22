@@ -1,38 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*   parser__.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 08:52:57 by delta_0ne         #+#    #+#             */
-/*   Updated: 2025/05/29 12:53:06 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/06/25 15:45:12 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TOKENIZER_C
-# define TOKENIZER_C
+#ifndef PARSER__C
+# define PARSER__C
 
 /* -------- modules --------- */
 	// ---- access ----- //
-# include "tokenizer.h"
+# include "tokenizer_.h"
 
-/* ------- functions -------- */
+/* -------- inlines --------- */
 
 // doc ...
-__attribute__((hot, used))
-//	(-public-)
-extern char	tokenize(\
-	char *command
-)	// v.1. >>> tag: exp->tokenize
+__attribute__((always_inline, used))
+//	(-private-)
+extern inline void	_token_parse(\
+	const char **argv_,
+	const unsigned int argc_
+)	// v.1. >>> tag: exp->_token_parse
 {
-	t_manager_	*restrict	manager;
-
-	manager = get_manager(NULL);
-	return (_tokenize(\
-				(t_tokenizer_ *restrict const)&manager->proc._tokenizer, \
-				(const t_env *restrict const)&manager->env, \
-				command));
+	return (_token_parse(\
+				(t_token__ *)&_token_self()->_internal_, \
+				(t_mem *)&_manager()->mem, \
+				argv_, argc_));
 }
 
 #endif

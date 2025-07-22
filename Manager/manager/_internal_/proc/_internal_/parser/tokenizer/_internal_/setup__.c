@@ -21,8 +21,8 @@
 
 // doc ...
 __attribute__((always_inline, used))
-//	(-internal-)
-extern inline unsigned int	__token_size(\
+//	(-internal-) x (-local-)
+static inline unsigned int	__token_size(\
 	const t_mem *restrict const mem__,
 	const char **argv__,
 	const unsigned int argc__,
@@ -55,27 +55,26 @@ extern inline unsigned int	__token_size(\
 __attribute__((always_inline, used))
 //	(-internal-)
 extern inline char	__token_setup(\
+	t_token__ **token__,
 	const t_mem *restrict const mem__,
 	const char **argv__,
 	const unsigned int argc__
 )	// v.1. >>> tag: def->_token_setup
 {
-	t_token_				*token__;
 	void					*base__;
 	unsigned int			size__;
 	unsigned int			qty__;
 
 	size__ = __token_size(mem__, argv__, argc__, &qty__);
 	if (unexpect(\
-			mem__->alloc((unsigned char [1]){mem_new}, (void **)&token__, \
+			mem__->alloc((unsigned char [1]){mem_new}, (void **)token__, \
 						size__, mem_buffer)
 			!= no_error))
 		return (error);
 	base__ = (void *)((char *)token__ + token_size_);
 	*token__->_internal_ = (t_token__){\
 		.size__ = qty__, \
-		.content__ = (t_token_object__ *)mem__->section((void **)&base__, \
-														size__ - token_size_) \
+		.content__ = (t_token_object__ *)base__ \
 	};
 	return (no_error);
 }

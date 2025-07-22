@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer_.h                                       :+:      :+:    :+:   */
+/*   tokenizer__.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 08:52:57 by delta_0ne         #+#    #+#             */
-/*   Updated: 2025/06/25 14:31:15 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/06/25 14:35:34 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,40 @@
 
 /* ------- prototypes ------- */
 	// ---- private ---- //
+// access :
+extern t_token_	*_token_get(\
+					t_token_	*restrict const new_
+					)
+				__attribute__((\
+					hot, used, \
+					visibility("hidden")));
+extern t_token_	*_token_self(void)
+				__attribute__((\
+					hot, used, \
+					visibility("hidden")));
+// setup :
+extern char		_token_setup(\
+					const char **argv_,
+					const unsigned int argc_
+					)
+				__attribute__((\
+					always_inline, used, \
+					visibility("hidden")));
 // parser :
-// ...
+extern void		_token_parse(\
+					const char **argv_,
+					const unsigned int argc_
+					)
+				__attribute__((\
+					always_inline, used, \
+					visibility("hidden")));
+// token :
+extern char		_tokenize(\
+					const char **argv_,
+					const unsigned int argc_
+					)
+				__attribute__((\
+					hot, used, \
+					visibility("hidden")));
 
 #endif

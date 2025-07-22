@@ -1,32 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   setup__.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 08:52:57 by delta_0ne         #+#    #+#             */
-/*   Updated: 2025/05/29 12:56:00 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/06/25 15:42:05 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INIT_C
-# define INIT_C
+#ifndef SETUP__C
+# define SETUP__C
 
 /* -------- modules --------- */
 	// ---- access ----- //
-# include "tokenizer.h"
+# include "tokenizer_.h"
 
 /* -------- inlines --------- */
 
 // doc ...
 __attribute__((always_inline, used))
-//	(-public-)
-extern char	token_init(\
-	t_token *restrict const token
-)	// v.1. >>> tag: exp->token_init
+//	(-private-)
+extern inline char	_token_setup(\
+	const char **argv_,
+	const unsigned int argc_
+)	// v.1. >>> tag: exp->_token_setup
 {
-	return (__token_init(token));
+	return (__token_setup(\
+				(t_token__ *)&_token_self()->_internal_, \
+				(t_mem *)&_manager()->mem, \
+				argv_, argc_));
 }
 
 #endif

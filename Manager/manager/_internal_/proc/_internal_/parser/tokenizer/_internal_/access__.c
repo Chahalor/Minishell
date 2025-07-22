@@ -1,32 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   access__.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 08:52:57 by delta_0ne         #+#    #+#             */
-/*   Updated: 2025/05/29 12:56:00 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/06/27 10:37:24 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INIT_C
-# define INIT_C
+#ifndef ACCESS___C
+# define ACCESS___C
 
 /* -------- modules --------- */
 	// ---- access ----- //
-# include "tokenizer.h"
+# include "tokenizer__.h"
 
 /* -------- inlines --------- */
 
 // doc ...
 __attribute__((always_inline, used))
-//	(-public-)
-extern char	token_init(\
-	t_token *restrict const token
-)	// v.1. >>> tag: exp->token_init
+// (-internal-)
+extern inline t_token_	*__token_get(\
+	t_token_	*restrict const new__
+)	// v.1. >>> tag: def->_token_get
 {
-	return (__token_init(token));
+	static t_token_	*restrict	token__ = NULL;
+
+	if (unexpect(!token__ && new__))
+		token__ = new__;
+	return (token__);
+}
+
+// doc ...
+__attribute__((always_inline, used))
+// (-internal-)
+extern inline t_token_	*__token_self(void)	// v.1. >>> tag: def->_token_self
+{
+	return (_token_get(NULL));
 }
 
 #endif

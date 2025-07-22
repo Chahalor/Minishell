@@ -22,20 +22,55 @@
 	// ---- private ---- //
 # include "../_private_/tokenizer_.h"
 
-	// ---- global ----- //
-# include "../../../../../../_public_/manager.h"
-
 /* ------- prototypes ------- */
 	// --- internal ---- //
 // init :
-extern char	__token_init(\
-				t_token__ *restrict token__
-				const t_mem *restrict const mem__,
-				)
-			__attribute__((\
-				always_inline, used, \
-				visibility("hidden")));
-// methods :
-// ...
+extern char		__token_init(\
+					t_token_ *restrict const token__
+					)
+				__attribute__((\
+					always_inline, used, \
+					visibility("hidden")));
+// access :
+extern t_token_	*__token_get(\
+					t_token_	*restrict const new__
+					)
+				__attribute__((\
+					always_inline, used, \
+					visibility("hidden")));
+extern t_token_	*__token_self(void)
+				__attribute__((\
+					always_inline, used, \
+					visibility("hidden")));
+// setup :
+extern char		__token_setup(\
+					t_token__ **token__,
+					const t_mem *restrict const mem__,
+					const char **argv__,
+					const unsigned int argc__
+					)
+				__attribute__((\
+					always_inline, used, \
+					visibility("hidden")));
+// parser :
+extern void		__token_parse(\
+					t_token_ *restrict const token__,
+					const t_mem *restrict const mem__,
+					const char **argv__,
+					const unsigned int argc__
+					)
+				__attribute__((\
+					always_inline, used, \
+					visibility("hidden")));
+// token :
+extern char		__tokenize(\
+					t_token_ **token__
+					const t_mem *restrict const mem__,
+					const char **argv__,
+					const unsigned int argc__
+					)
+				__attribute__((\
+					always_inline, used, \
+					visibility("hidden")));
 
 #endif

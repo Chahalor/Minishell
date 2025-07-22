@@ -19,12 +19,10 @@
 
 /* -------- inlines --------- */
 
-// add a token next access function.
-
 // doc ...
 __attribute__((always_inline, used))
 //	(-internal-) x (-local-)
-extern inline char	__token_parse_separator(\
+static inline char	__token_parse_separator(\
 	t_token_ *restrict const token__,
 	const char *word__,
 	const unsigned int index__
@@ -48,7 +46,7 @@ extern inline char	__token_parse_separator(\
 // doc ...
 __attribute__((always_inline, used))
 //	(-internal-)
-extern inline char	__token_parse(\
+extern inline void	__token_parse(\
 	t_token_ *restrict const token__,
 	const t_mem *restrict const mem__,
 	const char **argv__,
@@ -76,7 +74,7 @@ extern inline char	__token_parse(\
 			token__->content__[j__++].type__ = token_word_;
 		}
 	}
-	return ((void)(token__->content__[j__].type__ = token_eof_));
+	token__->content__[j__].type__ = token_eof_;
 }
 
 #endif

@@ -23,16 +23,14 @@
 __attribute__((always_inline, used))
 //	(-internal-)
 extern inline char	__token_init(\
-	t_token__ *restrict token__
-	const t_mem *restrict const mem__,
-	const char **argv__,
-	const unsigned int argc__
+	t_token_ *restrict const token__
 )	// v.1. >>> tag: def->token_init
 {
-	*token__ = (t_token__){\
-		// ...
+	*token__ = (t_token_){\
+		.tokenize_  = _tokenize \
 	};
-	// here shall we allocate everything.
+	if (unexpect(!_token_get(token__)))
+		return (failed_to_setup);
 	return (no_error);
 }
 

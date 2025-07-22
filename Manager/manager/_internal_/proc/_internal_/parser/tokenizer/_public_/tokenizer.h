@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer.h                                        :+:      :+:    :+:   */
+/*   tokenizer__.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 08:52:57 by delta_0ne         #+#    #+#             */
-/*   Updated: 2025/05/29 12:56:39 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/06/25 14:35:34 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,20 @@
 # pragma once
 
 /* -------- modules --------- */
-	// --- internals --- //
-# include "_internal_/_tokenizer.h"
+	// --- internal ---- //
+# include "../_internal_/tokenizer__.h"
 
-	// ---- locals ----- //
+	// ----- local ----- //
 # include "./types.h"
 
 /* ------- prototypes ------- */
-	// ---- hidden ----- //
-// methods :
-extern char	tokenize(\
-				char *command
-				)
-			__attribute__((\
-				hot, used, \
-				visibility("hidden")));
-
-	// ---- exposed ---- //
+	// ---- public ----- //
 // init :
-extern char	init_tokenizer(\
-				t_tokenizer *restrict tokenizer
+extern char	token_init(\
+				t_token *restrict const token
 				)
 			__attribute__((\
-				cold, used, \
+				always_inline, used, \
 				visibility("default")));
 
 #endif
