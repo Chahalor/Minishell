@@ -1,52 +1,51 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   _tree.c                                            :+:      :+:    :+:   */
+/*   init__.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 08:52:57 by delta_0ne         #+#    #+#             */
-/*   Updated: 2025/06/02 15:31:09 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/06/25 14:39:07 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef _TREE_C
-# define _TREE_C
+#ifndef ADD___C
+# define ADD___C
 
 /* -------- modules --------- */
 	// ---- access ----- //
-# include "_tree.h"
+# include "tree__.h"
 
 /* -------- inlines --------- */
 
 // doc ...
 __attribute__((always_inline, used))
-// (-hidden-)
-extern inline char	_create(\
-	t_tree_ **restrict tree,
-	const unsigned char type
-)	// v.1. >>> tag: def->create
+//	(-internal-)
+extern inline t_tree	*__tree_cmd(\
+	t_mem *restrict const mem__,
+	const char *restrict const target__,
+	const char *restrict *restrict const args__
+)	// v.1. >>> tag: def->tree_cmd
 {
+	t_tree_	*cmd__;
+
 	if (unexpect(\
-			alloc(\
-				(void **)tree, \
-				sizeof(t_tree_)) \
+			mem__->alloc((unsigned char [1]){mem_new}, (void **)&cmd__, \
+						tree_size_, mem_buffer) \
 			!= no_error))
-		return (failed_to_allocate);
-	(*tree)->_type = type;
-	return (no_error);
+		return (error);
+	*cmd__ = (t_tree_){
+		.type__ = tree_cmd_, \
+		.content__ = (t_tree_cmd_){\
+			.builtin__ = TRUE, \ // placeholder as we'll need a function to determine that.
+			.target__ = target__, \
+			.args__ = args__, \
+			.redir__ = NULL \
+		} \
+	}
+	return (cmd__);
 }
 
-// doc ...
-__attribute__((always_inline, used))
-// (-hidden-) x (-local-)
-extern inline char	_redir(\
-	t_tree_ *restrict tree,
-	t_redir_ **redir
-)	// v.1. >>> .
-{
-	
-	return (no_error);
-}
 
 #endif
