@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 11:36:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/22 10:23:34 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/22 14:35:41 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@
  * 
  * @note	write nothing if the fd is -1.
 */
-__attribute__((visibility("hidden"), used))
-int	_add(
+__attribute__((always_inline, used))
+inline int	_add(
 	t_print *const restrict print,
 	const char c
 )
@@ -77,15 +77,15 @@ static inline int	_choose_arg__(
 	else if (symb == 'c')
 		return (print->add(print, va_arg(args, int)));
 	else if (symb == 'p')
-		return (writeptr(va_arg(args, void *), print));
+		return (addptr__(va_arg(args, void *), print));
 	else if (symb == 'd' || symb == 'i')
-		return (writedec(va_arg(args, int), print));
+		return (adddec__(va_arg(args, int), print));
 	else if (symb == 'u')
-		return (writedec(va_arg(args, unsigned int), print));
+		return (adddec__(va_arg(args, unsigned int), print));
 	else if (symb == 'x')
-		return (writehex(va_arg(args, unsigned int), print, LHEX_CHAR));
+		return (addhex__(va_arg(args, unsigned int), print, LHEX_CHAR));
 	else if (symb == 'X')
-		return (writehex(va_arg(args, unsigned int), print, UHEX_CHAR));
+		return (addhex__(va_arg(args, unsigned int), print, UHEX_CHAR));
 	else if (symb == '%')
 		return (print->add(print, '%'));
 	else
@@ -106,8 +106,8 @@ static inline int	_choose_arg__(
  * 
  * @return	The number of characters written.
 */
-__attribute__((visibility("hidden"), used))
-int	write_loop__(
+__attribute__((always_inline, used))
+inline int	write_loop__(
 	const char *s,
 	va_list args,
 	t_print *const restrict print

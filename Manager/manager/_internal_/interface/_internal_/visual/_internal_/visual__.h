@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:27:18 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/22 10:27:19 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/22 14:37:45 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,34 +52,35 @@ extern t_print	_init_print(
 					int buffer_len
 					);
 
-int				_add(
+extern int		_add(
 					t_print *const restrict print,
 					const char c
 					);
 
 /* -----| printf  |----- */
-int				write_loop__(
+
+extern int		write_loop__(
 					const char *s,
 					va_list args,
 					t_print *const restrict print
 					);
 
-int				addstr__(
+extern int		addstr__(
 					const char *const restrict s,
 					t_print *const restrict print
 					);
 
-int				adddec__(
+extern int		adddec__(
 					long dec,
 					t_print *const restrict print
 					);
 
-int				addptr__(
+extern int		addptr__(
 					const void *const restrict ptr,
 					t_print *const restrict print
 					);
 
-int				addhex__(
+extern int		addhex__(
 					unsigned long nb,
 					t_print *const restrict print,
 					const char *const restrict base
