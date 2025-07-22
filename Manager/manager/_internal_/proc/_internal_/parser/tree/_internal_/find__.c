@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TREE___C
-# define TREE___C
+#ifndef FIND__C
+# define FIND___C
 
 /* -------- modules --------- */
 	// ---- access ----- //
@@ -22,13 +22,16 @@
 // doc ...
 __attribute__((always_inline, used))
 //	(-internal-)
-extern inline t_tree_	*__tree(\
-	t_tree_ *restrict const tree__,
-	t_mem *restrict const mem__,
-	const t_token *restrict const token__
-)	// v.1. >>> tag: def->tree
+extern inline t_tree_redir_	**__find_last_redir(\
+	t_tree *restrict const cmd__
+)	// v.1. >>> tag: def->_find_last_redir
 {
-	// ...
+	t_tree_redir_	**redir__;
+
+	redir__ = &cmd__->content__->cmd__.redir__;
+	while (*redir__)
+		redir__ = &(*redir__)->next__;
+	return (redir__);
 }
 
 #endif

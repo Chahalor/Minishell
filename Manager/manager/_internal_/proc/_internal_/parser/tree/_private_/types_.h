@@ -56,6 +56,8 @@ typedef enum e_tree_node_		t_tree_node_type_;
 typedef t_tree_redir__			t_tree_redir_;
 // v.1. >>> tag: exp->t_tree_cmd_
 typedef t_tree_cmd__			t_tree_cmd_;
+// v.1. >>> tag: exp->t_tree_pipe_
+typedef t_tree_pipe__			t_tree_pipe_;
 // v.1. >>> tag: exp->t_tree_
 typedef t_tree__				t_tree_;
 
@@ -72,6 +74,7 @@ enum e_tree_sizes_	// v.1. >>> tag: exp->e_tree_sizes_
 	// sizes :
 	tree_redir_size_	= tree_redir_size__,
 	tree_cmd_size_		= tree_cmd_size__,
+	tree_pipe_size_		= tree_pipe_size__,
 	tree_size_			= tree_size__,
 };
 

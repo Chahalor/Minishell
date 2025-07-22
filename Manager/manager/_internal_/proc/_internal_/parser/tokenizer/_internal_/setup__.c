@@ -27,7 +27,7 @@ static inline unsigned int	__token_size(\
 	const char **argv__,
 	const unsigned int argc__,
 	unsigned int *qty__
-)	// v.1. >>> tag: def->_token_size
+)	// v.1. >>> .
 {
 	register char			*word__;
 	unsigned int			size__;

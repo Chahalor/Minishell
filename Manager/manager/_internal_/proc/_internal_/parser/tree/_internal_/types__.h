@@ -56,6 +56,8 @@ typedef enum e_tree_node__			t_tree_node_type__;
 typedef struct s_tree_redir__		t_tree_redir__;
 // v.1. >>> tag: def->t_tree_cmd
 typedef struct s_tree_cmd__			t_tree_cmd__;
+// v.1. >>> tag: def->t_tree_pipe
+typedef struct s_tree_pipe__		t_tree_pipe__;
 // v.1. >>> tag: def->t_tree
 typedef struct s_tree__				t_tree__;
 
@@ -81,6 +83,12 @@ struct s_tree_cmd__		// v.1. >>> tag: def->s_tree_cmd
 	char				**args__;	// cmd args.
 	t_tree_redir__		*redir__;	// all related redirects.
 };
+// internal pipe representation struct.
+struct s_tree_pipe__	// v.1. >>> tag: def->s_tree_pipe
+{
+	t_tree__			*left__;	// left tree section of the pipe.
+	t_tree__			*right__;	// right tree section of the pipe.
+}
 // internal tree rooting struct.
 struct s_tree__			// v.1. >>> tag: def->s_tree
 {
@@ -88,11 +96,7 @@ struct s_tree__			// v.1. >>> tag: def->s_tree
 	union
 	{
 		t_tree_cmd__	cmd__;		// command.
-		struct
-		{
-			t_tree__	*left__;	// left tree section of the pipe.
-			t_tree__	*right__;	// right tree section of the pipe.
-		}				pipe__;		// pipe.
+		t_tree_pipe__	pipe__;		// pipe.
 	}					content__;	// >>>
 };
 
@@ -111,6 +115,8 @@ enum e_tree_sizes__	// v.1. >>> tag: set->e_tree_sizes_
 							sizeof(t_tree_redir__)),
 	tree_cmd_size__		= (\
 							sizeof(t_tree_cmd__)),
+	tree_pipe_size__	= (\
+							sizeof(t_tree_pipe__)),
 	tree_size__			= (\
 							sizeof(t_tree__)),
 };
