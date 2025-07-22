@@ -56,6 +56,8 @@ typedef enum e_tree_node			t_tree_node_type;
 typedef struct s_tree_redir			t_tree_redir;
 // v.1. >>> tag: exp->t_tree_cmd
 typedef struct s_tree_cmd			t_tree_cmd;
+// v.1. >>> tag: exp->t_tree_pipe
+typedef struct s_tree_pipe			t_tree_pipe;
 // v.1. >>> tag: exp->t_tree
 typedef struct s_tree				t_tree;
 
@@ -81,6 +83,12 @@ struct s_tree_cmd	// v.1. >>> tag: exp->s_tree_cmd
 	char				**args;
 	t_tree_redir		*redir;
 };
+// public pipe representation struct.
+struct s_tree_pipe	// v.1. >>> tag: exp->s_tree_pipe
+{
+	t_tree				*left;
+	t_tree				*right;
+}
 // public tree rooting struct.
 struct s_tree		// v.1. >>> tag: exp->s_tree
 {
@@ -88,11 +96,7 @@ struct s_tree		// v.1. >>> tag: exp->s_tree
 	union
 	{
 		t_tree_cmd		cmd;
-		struct
-		{
-			t_tree		*left;
-			t_tree		*right;
-		}				pipe;
+		t_tree_pipe		pipe;
 	}					content;
 };
 
