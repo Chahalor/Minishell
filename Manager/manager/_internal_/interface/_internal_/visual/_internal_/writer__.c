@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 08:48:17 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/22 10:10:36 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/22 14:36:17 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@
  * 
  * @return	1
 */
-__attribute__((visibility("hidden"), used))
-int	addstr__(
+__attribute__((always_inline, used))
+inline int	addstr__(
 	const char *const restrict s,
 	t_print *const restrict print
 )
@@ -57,8 +57,8 @@ int	addstr__(
  * 
  * @return	1
 */
-__attribute__((visibility("hidden"), used))
-int	addhex__(
+__attribute__((always_inline, used))
+inline int	addhex__(
 	unsigned long nb,
 	t_print *const restrict print,
 	const char *const restrict base
@@ -88,8 +88,8 @@ int	addhex__(
  * 
  * @return	1
 */
-__attribute__((visibility("hidden"), used))
-int	addptr__(
+__attribute__((always_inline, used))
+inline int	addptr__(
 	const void *const restrict ptr,
 	t_print *const restrict print
 )
@@ -112,8 +112,8 @@ int	addptr__(
  * 
  * @return	1
 */
-__attribute__((visibility("hidden"), used))
-int	adddec__(
+__attribute__((always_inline, used))
+inline int	adddec__(
 	long dec,
 	t_print *const restrict print
 )
