@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 11:04:36 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/22 14:43:15 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/22 15:07:10 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,24 @@
 /*                                 Prototypes                                 */
 /* ************************************************************************** */
 
-//...
+extern void	_sigint_handler__(
+				int signal,
+				siginfo_t *info,
+				void *context
+				);
+
+extern void	_sigquit_handler__(
+				int signal,
+				siginfo_t *info,
+				void *context
+				);
+
+extern void	_sigstp_handler__(
+				int signal,
+				siginfo_t *info,
+				void *context
+				);
+
+extern int	_reset_signal(void);
 
 #endif /* _SIGNALS_H */
