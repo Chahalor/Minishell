@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   interraction.h                                     :+:      :+:    :+:   */
+/*   _get_next_line.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/23 17:28:02 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/23 17:31:37 by nduvoid          ###   ########.fr       */
+/*   Created: 2025/05/23 14:34:51 by nduvoid           #+#    #+#             */
+/*   Updated: 2025/06/17 15:19:16 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INTERACTION_H
-# define INTERACTION_H
+#ifndef _GET_NEXT_LINE_H
+# define _GET_NEXT_LINE_H
 
 # pragma once
 
@@ -20,55 +20,64 @@
 /* ************************************************************************** */
 
 /* -----| Systems   |----- */
-	//...
+# include <stdlib.h>
+# include <unistd.h>
 
 /* -----| Globals   |----- */
 	//...
 
 /* -----| Internals |----- */
-# include "../_internal_/types__.h"
-# include "../_internal_/interraction__.h"
-
-/* -----| Modules  |----- */
 	//...
 
 /* ************************************************************************** */
-/*                                 Typedefs                                   */
+/*                                 Marcos                                     */
 /* ************************************************************************** */
 
-typedef struct s_history	t_history;
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 4096
+# endif
+
+# ifndef GNL_ALLOC_SIZE
+#  define GNL_ALLOC_SIZE 4096
+# endif
+
+# ifndef MAX_FD
+#  define MAX_FD 1024
+# endif
+
+/* ************************************************************************** */
+/*                                 typedefs                                   */
+/* ************************************************************************** */
+
+typedef struct s_gnl_storage	t_storage;	/* */
 
 /* ************************************************************************** */
 /*                                 Structs                                    */
 /* ************************************************************************** */
 
-
-struct	s_history
+struct s_gnl_storage
 {
-	char	*storage[_RL_HIST_SIZE + 1];	/* history storage   */
-	int		pos;							/* current position */
+	char	storage[BUFFER_SIZE + 1];	/**/
+	char	*line;						/**/
+	ssize_t	byte_read;					/**/
+	size_t	line_len;					/**/
+	int		storage_len;				/**/
+	char	status;						/**/
 };
 
 /* ************************************************************************** */
 /*                                 Prototypes                                 */
 /* ************************************************************************** */
 
-char	*read_line(
-				const char *const restrict prompt
-				);
+// utils
 
-char	*rl_add_history(
-				const char *const restrict line
-				);
+void	_reset(
+			t_storage *const storage
+			);
 
-void	rl_clear_history(void);
+char	_loop(
+			t_storage *const storage,
+			const int fd
+			);
 
-int		rl_load_history(
-				const char *const restrict filename
-				);
-
-t_history	*rl_get_history(void);
-
-void	rl_reset_cmd(void);
-
-#endif /* !INTERACTION_H */
+#endif /* _GET_NEXT_LINE_H */

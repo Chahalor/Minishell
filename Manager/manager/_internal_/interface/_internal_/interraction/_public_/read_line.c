@@ -6,17 +6,17 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:06:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/22 15:13:45 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/22 15:27:59 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma region Header
 /* -----| Internals |----- */
-#include "_read_line.h"
-#include "formating.h"
+#include "../_internal_/types__.h"
+#include "../_internal_/interraction__.h"
 
 /* -----| Modules  |----- */
-#include "read_line.h"
+	//...
 
 #pragma endregion Header
 #pragma region Fonctions
@@ -33,33 +33,11 @@
  * 
  * @version 2.0
  */
-__attribute__((visibility("hidden"), used, hot, malloc)) char	*_read_line(
+__attribute__((used, hot, malloc)) char	*read_line(
 	const char *const restrict prompt
 )
 {
-	t_rl_data	rl_data;
-
-	rl_data = (t_rl_data){
-		.result = mm_alloc(_RL_ALLOC_SIZE + 1),
-		.line_length = 0,
-		.cursor_pos = 0,
-		.prompt = (char *)prompt,
-		.prompt_length = ft_strlen(prompt),
-		.status = normal,
-	};
-	if (_UNLIKELY(!rl_data.result))
-		return (NULL);
-	_init_cmd(&rl_data);
-	rl_data.line_length = _read(&rl_data);
-	_set_default(&rl_data.terms.resore);
-	write(STDOUT_FILENO, "\033[?2004l\n", 9);
-	_history_manager(rl_reset_pos, NULL);
-	if (rl_data.status == eof)
-		return (mm_free(rl_data.result), memdup("\04", 1));
-	if (rl_data.status < exiting || !rl_data.line_length)
-		return (mm_free(rl_data.result), NULL);
-	else
-		return (rl_data.result);
+	return (_rl_read_line__(prompt));
 }
 
 /**
@@ -73,7 +51,7 @@ __attribute__((visibility("hidden"), used, hot, malloc)) char	*_read_line(
  * 
  *  @version 1.0
 */
-__attribute__((visibility("hidden"), used)) char	*_rl_add_history(
+__attribute__((used)) char	*rl_add_history(
 	const char *const restrict line
 )
 {
@@ -89,7 +67,7 @@ __attribute__((visibility("hidden"), used)) char	*_rl_add_history(
  * 
  * @version 1.0
 */
-__attribute__((visibility("hidden"), used, cold)) void	_rl_clear_history(void)
+__attribute__((used, cold)) void	rl_clear_history(void)
 {
 	_history_manager(rl_clear, NULL);
 	return ;
@@ -106,25 +84,22 @@ __attribute__((visibility("hidden"), used, cold)) void	_rl_clear_history(void)
  * 
  * @version 1.0
 */
-__attribute__((visibility("hidden"), used, cold)) int	_rl_load_history(
+__attribute__((used, cold)) int	rl_load_history(
 	const char *const restrict filename
 )
 {
 	return (_history_manager(rl_load, filename) == NULL);
 }
 
-__attribute__((cold, unused))	t_read_line	*get_read_lines(void)
+__attribute__((used, cold)) t_history	*rl_get_history(void)
 {
-	static t_read_line	rl = {
-		.read_line = _read_line,
-		.add_history = _rl_add_history,
-		.clear_history = _rl_clear_history,
-		.load_history = _rl_load_history,
-		.reset_cmd = _rl_reset_cmd,
-		.get_all_history = _rl_get_all
-	};
+	return ((t_history *)_history_manager(rl_get_all, NULL));
+}
 
-	return (&rl);
+/** */
+__attribute__((used, cold)) void	rl_reset_cmd(void)
+{
+	return (_rl_reset_cmd__());
 }
 
 #pragma endregion Fonctions
