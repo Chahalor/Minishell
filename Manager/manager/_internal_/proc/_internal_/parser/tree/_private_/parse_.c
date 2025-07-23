@@ -10,28 +10,46 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FIND___C
-# define FIND___C
+#ifndef PARSE__C
+# define PARSE__C
 
 /* -------- modules --------- */
 	// ---- access ----- //
-# include "tree__.h"
+# include "tree_.h"
 
-/* -------- inlines --------- */
+/* ------- functions -------- */
 
 // doc ...
-__attribute__((always_inline, used))
-//	(-internal-)
-extern inline t_tree_redir_	**__find_last_redir(\
-	t_tree *restrict const cmd__
-)	// v.1. >>> tag: def->_find_last_redir
+__attribute__((hot, used))
+//	(-private-)
+extern char	_tree_parse_redir(\
+	t_tree_ *restrict const cmd_,
+	const t_token_object *token_
+)	// v.1. >>> tag: exp->_tree_parse_redir
 {
-	t_tree_redir_	**redir__;
+	return (__tree_parse_redir((t_mem *)&_manager->mem, \
+								cmd_, token_));
+}
 
-	redir__ = &cmd__->content__->cmd__.redir__;
-	while (*redir__)
-		redir__ = &(*redir__)->next__;
-	return (redir__);
+// doc ...
+__attribute__((hot, used))
+//	(-private-)
+extern t_tree_	*_tree_parse_cmd(\
+	const t_token_object *token_
+)	// v.1. >>> tag: exp->_tree_parse_cmd
+{
+	return (__tree_parse_cmd((t_mem *)&_manager->mem, \
+							token_));
+}
+
+// doc ...
+__attribute__((hot, used))
+//	(-private-)
+extern t_tree_	*_tree_parse(\
+	const t_token_object *token_
+)	// v.1. >>> tag: exp->_tree_parse
+{
+	return (__tree_parse(token_));
 }
 
 #endif

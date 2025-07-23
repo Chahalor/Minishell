@@ -30,8 +30,8 @@ enum e_tree_redir_type__		// v.1. >>> tag: def->e_tree_redir_type
 {
 	tree_in__		= +0,	// input.
 	tree_out__		= +1,	// output.
-	tree_add__		= +2,	// append.
-	tree_air__		= +3,	// air doc.
+	tree_air__		= +2,	// air doc.
+	tree_add__		= +3,	// append.
 };
 
 // internal nodes types of tree module.
