@@ -22,29 +22,30 @@
 // doc ...
 __attribute__((always_inline, used))
 //	(-internal-)
-extern inline t_tree_	*__tree_cmd(\
+extern inline char	__tree_cmd(\
 	t_mem *restrict const mem__,
-	const char *restrict const target__,
-	const char *restrict *restrict const args__
+	t_tree **cmd__,
+	const unsigned int size__
 )	// v.1. >>> tag: def->_tree_cmd
 {
-	t_tree_	*cmd__;
+	void	*base__;
 
 	if (unexpect(\
-			mem__->alloc((unsigned char [1]){mem_new}, (void **)&cmd__, \
-						tree_size_, mem_buffer) \
+			mem__->alloc((unsigned char [1]){mem_new}, (void **)cmd__, \
+						tree_size_ + size__, mem_buffer) \
 			!= no_error))
 		return (error);
-	*cmd__ = (t_tree_){
+	base__ = (void *)((char *)*cmd__ + tree_cmd_size_);
+	**cmd__ = (t_tree_){
 		.type__ = tree_cmd_, \
 		.content__ = (t_tree_cmd_){\
-			.builtin__ = TRUE, \ // placeholder as we'll need a function to determine that.
-			.target__ = target__, \
-			.args__ = args__, \
+			.builtin__ = TRUE, \ // placeholder as we'll need a function to do that.
+			.target__ = NULL, \
+			.args__ = (char **)base__, \
 			.redir__ = NULL \
 		} \
 	}
-	return (cmd__);
+	return (no_error);
 }
 
 // doc ...
@@ -80,7 +81,7 @@ extern inline char	__tree_redir(\
 	t_mem *restrict const mem__,
 	t_tree *restrict const cmd__,
 	const t_tree_redir_type__ type__,
-	const char *restrict const target__,
+	const char *restrict const target__
 
 )	// v.1. >>> tag: def->_tree_redir
 {

@@ -13,3 +13,4 @@
 	- merge some tree add functions inside the root call functions.
 	- finish tree module.
 	- create a function to check if command is builtin (inside the tree).
+	- correct error where memory module cannot clean itself because of memory manager use when free also when free self.

@@ -1,42 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer__.h                                      :+:      :+:    :+:   */
+/*   init__.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 08:52:57 by delta_0ne         #+#    #+#             */
-/*   Updated: 2025/06/25 14:35:34 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/06/25 14:39:07 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TREE_H
-# define TREE_H
-
-# pragma once
+#ifndef FIND__C
+# define FIND__C
 
 /* -------- modules --------- */
-	// --- internal ---- //
-# include "../_internal_/tree__.h"
+	// ---- access ----- //
+# include "tree_.h"
 
-	// ----- local ----- //
-# include "./types.h"
+/* -------- inlines --------- */
 
-/* ------- prototypes ------- */
-	// ---- public ----- //
-// init :
-extern char	tree_init(\
-				t_tree *restrict const tree
-				)
-			__attribute__((\
-				always_inline, used, \
-				visibility("default")));
-// tree :
-extern char	tree(\
-				const t_token_object *token
-				)
-			__attribute__((\
-				hot, used, \
-				visibility("default")));
+// doc ...
+__attribute__((always_inline, used))
+//	(-private-)
+extern inline t_tree_redir_	**_find_last_redir(\
+	t_tree *restrict const cmd_
+)	// v.1. >>> tag: exp->_find_last_redir
+{
+	return (__find_last_redir(cmd_));
+}
 
 #endif
