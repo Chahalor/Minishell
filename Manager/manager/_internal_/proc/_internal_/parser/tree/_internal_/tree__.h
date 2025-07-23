@@ -42,6 +42,14 @@ extern t_tree_			*__tree_self(void)
 						__attribute__((\
 							always_inline, used, \
 							visibility("hidden")));
+// builtin :
+extern char				__tree_builtin(\
+							t_mem *restrict const mem__,
+							const char *restrict const target__
+							)
+						__attribute__((\
+							always_inline, used, \
+							visibility("hidden")));
 // add :
 extern char				__tree_cmd(\
 							t_mem *restrict const mem__,

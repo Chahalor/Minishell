@@ -69,7 +69,9 @@ extern inline t_tree_	*__tree_parse_cmd(\
 	while (token__->type__ == token_word)
 	{
 		if (unexpect(!size__ && ++size__))
-			cmd__->content__.cmd__.target__ = token__->content__;
+			*cmd__->content__.cmd__ = (t_tree_cmd_){\
+				_tree_builtin(token__->content__), token__->content__, \
+				token__->args__, token__->redir__};
 		else
 		{
 			cmd__->content__.cmd__.args__[size__++ - 1] = token__->content__;

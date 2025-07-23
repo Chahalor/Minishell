@@ -39,7 +39,7 @@ extern inline char	__tree_cmd(\
 	**cmd__ = (t_tree_){
 		.type__ = tree_cmd_, \
 		.content__ = (t_tree_cmd_){\
-			.builtin__ = TRUE, \ // placeholder as we'll need a function to do that.
+			.builtin__ = FALSE, \
 			.target__ = NULL, \
 			.args__ = (char **)base__, \
 			.redir__ = NULL \

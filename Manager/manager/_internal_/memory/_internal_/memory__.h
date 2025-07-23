@@ -144,8 +144,7 @@ extern char			__mem_clean_ptr(\
 						always_inline, used, \
 						visibility("hidden")));
 extern char			__mem_clean_all(\
-						const char code__,
-						void *ptr__
+						const char code__
 						)
 					__attribute__((\
 						always_inline, used, \
