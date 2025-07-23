@@ -35,6 +35,13 @@ extern t_tree_			*_tree_self(void)
 						__attribute__((\
 							hot, used, \
 							visibility("hidden")));
+// builtin :
+extern char				_tree_builtin(\
+							const char *restrict const target_
+							)
+						__attribute__((\
+							always_inline, used, \
+							visibility("hidden")));
 // add :
 extern char				_tree_cmd(\
 							t_tree **cmd_,

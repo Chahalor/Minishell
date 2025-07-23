@@ -58,7 +58,16 @@ extern inline char	__mem_clean_ptr(\
 	alloc__ = _mem_to_alloc(ptr__);
 	if (unexpect(!alloc__))
 		return (mem_rewinding_failure_);
-	_mem_manage((unsigned char [1]){mem_drop_}, ptr__, size__);
+	if (expect(ptr__ != _manager() && ptr__ != _mem_self()))
+		_mem_manage((unsigned char [1]){mem_drop_}, ptr__, size__);
+	else if (ptr__ == _manager())
+	{
+		free(alloc__);
+		alloc__ = _mem_to_alloc(_mem_self());
+		if (unexpect(!alloc__))
+			return (mem_rewinding_failure_);
+		return (free(alloc__), code__);
+	}
 	return (free(alloc__), code__);
 }
 
@@ -66,12 +75,14 @@ extern inline char	__mem_clean_ptr(\
 __attribute__((always_inline, used))
 // (-internal-)
 extern inline char	__mem_clean_all(\
-	const char code__,
-	void *ptr__
+	const char code__
 )	// v.1. >>> tag: def->mem_clean_all
 {
-	(void)ptr__;
-	return (exit(code__), no_error);
+	char	error__;
+
+	// shall liquidate tree, token, etc ... here
+	error__ = _mem_clean((unsigned char [1]){mem_ptr}, code__, _manager(), 0);
+	return (exit(error__), no_error);
 }
 
 // doc ...
