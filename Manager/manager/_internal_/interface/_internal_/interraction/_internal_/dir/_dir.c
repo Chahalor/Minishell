@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/24 08:30:01 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/24 08:54:27 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,14 @@ static inline int	_show_cmds__(
 	struct dirent	*entry;
 
 	paths = ft_split(getenv("PATH"), ':');
-	if (_UNLIKELY(!paths))
+	if (unexpect(!paths))
 		return (-2);
 	_add_builtin(dt, word);
 	i = -1;
 	while (paths[++i] && dt->nb_entries < _RL_COMP_LIMIT)
 	{
 		dir = opendir(paths[i]);
-		if (_UNLIKELY(!dir))
+		if (unexpect(!dir))
 			continue ;
 		entry = readdir(dir);
 		while (entry && dt->nb_entries < _RL_COMP_LIMIT)
@@ -116,10 +116,10 @@ static inline int	_show_paths__(
 
 	path_dir = _get_dir(word);
 	path_file = _get_file(word);
-	if (_UNLIKELY(!path_dir || !path_file))
+	if (unexpect(!path_dir || !path_file))
 		return (free(path_dir), free(path_file), -1);
 	dir = opendir(path_dir);
-	if (_UNLIKELY(!dir))
+	if (unexpect(!dir))
 		return (1);
 	entry = readdir(dir);
 	while (entry && data->nb_entries < _RL_COMP_LIMIT)
@@ -166,7 +166,7 @@ static inline int	_show__(
 		else
 			ft_printf(BOLD "%s " RESET, completion->entry[i]->d_name);
 	}
-	if (_LIKELY(i))
+	if (expect(i))
 		ft_printf("\r\n%s%s", data->prompt, data->result);
 	return (0);
 }
@@ -224,7 +224,7 @@ inline int	completion(
 
 	_neutral(&completion, sizeof(t_rl_completion));
 	words = ft_split(data->result, ' ');
-	if (_UNLIKELY(!words))
+	if (unexpect(!words))
 		return (-1);
 	nb_words = arraylen((const void *const *)words);
 	token = _rl_tokenize__(words[nb_words - 1]);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   _dir.c                                             :+:      :+:    :+:   */
+/*   dir__.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/23 17:46:45 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/24 08:54:20 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ inline char	*_rl_get_dir__(
 	register int	i;
 	char			*result;
 
-	if (_UNLIKELY(!path || !*path))
+	if (unexpect(!path || !*path))
 		return (NULL);
 	i = ft_strlen(path);
 	while (i > 0 && path[i - 1] != '/')
@@ -53,7 +53,7 @@ inline char	*_rl_get_dir__(
 	else if (!i)
 		return (memdup("./", 3));
 	result = mm_alloc(i + 1);
-	if (_UNLIKELY(!result))
+	if (unexpect(!result))
 		return (NULL);
 	ft_memcpy(result, path, i);
 	result[i] = '\0';
@@ -78,13 +78,13 @@ inline char	*_rl_get_file__(
 	register int	i;
 	char			*result;
 
-	if (_UNLIKELY(!path || !*path))
+	if (unexpect(!path || !*path))
 		return (NULL);
 	i = ft_strlen(path);
 	while (i > 0 && path[i - 1] != '/')
 		--i;
 	result = mm_alloc(ft_strlen(path) - i + 1);
-	if (_UNLIKELY(!result))
+	if (unexpect(!result))
 		return (NULL);
 	ft_memcpy(result, path + i, ft_strlen(path) - i);
 	result[ft_strlen(path) - i] = '\0';

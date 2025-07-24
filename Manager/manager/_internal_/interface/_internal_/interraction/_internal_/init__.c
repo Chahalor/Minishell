@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:06:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/24 08:16:41 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/24 08:54:20 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ inline char	*_rl_read_line__(
 		.prompt_length = ft_strlen(prompt),
 		.status = normal,
 	};
-	if (_UNLIKELY(!rl_data.result))
+	if (unexpect(!rl_data.result))
 		return (NULL);
 	_init_cmd(&rl_data);
 	rl_data.line_length = _rl_read__(&rl_data);
