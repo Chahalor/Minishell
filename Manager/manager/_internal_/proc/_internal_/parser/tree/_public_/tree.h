@@ -33,7 +33,7 @@ extern char	tree_init(\
 				visibility("default")));
 // tree :
 extern char	tree(\
-				const t_token_object *token
+				const t_token *restrict const token
 				)
 			__attribute__((\
 				hot, used, \

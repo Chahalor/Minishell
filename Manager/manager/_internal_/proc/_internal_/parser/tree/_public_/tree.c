@@ -23,7 +23,7 @@
 __attribute__((hot, used))
 //	(-public-)
 extern char	tree(\
-	const t_token_object *token
+	const t_token *restrict const token
 )	// v.1. >>> tag: exp->tree
 {
 	return (__tree(token));

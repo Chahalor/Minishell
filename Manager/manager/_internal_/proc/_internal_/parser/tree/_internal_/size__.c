@@ -23,13 +23,14 @@
 __attribute__((always_inline, used))
 //	(-internal-)
 extern inline int	__tree_size(\
-	const t_token_object *restrict const token__
+	const t_token *restrict const token__
 )	// v.1. >>> tag: def->_tree_size
 {
-	t_token_object__		*tok__;
-	t_token_type__			type__;
+	t_token_object			*tok__;
+	t_token_type			type__;
 	register unsigned int	i__;
 
+	tok__ = token__->fetch(token_next);
 	type__ = tok__->type__;
 	if (unexpect(type__ != token_word \
 			&& type__ != token_left && type__ != token_right \
@@ -41,9 +42,9 @@ extern inline int	__tree_size(\
 		&& type__ != token_dleft && type__ != token_dright)
 	{
 		if (type__ == token_word && ++i__)
-			++tok__;
-		else
-			tok__ += 2;
+			tok__ = token__->fetch(token_next);
+		else if (token__->fetch(token_next))
+			tok__ = token__->fetch(token_next);
 		type__ = tok__->type__;
 	}
 	return ((i__ - 1) * sizeof(char **));

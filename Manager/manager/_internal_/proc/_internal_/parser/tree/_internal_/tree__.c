@@ -23,7 +23,7 @@
 __attribute__((always_inline, used))
 //	(-internal-)
 extern inline char	__tree(\
-	const t_token_object__ *token__
+	const t_token *restrict const token__
 )	// v.1. >>> tag: def->tree
 {
 	t_tree_	*base__;
