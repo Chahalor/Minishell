@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TOKEN___C
-# define TOKEN___C
+#ifndef REMOVE___C
+# define REMOVE___C
 
 /* -------- modules --------- */
 	// ---- access ----- //
@@ -22,20 +22,24 @@
 // doc ...
 __attribute__((always_inline, used))
 //	(-internal-)
-extern inline char	__tokenize(\
-	t_token_ **token__
+static inline void	__token_unload(\
+	t_token__ *token__
 	const t_mem *restrict const mem__,
-	const char **argv__,
-	const unsigned int argc__
-)	// v.1. >>> tag: def->_tokenize
+)	// v.1. >>> tag: def->_token_unload
 {
-	_token_unload();
-	if (unexpet(\
-			_token_setup(token__, argv__, argc__) \
-			!= no_error))
-		return (failed_to_setup);
-	_token_parse(argv__, argc__);
-	return (no_error);
+	register unsigned int	i__;
+
+	i__ = 0;
+	while (i__ != token__->size__)
+	{
+		mem__->clean((unsigned char [1]){mem_ptr}, none, \
+					token__->content__[i__].content__, 0);
+		mem__->clean((unsigned char [1]){mem_ptr}, none, \
+					token__->content__[i__], 0);
+		++i__;
+	}
+	mem__->clean((unsigned char [1]){mem_ptr}, none, \
+				token__, token_size_);
 }
 
 #endif

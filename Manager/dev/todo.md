@@ -10,3 +10,4 @@
 	- correct copy function so it uses the type to copy table as well.
 	- to avoid any kind of leak we should perhaps reference every allocation in a list.
 	- create an unloading function for tokenizer.
+	- create a proper file searching function for bins.

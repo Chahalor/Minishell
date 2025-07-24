@@ -42,6 +42,14 @@ extern t_token_			*__token_self(void)
 						__attribute__((\
 							always_inline, used, \
 							visibility("hidden")));
+// remove :
+extern void				__token_unload(\
+							t_token__ *token__
+							const t_mem *restrict const mem__,
+							)
+						__attribute__((\
+							always_inline, used, \
+							visibility("hidden")));
 // setup :
 extern char				__token_setup(\
 							t_token__ **token__,
