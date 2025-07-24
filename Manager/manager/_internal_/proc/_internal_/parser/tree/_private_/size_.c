@@ -23,7 +23,7 @@
 __attribute__((always_inline, used))
 //	(-private-)
 extern inline int	_tree_size(\
-	const t_token_object *restrict const token_
+	const t_token *restrict const token_
 )	// v.1. >>> tag: exp->_tree_size
 {
 	return (__tree_size(token_));

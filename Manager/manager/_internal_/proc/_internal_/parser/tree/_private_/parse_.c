@@ -24,7 +24,7 @@ __attribute__((hot, used))
 //	(-private-)
 extern char	_tree_parse_redir(\
 	t_tree_ *restrict const cmd_,
-	const t_token_object *token_
+	const t_token *restrict const token_
 )	// v.1. >>> tag: exp->_tree_parse_redir
 {
 	return (__tree_parse_redir((t_mem *)&_manager->mem, \
@@ -35,7 +35,7 @@ extern char	_tree_parse_redir(\
 __attribute__((hot, used))
 //	(-private-)
 extern t_tree_	*_tree_parse_cmd(\
-	const t_token_object *token_
+	const t_token *restrict const token_
 )	// v.1. >>> tag: exp->_tree_parse_cmd
 {
 	return (__tree_parse_cmd((t_mem *)&_manager->mem, \
@@ -46,7 +46,7 @@ extern t_tree_	*_tree_parse_cmd(\
 __attribute__((hot, used))
 //	(-private-)
 extern t_tree_	*_tree_parse(\
-	const t_token_object *token_
+	const t_token *restrict const token_
 )	// v.1. >>> tag: exp->_tree_parse
 {
 	return (__tree_parse(token_));

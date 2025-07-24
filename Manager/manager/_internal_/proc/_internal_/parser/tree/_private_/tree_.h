@@ -85,26 +85,26 @@ extern t_tree_redir_	**_find_last_redir(\
 							visibility("hidden")));
 // size :
 extern int				_tree_size(\
-							const t_token_object *restrict const token_
+							const t_token *restrict const token_
 							)
 						__attribute__((\
 							always_inline, used, \
 							visibility("hidden")));
 // parse :
 extern char				_tree_parse_redir(\
-							const t_token_object *token_
+							const t_token *restrict const token_
 							)
 						__attribute__((\
 							hot, used, \
 							visibility("hidden")));
 extern t_tree_			*_tree_parse_cmd(\
-							const t_token_object *token_
+							const t_token *restrict const token_
 							)
 						__attribute__((\
 							hot, used, \
 							visibility("hidden")));
 extern t_tree_			*_tree_parse(\
-							const t_token_object *token_
+							const t_token *restrict const token_
 							)
 						__attribute__((\
 							hot, used, \

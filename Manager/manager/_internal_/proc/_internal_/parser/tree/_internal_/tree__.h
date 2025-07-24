@@ -100,7 +100,7 @@ extern t_tree_redir_	**__find_last_redir(\
 							visibility("hidden")));
 // size :
 extern int				__tree_size(\
-							const t_token_object__ *restrict const token__
+							const t_token *restrict const token__
 							)
 						__attribute__((\
 							always_inline, used, \
@@ -109,27 +109,27 @@ extern int				__tree_size(\
 extern char				__tree_parse_redir(\
 							t_mem *restrict const mem__,
 							t_tree_ *restrict const cmd__,
-							const t_token_object__ *token__
+							const t_token *restrict const token__
 							)
 						__attribute__((\
 							always_inline, used, \
 							visibility("hidden")));
 extern t_tree_			*__tree_parse_cmd(\
 							t_mem *restrict const mem__,
-							const t_token_object__ *token__
+							const t_token *restrict const token__
 							)
 						__attribute__((\
 							always_inline, used, \
 							visibility("hidden")));
 extern t_tree_			*__tree_parse(\
-							const t_token_object__ *token__
+							const t_token *restrict const token__
 							)
 						__attribute__((\
 							always_inline, used, \
 							visibility("hidden")));
 // tree :
 extern char				__tree(\
-							const t_token_object__ *token__
+							const t_token *restrict const token__
 							)
 						__attribute__((\
 							always_inline, used, \

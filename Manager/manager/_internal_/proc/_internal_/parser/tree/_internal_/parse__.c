@@ -25,26 +25,29 @@ __attribute__((always_inline, used))
 extern inline char	__tree_parse_redir(\
 	t_mem *restrict const mem__,
 	t_tree_ *restrict const cmd__,
-	const t_token_object *token__
+	const t_token *restrict const token__
 )	// v.1. >>> tag: def->_tree_parse_redir
 {
 	char					*target__;
-	t_token_type__			tok_type__;
-	t_tree_redir_type__		redir_type__;
+	t_token_object			*tok__;
+	t_token_type			tok_type__;
+	t_tree_redir_type_		redir_type__;
 
-	tok_type__ = token__->type__;
-	while (++token__ \
-		&& tok_type__ != token_left && tok_type__ != token_right \
+	tok__ = token__->fetch(token_actual);
+	tok_type__ = tok__->type__;
+	while (tok_type__ != token_left && tok_type__ != token_right \
 		&& tok_type__ != token_dleft && tok_type__ != token_dright)
 	{
+		tok_type__ = tok__->type__;
 		redir_type__ = (tree_in_ * (tok_type__ == token_left) \
 						+ tree_out_ * (tok_type__ == token_right) \
 						+ tree_air_ * (tok_type__ == token_dleft) \
 						+ tree_add_ * (tok_type__ == token_dright));
-		if (unexpect(token__->type__ != token_word \
-				|| (_tree_redir(cmd__, redir_type__, token__->content__) \
+		if (unexpect(tok_type__ != token_word \
+				|| (_tree_redir(cmd__, redir_type__, tok__->content__) \
 				!= no_error)))
 			return (error);
+		tok__ = token__->fetch(token_next);
 	}
 	return (no_error);
 }
@@ -54,10 +57,11 @@ __attribute__((always_inline, used))
 //	(-internal-)
 extern inline t_tree_	*__tree_parse_cmd(\
 	t_mem *restrict const mem__,
-	const t_token_object *token__
+	const t_token *restrict const token__
 )	// v.1. >>> tag: def->_tree_parse_cmd
 {
 	t_tree_			*cmd__;
+	t_token_object	*tok__;
 	register int	size__;
 
 	size__ = _tree_size(token__);
@@ -66,19 +70,20 @@ extern inline t_tree_	*__tree_parse_cmd(\
 			|| (_tree_parse_redir(cmd__, token__) != no_error)))
 		return (NULL);
 	size__ = 0;
-	while (token__->type__ == token_word)
+	tok__ = token__->fetch(token_actual);
+	while (tok__->type__ == token_word)
 	{
 		if (unexpect(!size__ && ++size__))
 			*cmd__->content__.cmd__ = (t_tree_cmd_){\
-				_tree_builtin(token__->content__), token__->content__, \
-				token__->args__, token__->redir__};
+				_tree_builtin(tok__->content__), tok__->content__, \
+				tok__->args__, tok__->redir__};
 		else
 		{
-			cmd__->content__.cmd__.args__[size__++ - 1] = token__->content__;
+			cmd__->content__.cmd__.args__[size__++ - 1] = tok__->content__;
 			if (unexpect(_tree_parse_redir(cmd__, token__) != no_error))
 				return (NULL);
 		}
-		++token__;
+		tok__ = token__->fetch(token_next);
 	}
 	return (cmd__);
 }
@@ -87,7 +92,7 @@ extern inline t_tree_	*__tree_parse_cmd(\
 __attribute__((always_inline, used))
 //	(-internal-)
 extern inline t_tree_	*__tree_parse(\
-	const t_token_object *token__
+	const t_token *restrict const token__
 )	// v.1. >>> tag: def->_tree_parse
 {
 	t_tree_		*left__;
@@ -96,9 +101,8 @@ extern inline t_tree_	*__tree_parse(\
 	left__ = _tree_parse_cmd(token__);
 	if (unexpect(!left__))
 		return (NULL);
-	else if (token__->type__ == token_pipe)
+	else if (token__->fetch(token_actual)->type__ == token_pipe)
 	{
-		++token__;
 		right__ = _tree_parse(token__);
 		if (unexpect(!right__))
 			return (NULL);
