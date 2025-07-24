@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   _free.c                                            :+:      :+:    :+:   */
+/*   free__.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/23 17:45:03 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/24 08:25:53 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
  * @return	None
  */
 __attribute__((always_inline, used))
-inline void	_free_completion(
+inline void	_rl_free_completion__(
 	t_rl_completion *const restrict data
 )
 {
@@ -43,7 +43,7 @@ inline void	_free_completion(
 	{
 		if (_UNLIKELY(!data->entry[i]))
 			continue ;
-		mm_free(data->entry[i]);
+		mm_free(data->entry[i]);	// @todo: replace by the manager call
 		data->entry[i] = NULL;
 	}
 	data->nb_entries = 0;

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   _ansi.c                                            :+:      :+:    :+:   */
+/*   ansi__.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:19:00 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/23 18:00:58 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/24 08:33:53 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
  *  @retval		-1 if an error occurs or if the buffer is too small.
 */
 __attribute__((always_inline, used))
-static inline int	_read_ansi(
+static inline int	_read_ansi__(
 	char *const restrict buffer,
 	register int buffer_size
 )
@@ -73,7 +73,7 @@ static inline int	_read_ansi(
  * @return	Void
 */
 __attribute__((always_inline, used))
-static inline void	_del(
+static inline void	_ansi_del__(
 	t_rl_data *const restrict data
 )
 {
@@ -94,7 +94,7 @@ static inline void	_del(
  * @return	Return 1
  */
 __attribute__((always_inline, used))
-static inline int	_history(
+static inline int	_ansi_history__(
 	t_rl_data *const restrict data,
 	const char action
 )
@@ -135,23 +135,23 @@ static inline int	_history(
  * @retval		0	No ANSI sequence or an error occurred.
 */
 __attribute__((always_inline, used))
-inline int	rl_handle_ansi__(
+inline int	_rl_handle_ansi__(
 	t_rl_data *const restrict data
 )
 {
 	char	ansi[_RL_ANSI_BUFF + 1];
 	int		len;
 
-	len = _read_ansi(ansi, sizeof(ansi));
+	len = _read_ansi__(ansi, sizeof(ansi));
 	if (unexpect(len < 1))
 		return (0);
-	if (_move(data, ansi) > 0)
+	if (_rl_move__(data, ansi) > 0)
 		return (1);
 	else if (ft_strncmp(ansi, "\033[A", 3) == 0
 		|| ft_strncmp(ansi, "\033[B", 3) == 0)
-		_history(data, ansi[2]);
+		_ansi_history__(data, ansi[2]);
 	else if (ft_strncmp(ansi, "\033[3~", 4) == 0)
-		_del(data);
+		_ansi_del__(data);
 	else if (ft_strncmp(ansi, "\033[200~", 6) == 0)
 		data->status = past;
 	else if (ft_strncmp(ansi, "\033[201~", 6) == 0)

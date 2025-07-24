@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:57:59 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/22 15:41:26 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/24 08:19:46 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@
 
 typedef struct dirent			t_dirent;
 
+typedef enum e_file				t_file_type;		/* File type enumeration  */
 typedef enum e_rl_status		t_rl_status;		/* The status or rl:_read */
 typedef enum e_rl_hist_access	t_rl_hist_access;	/* access to the history */
 typedef enum e_rl_word_type		t_rl_word_type;		/* completions types    */
@@ -62,6 +63,16 @@ typedef struct s_history		t_history;			/* history struct */
 /* ************************************************************************** */
 /*                                 Enums                                      */
 /* ************************************************************************** */
+
+enum	e_file
+{
+	e_not_found = 0,	/* File not found             */
+	e_file,				/* File is a regular file    */
+	e_directory,		/* File is a directory      */
+	e_symlink,			/* File is a symbolic link */
+	e_unknown,			/* Unknown file type      */
+	e_executable,		/* File is executable    */
+};
 
 enum	e_rl_status
 {

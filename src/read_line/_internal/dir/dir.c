@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/27 12:58:02 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/24 08:25:44 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,7 +229,7 @@ int	completion(
 		_replace(&completion, data);
 	else if (completion.nb_entries > 0)
 		_show(&completion, data);
-	return (free_tab(words), _free_completion(&completion), 0);
+	return (free_tab(words), _rl_free_completion__(&completion), 0);
 }
 
 #pragma endregion Fonctions

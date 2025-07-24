@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/23 18:06:10 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/24 08:32:52 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ static inline int	_rl_handle_special__(
 )
 {
 	if (c == '\033')
-		return (handle_ansi(data));
+		return (_rl_handle_ansi__(data));
 	else if ((c == 127 || c == 8))
 	{
 		if (!data->cursor_pos)
