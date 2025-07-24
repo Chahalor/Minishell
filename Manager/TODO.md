@@ -31,12 +31,12 @@
 - [ ] Makefile     for manager/_internal_/proc
 #### exec
 - [ ] Makefile     for manager/_internal_/proc/_internal_/exec
-- [ ] add the exec module to manager/_internal_/proc/_internal_/exec
+- [X] add the exec module to manager/_internal_/proc/_internal_/exec
 #### parser
 - [ ] Makefile     for manager/_internal_/proc/_internal_/parser
 #### builtin
- - [ ] Create module
- - [ ] marge it with mein
+ - [X] Create module
+ - [X] marge it with mein
  - [ ] Makefile    for manager/_internal_/proc/_internal_/builtin
 
 ## private
