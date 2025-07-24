@@ -33,7 +33,7 @@ extern inline char	__tokenize(\
 			_token_setup(token__, argv__, argc__) \
 			!= no_error))
 		return (failed_to_setup);
-	__token_parse(argv__, argc__);
+	_token_parse(argv__, argc__);
 	return (no_error);
 }
 

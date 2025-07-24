@@ -26,7 +26,7 @@
 #  define E_TOKEN__
 
 // all internal token module types.
-enum e_token_type__	// v.1. >>> tag: set->e_token_type_
+enum e_token_type__		// v.1. >>> tag: set->e_token_type_
 {
 	token_word__	= +0,
 	token_pipe__	= '|',
@@ -35,6 +35,13 @@ enum e_token_type__	// v.1. >>> tag: set->e_token_type_
 	token_dleft__	= '<' + '<',
 	token_dright__	= '>' + '>',
 	token_eof__		= +6,
+};
+
+// all internal token module modes.
+enum e_token_modes__	// v.1. >>> tag: set->e_token_modes
+{
+	token_actual__	= +0,
+	token_next__	= +1,
 };
 
 // all internal token module error codes.
@@ -71,7 +78,7 @@ struct s_token_object__	// v.1. >>> tag: def->s_token_object_
 };
 
 // tokenizer internal struct.
-struct	s_token__		// v.1. >>> tag: def->s_token
+struct s_token__		// v.1. >>> tag: def->s_token
 {
 	unsigned int			size__;			// token list size.
 	unsigned int			index__;

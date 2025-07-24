@@ -17,7 +17,7 @@
 	// ---- access ----- //
 # include "tokenizer_.h"
 
-/* -------- inlines --------- */
+/* ------- functions -------- */
 
 // doc ...
 __attribute__((hot, used))
@@ -27,10 +27,10 @@ extern char	_tokenize(\
 	const unsigned int argc_
 )	// v.1. >>> tag: exp->_tokenize
 {
-	return (_tokenize(\
-				(t_token__ *)&_token_self()->_internal_, \
-				(t_mem *)&_manager()->mem, \
-				argv_, argc_));
+	t_token_	*token__;
+
+	token__ = (t_token__ *)&_token_self()->_internal_;
+	return (_tokenize(&token__, (t_mem *)&_manager()->mem, argv_, argc_));
 }
 
 #endif

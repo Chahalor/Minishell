@@ -25,39 +25,46 @@
 /* ------- prototypes ------- */
 	// ---- private ---- //
 // access :
-extern t_token_	*_token_get(\
-					t_token_	*restrict const new_
-					)
-				__attribute__((\
-					hot, used, \
-					visibility("hidden")));
-extern t_token_	*_token_self(void)
-				__attribute__((\
-					hot, used, \
-					visibility("hidden")));
+extern t_token_			*_token_get(\
+							t_token_	*restrict const new_
+							)
+						__attribute__((\
+							hot, used, \
+							visibility("hidden")));
+extern t_token_			*_token_self(void)
+						__attribute__((\
+							hot, used, \
+							visibility("hidden")));
 // setup :
-extern char		_token_setup(\
-					const char **argv_,
-					const unsigned int argc_
-					)
-				__attribute__((\
-					always_inline, used, \
-					visibility("hidden")));
+extern char				_token_setup(\
+							const char **argv_,
+							const unsigned int argc_
+							)
+						__attribute__((\
+							always_inline, used, \
+							visibility("hidden")));
 // parser :
-extern void		_token_parse(\
-					const char **argv_,
-					const unsigned int argc_
-					)
-				__attribute__((\
-					always_inline, used, \
-					visibility("hidden")));
+extern void				_token_parse(\
+							const char **argv_,
+							const unsigned int argc_
+							)
+						__attribute__((\
+							always_inline, used, \
+							visibility("hidden")));
 // token :
-extern char		_tokenize(\
-					const char **argv_,
-					const unsigned int argc_
-					)
-				__attribute__((\
-					hot, used, \
-					visibility("hidden")));
+extern char				_tokenize(\
+							const char **argv_,
+							const unsigned int argc_
+							)
+						__attribute__((\
+							hot, used, \
+							visibility("hidden")));
+// fetch :
+extern t_token_object_	*_token_fetch(\
+							const unsigned char mode_
+							)
+						__attribute__((\
+							hot, used, \
+							visibility("hidden")));
 
 #endif
