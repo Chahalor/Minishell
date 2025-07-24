@@ -35,6 +35,11 @@ extern t_token_			*_token_self(void)
 						__attribute__((\
 							hot, used, \
 							visibility("hidden")));
+// remove :
+extern void				_token_unload(void)
+						__attribute__((\
+							always_inline, used, \
+							visibility("hidden")));
 // setup :
 extern char				_token_setup(\
 							const char **argv_,
