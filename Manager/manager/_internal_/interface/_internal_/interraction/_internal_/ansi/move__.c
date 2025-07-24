@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   _move.c                                            :+:      :+:    :+:   */
+/*   move__.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:19:00 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/23 17:47:40 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/24 08:33:34 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static inline int	_is_whitespace(
 
 /** */
 __attribute__((always_inline, used))
-static inline int	_skip(
+static inline int	_ansi_skip__(
 	t_rl_data *const restrict data,
 	const char action
 )
@@ -71,7 +71,7 @@ static inline int	_skip(
  * @return	1 on movement, 0 on nothing.
 */
 __attribute__((always_inline, used))
-static inline int	_simple(
+static inline int	_ansi_simple__(
 	t_rl_data *const restrict data,
 	const char *const restrict cmd
 )
@@ -118,11 +118,11 @@ inline int	_rl_move(
 	const char *const restrict cmd
 )
 {
-	if (_simple(data, cmd))
+	if (_ansi_simple__(data, cmd))
 		return (1);
 	else if (ft_strncmp(cmd, "\033[1;5D", 7) == 0
 		|| ft_strncmp(cmd, "\033[1;5C", 7) == 0)
-		return (_skip(data, cmd[5]));
+		return (_ansi_skip__(data, cmd[5]));
 	else
 		return (0);
 }

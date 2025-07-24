@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:57:59 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/23 18:21:13 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/24 08:33:53 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,36 +91,28 @@ extern int			_load_history__(
 
 // ansi/_ansi.c
 
-extern int			_move(
+extern int			_rl_move__(
 						t_rl_data *const restrict data,
 						const char *const restrict cmd
 						);
 
-extern int			handle_ansi(
+extern int			_rl_handle_ansi__(
 						t_rl_data *const restrict data
 						);
 
-// dir/_free.c
+// dir/free__.c
 
-extern void			_free_completion(
+extern void			_rl_free_completion__(
 						t_rl_completion *const restrict data
 						);
 
-// dir/_tokenize.c
+// dir/tokenize__.c
 
-extern int			is_dir(
-						const char *const restrict path
-						);
-
-extern int			is_file(
+extern int			_rl_tokenize__(
 						const char *const restrict word
 						);
 
-extern int			tokenize(
-						const char *const restrict word
-						);
-
-// dir/dir.c
+// dir/_dir.c
 
 extern int			completion(
 						t_rl_data *const restrict data

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   _tokenize.c                                        :+:      :+:    :+:   */
+/*   tokenize__.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/23 17:44:45 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/24 08:30:01 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 
 /** */
 __attribute__((always_inline, used))
-static inline char	_is_file(
+static inline char	_is_file__(
 	const char *const restrict path
 )
 {
@@ -67,7 +67,7 @@ static inline char	_is_file(
  * @version 2.0
 */
 __attribute__((always_inline, used))
-static inline int	_is_dir(
+static inline int	_is_dir__(
 	const char *const restrict path
 )
 {
@@ -93,7 +93,7 @@ static inline int	_is_dir(
  * @version 2.0
 */
 __attribute__((always_inline, used))
-static inline int	_is_file(
+static inline int	_is_reg__(
 	const char *const restrict path
 )
 {
@@ -108,9 +108,9 @@ static inline int	_is_file(
 }
 
 /**
- *  @brief	Tokenize the word to determine its type.
+ *  @brief	_rl_tokenize__ the word to determine its type.
  * 
- *  @param	word The word to tokenize.
+ *  @param	word The word to _rl_tokenize__.
  *
  *  @return	The token type of the word.
  *  @retval		token_cmd if the word is a command
@@ -118,17 +118,17 @@ static inline int	_is_file(
  *  @retval		token_path_dir if the word is a path to a directory
 */
 __attribute__((always_inline, used))
-inline int	tokenize(
+inline int	_rl_tokenize__(
 	const char *const restrict word
 )
 {
 	if (_UNLIKELY(!word || !*word))
 		return (unknown);
-	else if (_is_file(word))
+	else if (_is_file__(word))
 	{
-		if (is_dir(word))
+		if (_is_dir__(word))
 			return (token_path_dir);
-		else if (is_file(word))
+		else if (_is_reg__(word))
 			return (token_path_file);
 		else
 			return (token_path);
