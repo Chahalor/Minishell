@@ -7,6 +7,5 @@
 	- args file and relative user side CLI code shall be moved and re-introduced inside interface/visual module of the manager.
 	- builtins shall be moved inside the proc/exec module and feature an access to available builtins to be used inside the tree if necessary.
 # >>>
-	- we MUST expose internal types of the tokenizer and / or provide support functions.
 	- correct copy function so it uses the type to copy table as well.
 	- to avoid any kind of leak we should perhaps reference every allocation in a list.

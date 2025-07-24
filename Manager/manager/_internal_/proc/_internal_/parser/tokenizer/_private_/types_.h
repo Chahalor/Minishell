@@ -26,7 +26,7 @@
 #  define E_TOKEN_
 
 // all private token module types.
-enum e_token_type_	// v.1. >>> tag: exp->e_token_type_
+enum e_token_type_		// v.1. >>> tag: exp->e_token_type_
 {
 	token_word_		= token_word__,
 	token_pipe_		= token_pipe__,
@@ -35,6 +35,13 @@ enum e_token_type_	// v.1. >>> tag: exp->e_token_type_
 	token_dleft_	= token_dleft__,
 	token_dright_	= token_dright__,
 	token_eof_		= token_eof__,
+};
+
+// all private token module modes.
+enum e_token_modes_		// v.1. >>> tag: exp->e_token_modes_
+{
+	token_actual_	= token_actual__,
+	token_next_		= token_next__,
 };
 
 // all private token module error codes.
@@ -71,6 +78,8 @@ struct	s_token_		// v.1. >>> tag: exp->s_token_
 	char			(*tokenize_)(\
 								const char **, \
 								const unsigned int);
+	t_token_object_	*(*fetch_)(\
+								const unsigned char);
 };
 
 # endif

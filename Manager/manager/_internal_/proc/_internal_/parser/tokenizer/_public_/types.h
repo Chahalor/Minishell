@@ -37,6 +37,13 @@ enum e_token_type	// v.1. >>> tag: exp->e_token_type
 	token_eof		= token_eof__,
 };
 
+// all public token module modes.
+enum e_token_modes	// v.1. >>> tag: exp->e_token_modes
+{
+	token_actual	= token_actual__,
+	token_next		= token_next__,
+};
+
 # endif
 
 /* --------- types ---------- */
@@ -44,7 +51,9 @@ enum e_token_type	// v.1. >>> tag: exp->e_token_type
 # ifndef T_TOKEN
 #  define T_TOKEN
 
-typedef struct s_token	t_token;	// v.1. >>> tag: exp->t_token
+// v.1. >>> tag: exp->t_token_object
+typedef t_token_object__	t_token_object;
+typedef struct s_token		t_token;	// v.1. >>> tag: exp->t_token
 
 # endif
 
@@ -63,21 +72,8 @@ struct	s_token		// v.1. >>> tag: def->s_token
 	char			(*tokenize)(\
 								const char **, \
 								const unsigned int);
-};
-
-# endif
-
-/* ---------- size ---------- */
-	// --- tokenizer --- //
-# ifndef SZ_TOKEN
-#  define SZ_TOKEN
-
-// all public sizes used in token module.
-enum e_token_sizes	// v.1. >>> tag: exp->e_token_sizes
-{
-	// sizes :
-	token_size	= (\
-					sizeof(t_token)),
+	t_token_object	*(*fetch)(\
+								const unsigned char);
 };
 
 # endif
