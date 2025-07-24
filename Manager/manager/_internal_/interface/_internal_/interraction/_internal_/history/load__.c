@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 15:54:17 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/23 18:21:08 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/24 08:54:27 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static inline int	_count__(
 	const int	fd = open(filename, O_RDONLY, 0644);
 	int			count;
 
-	if (_UNLIKELY(fd < 0))
+	if (unexpect(fd < 0))
 		return (ft_perror(ERROR
 				"history load: opening %s file failed", filename), -1);
 	count = count_lines(fd);
@@ -64,7 +64,7 @@ static inline int	_skip__(
 {
 	int	nb_skipped;
 
-	if (_LIKELY(nb_lines <= _RL_HIST_SIZE))
+	if (expect(nb_lines <= _RL_HIST_SIZE))
 		return (0);
 	nb_skipped = 0;
 	while (nb_lines-- > _RL_HIST_SIZE)
@@ -91,7 +91,7 @@ static inline int	_create__(
 {
 	const int	fd = open(filename, O_RDWR | O_CREAT | O_APPEND, 0644);
 
-	if (_UNLIKELY(fd < 0))
+	if (unexpect(fd < 0))
 		return (perror(RED "Error:" RESET " creating history file failed"), -1);
 	else
 		return (fd);
@@ -120,7 +120,7 @@ inline int	_load_history__(
 	char			*line;
 	register int	i;
 
-	if (_UNLIKELY(fd < 0))
+	if (unexpect(fd < 0))
 		return (data->fd = _create__(filename), 0);
 	_skip__(fd, _count__(filename));
 	line = gnl(fd);	//@todo: replace by manager gnl

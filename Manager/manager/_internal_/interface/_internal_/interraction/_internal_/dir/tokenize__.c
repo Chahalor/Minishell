@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/24 08:30:01 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/24 08:54:20 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static inline char	_is_file__(
 	char			has_valid_char;
 	char			c;
 
-	if (_UNLIKELY(!path || !*path))
+	if (unexpect(!path || !*path))
 		return (0);
 	has_slash = false;
 	has_valid_char = false;
@@ -73,7 +73,7 @@ static inline int	_is_dir__(
 {
 	struct stat	s;
 
-	if (_UNLIKELY(!path || !*path))
+	if (unexpect(!path || !*path))
 		return (0);
 	else if (stat(path, &s) == 0)
 		return (S_ISDIR(s.st_mode));
@@ -99,7 +99,7 @@ static inline int	_is_reg__(
 {
 	struct stat	s;
 
-	if (_UNLIKELY(!path || !*path))
+	if (unexpect(!path || !*path))
 		return (0);
 	else if (stat(path, &s) == 0)
 		return (S_ISREG(s.st_mode));
@@ -122,7 +122,7 @@ inline int	_rl_tokenize__(
 	const char *const restrict word
 )
 {
-	if (_UNLIKELY(!word || !*word))
+	if (unexpect(!word || !*word))
 		return (unknown);
 	else if (_is_file__(word))
 	{

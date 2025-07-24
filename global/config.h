@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:47:53 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/17 09:32:50 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/24 08:54:27 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 #  define VERIONS
 # endif	/* VERIONS */
 
-# define _LIKELY	__glibc_likely		/* __builtin_expect((cond), 1) */
-# define _UNLIKELY	__glibc_unlikely	/* __builtin_expect((cond), 0) */
+# define expect	__glibc_likely		/* __builtin_expect((cond), 1) */
+# define unexpect	__glibc_unlikely	/* __builtin_expect((cond), 0) */
 
 # ifndef DEBUG
 #  define DEBUG		0				/* 0: debug disabled, 1: debug enabled */

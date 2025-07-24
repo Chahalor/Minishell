@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 08:08:28 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/23 18:17:59 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/24 08:54:27 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,18 +58,18 @@ __attribute__((always_inline, used)) static inline char	*_history_add__(
 	const int	alloc_size = ((len + _RL_ALLOC_SIZE - 1) / _RL_ALLOC_SIZE)
 		* _RL_ALLOC_SIZE + 1;
 
-	if (_UNLIKELY(!data || !line || len < 1))
+	if (unexpect(!data || !line || len < 1))
 		return (NULL);
 	else
 	{
 		data->storage[data->pos] = (char *)mm_alloc(alloc_size + 1);
-		if (_UNLIKELY(!data->storage[data->pos]))
+		if (unexpect(!data->storage[data->pos]))
 			return (NULL);
 		ft_memcpy(data->storage[data->pos], line, len);
 		data->storage[data->pos][len] = '\0';
 		data->pos = (data->pos + 1) % _RL_HIST_SIZE;
 		data->size += (data->size < _RL_HIST_SIZE);
-		if (_LIKELY(data->fd > 0))
+		if (expect(data->fd > 0))
 			ft_fprintf(data->fd, "%s\n", line);
 		return ((char *)line);
 	}
@@ -94,9 +94,9 @@ __attribute__((always_inline, used)) static inline char	*_history_get__(
 {
 	char	*result;
 
-	if (_UNLIKELY(!data))
+	if (unexpect(!data))
 		return (NULL);
-	else if (_LIKELY(access == rl_get_next))
+	else if (expect(access == rl_get_next))
 	{
 		data->pos = (data->pos + 1) % _RL_HIST_SIZE;
 		result = data->storage[data->pos];
@@ -104,7 +104,7 @@ __attribute__((always_inline, used)) static inline char	*_history_get__(
 			data->pos = (data->pos - 1 + _RL_HIST_SIZE) % _RL_HIST_SIZE;
 		return (result);
 	}
-	else if (_LIKELY(access == rl_get_prev))
+	else if (expect(access == rl_get_prev))
 	{
 		data->pos = (data->pos - 1 + _RL_HIST_SIZE) % _RL_HIST_SIZE;
 		result = data->storage[data->pos];
@@ -132,7 +132,7 @@ __attribute__((always_inline, used)) static inline char	*_history_clear__(
 	t_rl_history *const restrict data
 )
 {
-	if (_UNLIKELY(!data))
+	if (unexpect(!data))
 		return (NULL);
 	else
 	{
@@ -169,20 +169,20 @@ inline void	*_history_manager__(
 {
 	static t_rl_history	history = {0};
 
-	if (_LIKELY(access == rl_get_next || access == rl_get_prev))
+	if (expect(access == rl_get_next || access == rl_get_prev))
 		return (_history_get__(&history, access));
-	else if (_LIKELY(access == rl_add))
+	else if (expect(access == rl_add))
 		return (_history_add__(line, &history));
 	else if (access == rl_reset_pos)
 		history.pos = history.size;
 	else if (access == rl_get_all)
 		return (_history_get_all__(&history));
-	else if (_UNLIKELY(access == rl_load))
+	else if (unexpect(access == rl_load))
 	{
 		_load_history(line, &history);
 		return (NULL);
 	}
-	else if (_UNLIKELY(access == rl_clear))
+	else if (unexpect(access == rl_clear))
 		return (_history_clear__(&history));
 	return (NULL);
 }

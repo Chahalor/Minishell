@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/24 08:25:53 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/24 08:54:20 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ inline void	_rl_free_completion__(
 {
 	register int	i;
 
-	if (_UNLIKELY(!data))
+	if (unexpect(!data))
 		return ;
 	i = -1;
 	while (++i < data->nb_entries)
 	{
-		if (_UNLIKELY(!data->entry[i]))
+		if (unexpect(!data->entry[i]))
 			continue ;
 		mm_free(data->entry[i]);	// @todo: replace by the manager call
 		data->entry[i] = NULL;
