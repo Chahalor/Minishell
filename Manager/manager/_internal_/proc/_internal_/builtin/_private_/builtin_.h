@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 10:03:15 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/24 10:13:27 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/25 12:41:50 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 #include "../_internal_/types__.h"
 #include "formating.h"
+#include "standards.h"
 #include <stdlib.h>
 
 
