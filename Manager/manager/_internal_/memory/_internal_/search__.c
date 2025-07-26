@@ -50,20 +50,20 @@ __attribute__((always_inline, used))
 // (-internal-)
 extern inline int	__mem_search_keep(\
 	const t_mem__ *restrict const mem__,
-	const unsigned char spec__,
+	const unsigned char *restrict const mode__,
 	const unsigned int size__
 )	// v.1. >>> tag: def->mem_search_keep
 {
 	register int	i__;
 
 	i__ = -1;
-	if (spec__ == mem_empty_)
+	if (mode__[1] == mem_empty_)
 	{
 		while (++i__ != 10)
 			if (!mem__->free__[i__])
 				return (i__);
 	}
-	else if (spec__ == mem_free_)
+	else if (mode__[1] == mem_free_)
 	{
 		while (++i__ != 10)
 			if (mem__->free__[i__] >= size__)
@@ -76,11 +76,19 @@ extern inline int	__mem_search_keep(\
 __attribute__((always_inline, used))
 // (-internal-)
 extern inline int	__mem_search_file(\
+	const t_mem_ *restrict const mem__,
+	const unsigned char *restrict const mode__,
 	const char *restrict const target__
 )	// v.1. >>> tag: def->mem_search_file
 {
-	(void)target__;
-	return (-1);
+	char	*fd__;
+
+	if (unexpect(\
+			mem__->reader.find((unsigned char [2]){reader_file, mode__[1]}, \
+								target__, (void **)&fd__) \
+			!= no_error))
+		return (error);
+	return ((int)fd__);
 }
 
 // doc ...
@@ -94,7 +102,7 @@ extern inline int	__mem_search(\
 {
 	return ((t_mem_search_func_ [3]){\
 				_mem_search_data, _mem_search_keep, _mem_search_file}[\
-					mode__[0]](mode__[1], area__, target__));
+					mode__[0]](mode__, area__, target__));
 }
 
 #endif   

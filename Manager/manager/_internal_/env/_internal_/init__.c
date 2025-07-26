@@ -31,6 +31,7 @@ extern inline char	__env_init(\
 		.chpath = _env_chpath, \
 		.home = _env_home, \
 		.path = _env_path, \
+		.vars = _env_vars, \
 		.find = _env_find, \
 		.set = _env_set, \
 		.unset = _env_unset, \

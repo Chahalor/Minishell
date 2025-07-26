@@ -24,7 +24,7 @@ __attribute__((hot, used))
 // (-private-)
 extern char _reader_find(\
 	const unsigned char *restrict const mode_,
-	const char *target_,
+	const char *restrict const target_,
 	void **buffer_
 )	// v.1. >>> tag: exp->_reader_find
 {
@@ -34,25 +34,52 @@ extern char _reader_find(\
 // doc ...
 __attribute__((hot, used))
 // (-private-)
+extern char _reader_find_container_fd(\
+	const char *restrict const target_,
+	void **buffer_
+)	// v.1. >>> tag: exp->_reader_find_container_fd
+{
+	return (__reader_find_container_fd(\
+				(t_reader__ *)&_reader_self()->_internal_), \
+				target_, buffer_);
+}
+
+// doc ...
+__attribute__((hot, used))
+// (-private-)
+extern char _reader_find_container_name(\
+	const char *restrict const target_,
+	void **buffer_
+)	// v.1. >>> tag: exp->_reader_find_container_name
+{
+	return (__reader_find_container_name(\
+				(t_reader__ *)&_reader_self()->_internal_), \
+				(t_mem *)&_manager()->mem, \
+				target_, buffer_);
+}
+
+// doc ...
+__attribute__((hot, used))
+// (-private-)
 extern char _reader_find_container(\
-	const unsigned int target_,
+	const unsigned char *restrict const mode_,
+	const char *restrict const target_,
 	void **buffer_
 )	// v.1. >>> tag: exp->_reader_find_container
 {
-	return (__reader_find_container(\
-				(t_reader__ *)&_reader_self()->_internal_),
-				target_, buffer_);
+	return (__reader_find_container(mode_, target_, buffer_));
 }
 
 // doc ...
 __attribute__((cold, used))
 // (-private-)
 extern char	_reader_find_file(\
-	const unsigned int target_,
+	const unsigned char *restrict const mode_,
+	const char *restrict const target_,
 	void **buffer_
 )	// v.1. >>> tag: exp->_reader_find_file
 {
-	return (__reader_find_file(target_, buffer_));
+	return (__reader_find_file(mode_, target_, buffer_));
 }
 
 #endif

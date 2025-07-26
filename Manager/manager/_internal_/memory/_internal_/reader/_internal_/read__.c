@@ -95,25 +95,28 @@ __attribute__((always_inline, used))
 extern inline char	__reader_proc(\
 	t_reader_ *restrict const reader__,
 	const t_mem *restrict const mem__,
-	const int target__,
+	const char *restrict const target__,
 	char **buffer__
 )	// v.1. >>> tag: def->_reader_proc
 {
 	t_container__	*container__;
+	char			*fd__;
 
-	if (unexpect(target__ > 0))
-		return (reader_invalid_target_);
-	else if (unexpect(\
-				_reader_find((unsigned char [1]){reader_container_}, \
-							(char *)target__, (void **)container__) \
-				!= no_error))
-		if (unexpect(\
-				_reader_add_container(target__, (void **)&container__) \
-				!= no_error))
-			return (reader_fatal_crash_);
 	if (unexpect(!target__))
 		return (reader_invalid_target_);
-	return (_reader_read(&container__, mem__, target__, buffer__));
+	else if (unexpect(\
+			_reader_find((unsigned char [2]){reader_container_, reader_file_}, \
+						target__, (void **)container__) \
+			!= no_error))
+		if (unexpect(\
+				(_reader_find((unsigned char [2]){reader_file_, reader_read_}, \
+							target__, (void **)fd__) \
+				!= no_error)
+				|| (_reader_add_container((unsigned int)fd__, \
+										(void **)&container__) \
+				!= no_error)))
+			return (reader_fatal_crash_);
+	return (_reader_read(&container__, mem__, container__->target__, buffer__));
 }
 
 #endif

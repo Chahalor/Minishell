@@ -66,15 +66,31 @@ extern char			_reader_find(\
 					__attribute__((\
 						hot, used, \
 						visibility("hidden")));
+extern char			_reader_find_container_fd(\
+						const char *restrict const target_,
+						void **buffer_
+						)
+					__attribute__((\
+						hot, used, \
+						visibility("hidden")));
+extern char 		_reader_find_container_name(\
+						const char *restrict const target_,
+						void **buffer_
+						)
+					__attribute__((\
+						hot, used, \
+						visibility("hidden")));
 extern char 		_reader_find_container(\
-						const unsigned int target_,
+						const unsigned char *restrict const mode_,
+						const char *restrict const target_,
 						void **buffer_
 						)
 					__attribute__((\
 						hot, used, \
 						visibility("hidden")));
 extern char			_reader_find_file(\
-						const unsigned int target_,
+						const unsigned char *restrict const mode_,
+						const char *restrict const target_,
 						void **buffer_
 						)
 					__attribute__((\
@@ -82,7 +98,7 @@ extern char			_reader_find_file(\
 						visibility("hidden")));
 // read :
 extern char			_reader_proc(\
-						const int target_,
+						const char *restrict const target_,
 						char **buffer_
 						)
 					__attribute__((\

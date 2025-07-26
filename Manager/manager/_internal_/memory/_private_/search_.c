@@ -35,38 +35,39 @@ extern int	_mem_search(\
 __attribute__((hot, used))
 //	(-private-)
 extern int	_mem_search_data(\
-	const unsigned char spec_,
+	const unsigned char *restrict const mode_,
 	const void *const area_,
 	const void *const target_
 )	// v.1. >>> tag: exp->mem_search_data
 {
-	return ((void)spec_, __mem_search_data(area_, target_));
+	return ((void)mode_, __mem_search_data((char *)area_, (char *)target_));
 }
 
 // doc ...
 __attribute__((hot, used))
 //	(-private-)
 extern int	_mem_search_keep(\
-	const unsigned char spec_,
+	const unsigned char *restrict const mode_,
 	const void *const area_,
 	const void *const target_
 )	// v.1. >>> tag: exp->mem_search_keep
 {
 	return ((void)area_, \
 			__mem_search_keep((t_mem__ *)_mem_self()->_internal_, \
-								spec_, (unsigned int)(*(char *)target_)));
+								mode_, (unsigned int)(char *)target_));
 }
 
 // doc ...
 __attribute__((hot, used))
 //	(-private-)
 extern int	_mem_search_file(\
-	const unsigned char spec_,
+	const unsigned char *restrict const mode_,
 	const void *const area_,
 	const void *const target_
 )	// v.1. >>> tag: exp->mem_search_file
 {
-	return ((void)spec_, (void)area_, __mem_search_file((char *)target_));
+	return ((void)area_, __mem_search_file((t_mem_ *)_mem_self(), \
+											mode_, (char *)target_));
 }
 
 #endif
