@@ -84,7 +84,7 @@ extern t_mem_alloc_	*__mem_to_alloc(\
 						visibility("hidden")));
 // manage :
 extern int			__mem_manage(\
-						t_mem__ *restrict const mem,
+						t_mem__ *restrict const mem__,
 						const unsigned char *restrict const mode__,
 						void *area__,
 						const unsigned int size__
@@ -144,6 +144,7 @@ extern char			__mem_clean_ptr(\
 						always_inline, used, \
 						visibility("hidden")));
 extern char			__mem_clean_all(\
+						t_mem__ *mem__,
 						const char code__
 						)
 					__attribute__((\

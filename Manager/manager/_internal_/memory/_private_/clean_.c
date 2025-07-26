@@ -65,7 +65,8 @@ extern char	_mem_clean_all(\
 	const unsigned int size_
 )	// v.1. >>> tag: exp->_mem_clean_all
 {
-	return ((void)ptr_, (void)size_, __mem_clean_all(code_));
+	return ((void)ptr_, (void)size_, \
+			__mem_clean_all((t_mem *)&_mem_self()->_internal_, code_));
 }
 
 #endif

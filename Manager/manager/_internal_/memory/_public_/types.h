@@ -28,6 +28,7 @@
 // all public memory types.
 enum e_mem_types__	// v.1. >>> tag: exp->e_mem_types
 {
+	mem_self		= mem_self__,
 	mem_buffer		= mem_buffer__,
 	mem_string		= mem_string__,
 	mem_table		= mem_table__,

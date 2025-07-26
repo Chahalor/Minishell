@@ -39,7 +39,8 @@ extern inline char	__mem_alloc_new(\
 		.size__ = size__, \
 		.type__ = type__, \
 		.buffer__ = _mem_section((void **)&base__, size__), \
-		.id__ = _mem_manage((unsigned char [1]){mem_add_}, *ptr__, size__) \
+		.id__ = _mem_manage((unsigned char [2]){mem_add_, type__}, \
+							alloc__, size__) \
 	};
 	_mem_clean((unsigned char [1]){mem_buffer_}, none, alloc__->lborder__, 4);
 	_mem_clean((unsigned char [1]){mem_buffer_}, none, \

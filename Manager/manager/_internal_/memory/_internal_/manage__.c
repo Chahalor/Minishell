@@ -19,9 +19,6 @@
 
 /* -------- inlines --------- */
 
-// TODO: modify this shitty function as it does almost no fucking checks when,
-// saying it's been allocated and when we drop the block.
-
 // doc ...
 __attribute__((always_inline, used))
 // (-internal-)
@@ -34,15 +31,26 @@ extern inline int	__mem_manage(\
 {
 	int	index__;
 
-	if (mode__[0] == mem_add_)
+	if (mode__[0] == mem_add_ && mode__[1] != mem_self_)
 	{
 		mem__->total__ += size__;
+		if (unexpect(mem__->index__ >= mem__->size__))
+		{
+			if (unexpect(\
+					_mem_alloc((unsigned char [1]){mem_re}, mem__->access__, \
+								mem__->size__ << 1, mem_table) \
+					!= no_error))
+				return (_mem_clean((unsigned char [1]){mem_all}, \
+									mem_allocation_failure_, NULL, 0));
+			mem__->size <<= 1;
+		}
+		mem__->access__[mem__->index__] = area__;
 		return (mem__->index__++);
 	}
 	else if (mode__[0] == mem_keep_)
 	{
 		index__ = _mem_search((unsigned char [2]){mem_keep_, mem_empty_}, \
-						NULL, NULL);
+							NULL, NULL);
 		if (index__ != -1)
 		{
 			mem__->free__[index__] = size__;
@@ -50,7 +58,12 @@ extern inline int	__mem_manage(\
 		}
 	}
 	else if (mode__[0] == mem_drop_)
+	{
+		index__ = _mem_search((unsigned char [1]){mem_data_}, \
+							mem__->access__, area__);
+		mem__->access__[index__] = NULL;
 		mem__->total__ -= size__;
+	}
 	return (0);
 }
 
