@@ -61,10 +61,31 @@ extern char			__reader_add_container(\
 						always_inline, used, \
 						visibility("hidden")));
 // remove :
-extern char			__reader_remove_container(\
+extern char			__reader_remove(\
+						const unsigned char *restrict const mode__,
+						const char *restrict const target__
+						)
+					__attribute__((\
+						always_inline, used, \
+						visibility("hidden")));
+extern char			__reader_remove_container_fd(\
 						const t_reader__ *restrict const reader__,
 						const t_mem *restrict const mem__,
 						const unsigned int target__
+						)
+					__attribute__((\
+						always_inline, used, \
+						visibility("hidden")));
+extern char			__reader_remove_container_file(\
+						const t_reader__ *restrict const reader__,
+						const t_mem *restrict const mem__,
+						const char *restrict const target__
+						)
+					__attribute__((\
+						always_inline, used, \
+						visibility("hidden")));
+extern void			__reader_remove_all(\
+						const t_reader__ *restrict const reader__
 						)
 					__attribute__((\
 						always_inline, used, \

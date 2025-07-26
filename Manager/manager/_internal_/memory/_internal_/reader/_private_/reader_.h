@@ -51,8 +51,27 @@ extern char			_reader_add_container(\
 						cold, used, \
 						visibility("hidden")));
 // remove :
-extern char			_reader_remove_container(\
-						const unsigned int target_
+extern char			_reader_remove(\
+						const unsigned char *restrict const mode_,
+						const char *restrict const target_
+						)
+					__attribute__((\
+						hot, used, \
+						visibility("hidden")));
+extern char			_reader_remove_container_fd(\
+						const char *restrict const target_
+						)
+					__attribute__((\
+						hot, used, \
+						visibility("hidden")));
+extern char			_reader_remove_container_file(\
+						const char *restrict const target_
+						)
+					__attribute__((\
+						cold, used, \
+						visibility("hidden")));
+extern char			_reader_remove_all(
+						const char *restrict const target_
 						)
 					__attribute__((\
 						cold, used, \
@@ -60,7 +79,7 @@ extern char			_reader_remove_container(\
 // find :
 extern char			_reader_find(\
 						const unsigned char *restrict const mode_,
-						const char *target_,
+						const char *restrict const target_,
 						void **buffer_
 						)
 					__attribute__((\
