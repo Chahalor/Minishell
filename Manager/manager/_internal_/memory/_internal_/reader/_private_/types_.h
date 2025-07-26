@@ -32,6 +32,7 @@ enum e_reader_modes_		// v.1. >>> tag: exp->e_reader_modes_
 	reader_fd_				= reader_fd__,
 	reader_file_			= reader_file__,
 	reader_bin_				= reader_bin__,
+	reader_all_				= reader_all__,
 };
 
 // all private reader files modes for module methods.
@@ -75,6 +76,8 @@ typedef char 				(*t_reader_find_func_)(\
 typedef char 				(*t_reader_find_container_func_)(\
 								const char *restrict const,
 								void **);
+typedef char				(*t_reader_remove_func_)(\
+								const char *restrict const);
 
 # endif
 
@@ -97,6 +100,9 @@ struct s_reader_		// v.1. >>> def:  exp->s_reader_
 	char		(*add_)(\
 						const unsigned int, \
 						void **);
+	char		(*remove_)(\
+						const unsigned char *restrict const,
+						const char *restrict const);
 	char		(*read_)(\
 						const int, \
 						char **);

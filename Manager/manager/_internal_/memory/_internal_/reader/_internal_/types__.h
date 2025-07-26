@@ -36,6 +36,7 @@ enum e_reader_modes__	// v.1. >>> tag: set->e_reader_modes
 	reader_file__			= +1,
 	//reader_file__			= +0,
 	reader_bin__			= +1,
+	reader_all_				= +2,
 };
 
 // all internal reader files modes for module methods.
