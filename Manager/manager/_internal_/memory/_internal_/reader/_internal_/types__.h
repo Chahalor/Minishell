@@ -28,14 +28,31 @@
 // all internal reader modes for module methods.
 enum e_reader_modes__	// v.1. >>> tag: set->e_reader_modes
 {
+	// container :
 	reader_container__		= +0,
+	reader_fd__				= +0,
+	//reader_file__			= +1,
+	// file :
 	reader_file__			= +1,
+	//reader_file__			= +0,
+	reader_bin__			= +1,
+};
+
+// all internal reader files modes for module methods.
+enum e_reader_files_modes__	// v.1. >>> tag: set->e_reader_files_modes
+{
+	reader_read__			= O_RDONLY,
+	reader_write__			= O_WRONLY,
+	reader_read_write__		= O_RDWR,
+	reader_append__			= O_APPEND | reader_write__,
 };
 
 // all internal reader module error codes.
 enum e_reader_errors__	// v.1. >>> tag: set->e_reader_errors_
 {
-	reader_invalid_target__	= -7,
+	reader_invalid_target__	= -9,
+	reader_failed_opening__	= -8,
+	reader_no_support__		= -7,
 	reader_no_gate__		= -6,
 	reader_not_registered__	= -5,
 	reader_gate_burst__		= -4,
@@ -68,6 +85,7 @@ struct s_container__	// v.1. >>> def: def->s_container_
 	unsigned int	target__;
 	unsigned int	size__;
 	unsigned int	len__;
+	char			*name__;
 	char			*buffer__;
 	t_container__	*gate__;
 };

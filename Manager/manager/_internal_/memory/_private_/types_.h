@@ -128,7 +128,7 @@ typedef unsigned int	(*t_mem_shift_func_)(\
 							void *restrict const, \
 							char *restrict const);			// v.1. >>> .
 typedef int				(*t_mem_search_func_)(\
-							const unsigned char, \
+							const unsigned char *restrict const, \
 							const void *restrict const, \
 							const void *restrict const);	// v.1. >>> .
 

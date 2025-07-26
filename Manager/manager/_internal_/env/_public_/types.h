@@ -49,6 +49,7 @@ struct s_env_		// v.1. >>> tag: exp->s_env
 						const char *restrict const);
 	char		*(home)(void);
 	char		*(path)(void);
+	char		*(vars)(void);
 	char		*(find)(\
 						const char *restrict const);
 	char		(*set)(\

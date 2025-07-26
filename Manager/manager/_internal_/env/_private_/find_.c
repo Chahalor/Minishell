@@ -32,7 +32,15 @@ __attribute__((hot, used))
 //	(-private-)
 extern char *_env_path(void)	// v.1. >>> tag: exp->_env_path
 {
-	eturn (__env_path((t_env__ *)_env_self()->_internal_));
+	return (__env_path((t_env__ *)_env_self()->_internal_));
+}
+
+// doc ...
+__attribute__((hot, used))
+//	(-private-)
+extern char **_env_vars(void)	// v.1. >>> tag: exp->_env_vars
+{
+	return (__env_vars((t_env__ *)_env_self()->_internal_));
 }
 
 // doc ...

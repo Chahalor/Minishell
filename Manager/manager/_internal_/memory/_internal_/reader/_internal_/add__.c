@@ -50,9 +50,9 @@ extern inline char	__reader_add_container(\
 		return (mem__->clean((unsigned char [1]){mem_ptr}, reader_gate_burst_, \
 							container__, size__));
 	entrypoint__->gate__ = container__;
-	++reader__->size__;
-	++reader__->qty__;
-	return ((void)(*buffer__ = container__), no_error);
+	if (++reader__->size__ && ++reader__->qty__ && *buffer__)
+		*buffer__ = container__;
+	return (no_error);
 }
 
 #endif

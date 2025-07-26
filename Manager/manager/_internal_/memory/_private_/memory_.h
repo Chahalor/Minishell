@@ -315,7 +315,7 @@ extern int			_mem_search(\
 						hot, used, \
 						visibility("hidden")));
 extern int			_mem_search_data(\
-						const unsigned char spec_,
+						const unsigned char *restrict const mode_,
 						const void *const area_,
 						const void *const target_
 						)
@@ -323,7 +323,7 @@ extern int			_mem_search_data(\
 						hot, used, \
 						visibility("hidden")));
 extern int			_mem_search_keep(\
-						const unsigned char spec_,
+						const unsigned char *restrict const mode_,
 						const void *const area_,
 						const void *const target_
 						)
@@ -331,7 +331,7 @@ extern int			_mem_search_keep(\
 						hot, used, \
 						visibility("hidden")));
 extern int			_mem_search_file(\
-						const unsigned char spec_,
+						const unsigned char *restrict const mode_,
 						const void *const area_,
 						const void *const target_
 						)

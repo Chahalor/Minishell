@@ -319,13 +319,15 @@ extern int			__mem_search_data(\
 						visibility("hidden")));
 extern int			__mem_search_keep(\
 						const t_mem__ *restrict const mem__,
-						const unsigned char spec__,
+						const unsigned char *restrict const mode__,
 						const unsigned int size__
 						)
 					__attribute__((\
 						always_inline, used, \
 						visibility("hidden")));
 extern int			__mem_search_file(\
+						const t_mem_ *restrict const mem__,
+						const unsigned char *restrict const mode__,
 						const char *restrict const target__
 						)
 					__attribute__((\

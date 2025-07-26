@@ -42,6 +42,16 @@ extern inline char *__env_path(\
 // doc ...
 __attribute__((always_inline, used))
 //	(-internal-)
+extern inline char **__env_vars(\
+	t_env_ *restrict const env__,
+)	// v.1. >>> tag: def->_env_vars
+{
+	return (env__->content__);
+}
+
+// doc ...
+__attribute__((always_inline, used))
+//	(-internal-)
 extern inline char *__env_find(\
 	t_env_ *restrict const env__,
 	t_mem *restrict const mem__,

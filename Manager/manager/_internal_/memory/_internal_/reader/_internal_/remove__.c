@@ -37,6 +37,7 @@ extern inline char	__reader_remove_container(\
 			!= no_error))
 		return (reader_not_registered_);
 	reader__->qty__--;
+	close(container__->target__);
 	return (mem__->clean((unsigned char [1]){mem_buffer}, \
 							no_error, (void **)&container__, \
 							reader_container_size_ + container__->size__));

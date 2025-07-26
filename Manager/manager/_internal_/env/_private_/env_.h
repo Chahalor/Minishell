@@ -57,6 +57,10 @@ extern char		*_env_path(void)
 				__attribute__((\
 					hot, used, \
 					visibility("hidden")));
+extern char		**_env_vars(void)
+				__attribute__((\
+					hot, used, \
+					visibility("hidden")));
 extern char		*_env_find(\
 					const char *restrict const target_
 					)

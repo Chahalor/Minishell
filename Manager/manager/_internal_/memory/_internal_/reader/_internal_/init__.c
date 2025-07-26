@@ -30,6 +30,7 @@ extern inline char	__reader_init(\
 
 	*reader__ = (t_reader_){\
 		.find_ = _reader_find, \
+		.add_ = _reader_add, \
 		.read_ = _reader_proc \
 	};
 	if (unexpect(!_reader_get(reader__)))

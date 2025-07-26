@@ -74,6 +74,12 @@ extern char		*__env_path(\
 				__attribute__((\
 					always_inline, used, \
 					visibility("hidden")));
+extern char		**__env_vars(\
+					t_env_ *restrict const env__,
+					)
+				__attribute__((\
+					always_inline, used, \
+					visibility("hidden")));
 extern char		*__env_find(\
 					t_env_ *restrict const env__,
 					t_mem *restrict const mem__,

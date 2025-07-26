@@ -78,18 +78,36 @@ extern char			__reader_find(\
 					__attribute__((\
 						always_inline, used, \
 						visibility("hidden")));
-extern char 		__reader_find_container(\
+extern char			__reader_find_container_fd(\
 						const t_reader__ *restrict const reader__,
-						const unsigned int target__,
+						const char *restrict const target__,
+						void **buffer__
+						)
+					__attribute__((\
+						always_inline, used, \
+						visibility("hidden")));
+extern char			__reader_find_container_name(\
+						const t_reader__ *restrict const reader__,
+						t_mem *restrict const mem__,
+						const char *restrict const target__,
+						void **buffer__
+						)
+					__attribute__((\
+						always_inline, used, \
+						visibility("hidden")));
+extern char 		__reader_find_container(\
+						const unsigned char *restrict const mode__,
+						const char *target__,
 						void **buffer__
 						)
 					__attribute__((\
 						always_inline, used, \
 						visibility("hidden")));
 extern char			__reader_find_file(\
-						const unsigned int target__,
+						const unsigned char *restrict const mode__,
+						const char *restrict const target__,
 						void **buffer__
-						)
+							)
 					__attribute__((\
 						always_inline, used, \
 						visibility("hidden")));
@@ -97,7 +115,7 @@ extern char			__reader_find_file(\
 extern char			__reader_proc(\
 						t_reader__ *restrict const reader__,
 						const t_mem *restrict const mem__,
-						const int target__,
+						const char *restrict const target__,
 						char **buffer__
 						)
 					__attribute__((\
