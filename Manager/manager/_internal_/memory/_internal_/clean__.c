@@ -75,14 +75,27 @@ extern inline char	__mem_clean_ptr(\
 __attribute__((always_inline, used))
 // (-internal-)
 extern inline char	__mem_clean_all(\
+	t_mem__ *mem__,
 	const char code__
 )	// v.1. >>> tag: def->mem_clean_all
 {
-	char	error__;
+	void						*manager__ = _manager();
+	void						*memory__ = _mem_self();
+	void						*ptr__;
+	register unsigned int		i__;
 
-	// shall liquidate tree, token, etc ... here
-	error__ = _mem_clean((unsigned char [1]){mem_ptr}, code__, _manager(), 0);
-	return (exit(error__), no_error);
+	ptr__ = mem__->access__[0];
+	i__ = 0;
+	while (i__ != mem__->index__ - 1)
+	{
+		ptr__ = mem__->access__[i__++];
+		if (expect(ptr__ && ptr__ != manager__ && ptr__ != memory__))
+			free(ptr__);
+	}
+	return (exit(\
+				_mem_clean((unsigned char [1]){mem_ptr}, code__, \
+							manager__, 0)), \
+			no_error);
 }
 
 // doc ...

@@ -8,7 +8,6 @@
 	- builtins shall be moved inside the proc/exec module and feature an access to available builtins to be used inside the tree if necessary.
 # >>>
 	- correct copy function so it uses the type to copy table as well.
-	- to avoid any kind of leak we should perhaps reference every allocation in a list.
 	:same (linked) :
 	- create a split method inside the memory module.
 	- re-create the bin finder function inside reader.

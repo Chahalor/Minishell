@@ -28,9 +28,10 @@
 // all internal memory types.
 enum e_mem_types__	// v.1. >>> tag: set->e_mem_types_
 {
-	mem_buffer__						= +0,
-	mem_string__						= +1,
-	mem_table__							= +2,
+	mem_self__							= +0,
+	mem_buffer__						= +1,
+	mem_string__						= +2,
+	mem_table__							= +3,
 };
 
 // all internal memory modes for module methods.
@@ -141,9 +142,11 @@ struct s_mem_alloc__	// v.1. >>> .
 struct s_mem__			// v.1. >>> def: def->s_mem
 {
 	unsigned int	total__;		// total memory actually allocated.
+	unsigned int	size__;			// size of the access list (in ptr).
 	unsigned int	index__;		// current index to assign.
 	unsigned int	*free__;		// pool free space size.
 	void			**pool__;		// free space pool.
+	void			**access__;		// all allocated pointers.
 };
 
 # endif

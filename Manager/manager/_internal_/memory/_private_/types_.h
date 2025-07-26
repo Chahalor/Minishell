@@ -28,6 +28,7 @@
 // all private memory types.
 enum e_mem_types_	// v.1. >>> tag: exp->e_mem_types_
 {
+	mem_self_						= mem_self__,
 	mem_buffer_						= mem_buffer__,
 	mem_string_						= mem_string__,
 	mem_table_						= mem_table__,
