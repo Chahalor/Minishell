@@ -95,6 +95,7 @@ extern inline char	__reader_find_file(\
 {
 	const t_env	*env__ = (t_env *)*buffer__;
 	const int	flags__ = mode__[1] | O_CREAT;
+	char		**paths__;
 	int			fd__;
 
 	if (mode__[0] == reader_file_)
@@ -105,8 +106,15 @@ extern inline char	__reader_find_file(\
 		*(char **)buffer__ = (char *)fd__;
 	}
 	else
-		return (reader_no_support_);
-	return (no_error);
+	{
+		paths__ = _mem_split(env__->path(), ':');
+		if (unexpect(!paths__))
+			return (error);
+		while (*paths__)
+			if (unexpect(_reader_check_presence(*(paths__++), target__, buffer__)))
+				return (no_error);
+	}
+	return (error);
 }
 
 // doc ...

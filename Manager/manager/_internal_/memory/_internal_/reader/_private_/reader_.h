@@ -84,6 +84,14 @@ extern char			_reader_check(\
 					__attribute__((\
 						hot, used, \
 						visibility("hidden")));
+extern char			_reader_check_presence(\
+						const char *restrict const path_,
+						const char *restrict const name_,
+						char **buffer_
+						)
+					__attribute__((\
+						hot, used, \
+						visibility("hidden")));
 // find :
 extern char			_reader_find(\
 						const unsigned char *restrict const mode_,

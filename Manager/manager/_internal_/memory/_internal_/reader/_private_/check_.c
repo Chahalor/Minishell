@@ -30,4 +30,17 @@ extern char _reader_check(\
 	return (__reader_check(path_, mode_));
 }
 
+// doc ...
+__attribute__((hot, used))
+// (-private-)
+extern inline char _reader_check_presence(\
+	const char *restrict const path_,
+	const char *restrict const name_,
+	char **buffer_
+)	// v.1. >>> tag: exp->_reader_check_presence
+{
+	return (__reader_check_presence((t_mem *)&_manager()->mem, \
+									path_, name_, buffer_));
+}
+
 #endif
