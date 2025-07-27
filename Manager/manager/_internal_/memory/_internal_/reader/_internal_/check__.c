@@ -44,4 +44,31 @@ extern inline char __reader_check(\
 	return (reader_invalid_target_);
 }
 
+// doc ...
+__attribute__((always_inline, used))
+// (-internal-)
+extern inline char __reader_check_presence(\
+	t_mem *restrict const mem__,
+	const char *restrict const path__,
+	const char *restrict const name__,
+	char **buffer__
+)	// v.1. >>> tag: def->_reader_check_presence
+{
+	char			*full_path__;
+	unsigned int	size__;
+
+	size__ = mem__->size((unsigned char [1]){mem_len}, name__, 0);
+	if (unexpect(\
+			(mem__->write((unsigned char [1]){mem_link}, path__, \
+						name__, size__) \
+			!= no_error)
+			|| (mem__->copy((unsigned char [1]){mem_replace}, path__, \
+							&full_path__, 0) \
+			!= no_error)))
+		return (error);
+	if (unexpect(_reader_check(full_path__, F_OK | X_OK) == reader_bin_))
+		return ((void)(*buffer__ = full_path__), TRUE);
+	return (mem__->clean((unsigned char [1]){mem_ptr}, FALSE, full_path, 0));
+}
+
 #endif

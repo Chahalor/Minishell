@@ -98,6 +98,15 @@ extern char			__reader_check(\
 					__attribute__((\
 						always_inline, used, \
 						visibility("hidden")));
+extern char			__reader_check_presence(\
+						t_mem *restrict const mem__,
+						const char *restrict const path__,
+						const char *restrict const name__,
+						char **buffer__
+						)
+					__attribute__((\
+						always_inline, used, \
+						visibility("hidden")));
 // find :
 extern char			__reader_find(\
 						const unsigned char *restrict const mode__,
