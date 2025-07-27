@@ -293,6 +293,14 @@ extern unsigned int	__mem_avoid_by(\
 					__attribute__((\
 						always_inline, used, \
 						visibility("hidden")));
+// split :
+extern char			**__mem_split(\
+						const char *area__,
+						const char sep__
+						)
+					__attribute__((\
+						always_inline, used, \
+						visibility("hidden")));
 // compare :
 extern char			__mem_compare(\
 						const char *const area__,

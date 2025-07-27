@@ -185,6 +185,9 @@ struct s_mem_	// v.1. >>> .
 							const unsigned char *restrict const, \
 							void *restrict const, \
 							const unsigned int);
+	char			**(*split_)(\
+							const void *,
+							const char);
 	char			(*compare_)(\
 							const char *const, \
 							const char *const, \

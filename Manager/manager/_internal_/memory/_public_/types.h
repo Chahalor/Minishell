@@ -126,6 +126,9 @@ struct s_mem	// v.1. >>> tag: exp->s_mem
 							const unsigned char *restrict const, \
 							void *restrict const, \
 							const unsigned int);
+	char			**(*split)(\
+							const void *,
+							const char);
 	char			(*compare)(\
 							const char *const, \
 							const char *const, \

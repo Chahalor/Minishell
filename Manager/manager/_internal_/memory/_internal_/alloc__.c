@@ -31,7 +31,7 @@ extern inline char	__mem_alloc_new(\
 	t_mem_alloc_	*restrict	alloc__;
 	void						*base__;
 
-	alloc__ = (void *)malloc(mem_alloc_size__ + size__);
+	alloc__ = (void *)malloc(mem_alloc_size__ + size__ + sizeof(void *));
 	if (unexpect(!alloc__))
 		return (mem_allocation_failure_);
 	base__ = (void *)((char *)alloc__ + mem_buffer_offset__);

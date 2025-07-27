@@ -76,6 +76,14 @@ extern char			_reader_remove_all(
 					__attribute__((\
 						cold, used, \
 						visibility("hidden")));
+// check :
+extern char			_reader_check(\
+						const char *restrict const path_,
+						const int mode_
+						)
+					__attribute__((\
+						hot, used, \
+						visibility("hidden")));
 // find :
 extern char			_reader_find(\
 						const unsigned char *restrict const mode_,

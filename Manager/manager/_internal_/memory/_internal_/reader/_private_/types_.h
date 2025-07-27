@@ -28,34 +28,50 @@
 // all private reader modes for module methods.
 enum e_reader_modes_		// v.1. >>> tag: exp->e_reader_modes_
 {
-	reader_container_		= reader_container__,
-	reader_fd_				= reader_fd__,
-	reader_file_			= reader_file__,
-	reader_bin_				= reader_bin__,
-	reader_all_				= reader_all__,
+	reader_container_			= reader_container__,
+	reader_fd_					= reader_fd__,
+	reader_file_				= reader_file__,
+	reader_bin_					= reader_bin__,
+	reader_all_					= reader_all__,
+};
+
+// all private reader types for module methods.
+enum e_reader_types_		// v.1. >>> tag: exp->e_reader_types_
+{
+	//reader_file_				= reader_file__,
+	//reader_bin_				= reader_bin__,
+	reader_link_				= reader_link__,
+	reader_directory_			= reader_directory__,
 };
 
 // all private reader files modes for module methods.
 enum e_reader_files_modes_	// v.1. >>> tag: exp->e_reader_files_modes_
 {
-	reader_read_			= reader_read__,
-	reader_write_			= reader_write__,
-	reader_read_write_		= reader_read_write__,
-	reader_append_			= reader_append__,
+	reader_read_				= reader_read__,
+	reader_write_				= reader_write__,
+	reader_read_write_			= reader_read_write__,
+	reader_append_				= reader_append__,
+};
+
+// all private reader files access modes for module methods.
+enum e_reader_access_modes_	// v.1. >>> tag: exp->e_reader_access_modes_
+{
+	// ...
 };
 
 // all private reader module error codes.
 enum e_reader_errors_		// v.1. >>> tag: exp->e_reader_errors_
 {
-	reader_invalid_target_	= reader_invalid_target__,
-	reader_failed_opening_	= reader_failed_opening__,
-	reader_no_support_		= reader_no_support__,
-	reader_no_gate_			= reader_no_gate__,
-	reader_not_registered_	= reader_not_registered__,
-	reader_gate_burst_		= reader_gate_burst__,
-	reader_fatal_crash_		= reader_fatal_crash__,
-	reader_line_end_		= reader_line_end__,
-	reader_file_end_		= reader_file_end__,
+	reader_invalid_target_		= reader_invalid_target__,
+	reader_failed_access_		= reader_failed_access__,
+	reader_failed_opening_		= reader_failed_opening__,
+	reader_invalid_permissions_	= reader_invalid_permissions__,
+	reader_no_gate_				= reader_no_gate__,
+	reader_not_registered_		= reader_not_registered__,
+	reader_gate_burst_			= reader_gate_burst__,
+	reader_fatal_crash_			= reader_fatal_crash__,
+	reader_line_end_			= reader_line_end__,
+	reader_file_end_			= reader_file_end__,
 };
 
 # endif
@@ -93,6 +109,9 @@ struct s_reader_		// v.1. >>> def:  exp->s_reader_
 	char		_internal_[sizeof(t_reader__)];
 	// >>>
 	// access :
+	char		(*check_)(\
+						const char *restrict const, \
+						const int);
 	char		(*find_)(\
 						const unsigned char *restrict const, \
 						const char *, \
