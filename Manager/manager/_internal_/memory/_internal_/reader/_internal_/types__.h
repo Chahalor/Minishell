@@ -26,40 +26,56 @@
 #  define E_READER__
 
 // all internal reader modes for module methods.
-enum e_reader_modes__	// v.1. >>> tag: set->e_reader_modes
+enum e_reader_modes__			// v.1. >>> tag: set->e_reader_modes
 {
 	// container :
-	reader_container__		= +0,
-	reader_fd__				= +0,
-	//reader_file__			= +1,
+	reader_container__				= +0,
+	reader_fd__						= +0,
+	//reader_file__					= +1,
 	// file :
-	reader_file__			= +1,
-	//reader_file__			= +0,
-	reader_bin__			= +1,
-	reader_all_				= +2,
+	reader_file__					= +1,
+	//reader_file__					= +0,
+	reader_bin__					= +1,
+	reader_all_						= +2,
+};
+
+// all internal reader types for module methods.
+enum e_reader_types__			// v.1. >>> tag: set->e_reader_types
+{
+	//reader_file__					= +0,
+	//reader_bin__					= +1,
+	reader_link__					= +2,
+	reader_directory__				= +3,
 };
 
 // all internal reader files modes for module methods.
-enum e_reader_files_modes__	// v.1. >>> tag: set->e_reader_files_modes
+enum e_reader_files_modes__		// v.1. >>> tag: set->e_reader_files_modes
 {
-	reader_read__			= O_RDONLY,
-	reader_write__			= O_WRONLY,
-	reader_read_write__		= O_RDWR,
-	reader_append__			= O_APPEND | reader_write__,
+	reader_read__					= O_RDONLY,
+	reader_write__					= O_WRONLY,
+	reader_read_write__				= O_RDWR,
+	reader_append__					= O_APPEND | reader_write__,
+};
+
+// all internal reader files access modes for module methods.
+enum e_reader_access_modes__	// v.1. >>> tag: set->e_reader_access_modes_
+{
+	// ...
 };
 
 // all internal reader module error codes.
-enum e_reader_errors__	// v.1. >>> tag: set->e_reader_errors_
+enum e_reader_errors__			// v.1. >>> tag: set->e_reader_errors_
 {
-	reader_invalid_target__	= -9,
-	reader_failed_opening__	= -8,
-	reader_no_support__		= -7,
-	reader_no_gate__		= -6,
-	reader_not_registered__	= -5,
-	reader_gate_burst__		= -4,
-	reader_fatal_crash__	= -3,
-	reader_line_end__		= -2,
-	reader_file_end__		= -1,
+	reader_invalid_target__			= -10,
+	reader_failed_access__			= -9,
+	reader_failed_opening__			= -8,
+	reader_invalid_permissions__	= -7,
+	reader_no_gate__				= -6,
+	reader_not_registered__			= -5,
+	reader_gate_burst__				= -4,
+	reader_fatal_crash__			= -3,
+	reader_line_end__				= -2,
+	reader_file_end__				= -1,
 };
 
 # endif

@@ -7,7 +7,5 @@
 	- args file and relative user side CLI code shall be moved and re-introduced inside interface/visual module of the manager.
 	- builtins shall be moved inside the proc/exec module and feature an access to available builtins to be used inside the tree if necessary.
 # >>>
-	- correct copy function so it uses the type to copy table as well.
-	:same (linked) :
-	- create a split method inside the memory module.
 	- re-create the bin finder function inside reader.
+	- register check method inside the reader API.

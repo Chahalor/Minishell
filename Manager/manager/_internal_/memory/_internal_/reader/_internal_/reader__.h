@@ -90,6 +90,14 @@ extern void			__reader_remove_all(\
 					__attribute__((\
 						always_inline, used, \
 						visibility("hidden")));
+// check :
+extern char			__reader_check(\
+						const char *restrict const path__,
+						const int mode__
+						)
+					__attribute__((\
+						always_inline, used, \
+						visibility("hidden")));
 // find :
 extern char			__reader_find(\
 						const unsigned char *restrict const mode__,
