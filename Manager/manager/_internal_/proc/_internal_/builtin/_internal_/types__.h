@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:15:37 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/24 10:06:29 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/28 16:47:12 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,12 @@ struct s_args_exit
 	unsigned int	exit_code	: 16;	/* Exit code               */
 	char			error;				/* Error flag             */
 	unsigned char	help		: 1;	/* Help flag             */
+};
+
+struct s_args_export
+{
+	char			error;			/* Error flag             */
+	unsigned char	help	: 1;	/* Help flag             */
 };
 
 #endif /* !TYPES___H */

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/24 10:15:12 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/28 16:47:37 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,22 @@
 #pragma endregion Header
 #pragma region Fonctions
 
+static void	_help(void)
+{
+	_manager()->interface.printf(
+		"Usage: env [options]\n"
+		"Options:\n"
+		"  -h, --help                display this help and exit\n"
+	);
+}
+
+static inline struct int _parse(
+	const char **args
+)
+{
+
+}
+
 /** */
 __attribute__((used)) char	bltin_env(
 	const char **args,
@@ -31,11 +47,7 @@ __attribute__((used)) char	bltin_env(
 	const int fd_out
 )
 {
-	(void)args;
-	(void)fd_in;
-	(void)fd_out;
-	write(STDERR_FILENO, "env is not implemented yet\n", 27);	// @todo: just add the manager call
-	return (0);
+	
 }
 
 #pragma endregion Fonctions
