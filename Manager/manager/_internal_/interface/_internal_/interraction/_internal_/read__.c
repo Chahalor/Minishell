@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/28 10:24:12 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/28 11:53:41 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,11 @@ static inline int	_rl_refresh_line__(
 	const int						move = data->line_length - data->cursor_pos;
 	const char *const	restrict	to_write = data->result + data->cursor_pos
 		- 1;
+	const t_interface	*const restrict	interface = __manager()->interface;
 
-	ft_printf("%s", to_write);	// @todo: replace by manager call
+	interface->visual.printf("%s", to_write);
 	if (move > 0)
-		ft_printf("\033[K\033[%dD", move);	// @todo: replace by manager call
+		interface->visual.printf("\033[K\033[%dD", move);
 	return (1);
 }
 
@@ -148,7 +149,7 @@ inline int	_rl_read__(
 	data->cursor_pos = 0;
 	while (data->status > exiting)
 	{
-		bytes_read = read(STDIN_FILENO, &c, 1);	// @todo: replace by manager call
+		bytes_read = read(STDIN_FILENO, &c, 1);
 		if (bytes_read < 0)
 			data->status = interr;
 		else if (!bytes_read)
