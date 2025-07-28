@@ -10,25 +10,32 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INIT___C
-# define INIT___C
+#ifndef REMOVE__C
+# define REMOVE__C
 
 /* -------- modules --------- */
 	// ---- access ----- //
-# include "tree__.h"
+# include "tree_.h"
 
-/* -------- inlines --------- */
+/* ------- functions -------- */
 
 // doc ...
-__attribute__((always_inline, used))
-//	(-internal-)
-extern inline char	__tree_init(\
-	t_tree_ *restrict const tree__
-)	// v.1. >>> tag: def->tree_init
+__attribute__((hot, used))
+//	(-private-)
+extern char	*_tree_unload_redir(\
+	t_tree_redir_ *redir_
+)	// v.1. >>> tag: exp->_tree_unload_redir
 {
-	if (unexpect(!_tree_get(tree__)))
-		return (failed_to_setup);
-	return (no_error);
+	return (__tree_unload_redir((t_mem *)&_manager->mem, \
+								redir_));
+}
+
+// doc ...
+__attribute__((hot, used))
+//	(-private-)
+extern void	_tree_unload(void)	// v.1. >>> tag: exp->_tree_unload
+{
+	return (__tree_unload(_tree_self(), (t_mem *)&_manager->mem));
 }
 
 #endif

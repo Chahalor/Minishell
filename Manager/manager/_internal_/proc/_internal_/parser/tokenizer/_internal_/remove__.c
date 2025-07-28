@@ -1,34 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init__.c                                           :+:      :+:    :+:   */
+/*   setup__.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 08:52:57 by delta_0ne         #+#    #+#             */
-/*   Updated: 2025/06/25 14:39:07 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/06/25 15:42:05 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INIT___C
-# define INIT___C
+#ifndef REMOVE___C
+# define REMOVE___C
 
 /* -------- modules --------- */
 	// ---- access ----- //
-# include "tree__.h"
+# include "tokenizer__.h"
 
 /* -------- inlines --------- */
 
 // doc ...
 __attribute__((always_inline, used))
 //	(-internal-)
-extern inline char	__tree_init(\
-	t_tree_ *restrict const tree__
-)	// v.1. >>> tag: def->tree_init
+static inline void	__token_unload(\
+	t_token__ *token__
+	const t_mem *restrict const mem__,
+)	// v.1. >>> tag: def->_token_unload
 {
-	if (unexpect(!_tree_get(tree__)))
-		return (failed_to_setup);
-	return (no_error);
+	register unsigned int	i__;
+
+	i__ = 0;
+	while (i__ != token__->size__)
+	{
+		mem__->clean((unsigned char [1]){mem_ptr}, none, \
+					token__->content__[i__].content__, 0);
+		mem__->clean((unsigned char [1]){mem_ptr}, none, \
+					token__->content__[i__], 0);
+		++i__;
+	}
+	mem__->clean((unsigned char [1]){mem_ptr}, none, \
+				token__, token_size_);
 }
 
 #endif

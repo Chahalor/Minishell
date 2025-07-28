@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INIT___C
-# define INIT___C
+#ifndef TREE___C
+# define TREE___C
 
 /* -------- modules --------- */
 	// ---- access ----- //
@@ -22,11 +22,19 @@
 // doc ...
 __attribute__((always_inline, used))
 //	(-internal-)
-extern inline char	__tree_init(\
-	t_tree_ *restrict const tree__
-)	// v.1. >>> tag: def->tree_init
+extern inline char	__tree(\
+	const t_token *restrict const token__
+)	// v.1. >>> tag: def->tree
 {
-	if (unexpect(!_tree_get(tree__)))
+	t_tree_	*base__;
+	t_tree_	*tree__;
+
+	base__ = _tree_self();
+	_tree_unload();
+	tree__ = _tree_parse(token__);
+	if (unexpect(!tree__ \
+			|| !_tree_get(tree__) \
+			|| _tree_self() == base__))
 		return (failed_to_setup);
 	return (no_error);
 }

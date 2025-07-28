@@ -10,25 +10,50 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INIT___C
-# define INIT___C
+#ifndef ADD__C
+# define ADD__C
 
 /* -------- modules --------- */
 	// ---- access ----- //
-# include "tree__.h"
+# include "tree_.h"
 
 /* -------- inlines --------- */
 
 // doc ...
 __attribute__((always_inline, used))
-//	(-internal-)
-extern inline char	__tree_init(\
-	t_tree_ *restrict const tree__
-)	// v.1. >>> tag: def->tree_init
+//	(-private-)
+extern inline char	_tree_cmd(\
+	t_tree **cmd_,
+	const unsigned int size_
+)	// v.1. >>> tag: exp->_tree_cmd
 {
-	if (unexpect(!_tree_get(tree__)))
-		return (failed_to_setup);
-	return (no_error);
+	return (__tree_cmd((t_mem *)&_manager()->mem, \
+						cmd_, size_));
+}
+
+// doc ...
+__attribute__((always_inline, used))
+//	(-private-)
+extern inline t_tree_	*_tree_pipe(\
+	const t_tree_ *const left_,
+	const t_tree_ *const right_
+)	// v.1. >>> tag: exp->_tree_pipe
+{
+	return (__tree_pipe((t_mem *)&_manager()->mem, \
+						left_, right_));
+}
+
+// doc ...
+__attribute__((always_inline, used))
+//	(-private-)
+extern inline char	_tree_redir(\
+	t_tree *restrict const cmd_,
+	const t_tree_redir_type__ type_,
+	const char *restrict const target_
+)	// v.1. >>> tag: exp->_tree_redir
+{
+	return (__tree_pipe((t_mem *)&_manager()->mem, \
+						cmd_, type_, target_));
 }
 
 #endif

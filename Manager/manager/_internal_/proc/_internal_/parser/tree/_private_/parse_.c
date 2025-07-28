@@ -10,25 +10,46 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INIT___C
-# define INIT___C
+#ifndef PARSE__C
+# define PARSE__C
 
 /* -------- modules --------- */
 	// ---- access ----- //
-# include "tree__.h"
+# include "tree_.h"
 
-/* -------- inlines --------- */
+/* ------- functions -------- */
 
 // doc ...
-__attribute__((always_inline, used))
-//	(-internal-)
-extern inline char	__tree_init(\
-	t_tree_ *restrict const tree__
-)	// v.1. >>> tag: def->tree_init
+__attribute__((hot, used))
+//	(-private-)
+extern char	_tree_parse_redir(\
+	t_tree_ *restrict const cmd_,
+	const t_token *restrict const token_
+)	// v.1. >>> tag: exp->_tree_parse_redir
 {
-	if (unexpect(!_tree_get(tree__)))
-		return (failed_to_setup);
-	return (no_error);
+	return (__tree_parse_redir((t_mem *)&_manager->mem, \
+								cmd_, token_));
+}
+
+// doc ...
+__attribute__((hot, used))
+//	(-private-)
+extern t_tree_	*_tree_parse_cmd(\
+	const t_token *restrict const token_
+)	// v.1. >>> tag: exp->_tree_parse_cmd
+{
+	return (__tree_parse_cmd((t_mem *)&_manager->mem, \
+							token_));
+}
+
+// doc ...
+__attribute__((hot, used))
+//	(-private-)
+extern t_tree_	*_tree_parse(\
+	const t_token *restrict const token_
+)	// v.1. >>> tag: exp->_tree_parse
+{
+	return (__tree_parse(token_));
 }
 
 #endif

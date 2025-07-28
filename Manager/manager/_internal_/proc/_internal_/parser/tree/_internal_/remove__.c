@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INIT___C
-# define INIT___C
+#ifndef REMOVE___C
+# define REMOVE___C
 
 /* -------- modules --------- */
 	// ---- access ----- //
@@ -22,13 +22,38 @@
 // doc ...
 __attribute__((always_inline, used))
 //	(-internal-)
-extern inline char	__tree_init(\
-	t_tree_ *restrict const tree__
-)	// v.1. >>> tag: def->tree_init
+extern inline char	*__tree_unload_redir(\
+	t_mem *restrict const mem__,
+	t_tree_redir_ *redir__
+)	// v.1. >>> tag: def->_tree_unload_redir
 {
-	if (unexpect(!_tree_get(tree__)))
-		return (failed_to_setup);
-	return (no_error);
+	t_tree_redir_	*temp__;
+
+	while (redir__)
+	{
+		temp__ = redir__->next__;
+		mem__->clean((unsigned char [1]){mem_ptr}, none, \
+					redir__, tree_redir_size__);
+		redir__ = temp__;
+	}
+}
+
+// doc ...
+__attribute__((always_inline, used))
+//	(-internal-)
+extern inline void	__tree_unload(\
+	t_tree_ *tree__,
+	t_mem *restrict const mem__
+)	// v.1. >>> tag: def->_tree_unload
+{
+	if (tree__->type__ == tree_pipe_)
+	{
+		_tree_unload(tree__->pipe__.left__);
+		_tree_unload(tree__->pipe__.right__);
+	}
+	else
+		_tree_unload_redir(tree__->content__.cmd__.redir__);
+	mem__->clean((unsigned char [1]){mem_ptr}, none, tree__, tree_size__);
 }
 
 #endif

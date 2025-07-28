@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INIT___C
-# define INIT___C
+#ifndef BUILTIN___C
+# define BUILTIN___C
 
 /* -------- modules --------- */
 	// ---- access ----- //
@@ -22,13 +22,24 @@
 // doc ...
 __attribute__((always_inline, used))
 //	(-internal-)
-extern inline char	__tree_init(\
-	t_tree_ *restrict const tree__
-)	// v.1. >>> tag: def->tree_init
+extern inline char	__tree_builtin(\
+	t_mem *restrict const mem__,
+	const char *restrict const target__
+)	// v.1. >>> tag: def->_tree_builtin
 {
-	if (unexpect(!_tree_get(tree__)))
-		return (failed_to_setup);
-	return (no_error);
+	char					*builtins__[8] = {\
+											"cd", "exit", "env", \
+											"pwd", "echo", "export", \
+											"unset", "history"};
+	unsigned int			size__;
+	register unsigned int	i__;
+
+	size__ = mem__->size((unsigned char [1]){mem_len}, target__, 0);
+	i__ = 0;
+	while (i__ != 8)
+		if (unexpect(mem__->compare(target__, builtins__[i__++], &size__)))
+			return (TRUE);
+	return (FALSE);
 }
 
 #endif

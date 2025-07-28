@@ -10,25 +10,24 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INIT___C
-# define INIT___C
+#ifndef SIZE__C
+# define SIZE__C
 
 /* -------- modules --------- */
 	// ---- access ----- //
-# include "tree__.h"
+# include "tree_.h"
 
 /* -------- inlines --------- */
 
 // doc ...
 __attribute__((always_inline, used))
-//	(-internal-)
-extern inline char	__tree_init(\
-	t_tree_ *restrict const tree__
-)	// v.1. >>> tag: def->tree_init
+//	(-private-)
+extern inline int	_tree_size(\
+	const t_token *restrict const token_
+)	// v.1. >>> tag: exp->_tree_size
 {
-	if (unexpect(!_tree_get(tree__)))
-		return (failed_to_setup);
-	return (no_error);
+	return (__tree_size(token_));
 }
+
 
 #endif

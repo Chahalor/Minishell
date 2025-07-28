@@ -1,34 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init__.c                                           :+:      :+:    :+:   */
+/*   access__.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 08:52:57 by delta_0ne         #+#    #+#             */
-/*   Updated: 2025/06/25 14:39:07 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/06/27 10:37:24 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INIT___C
-# define INIT___C
+#ifndef ACCESS__C
+# define ACCESS__C
 
 /* -------- modules --------- */
 	// ---- access ----- //
-# include "tree__.h"
+# include "tree_.h"
 
-/* -------- inlines --------- */
+/* ------- functions -------- */
 
 // doc ...
-__attribute__((always_inline, used))
-//	(-internal-)
-extern inline char	__tree_init(\
-	t_tree_ *restrict const tree__
-)	// v.1. >>> tag: def->tree_init
+__attribute__((hot, used))
+// (-private-)
+extern t_tree_	*_tree_get(\
+	t_tree_	*restrict const new_
+)	// v.1. >>> tag: exp->_tree_get
 {
-	if (unexpect(!_tree_get(tree__)))
-		return (failed_to_setup);
-	return (no_error);
+	return (__tree_get(new_));
+}
+
+// doc ...
+__attribute__((hot, used))
+// (-private-)
+extern t_tree_	*_tree_self(void)	// v.1. >>> tag: exp->_tree_self
+{
+	return (__tree_self());
 }
 
 #endif

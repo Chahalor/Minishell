@@ -10,25 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INIT___C
-# define INIT___C
+#ifndef FIND__C
+# define FIND__C
 
 /* -------- modules --------- */
 	// ---- access ----- //
-# include "tree__.h"
+# include "tree_.h"
 
 /* -------- inlines --------- */
 
 // doc ...
 __attribute__((always_inline, used))
-//	(-internal-)
-extern inline char	__tree_init(\
-	t_tree_ *restrict const tree__
-)	// v.1. >>> tag: def->tree_init
+//	(-private-)
+extern inline t_tree_redir_	**_find_last_redir(\
+	t_tree *restrict const cmd_
+)	// v.1. >>> tag: exp->_find_last_redir
 {
-	if (unexpect(!_tree_get(tree__)))
-		return (failed_to_setup);
-	return (no_error);
+	return (__find_last_redir(cmd_));
 }
 
 #endif

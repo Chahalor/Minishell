@@ -1,34 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init__.c                                           :+:      :+:    :+:   */
+/*   setup__.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 08:52:57 by delta_0ne         #+#    #+#             */
-/*   Updated: 2025/06/25 14:39:07 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/06/25 15:42:05 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INIT___C
-# define INIT___C
+#ifndef SETUP__C
+# define SETUP__C
 
 /* -------- modules --------- */
 	// ---- access ----- //
-# include "tree__.h"
+# include "tokenizer_.h"
 
 /* -------- inlines --------- */
 
 // doc ...
 __attribute__((always_inline, used))
-//	(-internal-)
-extern inline char	__tree_init(\
-	t_tree_ *restrict const tree__
-)	// v.1. >>> tag: def->tree_init
+//	(-private-)
+extern inline char	_token_setup(\
+	const char **argv_,
+	const unsigned int argc_
+)	// v.1. >>> tag: exp->_token_setup
 {
-	if (unexpect(!_tree_get(tree__)))
-		return (failed_to_setup);
-	return (no_error);
+	return (__token_setup(\
+				(t_token__ *)&_token_self()->_internal_, \
+				(t_mem *)&_manager()->mem, \
+				argv_, argc_));
 }
 
 #endif
