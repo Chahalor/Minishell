@@ -23,18 +23,16 @@
 __attribute__((always_inline, used))
 //	(-internal-)
 extern inline char	__tokenize(\
-	t_token_ **token__
-	const t_mem *restrict const mem__,
-	const char **argv__,
-	const unsigned int argc__
+	t_token_ **token__,
+	const char *restrict const cmd__
 )	// v.1. >>> tag: def->_tokenize
 {
 	_token_unload();
 	if (unexpet(\
-			_token_setup(token__, argv__, argc__) \
+			_token_setup(token__, cmd__) \
 			!= no_error))
 		return (failed_to_setup);
-	_token_parse(argv__, argc__);
+	_token_parse(cmd__);
 	return (no_error);
 }
 

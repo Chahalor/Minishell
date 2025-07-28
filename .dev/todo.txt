@@ -1,3 +1,2 @@
 # TODO:
-	- an infamous error has been made on tokenizer, where command is considered being an argv with and argc
-	i do not know why but it must be corrected.
+	- setup correctly proc module.

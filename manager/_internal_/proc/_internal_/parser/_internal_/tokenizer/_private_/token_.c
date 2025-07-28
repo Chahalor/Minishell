@@ -23,14 +23,13 @@
 __attribute__((hot, used))
 //	(-private-)
 extern char	_tokenize(\
-	const char **argv_,
-	const unsigned int argc_
+	const char *restrict const cmd_
 )	// v.1. >>> tag: exp->_tokenize
 {
 	t_token_	*token__;
 
 	token__ = (t_token__ *)&_token_self()->_internal_;
-	return (_tokenize(&token__, (t_mem *)&_manager()->mem, argv_, argc_));
+	return (_tokenize(&token__, cmd_));
 }
 
 #endif

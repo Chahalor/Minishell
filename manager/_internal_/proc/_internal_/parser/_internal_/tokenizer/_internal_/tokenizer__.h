@@ -54,8 +54,7 @@ extern void				__token_unload(\
 extern char				__token_setup(\
 							t_token__ **token__,
 							const t_mem *restrict const mem__,
-							const char **argv__,
-							const unsigned int argc__
+							const char *restrict const cmd__
 							)
 						__attribute__((\
 							always_inline, used, \
@@ -64,8 +63,7 @@ extern char				__token_setup(\
 extern void				__token_parse(\
 							t_token_ *restrict const token__,
 							const t_mem *restrict const mem__,
-							const char **argv__,
-							const unsigned int argc__
+							const char *restrict const cmd__
 							)
 						__attribute__((\
 							always_inline, used, \
@@ -73,9 +71,7 @@ extern void				__token_parse(\
 // token :
 extern char				__tokenize(\
 							t_token_ **token__
-							const t_mem *restrict const mem__,
-							const char **argv__,
-							const unsigned int argc__
+							const char *restrict const cmd__
 							)
 						__attribute__((\
 							always_inline, used, \

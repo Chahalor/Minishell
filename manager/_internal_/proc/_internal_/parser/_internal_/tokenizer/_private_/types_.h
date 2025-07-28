@@ -76,8 +76,7 @@ struct	s_token_		// v.1. >>> tag: exp->s_token_
 	// >>>
 	// access :
 	char			(*tokenize_)(\
-								const char **, \
-								const unsigned int);
+								const char *restrict const);
 	t_token_object_	*(*fetch_)(\
 								const unsigned char);
 };

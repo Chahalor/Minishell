@@ -42,24 +42,21 @@ extern void				_token_unload(void)
 							visibility("hidden")));
 // setup :
 extern char				_token_setup(\
-							const char **argv_,
-							const unsigned int argc_
+							const char *restrict const cmd__
 							)
 						__attribute__((\
 							always_inline, used, \
 							visibility("hidden")));
 // parser :
 extern void				_token_parse(\
-							const char **argv_,
-							const unsigned int argc_
+							const char *restrict const cmd__
 							)
 						__attribute__((\
 							always_inline, used, \
 							visibility("hidden")));
 // token :
 extern char				_tokenize(\
-							const char **argv_,
-							const unsigned int argc_
+							const char *restrict const cmd__
 							)
 						__attribute__((\
 							hot, used, \

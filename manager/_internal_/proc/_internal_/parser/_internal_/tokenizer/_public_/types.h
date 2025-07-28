@@ -70,8 +70,7 @@ struct	s_token		// v.1. >>> tag: def->s_token
 	// >>>
 	// access :
 	char			(*tokenize)(\
-								const char **, \
-								const unsigned int);
+								const char *restrict const);
 	t_token_object	*(*fetch)(\
 								const unsigned char);
 };
