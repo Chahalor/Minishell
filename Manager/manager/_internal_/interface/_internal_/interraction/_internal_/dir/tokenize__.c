@@ -1,0 +1,140 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenize__.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
+/*   Updated: 2025/07/24 08:54:20 by nduvoid          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#pragma region Header
+
+/* -----| Internals |----- */
+#include "../interraction__.h"
+#include <stdbool.h>
+#include <dirent.h>
+#include <sys/stat.h>
+
+/* -----| Modules   |----- */
+	//...
+
+#pragma endregion Header
+#pragma region Fonctions
+
+/** */
+__attribute__((always_inline, used))
+static inline char	_is_file__(
+	const char *const restrict path
+)
+{
+	const char		*p = path;
+	char			has_slash;
+	char			has_valid_char;
+	char			c;
+
+	if (unexpect(!path || !*path))
+		return (0);
+	has_slash = false;
+	has_valid_char = false;
+	while (*p)
+	{
+		c = *p;
+		if (c == '/' || c == '\\')
+			has_slash = true;
+		else if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
+			|| (c >= '0' && c <= '9') || c == '.' || c == '-'
+			|| c == '_' || c == '~')
+			has_valid_char = true;
+		else
+			return (false);
+		++p;
+	}
+	return (has_valid_char && (has_slash || path[0] == '.'));
+}
+
+/**
+ * @brief	Check if the word is a directory.
+ *
+ * @param	char	*word The word to check.
+ * 
+ * @return	if the word is a directory
+ * @retval		1 if the word is a directory
+ * @retval		0 if the word is not a directory
+ * 
+ * @version 2.0
+*/
+__attribute__((always_inline, used))
+static inline int	_is_dir__(
+	const char *const restrict path
+)
+{
+	struct stat	s;
+
+	if (unexpect(!path || !*path))
+		return (0);
+	else if (stat(path, &s) == 0)
+		return (S_ISDIR(s.st_mode));
+	else
+		return (0);
+}
+
+/**
+ * @brief	Check if the word is a directory.
+ *
+ * @param	char	*word The word to check.
+ * 
+ * @return	if the word is a directory
+ * @retval		1 if the word is a directory
+ * @retval		0 if the word is not a directory
+ * 
+ * @version 2.0
+*/
+__attribute__((always_inline, used))
+static inline int	_is_reg__(
+	const char *const restrict path
+)
+{
+	struct stat	s;
+
+	if (unexpect(!path || !*path))
+		return (0);
+	else if (stat(path, &s) == 0)
+		return (S_ISREG(s.st_mode));
+	else
+		return (0);
+}
+
+/**
+ *  @brief	_rl_tokenize__ the word to determine its type.
+ * 
+ *  @param	word The word to _rl_tokenize__.
+ *
+ *  @return	The token type of the word.
+ *  @retval		token_cmd if the word is a command
+ *  @retval		token_path_file if the word is a path to a file
+ *  @retval		token_path_dir if the word is a path to a directory
+*/
+__attribute__((always_inline, used))
+inline int	_rl_tokenize__(
+	const char *const restrict word
+)
+{
+	if (unexpect(!word || !*word))
+		return (unknown);
+	else if (_is_file__(word))
+	{
+		if (_is_dir__(word))
+			return (token_path_dir);
+		else if (_is_reg__(word))
+			return (token_path_file);
+		else
+			return (token_path);
+	}
+	else
+		return (token_cmd);
+}
+
+#pragma endregion Fonctions

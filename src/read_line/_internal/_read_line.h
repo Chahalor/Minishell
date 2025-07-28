@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:57:59 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/27 12:55:08 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/24 08:25:44 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,7 +214,7 @@ int			handle_ansi(
 
 // dir/_free.c
 
-extern void	_free_completion(
+extern void	_rl_free_completion__(
 				t_rl_completion *const restrict data
 				);
 

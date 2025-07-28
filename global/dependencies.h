@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 14:28:40 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/05 14:34:38 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/22 14:57:44 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@
 # include <dirent.h>	// opendir, readdir, closedir
 # include <sys/ioctl.h>	// ioctl
 # include <termios.h>	// tcsetattr, tcgetattr
-# include <termcap.h>	// tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
 # include <sys/stat.h>	// stat, lstat, fstat
 # include <errno.h>		// errno
 

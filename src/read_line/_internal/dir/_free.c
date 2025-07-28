@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/03 10:23:43 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/24 08:25:44 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
  * 
  * @return	None
  */
-__attribute__((always_inline, used)) inline void	_free_completion(
+__attribute__((always_inline, used)) inline void	_rl_free_completion__(
 	t_rl_completion *const restrict data
 )
 {
