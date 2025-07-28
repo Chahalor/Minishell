@@ -6,11 +6,14 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/28 11:02:10 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/28 15:56:51 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma region Header
+
+/* -----| Manager   |----- */
+#include "manager_.h"
 
 /* -----| Internals |----- */
 #include "exec__.h"
@@ -24,12 +27,12 @@
 #pragma region Fonctions
 
 static inline void	_update_env(
-	const int exit_code
+	const int last_exit
 )
 {
-	if (expect(_manager()->env.set("?", exit_code) == 0))
-		return ;
-	ft_fprintf(STDERR_FILENO, "signal__: Failed to update $? variable\n");
+	char	_str[64];
+	_manager()->interface.sprintf(_str, "%d", last_exit);
+	_manager()->env.set("?", _str);
 }
 
 /** */
@@ -74,8 +77,6 @@ static inline int	_signals(
  * @retval		<0 if the child process was terminated by a signal.
  * 
  * @version	1.0
- * 
- * @todo: should update the $? variable in the shell.
  */
 __attribute__((used, always_inline))
 static inline int	_analyse(
@@ -121,6 +122,7 @@ inline int	_exec_wait_childrens(
 	last_exit = curr->status;
 	if (expect(curr->pipe != NULL))
 		last_exit = _exec_wait_childrens(curr->pipe);
+	_update_env(last_exit);
 	return (last_exit);
 }
 

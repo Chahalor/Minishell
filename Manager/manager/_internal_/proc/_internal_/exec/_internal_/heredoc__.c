@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/28 10:58:06 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/28 15:46:48 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ static inline char	**_heredoc_read__(
  * * @retval	-1	Memory allocation failed.
  * * @retval	-2	Write operation failed.
  *
- * @version 1.0
+ * @version 2.0
 */
 __attribute__((always_inline, used))
 static inline int	_heredoc_write__(
@@ -102,13 +102,20 @@ static inline int	_heredoc_write__(
 	const int fd
 )
 {
+	char			*expanded;
 	register int	i;
 	int				exit_code;
 
 	exit_code = 0;
 	i = -1;
 	while (storage[++i] && exit_code > -1)
-		exit_code = ft_fprintf(fd, "%s\n", storage[i]);
+	{
+		expanded = _manager()->env.expand(storage[i]);
+		if (unexpect(!expanded))
+			return (-1);
+		exit_code = ft_fprintf(fd, "%s\n", expanded);
+		_manager()->mem.clean((unsigned char (1){mem_free}), none, expanded, 0);
+	}
 	return (exit_code > 0);
 }
 
@@ -126,8 +133,6 @@ static inline int	_heredoc_write__(
  * * @retval	-3	No lines read before the delimiter.
  * 
  * @version 3.0
- * 
- * @todo: avant _heredoc_write__ faut faire la var expentions (e.g. $HOME)
  */
 static inline int	_heredoc_logic__(
 	const char *const restrict delimiter,
