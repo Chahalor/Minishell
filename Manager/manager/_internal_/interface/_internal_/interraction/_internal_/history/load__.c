@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 15:54:17 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/24 08:54:27 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/28 11:54:19 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ inline int	_load_history__(
 	if (unexpect(fd < 0))
 		return (data->fd = _create__(filename), 0);
 	_skip__(fd, _count__(filename));
+	_manager()->mem.reader.skip(fd, _RL_HIST_SIZE);
 	line = gnl(fd);	//@todo: replace by manager gnl
 	i = -1;
 	while (line && ++i < _RL_HIST_SIZE)
