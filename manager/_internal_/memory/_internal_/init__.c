@@ -41,7 +41,7 @@ extern inline char	__mem_init(\
 	};
 	if (unexpect(!_mem_get(mem__)))
 		return (failed_to_setup);
-	return (no_error);
+	return (no_errorc | reader_setup() | writer_setup());
 }
 
 #endif

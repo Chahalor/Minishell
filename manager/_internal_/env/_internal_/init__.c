@@ -38,7 +38,7 @@ extern inline char	__env_init(\
 	};
 	if (unexpect(!_env_get(env__)))
 		return (failed_to_setup);
-	return (_env_load());
+	return (_env_load() | histo_init() | state_init());
 }
 
 #endif
