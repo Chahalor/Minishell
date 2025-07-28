@@ -27,11 +27,8 @@ extern inline char	__parse(\
 	const char *cmd__
 )	// v.1. >>> tag: def->_parse
 {
-	char			**argv__;
-	unsigned int	argc__;
-
 	if (unexpect(\
-		(parse__->token__.tokenize(argv__, cmd__) != no_error)
+		(parse__->token__.tokenize(cmd__) != no_error)
 		|| (tree(&parse__->token__) != no_error)))
 		return (error);
 	return (no_error);

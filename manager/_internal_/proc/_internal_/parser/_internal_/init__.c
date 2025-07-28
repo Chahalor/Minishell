@@ -27,7 +27,7 @@ extern inline char	__parse_init(\
 )	// v.1. >>> tag: def->parse_init
 {
 	*parse__ = (t_parse_){
-		.parse__ = _parse \
+		.parse_ = _parse \
 	}
 	if (unexpect(!_parse_get(parse__)))
 		return (failed_to_setup);

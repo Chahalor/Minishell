@@ -25,7 +25,26 @@
 # ifndef T_PARSE_
 #  define T_PARSE_
 
-typedef t_parse__	t_parse_;	// v.1. >>> tag: exp->t_parse_
+typedef struct t_parse_	t_parse_;	// v.1. >>> tag: exp->t_parse_
+
+# endif
+
+/* -------- structs --------- */
+	// ---- parser ----- //
+# ifndef S_PARSE_
+#  define S_PARSE_
+
+// private struct of parser module.
+struct s_parse_	// v.1. >>> tag: exp->s_parse_
+{
+	// data :
+	t_token	token_;
+	t_tree	*tree_;
+	// >>>
+	// access :
+	char	(*parse_)(\
+						const char *);
+};
 
 # endif
 
