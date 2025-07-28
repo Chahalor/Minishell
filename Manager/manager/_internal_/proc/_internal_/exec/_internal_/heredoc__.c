@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/24 08:54:58 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/28 10:58:06 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,20 @@
 
 #pragma endregion Header
 #pragma region Fonctions
+
+static inline void	_free_tab(
+	char **tab
+)
+{
+	register int	i;
+
+	if (unexpect(!tab))
+		return ;
+	i = -1;
+	while (tab[++i])
+		_manager()->mem.clean((unsigned char (1){mem_ptr}), none, tab[i], 0);
+	_manager()->mem.clean((unsigned char (1){mem_ptr}), none, tab, 0);
+}
 
 /**
  * @brief Reads lines from standard input until the delimiter is encountered,
@@ -51,22 +65,21 @@ static inline char	**_heredoc_read__(
 	i = 0;
 	while (line && ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1))
 	{
-		if ((i + 1) % HD_ALLOC_SIZE == 0)
+		if (unexpect((i + 1) % HD_ALLOC_SIZE == 0))
 		{
-			new_storage = mm_alloc((i + HD_ALLOC_SIZE + 1) * sizeof(char *));	// @todo: replace by manager call
-			if (unexpect(!new_storage))
-				return (mm_free(line), mm_free(storage), NULL);
-			ft_memcpy(new_storage, storage, i * sizeof(char *));
-			mm_free(storage);
-			storage = new_storage;
+			if (unexpect(_manager()->mem.alloc(mem_re, (void **)&new_storage,
+				(i + HD_ALLOC_SIZE + 1) * sizeof(char *), mem_ptr) < 0))
+					return (_manager()->mem.clean((unsigned char (1){mem_ptr}),
+						none, line, 0), _free_tab(storage), NULL);
 		}
 		(storage)[i++] = line;
 		(storage)[i] = NULL;
 		line = read_line(DEFAULT_HEREDOC);
 	}
 	if (unexpect(!line))
-		return (free_tab(storage), NULL);
-	return (mm_free(line), storage);
+		return (_free_tab(storage), NULL);
+	_manager()->mem.clean((unsigned char (1){mem_ptr}), none, line, 0);
+	return (storage);
 }
 
 /**
@@ -124,17 +137,20 @@ static inline int	_heredoc_logic__(
 	char			**storage;
 	int				exit_code;
 
-	storage = mm_alloc(sizeof(char *) * (HD_ALLOC_SIZE + 1));	// @todo: replace by manager call
+	_manager()->mem.alloc(mem_new, (void **)&storage,
+		sizeof(char *) * (HD_ALLOC_SIZE + 1), mem_ptr);
 	if (unexpect(!storage))
 		return (-1);
 	storage = _heredoc_read__(storage, delimiter);
 	if (unexpect(!storage))
-		return (mm_free(storage), -2);	// @todo: replace by manager call
+		return (_manager()->mem.clean((unsigned char (1){mem_ptr}), none,
+			storage, 0), -2);
 	exit_code = _heredoc_write__((const char *const *const)storage, fd);
 	if (unexpect(exit_code < 0))
-		return (free_tab(storage), exit_code);
+		return (_free_tab(storage), exit_code);
 	else
-		return (mm_free(storage), exit_code);
+		return (_manager()->mem.clean((unsigned char (1){mem_ptr}), none,
+			storage, 0), exit_code);
 }
 
 /**

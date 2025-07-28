@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:46:24 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/22 15:09:28 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/28 11:29:03 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 #pragma region Header
 /* -----| Internals |----- */
-#include "signal__.h"
+#include "server__.h"
 #include "types__.h"
 
 /* -----| Modules  |----- */

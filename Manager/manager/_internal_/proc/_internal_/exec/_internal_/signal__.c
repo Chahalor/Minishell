@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/24 09:23:17 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/28 11:02:10 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,15 @@
 
 #pragma endregion Header
 #pragma region Fonctions
+
+static inline void	_update_env(
+	const int exit_code
+)
+{
+	if (expect(_manager()->env.set("?", exit_code) == 0))
+		return ;
+	ft_fprintf(STDERR_FILENO, "signal__: Failed to update $? variable\n");
+}
 
 /** */
 __attribute__((always_inline, used))

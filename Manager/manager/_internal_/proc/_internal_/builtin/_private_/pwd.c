@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/24 10:18:09 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/28 10:44:31 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ char	bltin_pwd(
 )
 {
 	const char	help = _parse(args);
-	const char	*pwd = getcwd(NULL, 0);	// @todo: replace by manager call
+	const char	*pwd = getcwd(NULL, 0);
 
 	(void)fd_in;
 	if (unexpect(!args || help))

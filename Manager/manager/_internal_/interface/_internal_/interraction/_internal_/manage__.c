@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/23 18:06:10 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/28 10:21:03 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ static inline int	_rl_add_char__(
 
 	if ((data->line_length + 1) % _RL_ALLOC_SIZE == 0)
 	{
-		data->result = mm_realloc(data->result,	// @todo: replace by manager call
-				data->line_length + _RL_ALLOC_SIZE + 1, data->line_length - 1);
+		_manager()->mem.alloc(mem_re, (void **)&data->result, \
+			data->line_length + _RL_ALLOC_SIZE + 1, mem_ptr);
 		if (unexpect(!data->result))
 			return (data->status = error, 0);
 	}
