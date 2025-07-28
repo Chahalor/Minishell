@@ -10,38 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INIT___C
-# define INIT___C
+#ifndef INIT_C
+# define INIT_C
 
 /* -------- modules --------- */
 	// ---- access ----- //
-# include "memory__.h"
+# include "parser.h"
 
 /* -------- inlines --------- */
 
 // doc ...
 __attribute__((always_inline, used))
-// (-internal-)
-extern inline char	__mem_init(\
-	t_mem_ *restrict const mem__
-)	// v.1. >>> tag: def->mem_init
+// (-public-)
+extern inline char	parse_init(\
+	t_parse *restrict const parse
+)	// v.1. >>> tag: exp->parse_init
 {
-	*mem__ = (t_mem_){\
-		.alloc_ = _mem_alloc, \
-		.clean_ = _mem_clean, \
-		.size_ = _mem_size, \
-		.section_ = _mem_section, \
-		.write_ = _mem_write, \
-		.read_ = _mem_read, \
-		.copy_ = _mem_copy, \
-		.shift_ = _mem_shift, \
-		.split_ = _mem_split, \
-		.compare_ = _mem_compare, \
-		.search_ = _mem_search \
-	};
-	if (unexpect(!_mem_get(mem__)))
-		return (failed_to_setup);
-	return (no_error | reader_setup() | writer_setup());
+	return (__parse_init((t_parse_ *)parse));
 }
 
 #endif
