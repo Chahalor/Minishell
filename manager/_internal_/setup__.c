@@ -41,8 +41,8 @@ extern inline t_manager_	*__manager_setup(\
 	if (unexpect((_manager_init(manager__) != no_error)
 			|| (mem_init(manager__->mem) != no_error)
 			|| (env_init(manager__->env) != no_error)
-			// shall call setup of all the modules.
-			))
+			|| (interface_init(manager__->interface) != no_error)
+			|| (proc_init(manager__->proc) != no_error)))
 		return (NULL);
 	return (_manager_init(manager__));
 }

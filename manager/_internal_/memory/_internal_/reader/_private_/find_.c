@@ -79,7 +79,8 @@ extern char	_reader_find_file(\
 	void **buffer_
 )	// v.1. >>> tag: exp->_reader_find_file
 {
-	return (__reader_find_file(mode_, target_, buffer_));
+	return (__reader_find_file((t_mem *)&_manager()->mem, \
+								mode_, target_, buffer_));
 }
 
 #endif

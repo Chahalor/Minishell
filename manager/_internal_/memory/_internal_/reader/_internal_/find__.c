@@ -88,6 +88,7 @@ extern inline char __reader_find_container(\
 __attribute__((always_inline, used))
 // (-internal-)
 extern inline char	__reader_find_file(\
+	t_mem *restrict const mem__,
 	const unsigned char *restrict const mode__,
 	const char *restrict const target__,
 	void **buffer__
@@ -107,7 +108,7 @@ extern inline char	__reader_find_file(\
 	}
 	else
 	{
-		paths__ = _mem_split(env__->path(), ':');
+		paths__ = mem__->split(env__->path(), ':');
 		if (unexpect(!paths__))
 			return (error);
 		while (*paths__)

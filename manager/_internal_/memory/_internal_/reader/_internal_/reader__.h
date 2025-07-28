@@ -142,6 +142,7 @@ extern char 		__reader_find_container(\
 						always_inline, used, \
 						visibility("hidden")));
 extern char			__reader_find_file(\
+						t_mem *restrict const mem__,
 						const unsigned char *restrict const mode__,
 						const char *restrict const target__,
 						void **buffer__
