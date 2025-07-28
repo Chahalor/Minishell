@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:57:59 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/24 08:33:53 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/28 09:38:31 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 
 /* -----| Internals |----- */
 # include "types__.h"
+# include "manager_.h"
 
 /* -----| Modules  |----- */
 	//...

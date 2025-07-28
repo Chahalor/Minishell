@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:06:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/24 08:54:20 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/28 09:40:19 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ inline char	*_rl_read_line__(
 	t_rl_data	rl_data;
 
 	rl_data = (t_rl_data){
-		.result = mm_alloc(_RL_ALLOC_SIZE + 1),	// @todo: replace by manager call
+		.result = _manager()->mem.alloc()  //mm_alloc(_RL_ALLOC_SIZE + 1),	// @todo: replace by manager call
 		.line_length = 0,
 		.cursor_pos = 0,
 		.prompt = (char *)prompt,
