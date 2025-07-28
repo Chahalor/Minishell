@@ -1,7 +1,7 @@
 CC				:= cc
 AR				:= ar
 CFLAGS			:= -Wall -Wextra -Werror -MMD
-NAME			:= mem.a
+NAME			:= histo.a
 
 INTERNAL		:= _internal_
 PRIVATE			:= _private_
@@ -78,10 +78,10 @@ _build_/%.o: $(GLOBAL)/%.c
 	$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
 
 $(LIB_MANAGER):
-	@$(MAKE) -C $(READER)
+	@$(MAKE) -C $(MANAGER)
 
 $(LIB_MEMORY):
-	@$(MAKE) -C $(WRITER)
+	@$(MAKE) -C $(MEMORY)
 
 all: $(LIBS) $(NAME)
 
