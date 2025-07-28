@@ -18,6 +18,8 @@
 /* -------- modules --------- */
 	// ---- locals ----- //
 # include "./types__.h"
+# include "/tokenizer/_public_/tokenizer.h"
+# include "/tree/_public_/tree.h"
 
 	// ---- private ---- //
 # include "../_private_/parser_.h"

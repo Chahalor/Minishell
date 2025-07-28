@@ -1,2 +1,4 @@
 # TODO:
 	- setup correctly proc module.
+	- we'll also create a wrapper that toknize and parse command and then execute it.
+	- create all makefiles

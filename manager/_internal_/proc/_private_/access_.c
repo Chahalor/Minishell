@@ -1,50 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   types__.h                                          :+:      :+:    :+:   */
+/*   access__.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 08:52:57 by delta_0ne         #+#    #+#             */
-/*   Updated: 2025/06/27 14:36:33 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/06/20 13:46:54 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TYPES___H
-# define TYPES___H
-
-# undef TYPES___H
-# pragma once
+#ifndef ACCESS__C
+# define ACCESS__C
 
 /* -------- modules --------- */
-	// --- externals --- //
-# include "../../../../../standards/_public_/standards.h"
+	// ---- access ----- //
+# include "proc_.h"
 
-/* --------- types ---------- */
-	// ----- proc ------ //
-# ifndef T_PROC__
-#  define T_PROC__
+/* ------- functions -------- */
 
-typedef struct s_proc__	t_proc__;	// v.1. >>> tag: def->t_proc
-
-# endif
-
-/* -------- structs --------- */
-	// ----- proc ------ //
-# ifndef S_PROC__
-#  define S_PROC__
-
-// internal struct of proc module.
-struct s_proc__	// v.1. >>> tag: def->s_proc
+// doc ...
+__attribute__((hot, used))
+// (-private-)
+extern t_proc_	*_proc_get(\
+	t_proc_	*restrict const new_
+)	// v.1. >>> tag: exp->_proc_get
 {
-	// data :
-	t_exec	exec__;
-	t_parse	parse__;
-	// >>>
-	// access :
-	// ...
-};
+	return (__proc_get(new_));
+}
 
-# endif
+// doc ...
+__attribute__((hot, used))
+// (-private-)
+extern t_proc_	*_proc_self(void)	// v.1. >>> tag: exp->_proc_self
+{
+	return (__proc_self());
+}
 
 #endif

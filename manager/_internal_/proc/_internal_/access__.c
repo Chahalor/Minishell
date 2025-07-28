@@ -1,50 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   types__.h                                          :+:      :+:    :+:   */
+/*   access__.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 08:52:57 by delta_0ne         #+#    #+#             */
-/*   Updated: 2025/06/27 14:36:33 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/06/20 13:46:54 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TYPES___H
-# define TYPES___H
-
-# undef TYPES___H
-# pragma once
+#ifndef ACCESS___C
+# define ACCESS___C
 
 /* -------- modules --------- */
-	// --- externals --- //
-# include "../../../../../standards/_public_/standards.h"
+	// ---- access ----- //
+# include "proc__.h"
 
-/* --------- types ---------- */
-	// ----- proc ------ //
-# ifndef T_PROC__
-#  define T_PROC__
+/* -------- inlines --------- */
 
-typedef struct s_proc__	t_proc__;	// v.1. >>> tag: def->t_proc
-
-# endif
-
-/* -------- structs --------- */
-	// ----- proc ------ //
-# ifndef S_PROC__
-#  define S_PROC__
-
-// internal struct of proc module.
-struct s_proc__	// v.1. >>> tag: def->s_proc
+// doc ...
+__attribute__((always_inline, used))
+// (-internal-)
+extern inline t_proc_	*__proc_get(\
+	t_proc_	*restrict const new__
+)	// v.1. >>> tag: def->_proc_get
 {
-	// data :
-	t_exec	exec__;
-	t_parse	parse__;
-	// >>>
-	// access :
-	// ...
-};
+	static t_proc_	*restrict	proc__ = NULL;
 
-# endif
+	if (unexpect(!proc__ && new__))
+		proc__ = new__;
+	return (proc__);
+}
+
+// doc ...
+__attribute__((always_inline, used))
+// (-internal-)
+extern inline t_proc_	*__proc_self(void)	// v.1. >>> tag: def->_proc_self
+{
+	return (_proc_get(NULL));
+}
 
 #endif
