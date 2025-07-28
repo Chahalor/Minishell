@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:06:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/28 09:40:19 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/28 10:14:45 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,11 @@ inline char	*_rl_read_line__(
 {
 	t_rl_data	rl_data;
 
-	rl_data = (t_rl_data){
-		.result = _manager()->mem.alloc()  //mm_alloc(_RL_ALLOC_SIZE + 1),	// @todo: replace by manager call
-		.line_length = 0,
-		.cursor_pos = 0,
-		.prompt = (char *)prompt,
-		.prompt_length = ft_strlen(prompt),
-		.status = normal,
-	};
+	rl_data = (t_rl_data){.result = NULL, .line_length = 0, .cursor_pos = 0,
+		.prompt = (char *)prompt, .prompt_length = ft_strlen(prompt),
+		.status = normal};
+	_manager()->mem.alloc(mem_new, (void **)&rl_data.result, \
+		_RL_ALLOC_SIZE + 1, t_mem_alloc);
 	if (unexpect(!rl_data.result))
 		return (NULL);
 	_init_cmd(&rl_data);
@@ -55,9 +52,12 @@ inline char	*_rl_read_line__(
 	write(STDOUT_FILENO, "\033[?2004l\n", 9);
 	_history_manager(rl_reset_pos, NULL);
 	if (rl_data.status == eof)
-		return (mm_free(rl_data.result), memdup("\04", 1));	// @todo: replace by manager call
+		return (_manager()->mem.clean("\0", mem_free, rl_data.result, \
+			_RL_ALLOC_SIZE + 1), _manager()->mem.copy(mem_duplicate, "\04", \
+			rl_data.result, 1), rl_data.result);
 	if (rl_data.status < exiting || !rl_data.line_length)
-		return (mm_free(rl_data.result), NULL);				// @todo: replace by manager call
+		return (_manager()->mem.clean("\0", mem_free, rl_data.result, \
+			_RL_ALLOC_SIZE + 1), NULL);
 	else
 		return (rl_data.result);
 }

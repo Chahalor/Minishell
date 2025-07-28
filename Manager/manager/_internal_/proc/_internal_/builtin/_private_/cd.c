@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/24 10:14:19 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/28 10:43:57 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,9 +129,7 @@ static inline char	_check_path(
  * @retval		EXIT_FAILURE if an error occurred
  * 		(e.g., too many arguments, no such file or directory, not a directory).
  * 
- * @version	2.0
- * 
- * @todo: change the HOME/OLDPWD environment variables (in the manager)
+ * @version	2.1
 */
 __attribute__((used, visibility("hidden")))
 char	bltin_cd(
@@ -151,9 +149,9 @@ char	bltin_cd(
 	else if (unexpect(opts.error))
 		return (_error(opts.error, NULL));
 	else if (opts.oldpwd)
-		dest = getenv("OLDPWD");	// @todo: replace by manager call
+		dest = _manager()->env.find("OLDPWD");
 	else if (opts.home)
-		dest = getenv("HOME");		// @todo: replace by manager call
+		dest = _manager()->env.home();
 	else
 		dest = (char *)args[1];
 	error = _check_path(dest);

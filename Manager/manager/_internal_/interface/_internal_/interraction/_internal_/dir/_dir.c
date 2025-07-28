@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/24 08:54:27 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/28 10:39:20 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,6 @@ extern void	_add_builtin(
  * @retval		+0 on success
  * @retval		-1 on error
  * @retval		-2 on memory allocation failure.
- * 
- * @todo: replace getenv by the manager getenv function
 */
 __attribute__((used, always_inline))
 static inline int	_show_cmds__(
@@ -69,7 +67,7 @@ static inline int	_show_cmds__(
 	DIR				*dir;
 	struct dirent	*entry;
 
-	paths = ft_split(getenv("PATH"), ':');
+	paths = ft_split(_manager()->env.find("PATH"), ':');
 	if (unexpect(!paths))
 		return (-2);
 	_add_builtin(dt, word);
@@ -130,7 +128,9 @@ static inline int	_show_paths__(
 		entry = readdir(dir);
 	}
 	closedir(dir);
-	return (mm_free(path_dir), mm_free(path_file), 0);	// @todo: replace by the manager call
+	_manager()->mem.clean((unsigned char (1){mem_ptr}), none, path_dir, 0);
+	_manager()->mem.clean((unsigned char (1){mem_ptr}), none, path_file, 0);
+	return (0);
 }
 
 /**

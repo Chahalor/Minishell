@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/24 08:54:20 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/28 10:41:39 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ inline void	_rl_free_completion__(
 	{
 		if (unexpect(!data->entry[i]))
 			continue ;
-		mm_free(data->entry[i]);	// @todo: replace by the manager call
+		_manager()->mem.clean((unsigned char (1){mem_ptr}), none, data->entry[i], 0);
 		data->entry[i] = NULL;
 	}
 	data->nb_entries = 0;
