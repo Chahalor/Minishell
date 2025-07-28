@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INIT___C
-# define INIT___C
+#ifndef HANDLER___C
+# define HANDLER___C
 
 /* -------- modules --------- */
 	// ---- access ----- //
@@ -22,18 +22,31 @@
 // doc ...
 __attribute__((always_inline, used))
 // (-internal-)
-extern inline char	__server_init(\
-	t_server_ *restrict const server__
-)	// v.1. >>> tag: def->server_init
+extern inline char	__server_sigint_handler(\
+	const int signal__
+)	// v.1. >>> tag: def->_server_sigint_handler
 {
-	*server__ = (t_server_ *){\
-		.reset_ = _server_reset \
-	};
-	if (unexpect(!_server_get(server__)))
-		return (failed_to_setup);
-	return (_server_add(&server__->sigint__, _server_sigint_handler) \
-			| _server_add(&server__->sigquit__, _server_sigquit_handler) \
-			| _server_add(&server__->sigstop__, _server_sigstop_handler));
+	g_signal = signal__;
+}
+
+// doc ...
+__attribute__((always_inline, used))
+// (-internal-)
+extern inline char	__server_sigquit_handler(\
+	const int signal__
+)	// v.1. >>> tag: def->_server_sigquit_handler
+{
+	g_signal = signal__;
+}
+
+// doc ...
+__attribute__((always_inline, used))
+// (-internal-)
+extern inline char	__server_sigstop_handler(\
+	const int signal__
+)	// v.1. >>> tag: def->_server_sigstop_handler
+{
+	g_signal = signal__;
 }
 
 #endif

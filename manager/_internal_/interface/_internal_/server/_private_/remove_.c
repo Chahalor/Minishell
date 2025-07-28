@@ -1,40 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   _manager.h                                         :+:      :+:    :+:   */
+/*   init__.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 08:52:57 by delta_0ne         #+#    #+#             */
-/*   Updated: 2025/05/23 15:17:06 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/06/25 15:06:11 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INTERFACE__H
-# define INTERFACE__H
-
-# pragma once
+#ifndef REMOVE__C
+# define REMOVE__C
 
 /* -------- modules --------- */
-	// --- internal ---- //
-# include "../_internal_/interface__.h"
+	// ---- access ----- //
+# include "server_.h"
 
-	// ---- locals ----- //
-# include "./types_.h"
+/* ------- functions -------- */
 
-/* ------- prototypes ------- */
-	// ---- private ---- //
-// access :
-extern t_interface_	*_interface_get(\
-						t_interface_	*restrict const new_
-						)
-					__attribute__((\
-						hot, used, \
-						visibility("hidden")));
-extern t_interface_	*_interface_self(void)
-					__attribute__((\
-						hot, used, \
-						visibility("hidden")));
-// ...
+// doc ...
+__attribute__((cold, used))
+// (-private-)
+extern inline char	_server_reset(void)	// v.1. >>> tag: exp->_server_reset
+{
+	return (__server_reset());
+}
 
 #endif

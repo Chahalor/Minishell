@@ -1,39 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init__.c                                           :+:      :+:    :+:   */
+/*   access__.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 08:52:57 by delta_0ne         #+#    #+#             */
-/*   Updated: 2025/06/25 15:06:11 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/06/20 13:46:54 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INIT___C
-# define INIT___C
+#ifndef ACCESS___C
+# define ACCESS___C
 
 /* -------- modules --------- */
 	// ---- access ----- //
-# include "server__.h"
+# include "interface__.h"
 
 /* -------- inlines --------- */
 
 // doc ...
 __attribute__((always_inline, used))
 // (-internal-)
-extern inline char	__server_init(\
-	t_server_ *restrict const server__
-)	// v.1. >>> tag: def->server_init
+extern inline t_interface_	*__interface_get(\
+	t_interface_	*restrict const new__
+)	// v.1. >>> tag: def->_interface_get
 {
-	*server__ = (t_server_ *){\
-		.reset_ = _server_reset \
-	};
-	if (unexpect(!_server_get(server__)))
-		return (failed_to_setup);
-	return (_server_add(&server__->sigint__, _server_sigint_handler) \
-			| _server_add(&server__->sigquit__, _server_sigquit_handler) \
-			| _server_add(&server__->sigstop__, _server_sigstop_handler));
+	static t_interface_	*restrict	interface__ = NULL;
+
+	if (unexpect(!interface__ && new__))
+		interface__ = new__;
+	return (interface__);
+}
+
+// doc ...
+__attribute__((always_inline, used))
+// (-internal-)
+extern inline t_interface_	*__interface_self(void)
+// v.1. >>> tag: def->_interface_self
+{
+	return (_interface_get(NULL));
 }
 
 #endif

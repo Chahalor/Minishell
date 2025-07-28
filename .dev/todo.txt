@@ -1,5 +1,18 @@
 # TODO:
-	- we'll also create a wrapper that toknize and parse command and then execute it.
+# LOCAL:
+	- we'll also create a wrapper that tokenize and parse command and then execute it.
+	- complete inits in interface and proc.
+	- complete / check interraction module.
+	- complete / check exec module.
+	- what da hell is this piece of shit of visual module, damn it's SHIT !
+	  if possible optimize it and use memory module within it,
+	  and correct it there is more issues than braincells for me to count them.
+	- check that env variable expansion in command are supported.
+	- correct tree to support "" and ''.
+# MAKEFILES:
+	- server
+	- ...
+# GLOBAL:
 	- complete all makefiles
 	- make everything compile
 	- correct all bugs and add tests sections as much as possible

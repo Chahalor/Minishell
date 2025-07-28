@@ -10,52 +10,67 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TYPES___H
-# define TYPES___H
+#ifndef TYPES__H
+# define TYPES__H
 
-# undef TYPES___H
+# undef TYPES__H
 # pragma once
 
 /* -------- modules --------- */
-	// --- externals --- //
-# include "../../../../../../standards/_public_/standards.h"
+	// ----- local ----- //
+# include "visual_.h"
 
 /* --------- enums ---------- */
 	// ---- visual ----- //
-# ifndef E_VISUAL__
-#  define E_VISUAL__
+# ifndef E_VISUAL_
+#  define E_VISUAL_
 
-// all internal visual module error codes.
-enum e_visual_errors__	// v.1. >>> tag: def->e_visual_errors_
+// all private visual module error codes.
+enum e_visual_errors_	// v.1. >>> tag: exp->e_visual_errors_
 {
-	visual_writing_failure__	= -1,
+	visual_writing_failure_	= visual_writing_failure__,
 };
 
 # endif
 
 /* --------- types ---------- */
 	// ---- visual ----- //
-# ifndef T_VISUAL__
-#  define T_VISUAL__
+# ifndef T_VISUAL_
+#  define T_VISUAL_
 
-typedef struct s_visual__	t_visual__;	// v.1. >>> tag: def->t_visual
+typedef struct s_visual_	t_visual_;	// v.1. >>> tag: exp->t_visual_
 
 # endif
 
 /* -------- structs --------- */
 	// ---- visual ----- //
-# ifndef S_VISUAL__
-#  define S_VISUAL__
+# ifndef S_VISUAL_
+#  define S_VISUAL_
 
-// internal struct of visual module.
-struct s_visual__	// v.1. >>> tag: def->s_visual
+// private struct of visual module.
+struct s_visual_	// v.1. >>> tag: exp->s_visual_
 {
-	unsigned int	size__;		/* The buffer max size        */
-	unsigned int	index__;	/* The index of the next add  */
-	unsigned int	len__;		/* The number of char writed  */
-	int				fd__;		/* The fd to write            */
-	char			error__;	/* The error                  */
-	char			*buffer__;	/* The buffer to add char in  */
+	// data :
+	char	_internal_[sizeof(t_visual__)];
+	// >>>
+	// access :
+	int		(*printf_)(\
+						const char *const restrict, \
+						...);
+	int		(*rprintf_)(\
+						const char *const restrict, \
+						...);
+	int		(*fprintf_)(\
+						const int, \
+						const char *const restrict, \
+						...);
+	int		(*sprintf_)(\
+						char *const restrict, \
+						const char *const restrict, \
+						...);
+	int		(*perror_)(\
+						const char *const restrict, \
+						...);
 };
 
 # endif

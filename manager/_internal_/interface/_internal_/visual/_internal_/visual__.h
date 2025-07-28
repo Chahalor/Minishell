@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   visual__.h                                         :+:      :+:    :+:   */
+/*   _manager.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
+/*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/22 10:27:18 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/22 14:37:45 by nduvoid          ###   ########.fr       */
+/*   Created: 2025/02/24 08:52:57 by delta_0ne         #+#    #+#             */
+/*   Updated: 2025/05/23 15:17:06 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,81 +15,131 @@
 
 # pragma once
 
-/* ************************************************************************** */
-/*                                 Headers                                    */
-/* ************************************************************************** */
+/* -------- modules --------- */
+	// ----- local ----- //
+# include "./types__.h"
 
-/* -----| Systems   |----- */
-	//...
+	// ---- private ---- //
+# include "../_private_/visual_.h"
 
-/* -----| Globals   |----- */
-	//...
+/* ------- prototypes ------- */
+	// --- internal ---- //
+// init :
+extern char			__visual_init(\
+						t_visual_ *restrict const visual__
+						)
+					__attribute__((\
+						always_inline, used, \
+						visibility("hidden")));
+// access :
+extern t_visual_	*__visual_get(\
+						t_visual_	*restrict const new__
+						)
+					__attribute__((\
+						always_inline, used, \
+						visibility("hidden")));
+extern t_visual_	*__visual_self(void)
+					__attribute__((\
+						always_inline, used, \
+						visibility("hidden")));
+// add :
+extern int			__visual_add(\
+						t_visual__ *restrict const visual__,
+						const char ltr__
+						)
+					__attribute__((\
+						always_inline, used, \
+						visibility("hidden")));
+extern int			__visual_str(\
+						t_visual__ *restrict const visual__,
+						const char *restrict const str__
+						)
+					__attribute__((\
+						always_inline, used, \
+						visibility("hidden")));
+extern int			__visual_hex(\
+						t_visual__ *restrict const visual__,
+						unsigned long val__,
+						const char *const restrict base__
+						)
+					__attribute__((\
+						always_inline, used, \
+						visibility("hidden")));
+extern int			__visual_ptr(\
+						t_visual__ *restrict const visual__,
+						const void *restrict const ptr__
+						)
+					__attribute__((\
+						always_inline, used, \
+						visibility("hidden")));
+extern int			__visual_dec(\
+						t_visual__ *restrict const visual__,
+						long val__
+						)
+					__attribute__((\
+						always_inline, used, \
+						visibility("hidden")));
+// proc :
+extern int			__visual_select(\
+						t_visual__ *restrict const visual__,
+						const char *restrict const str__,
+						va_list args__
+						)
+					__attribute__((\
+						always_inline, used, \
+						visibility("hidden")));
+extern int			__visual_proc(\
+						t_visual_ *restrict const visual__,
+						t_mem *restrict const mem__,
+						const char *restrict const str__,
+						va_list args__
+						)
+					__attribute__((\
+						always_inline, used, \
+						visibility("hidden")));
+// visual :
+extern int			__visual_printf(\
+						t_visual__ *restrict const visual__,
+						const char *const restrict format__,
+						va_list args__
+						)
+					__attribute__((\
+						always_inline, used, \
+						visibility("hidden")));
+extern int			__visual_rprintf(\
+						t_visual__ *restrict const visual__,
+						const char *const restrict format__,
+						va_list args__
+						)
+					__attribute__((\
+						always_inline, used, \
+						visibility("hidden")));
+extern int			__visual_fprintf(\
+						t_visual__ *restrict const visual__,
+						const int fd__,
+						const char *const restrict format__,
+						va_list args__
+						)
+					__attribute__((\
+						always_inline, used, \
+						visibility("hidden")));
+extern int			__visual_sprintf(\
+						t_visual__ *restrict const visual__,
+						char *const restrict buffer__,
+						const char *const restrict format__,
+						va_list args__
+						)
+					__attribute__((\
+						always_inline, used, \
+						visibility("hidden")));
+extern char			__visual_perror(\
+						t_visual__ *restrict const visual__,
+						const char *const restrict format__,
+						va_list args__
+						)
+					__attribute__((\
+						always_inline, used, \
+						visibility("hidden")));
 
-/* -----| Internals |----- */
-# include "types__.h"
 
-/* -----| Modules  |----- */
-	//...
-
-/* ************************************************************************** */
-/*                                 Prototypes                                 */
-/* ************************************************************************** */
-
-/* -----| utils    |----- */
-
-extern void		ft_bzero(
-					const void *const restrict s,
-					register const int n
-					);
-
-extern int		printf_strlen(
-					const char *const restrict str
-					);
-
-extern t_print	_init_print(
-					void *buffer,
-					int fd,
-					int buffer_len
-					);
-
-extern int		_add(
-					t_print *const restrict print,
-					const char c
-					);
-
-/* -----| printf  |----- */
-
-extern int		write_loop__(
-					const char *s,
-					va_list args,
-					t_print *const restrict print
-					);
-
-extern int		addstr__(
-					const char *const restrict s,
-					t_print *const restrict print
-					);
-
-extern int		adddec__(
-					long dec,
-					t_print *const restrict print
-					);
-
-extern int		addptr__(
-					const void *const restrict ptr,
-					t_print *const restrict print
-					);
-
-extern int		addhex__(
-					unsigned long nb,
-					t_print *const restrict print,
-					const char *const restrict base
-					);
-
-/* -----| fprintf |----- */
-	//...
-
-/* -----| sprintf |----- */
-	//...
-
-#endif /* VISUAL___H */
+#endif

@@ -10,42 +10,42 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TYPES___H
-# define TYPES___H
+#ifndef TYPES__H
+# define TYPES__H
 
-# undef TYPES___H
+# undef TYPES__H
 # pragma once
 
 /* -------- modules --------- */
-	// --- externals --- //
-# include "../../../../../../standards/_public_/standards.h"
+	// ----- local ----- //
+# include "server_.h"
 
 /* --------- types ---------- */
 	// ---- server ----- //
-# ifndef T_SERVER__
-#  define T_SERVER__
+# ifndef T_SERVER_
+#  define T_SERVER_
 
-typedef struct sigaction	t_signal__;	// v.1. >>> tag: def->t_signal
-typedef siginfo_t			t_infos__;	// v.1. >>> tag: def->t_infos_
-typedef struct s_server__	t_server__;	// v.1. >>> tag: def->t_server
+typedef t_signal__			t_signal_;	// v.1. >>> tag: exp->t_signal_
+typedef t_infos__			t_infos_;	// v.1. >>> tag: exp->t_infos_
+typedef struct s_server_	t_server_;	// v.1. >>> tag: exp->t_server_
 
 # endif
 
 /* -------- structs --------- */
 	// ---- server ----- //
-# ifndef S_SERVER__
-#  define S_SERVER__
+# ifndef S_SERVER_
+#  define S_SERVER_
 
-// internal struct of server module.
-struct s_server__	// v.1. >>> tag: def->s_server
+// private struct of server module.
+struct s_server_	// v.1. >>> tag: exp->s_server_
 {
 	// data :
-	t_signal__	sigint__;
-	t_signal__	sigquit__;
-	t_signal__	sigstop__;
+	t_signal_	sigint_;
+	t_signal_	sigquit_;
+	t_signal_	sigstp_;
 	// >>>
 	// access :
-	char		(*reset__)(void);
+	char		(*reset_)(void);
 };
 
 # endif

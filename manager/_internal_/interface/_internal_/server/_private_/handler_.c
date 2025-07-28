@@ -10,30 +10,49 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INIT___C
-# define INIT___C
+#ifndef HANDLER__C
+# define HANDLER__C
 
 /* -------- modules --------- */
 	// ---- access ----- //
-# include "server__.h"
+# include "server_.h"
 
-/* -------- inlines --------- */
+/* ------- functions -------- */
 
 // doc ...
-__attribute__((always_inline, used))
-// (-internal-)
-extern inline char	__server_init(\
-	t_server_ *restrict const server__
-)	// v.1. >>> tag: def->server_init
+__attribute__((hot, used))
+// (-private-)
+extern char	_server_sigint_handler(\
+	int signal_,
+	t_infos_ *infos_,
+	void *context_
+)	// v.1. >>> tag: exp->_server_sigint_handler
 {
-	*server__ = (t_server_ *){\
-		.reset_ = _server_reset \
-	};
-	if (unexpect(!_server_get(server__)))
-		return (failed_to_setup);
-	return (_server_add(&server__->sigint__, _server_sigint_handler) \
-			| _server_add(&server__->sigquit__, _server_sigquit_handler) \
-			| _server_add(&server__->sigstop__, _server_sigstop_handler));
+	return ((void)infos_, (void)context_, __server_sigint_handler(signal_));
+}
+
+// doc ...
+__attribute__((cold, used))
+// (-private-)
+extern char	__server_sigquit_handler(\
+	int signal_,
+	t_infos_ *infos_,
+	void *context_
+)	// v.1. >>> tag: exp->_server_sigquit_handler
+{
+	return ((void)infos_, (void)context_, __server_sigquit_handler(signal_));
+}
+
+// doc ...
+__attribute__((cold, used))
+// (-private-)
+extern char	__server_sigstop_handler(\
+	int signal_,
+	t_infos_ *infos_,
+	void *context_
+)	// v.1. >>> tag: exp->_server_sigstop_handler
+{
+	return ((void)infos_, (void)context_, __server_sigstop_handler(signal_));
 }
 
 #endif

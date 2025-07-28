@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   visual.h                                           :+:      :+:    :+:   */
+/*   _manager.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
+/*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/21 11:37:23 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/22 10:24:45 by nduvoid          ###   ########.fr       */
+/*   Created: 2025/02/24 08:52:57 by delta_0ne         #+#    #+#             */
+/*   Updated: 2025/05/23 15:17:06 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,40 +15,21 @@
 
 # pragma once
 
-/* ************************************************************************** */
-/*                                 Headers                                    */
-/* ************************************************************************** */
+/* -------- modules --------- */
+	// --- internal ---- //
+# include "../_internal_/visual__.h"
 
-/* -----| Systems   |----- */
-	//...
+	// ----- local ----- //
+# include "./types.h"
 
-/* -----| Globals   |----- */
-	//...
+/* ------- prototypes ------- */
+	// ---- public ----- //
+// init :
+extern char	visual_init(\
+				t_visual *restrict const visual
+				)
+			__attribute__((\
+				always_inline, used, \
+				visibility("default")));
 
-/* -----| Internals |----- */
-	//...
-
-/* -----| Modules  |----- */
-	//...
-
-/* ************************************************************************** */
-/*                                 Prototypes                                 */
-/* ************************************************************************** */
-
-/* -----| Interface.c |----- */
-
-int		ft_printf(
-			const char *const restrict str, ...);
-
-int		raw_printf(
-			const char *const restrict str, ...);
-
-int		ft_fprintf( const int fd, const char *const restrict str, ...);
-
-int		ft_sprintf(char *const restrict buffer, const char *const restrict str,
-			...);
-
-void	ft_perror(
-			const char *const restrict str, ...);
-
-#endif /* VISUAL_H */
+#endif
