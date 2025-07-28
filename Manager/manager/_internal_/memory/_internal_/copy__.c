@@ -141,7 +141,7 @@ extern inline char	__mem_copy(\
 )	// v.1. >>> tag: def->mem_copy
 {
 	return ((t_mem_copy_func_ [3]){\
-				_mem_copy_raw, NULL, _mem_replace}[\
+				_mem_copy_raw, _mem_duplicate, _mem_replace}[\
 					mode__[0]](src__, dest__, len__));
 }
 
