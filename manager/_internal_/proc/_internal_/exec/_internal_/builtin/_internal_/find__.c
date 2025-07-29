@@ -22,12 +22,12 @@
 // doc ...
 __attribute__((always_inline, used))
 // (-internal-)
-extern inline t_call_	*__builtin_find(\
+extern inline t_builtin_call_	*__builtin_find(\
 	t_mem *restrict const mem__,
 	const char *restrict const name__
 )	// v.1. >>> tag: def->_builtin_find
 {
-	static t_call_			builtin__[9] = {\
+	static t_builtin_call_	builtin__[9] = {\
 											{"cd", _builtin_cd},
 											{"exit", _builtin_exit},
 											{"env", _builtin_env},

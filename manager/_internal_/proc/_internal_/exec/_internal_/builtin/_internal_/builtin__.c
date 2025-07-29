@@ -29,7 +29,7 @@ extern inline char	__builtin_fork(\
 	const int output__
 )	// v.1. >>> tag: def->_builtin_fork
 {
-	t_call_	*builtin__;
+	t_builtin_call_	*builtin__;
 
 	builtin__ = _builtin_find(exec__->name__);
 	if (unexpect(!exec__ || !exec__->cmd__ || !builtin__))
@@ -55,7 +55,7 @@ extern inline char	__builtin(\
 	const int output__
 )	// v.1. >>> tag: def->_builtin
 {
-	t_call_	*builtin__;
+	t_builtin_call_	*builtin__;
 
 	builtin__ = _builtin_find(exec__->name__);
 	if (unexpect(!exec__ || !exec__->cmd__ || !builtin__))

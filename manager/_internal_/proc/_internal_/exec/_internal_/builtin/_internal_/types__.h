@@ -55,6 +55,20 @@ typedef struct s_builtin__			t_builtin__;
 # ifndef S_BUILTIN__
 #  define S_BUILTIN__
 
+struct s_args_echo
+{
+	int				start;			/* Start for the echo      */
+	unsigned char	nl		: 1;	/* Newline flag           */
+	unsigned char	help	: 1;	/* Help flag             */
+};
+
+struct s_args_exit
+{
+	unsigned int	exit_code	: 16;	/* Exit code               */
+	char			error;				/* Error flag             */
+	unsigned char	help		: 1;	/* Help flag             */
+};
+
 // internal cd representation of builtin module.
 struct s_builtin_cd__	// v.1. >>> tag: def->s_builtin_cd_
 {
