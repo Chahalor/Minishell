@@ -76,6 +76,7 @@ __attribute__((always_inline, used))
 // (-internal-)
 extern inline char	__mem_clean_all(\
 	t_mem__ *mem__,
+	t_reader *restrict const reader__,
 	const char code__
 )	// v.1. >>> tag: def->mem_clean_all
 {
@@ -84,6 +85,9 @@ extern inline char	__mem_clean_all(\
 	void						*ptr__;
 	register unsigned int		i__;
 
+	rl_reset_cmd();
+	rl_clear_history();
+	reader__->remove((unsigned char [1]){reader_all}, NULL);
 	ptr__ = mem__->access__[0];
 	i__ = 0;
 	while (i__ != mem__->index__ - 1)

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec__.h                                           :+:      :+:    :+:   */
+/*   _manager.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
+/*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/15 12:49:39 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/24 09:25:46 by nduvoid          ###   ########.fr       */
+/*   Created: 2025/02/24 08:52:57 by delta_0ne         #+#    #+#             */
+/*   Updated: 2025/05/23 15:17:06 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,47 +15,33 @@
 
 # pragma once
 
-/* ************************************************************************** */
-/*                                 Headers                                    */
-/* ************************************************************************** */
-
-/* -----| Systems   |----- */
-# include <fcntl.h>
-# include <errno.h>
-# include <signal.h>
-# include <sys/wait.h>
-
-/* -----| Globals   |----- */
-	//...
-
-/* -----| Internals |----- */
+/* -------- modules --------- */
+	// ----- local ----- //
 # include "./types__.h"
 
-/* -----| Modules   |----- */
-	//...
+	// ---- private ---- //
+# include "../_private_/exec_.h"
 
+/* ------- prototypes ------- */
+	// --- internal ---- //
+// init :
+extern char		__exec_init(\
+					t_exec_ *restrict const exec__
+					)
+				__attribute__((|
+					always_inline, used, \
+					visibility("hidden")));
+// access :
+extern t_exec_	*__exec_get(\
+					t_exec_	*restrict const new__
+					)
+				__attribute__((|
+					always_inline, used, \
+					visibility("hidden")));
+extern t_exec_	*__exec_self(void)
+				__attribute__((|
+					always_inline, used, \
+					visibility("hidden")));
+// ...
 
-
-/* ************************************************************************** */
-/*                                 Prototypes                                 */
-/* ************************************************************************** */
-
-extern int	_exec_wait_childrens(
-				t_exec_data *const restrict data
-				);
-
-int			exec_bin__(
-				t_exec_data *const restrict data,
-				char *const envp[],
-				const int prev_read,
-				const int out_fd
-				);
-
-/* -----| HereDocs | ----- */
-
-int			_heredoc__(
-				const char *const restrict delimiter,
-				int fd
-				);
-
-#endif /* !EXEC___H */
+#endif

@@ -3,68 +3,83 @@
 /*                                                        :::      ::::::::   */
 /*   types__.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
+/*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/19 14:15:37 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/24 10:06:29 by nduvoid          ###   ########.fr       */
+/*   Created: 2025/02/24 08:52:57 by delta_0ne         #+#    #+#             */
+/*   Updated: 2025/06/27 14:36:33 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef  TYPES___H
+#ifndef TYPES___H
 # define TYPES___H
-# undef  TYPES___H
 
+# undef TYPES___H
 # pragma once
 
-/* ************************************************************************** */
-/*                                 Typedefs                                   */
-/* ************************************************************************** */
+/* -------- modules --------- */
+	// --- externals --- //
+# include "../../../../../../../../standards/_public_/standards.h"
 
-typedef struct s_blt_link	t_blt_link;	/* Builtin link structure */
+/* --------- enums ---------- */
+	// ---- builtin ---- //
+# ifndef E_BUILTIN__
+#  define E_BUILTIN__
 
-/* ************************************************************************** */
-/*                                 Enums                                      */
-/* ************************************************************************** */
-
-enum e_builtin_error
+// all internal builtin module error codes.
+enum e_builtin_errors__	// v.1. >>> tag: def->e_builtin_errors_
 {
-	builtin_error_none = 0,				/* No error                          */
-	builtin_error_too_many_args = 1,	/* Too many arguments error         */
-	builtin_error_no_such_file = 2,		/* No such file or directory error */
-	builtin_error_not_a_directory = 3,	/* Not a directory error          */
-	builtin_error_not_numeric = 4,		/* Not a numeric argument error  */
+	builtin_fork_failure__		= -4,
+	builtin_too_many_args__		= -3,
+	builtin_invalid_target__	= -2,
+	builtin_invalid_value__		= -1,
 };
 
-/* ************************************************************************** */
-/*                                 Structs                                    */
-/* ************************************************************************** */
+# endif
 
-struct s_blt_link
+/* --------- types ---------- */
+	// ---- builtin ---- //
+# ifndef T_BUILTIN__
+#  define T_BUILTIN__
+
+// v.1. >>> tag: def->t_builtin_cd_
+typedef struct s_builtin_cd__		t_builtin_cd__;
+// v.1. >>> tag: def->t_builtin_call_
+typedef struct s_builtin_call__		t_builtin_call__;
+// v.1. >>> tag: def->t_builtin
+typedef struct s_builtin__			t_builtin__;
+
+# endif
+
+/* -------- structs --------- */
+	// ---- builtin ---- //
+# ifndef S_BUILTIN__
+#  define S_BUILTIN__
+
+// internal cd representation of builtin module.
+struct s_builtin_cd__	// v.1. >>> tag: def->s_builtin_cd_
 {
-	const char	*name;								/* Builtin name           */
-	char		(*func)(const char **, const int, const int);
+	char			error__;
+	unsigned char	help__;
+	unsigned char	pwd__;
+	unsigned char	home__;
 };
 
-struct s_args_echo
+// internal call representation of builtin module.
+struct s_builtin_call__	// v.1. >>> tag: def->s_builtin_call_
 {
-	int				start;			/* Start for the echo      */
-	unsigned char	nl		: 1;	/* Newline flag           */
-	unsigned char	help	: 1;	/* Help flag             */
+	const char	*name__;
+	char		(*func__)(\
+						const char **, \
+						const int, \
+						const int);
 };
 
-struct s_args_cd
+// internal struct of builtin module.
+struct s_builtin__		// v.1. >>> tag: def->s_builtin
 {
-	enum e_builtin_error	error;			/* Error flag            */
-	unsigned char			help	: 1;	/* Help flag            */
-	unsigned char			oldpwd	: 1;	/* Oldpwd flag         */
-	unsigned char			home	: 1;	/* Pwd flag           */
+	// ...
 };
 
-struct s_args_exit
-{
-	unsigned int	exit_code	: 16;	/* Exit code               */
-	char			error;				/* Error flag             */
-	unsigned char	help		: 1;	/* Help flag             */
-};
+# endif
 
-#endif /* !TYPES___H */
+#endif

@@ -10,58 +10,46 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTIN___C
-# define BUILTIN___C
+#ifndef REMOVE___C
+# define REMOVE___C
 
 /* -------- modules --------- */
 	// ---- access ----- //
-# include "builtin__.h"
+# include "exec__.h"
 
 /* -------- inlines --------- */
 
 // doc ...
 __attribute__((always_inline, used))
 // (-internal-)
-extern inline char	__builtin_fork(\
-	t_mem *restrict const mem__,
-	t_exec__ *restrict const exec__,
-	const int intput__,
-	const int output__
-)	// v.1. >>> tag: def->_builtin_fork
+extern inline char	__exec_close(\
+	t_exec__ *restrict const exec__
+	const int *restrict const pipe__,
+	const int output__,
+	int *restrict const last__
+)	// v.1. >>> tag: def->_exec_close
 {
-	t_call_	*builtin__;
-
-	builtin__ = _builtin_find(exec__->name__);
-	if (unexpect(!exec__ || !exec__->cmd__ || !builtin__))
-		return (error);
-	exec__->pid__ = fork();
-	if (unexpect(!exec__->pid__))
-		mem__->clean((unsigned char [1]){mem_all}, \
-					builtin__->func__(exec__->args__, input__, output__), \
-					NULL, 0);
-	else if (exec__->pid__ > 0)
-		;
-	else
-		return (builtin_fork_failure_);
-	return (no_error);
+	if (*last__ > 0)
+		close(*last__);
+	if (exec__->pipe__)
+	{
+		close(output__);
+		*last__ = pipe__[0];
+		return (exec__->pipe__);
+	}
+	return (NULL);
 }
 
 // doc ...
 __attribute__((always_inline, used))
 // (-internal-)
-extern inline char	__builtin(\
-	t_exec__ *restrict const exec__,
-	const int intput__,
-	const int output__
-)	// v.1. >>> tag: def->_builtin
+extern inline char	__exec_reset(\
+	t_reader *restrict const reader__,
+	t_server *restrict const server__
+)	// v.1. >>> tag: def->_exec_reset
 {
-	t_call_	*builtin__;
-
-	builtin__ = _builtin_find(exec__->name__);
-	if (unexpect(!exec__ || !exec__->cmd__ || !builtin__))
-		return (error);
-	exec__->pid__ = 0;
-	return (builtin__->func__(exec__->exec____, intput__, output__));
+	fdm_close_all();	// @todo: replace by manager call
+	reset_signal();		// function to set signal to default
 }
 
 #endif

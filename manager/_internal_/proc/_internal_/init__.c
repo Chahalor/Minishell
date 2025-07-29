@@ -31,7 +31,7 @@ extern inline char	__proc_init(\
 	};
 	if (unexpect(!_proc_get(proc__)))
 		return (failed_to_setup);
-	return (no_error | parse_init(&proc__->parse_) | no_error); // placeholder for exec module.
+	return (no_error | parse_init(&proc__->parse_) | exec_init(&proc__->exec_));
 }
 
 #endif

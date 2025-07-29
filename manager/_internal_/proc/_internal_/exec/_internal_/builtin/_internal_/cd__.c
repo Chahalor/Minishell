@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTIN___C
-# define BUILTIN___C
+#ifndef CD___C
+# define CD___C
 
 /* -------- modules --------- */
 	// ---- access ----- //
@@ -22,46 +22,50 @@
 // doc ...
 __attribute__((always_inline, used))
 // (-internal-)
-extern inline char	__builtin_fork(\
+extern inline t_builtin_cd_	__builtin_cd_parser(\
 	t_mem *restrict const mem__,
-	t_exec__ *restrict const exec__,
-	const int intput__,
-	const int output__
-)	// v.1. >>> tag: def->_builtin_fork
+	const char **args__
+)	// v.1. >>> tag: def->_builtin_cd
 {
-	t_call_	*builtin__;
+	t_builtin_cd_	options__;
 
-	builtin__ = _builtin_find(exec__->name__);
-	if (unexpect(!exec__ || !exec__->cmd__ || !builtin__))
-		return (error);
-	exec__->pid__ = fork();
-	if (unexpect(!exec__->pid__))
-		mem__->clean((unsigned char [1]){mem_all}, \
-					builtin__->func__(exec__->args__, input__, output__), \
-					NULL, 0);
-	else if (exec__->pid__ > 0)
-		;
-	else
-		return (builtin_fork_failure_);
-	return (no_error);
+	options__ = (t_builtin_cd_){0};
+	if (unexpect(!args__ || !*args__))
+		return (options__);
+	else if (unexpect(args__[1]))
+		options__.error__ = builtin_too_many_args_;
+	else if (!*args__)
+		options__.home__ = TRUE;
+	else if (*args__[0] = '-' && !*args__[1])
+		options__.pwd__ = TRUE;
+	else if (mem__->compare(args__[0], "--help", 7)
+			|| mem__->compare(args__[0], "-h", 3))
+		options__.help__ = TRUE;
+	return (options__);
 }
 
 // doc ...
 __attribute__((always_inline, used))
 // (-internal-)
-extern inline char	__builtin(\
-	t_exec__ *restrict const exec__,
-	const int intput__,
-	const int output__
-)	// v.1. >>> tag: def->_builtin
+extern inline char	*__builtin_cd(\
+	t_visual *restrict const visual__,
+	const char **args__
+)	// v.1. >>> tag: def->_builtin_cd
 {
-	t_call_	*builtin__;
+	t_builtin_cd_	options__;
+	char			*dest__;
+	char			error__;
 
-	builtin__ = _builtin_find(exec__->name__);
-	if (unexpect(!exec__ || !exec__->cmd__ || !builtin__))
-		return (error);
-	exec__->pid__ = 0;
-	return (builtin__->func__(exec__->exec____, intput__, output__));
+	options__ = _builtin_cd_parser(args__);
+	if (unexpect(options__.help__))
+		return (visual__->printf(\
+					BLUE "Usage:" RESET " cd [options] [dir]\n"
+					YELLOW "Options:\n" RESET
+					"  -, \t\tChange to the last directory\n"
+					"  -h, --help\t\tDisplay this help and exit\n"));
+	else if (unexpect(opts.error))
+		return (_error(opts.error, NULL));
+	// ...
 }
 
 #endif

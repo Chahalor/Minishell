@@ -10,23 +10,33 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INIT_C
-# define INIT_C
+#ifndef BUILTIN__C
+# define BUILTIN__C
 
 /* -------- modules --------- */
 	// ---- access ----- //
-# include "exec.h"
+# include "builtin_.h"
 
-/* -------- inlines --------- */
+/* ------- functions -------- */
 
 // doc ...
-__attribute__((always_inline, used))
-// (-public-)
-extern inline char	exec_init(\
-	t_exec *restrict const exec
-)	// v.1. >>> tag: exp->exec_init
+__attribute__((hot, used))
+// (-private-)
+extern char	_builtin_fork(\
+	t_exec__ *restrict const exec_,
+	const int intput_,
+	const int output_
+)	// v.1. >>> tag: exp->_builtin_fork
 {
-	return (__exec_init((t_exec_ *)exec));
+	t_visual	*visual_;
+	char		code_;
+
+	visual_ = (t_visual *)&_manager()->interface.visual;
+	code_ = __builtin_fork((t_mem *)&_manager()->mem, exec_, input_, output_);
+	if (unexpect(code_ == builtin_fork_failure_))
+		return ((void)visual_->perror("exec_bin(): fork() failed"), \
+				builtin_fork_failure_);
+	return (code_);
 }
 
 #endif

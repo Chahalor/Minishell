@@ -1,163 +1,122 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec__.c                                           :+:      :+:    :+:   */
+/*   init__.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
+/*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/24 09:24:41 by nduvoid          ###   ########.fr       */
+/*   Created: 2025/02/24 08:52:57 by delta_0ne         #+#    #+#             */
+/*   Updated: 2025/06/25 15:06:11 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma region Header
+#ifndef EXEC___C
+# define EXEC___C
 
-/* -----| Internals |----- */
-#include "exec__.h"
+/* -------- modules --------- */
+	// ---- access ----- //
+# include "exec__.h"
 
-/* -----| Modules   |----- */
-#include "../_public_/types.h"
-#include "standards.h"
+/* -------- inlines --------- */
 
-#pragma endregion Header
-#pragma region Fonctions
-
-/** */
+// doc ...
 __attribute__((always_inline, used))
-static inline	int	_pipe__(
-	const t_exec_data *const restrict current,
-	int pipe_fd[2],
-	int *out_fd
-)
+// (-internal-)
+extern inline char	__exec_child(\
+	t_env *restrict const env__,
+	t_mem *restrict const mem__,
+	t_exec__ *restrict const exec__,
+)	// v.1. >>> tag: def->_exec_child
 {
-	*out_fd = STDOUT_FILENO + (current->fd_out > 0)
-		* (current->fd_out - STDOUT_FILENO);
-	if (current->pipe)
-		if (unexpect(_exec_piping__(pipe_fd, out_fd) < 0))
-			return (-1);
-	if (current->fd_out > -1)
-	{
-		close(*out_fd);
-		*out_fd = current->fd_out;
-		pipe_fd[1] = *out_fd;
-	}
-	return (*out_fd);
+	if (unexpect(_exec_reset() != no_error || !exec__->cmd__))
+		mem__->clean((unsigned char [1]){mem_all}, error, NULL, 0);
+	execve(exec__->cmd__, exec__->args__, env__->vars());
+	mem__->clean((unsigned char [1]){mem_all}, 127, NULL, 0);
+	exit(error);
 }
 
-/**
- * @brief	Closes the previous read file descriptor and returns the next command
- * 			to execute. If the current command has a pipe, it will close the
- * 			output file descriptor and set the previous read file descriptor to
- * 			the input file descriptor of the pipe.
- * 
- * @param	prev_read	Pointer to the previous read file descriptor.
- * @param	out_fd		Output file descriptor to close if the current
- * 							command has a pipe.
- * @param	current		Current execution data structure.
- * @param	pipe_fd		File descriptors of the pipe.
- * 
- * @return	Returns the next command to execute.
- * @retval		NULL if there is no next command.
- * @retval		next if there is a next command.
- * 
- * @version 1.0
- */
+// doc ...
 __attribute__((always_inline, used))
-static inline t_exec_data	*_closing__(
-	int *const prev_read,
-	const int out_fd,
-	t_exec_data *const restrict current,
-	const int *const pipe_fd
-)
+// (-internal-)
+extern inline char	__exec_bin(\
+	t_exec__ *restrict const exec__,
+	const int last__,
+	const int output__
+)	// v.1. >>> tag: def->_exec_bin
 {
-	t_exec_data	*next;
+	pid_t	pid__;
 
-	if (*prev_read > STDIN_FILENO)
-		close(*prev_read);
-	if (current->pipe)
+	pid__ = fork();
+	if (pid__ == 0)
+		_exec_add_child(exec__, last__, output__);
+	else if (pid__ > 0)
 	{
-		close(out_fd);
-		*prev_read = pipe_fd[0];
-		next = current->pipe;
+		exec__->pid__ = pid__;
+		close(last__);
+		return (no_error);
 	}
 	else
-		next = NULL;
-	return (next);
+		return (error);
 }
 
-/** */
+// doc ...
 __attribute__((always_inline, used))
-static inline char	_exec_one__(
-	t_exec_data *const restrict current,
-	char *const envp[]
-)
+// (-internal-)
+extern inline char	__exec_pipe(\
+	t_exec__ *restrict const exec__
+)	// v.1. >>> tag: def->_exec_pipe
 {
-	int	in_fd;
-	int	out_fd;
+	t_exec__	*current__;
+	int			pipe__[2];
+	int			output__;
+	int			last__;
 
-	in_fd = -1;
-	out_fd = STDOUT_FILENO;
-	out_fd += (current->fd_out > 0) * (current->fd_out - STDOUT_FILENO);
-	if (current->fd_in > 0)
-		in_fd = current->fd_in;
-	if (get_builtins(current->args[0]))
-		exec_builtin(current, envp, in_fd, out_fd);
-	else
-		exec_bin__(current, envp, in_fd, out_fd);
-	return (_exec_wait_childrens(current));
-}
-
-/** */
-__attribute__((always_inline, used))
-static inline char	_exec_pipes__(
-	t_exec_data *const restrict data,
-	char *const envp[]
-)
-{
-	t_exec_data	*current;
-	int			pipe_fd[2];
-	int			prev_read;
-	int			out_fd;
-
-	prev_read = -1;
-	current = data;
-	while (current)
+	last__ = -1;
+	current__ = exec__;
+	while (current__)
 	{
-		_pipe__(current, pipe_fd, &out_fd);
-		if (get_builtins(current->args[0]))
-			exec_builtin_fork(current, envp, prev_read, out_fd);
+		_exec_add_pipe(current__, pipe__, &output__);
+		if (current__->builtin__)
+			_exec_builtin_fork(current__, last__, output__);
 		else
-			exec_bin__(current, envp, prev_read, out_fd);
-		current = _closing__(&prev_read, out_fd, current, pipe_fd);
+			_exec_bin(current__, last__, output__);
+		current__ = _exec_close(current__, pipe__, output__, &last__);
 	}
-	return (_exec_wait_childrens(data));
+	return (_exec_wait(exec__));
 }
 
-/**
- * @brief	Executes all commands in the order of data.
- * 				If a command has a pipe, it will create the pipe and
- * 				redirect the output of the previous command to the input of the
- * 				next command. It will execut all pipe one by one.
- * @param	data	Execution data structure containing the commands and their
- * 				arguments.
- * @param	envp	Environment variables to pass to the commands.
- * 
- * @return	Returns the status of the command execution.
- * @retval		~0 if the command executed successfully.
- * @retval		-1 if the pipe() failed.
- * 
- * @version	1.1
- */
+// doc ...
 __attribute__((always_inline, used))
-inline int	_full_exec__(
-	t_exec_data *const restrict data,
-	char *const envp[]
-)
+// (-internal-)
+extern inline char	__exec_cmd(\
+	t_exec__ *restrict const exec__
+)	// v.1. >>> tag: def->_exec_cmd
 {
-	if (data->pipe)
-		return (_exec_pipes__(data, envp));
+	int	input__;
+	int	output__;
+
+	input__ = -1;
+	output__ = 1;
+	output__ += (exec__->output__ > 0) * (exec__->out__ - 1);
+	if (exec__->input__ > 0)
+		input__ = exec__->input__;
+	if (exec__->builtin__)
+		_exec_builtin(exec__, input__, output__);
 	else
-		return (_exec_one__(data, envp));
+		_exec_bin(exec__, input__, output__);
+	return (_exec_wait(exec__));
 }
 
-#pragma endregion Fonctions
+// doc ...
+__attribute__((always_inline, used))
+// (-internal-)
+extern inline char	__exec(\
+	t_exec__ *restrict const exec__
+)	// v.1. >>> tag: def->_exec
+{
+	if (exec__->pipe__)
+		return (_exec_pipe(exec__));
+	return (_exec_cmd(exec__));
+}
+
+#endif

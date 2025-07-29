@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc__.c                                        :+:      :+:    :+:   */
+/*   init__.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
+/*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/24 08:54:58 by nduvoid          ###   ########.fr       */
+/*   Created: 2025/02/24 08:52:57 by delta_0ne         #+#    #+#             */
+/*   Updated: 2025/06/25 15:06:11 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma region Header
+#ifndef AIRDOC___C
+# define AIRDOC___C
 
-/* -----| Internals |----- */
-#include "exec__.h"
-#include "types__.h"
+/* -------- modules --------- */
+	// ---- access ----- //
+# include "exec__.h"
 
-/* -----| Modules   |----- */
-#include "../_public_/types.h"
-#include "standards.h"
+/* -------- inlines --------- */
 
-#pragma endregion Header
-#pragma region Fonctions
-
-/**
+**
  * @brief Reads lines from standard input until the delimiter is encountered,
  * and stores them in a dynamically allocated array.
  * 
@@ -168,4 +164,4 @@ int	_heredoc__(
 	return (here_fd[0]);
 }
 
-#pragma endregion Fonctions
+#endif
