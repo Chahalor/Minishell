@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   visual.c                                           :+:      :+:    :+:   */
+/*   visual_.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 16:12:05 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/22 10:18:36 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/30 13:06:10 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,38 +31,6 @@
  * @return	The number of characters written, or -1 on error.
 */
 __attribute__((__format__(__printf__, 1, 2))) int	ft_printf(
-	const char *const restrict format,
-	...
-)
-{
-	va_list	args;
-	t_print	print;
-	char	buffer[PRINTF_BUFFER_SIZE];
-
-	if (unexpect(!format || write(1, "", 0) == -1))
-		return (-1);
-	va_start(args, format);
-	ft_bzero(buffer, PRINTF_BUFFER_SIZE);
-	print = _init_print(buffer, 1, PRINTF_BUFFER_SIZE);
-	write_loop__(format, args, &print);
-	write(print.fd, print.buffer, print.buff_pos);
-	va_end(args);
-	return (print.nb_char);
-}
-
-/**
- * @brief	Write The formatted string to the standard output but for raw mode.
- * 
- * @param	format	The format string.
- * @param	...		The values to format.
- * 
- * @return	The number of characters written, or -1 on error.
- * 
- * @note	This function is used for raw mode
- * 
- * @version 1.0
- */
-__attribute__((__format__(__printf__, 1, 2))) int	raw_printf(
 	const char *const restrict format,
 	...
 )
