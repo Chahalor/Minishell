@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:44:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/22 15:20:04 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/22 16:08:39 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 #include "lexer.h"
 #include "exec.h"
 #include "builtin.h"
+#include "env.h"
 #include "utils.h"
 
 volatile sig_atomic_t	g_last_signal = 0;	/* Global signal variable */
@@ -36,13 +37,16 @@ volatile sig_atomic_t	g_last_signal = 0;	/* Global signal variable */
 /** */
 __attribute__((cold, unused)) int	init_all(
 	int argc,
-	const char **argv
+	const char **argv,
+	const char **envp
 )
 {
 	args_parser(argc, argv);
 	return (
-		init_signal()
-		|| rl_load_history(DEFAULT_HISTORY_FILE));
+		0// init_signal()
+		|| rl_load_history(DEFAULT_HISTORY_FILE)
+		|| env_register(envp)
+	);
 }
 
 __attribute__((always_inline, used)) static inline int	_prompt(
@@ -76,16 +80,20 @@ __attribute__((always_inline, used)) static inline int	_prompt(
 /**
  *
  */
-int	main(int argc, const char **argv, char **envp)
+int	main(int argc, const char **argv, const char **envp)
 {
 	int	running;
 
-	if (_UNLIKELY(!init_all(argc, argv)))
+	if (_UNLIKELY(!init_all(argc, argv, envp)))
 		return (exit_program(1, "main(): Failed to initialize"), EXIT_FAILURE);
 	running = 1;
 	while (running)
 	{
-		running = _prompt(DEFAULT_PROMPT, envp);
+		char *tkt = memdup("$PATH", 6);
+		env_expand(&tkt);
+		ft_printf("expand: %s\n", tkt);
+		running=0;
+		// running = _prompt(DEFAULT_PROMPT, (char **)envp);
 	}
 	exit_program(0, DEFAULT_EXIT_MESSAGE);
 	return (0);

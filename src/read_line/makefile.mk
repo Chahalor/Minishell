@@ -3,7 +3,7 @@ DIR_INTERFACE_READ_LINE	:= $(DIR_MODULE_READ_LINE)
 DIR_INTERNAL_READ_LINE	:= $(DIR_MODULE_READ_LINE)/_internal
 
 SRC_INTERFACE_READ_LINE	:= read_line.c 
-SRC_INTERNAL_READ_LINE	:= ansi/_ansi.c ansi/_move.c history/_load.c history/history.c gnl/get_next_line.c gnl/get_next_line_utils.c gnl/interface.c _init.c dir/_free.c dir/_tokenize.c dir/_dir.c dir/dir.c _utils.c _manager.c _read_lines.c _read.c 
+SRC_INTERNAL_READ_LINE	:= ansi/_ansi.c ansi/_move.c history/_load.c history/history.c gnl/get_next_line.c gnl/get_next_line_utils.c gnl/interface.c _init.c dir/_dir.c dir/_free.c dir/_tokenize.c dir/dir.c _manager.c _read.c _read_lines.c _utils.c 
 
 OBJ_READ_LINE			:= $(addprefix $(DIR_OBJ)/$(DIR_INTERFACE_READ_LINE)/, $(SRC_INTERFACE_READ_LINE:.c=.o))
 OBJ_READ_LINE			+= $(addprefix $(DIR_OBJ)/$(DIR_INTERNAL_READ_LINE)/, $(SRC_INTERNAL_READ_LINE:.c=.o))
