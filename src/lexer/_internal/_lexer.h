@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 09:28:52 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/12 10:38:38 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/25 15:39:12 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,10 @@
 /* ************************************************************************** */
 
 typedef enum e_token_type	t_token_type;	/* Token type enumeration */
+typedef enum e_tok_type		t_tok_type;		/* Token type enumeration */
+typedef enum e_redir_type	t_redir_type;	/* Redirection type enumeration */
+typedef enum e_node_type	t_node_type;	/* AST node type enumeration */
+typedef enum e_parser_error	t_parser_error;	/* Parser error enumeration */
 
 typedef struct s_token		t_token;		/* Token structure */
 typedef struct s_exec_data	t_exec_data;	/* Execution data structure */
@@ -48,7 +52,7 @@ typedef struct s_exec_data	t_exec_data;	/* Execution data structure */
 /*                                 Enums                                      */
 /* ************************************************************************** */
 
-typedef enum e_tok_type
+enum e_tok_type
 {
 	TOK_WORD,
 	TOK_PIPE,
@@ -58,21 +62,30 @@ typedef enum e_tok_type
 	TOK_DGREAT,
 	TOK_EOF,
 	TOK_ERR
-}	t_tok_type;
+};
 
-typedef enum e_redir_type
+enum e_redir_type
 {
 	REDIR_IN,
 	REDIR_OUT,
 	REDIR_APPEND,
 	REDIR_HEREDOC
-}	t_redir_type;
+};
 
-typedef enum e_node_type
+enum e_node_type
 {
 	NODE_CMD,
 	NODE_PIPE
-}	t_node_type;
+};
+
+enum e_parser_error
+{
+	PARSER_ERR_NONE,
+	PARSER_ERR_UNEXPECTED_TOKEN,
+	PARSER_ERR_MISSING_PIPE,
+	PARSER_ERR_INVALID_REDIRECTION,
+	PARSER_ERR_MEMORY_ALLOCATION
+};
 
 /* ************************************************************************** */
 /*                                 Structs                                    */
