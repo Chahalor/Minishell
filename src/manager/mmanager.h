@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 12:12:01 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/05 14:32:27 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/25 15:05:08 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ void	*mm_alloc(
 
 void	*mm_realloc(
 			void *restrict ptr,
-			const size_t nsize,
-			const size_t osize
+			const size_t nsize
 			);
 
 void	mm_free(
