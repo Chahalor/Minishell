@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 15:10:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/25 13:39:07 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/25 14:38:49 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	env_unset(
 	const char *key
 )
 {
-	return (env_manager(e_env_unset, (void *[1]){(char *)key}) != NULL);
+	return (env_manager(e_env_unset, (void *)key) != NULL);
 }
 
 char	env_register(

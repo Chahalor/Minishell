@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 15:11:21 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/25 14:10:43 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/25 14:37:24 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,6 @@
 # include "ft_printf.h"
 
 extern sig_atomic_t	g_last_signal;	/* Global signal variable */
-
-static inline void	*__env_init(
-	t_env *env
-)
-{
-	const char	*cwd = getcwd(NULL, 0);
-	if (env->nodes)
-		return (env);
-	env->nodes = mm_alloc(sizeof(t_env_node));
-	if (_UNLIKELY(!env->nodes))
-		return (NULL);
-	env->last = env->nodes;
-	env->nb_node = 1;
-	env->size = 0;
-	free((void *)cwd);
-	return (env);
-}
 
 static inline void *_env_unset(
 	t_env *env,
@@ -46,12 +29,14 @@ static inline void *_env_unset(
 	_prev = NULL;
 	while (_current)
 	{
+		ft_fprintf(2, "compare '%s' and '%s'\n", _current->key, _data); //--- rm ---
 		if (ft_strncmp(_current->key, _data, ft_strlen(_data)) == 0)
 		{
 			if (_prev)
 				_prev->next = _current->next;
 			else
 				env->nodes = _current->next;
+			ft_fprintf(2, "current={%s=%s}\n", _current->key, _current->value); //--- rm ---
 			mm_free(_current);
 			--env->nb_node;
 			return (_prev);
@@ -60,6 +45,22 @@ static inline void *_env_unset(
 		_current = _current->next;
 	}
 	return (NULL);
+}
+
+__attribute__((unused))
+static inline void	*__env_init(
+	t_env *env
+)
+{
+	if (env->nodes)
+		return (env);
+	env->nodes = mm_alloc(sizeof(t_env_node));
+	if (_UNLIKELY(!env->nodes))
+		return (NULL);
+	env->last = env->nodes;
+	env->nb_node = 1;
+	env->size = 0;
+	return (env);
 }
 
 static inline void	*_env_register(
@@ -71,8 +72,11 @@ static inline void	*_env_register(
 	register int	i;
 	char			**split;
 
-	__env_init(env);
-	i = -1;
+	split = ft_split(_envp[0], '=');
+	_env_export(env, split, 1);
+	free_tab(split);
+	env->nodes = env->last;
+	i = 0;
 	while (_envp[++i])
 	{
 		split = ft_split(_envp[i], '=');

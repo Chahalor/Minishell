@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/25 12:47:05 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/25 14:24:10 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,13 @@ char	builtin_unset(
 	(void)fd_out__;
 	if (_UNLIKELY(help))
 		return (_help());
-	i = -1;
+	i = 0;
 	while (args__[++i])
+	{
+		ft_fprintf(2, "unset: '%s'\n", args__[i]);
 		env_unset(args__[i]);
+	}
+	
 	return (EXIT_SUCCESS);
 }
 
