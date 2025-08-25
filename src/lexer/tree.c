@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 08:10:07 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/28 19:02:49 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/25 15:41:20 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 /* -----| Modules   |----- */
 #include "lexer.h"
+#include "env.h"
 
 #pragma endregion Header
 #pragma region Fonctions
@@ -37,7 +38,7 @@ static void	*xfree(\
 	void *p
 )
 {
-	return (free(p), NULL);
+	return (mm_free(p), NULL);
 }
 
 t_ast	*ast_cmd_new(\
@@ -46,7 +47,7 @@ t_ast	*ast_cmd_new(\
 {
 	t_ast	*n;
 
-	n = malloc(sizeof(*n));
+	n = mm_alloc(sizeof(*n));
 	if (!n)
 		return (NULL);
 	n->type = NODE_CMD;
@@ -64,7 +65,7 @@ t_ast	*ast_pipe_new(\
 
 	if (!l || !r)
 		return (NULL);
-	n = malloc(sizeof(*n));
+	n = mm_alloc(sizeof(*n));
 	if (!n)
 		return (NULL);
 	n->type = NODE_PIPE;
@@ -80,7 +81,7 @@ static t_redir	*redir_new(\
 {
 	t_redir	*r;
 
-	r = malloc(sizeof(*r));
+	r = mm_alloc(sizeof(*r));
 	if (!r)
 		return (NULL);
 	r->type = t;
@@ -116,7 +117,7 @@ static void	redir_clear(\
 	{
 		n = r->next;
 		xfree(r->file);
-		free(r);
+		mm_free(r);
 		r = n;
 	}
 }
@@ -139,12 +140,12 @@ void	ast_destroy(\
 		if (n->data.cmd.argv)
 		{
 			while (n->data.cmd.argv[i])
-				free(n->data.cmd.argv[i++]);
-			free(n->data.cmd.argv);
+				mm_free(n->data.cmd.argv[i++]);
+			mm_free(n->data.cmd.argv);
 		}
 		redir_clear(n->data.cmd.redirs);
 	}
-	free(n);
+	mm_free(n);
 }
 
 void	ast_print(\
@@ -160,35 +161,35 @@ void	ast_print(\
 	i = 0;
 	while (i < (size_t)d)
 	{
-		// printf("  ");
+		printf("  ");
 		++i;
 	}
 	if (n->type == NODE_PIPE)
 	{
-		// puts(BLUE "PIPE" RESET);
+		puts(BLUE "PIPE" RESET);
 		ast_print(n->data.pipe.lhs, d + 1);
 		ast_print(n->data.pipe.rhs, d + 1);
 	}
 	else
 	{
-		// printf(YELLOW "CMD:" RESET);
+		printf(YELLOW "CMD:" RESET);
 		i = 0;
 		while (n->data.cmd.argv && n->data.cmd.argv[i])
 		{
-			// printf(" %s", n->data.cmd.argv[i]);
+			printf(" %s", n->data.cmd.argv[i]);
 			++i;
 		}
-		// puts("");
+		puts("");
 		r = n->data.cmd.redirs;
 		while (r)
 		{
 			i = 0;
 			while (i < (size_t)(d + 1))
 			{
-				// printf("  ");
+				printf("  ");
 				++i;
 			}
-			// printf(RED "redir" RESET " %d -> %s\n", r->type, r->file);
+			printf(RED "redir" RESET " %d -> %s\n", r->type, r->file);
 			r = r->next;
 		}
 	}
@@ -218,8 +219,8 @@ void	token_free_all(\
 		return ;
 	while (t[++i].type != TOK_EOF)
 		if (t[i].type == TOK_WORD)
-			free(t[i].value);
-	free(t);
+			mm_free(t[i].value);
+	mm_free(t);
 }
 
 static int	read_redir(\
@@ -288,7 +289,7 @@ static t_ast	*parse_simple_command(\
 		return (NULL);
 	cmd = ast_cmd_new(argv);
 	if (!cmd)
-		return (free(argv), NULL);
+		return (mm_free(argv), NULL);
 	if (consume_redirs(lxr, cmd) == -1)
 		return (ast_destroy(cmd), NULL);
 	while (peek_tok(lxr)->type == TOK_WORD)
@@ -334,7 +335,7 @@ static int	push_token(\
 	if (*n + 2 > *cap)
 	{
 		*cap *= 2;
-		*toks = (t_token *)realloc(*toks, *cap * sizeof(**toks));
+		*toks = (t_token *)mm_realloc(*toks, *cap * sizeof(**toks));
 		if (!*toks)
 			return (-1);
 	}
@@ -354,7 +355,7 @@ t_token	*tokenize_line(\
 	size_t		len;
 	size_t		n = 0;
 
-	toks = malloc(cap * sizeof(*toks));
+	toks = mm_alloc(cap * sizeof(*toks));
 	if (!toks)
 		return (NULL);
 	while (*line)
@@ -420,7 +421,7 @@ static inline char	*_pre_proc(
 	i = 1;
 	while (i < (unsigned)argc)
 		len += strlen(argv[i++]) + 1;
-	line = malloc(len);
+	line = mm_alloc(len);
 	if (!line)
 		return (NULL);
 	*line = '\0';
@@ -432,6 +433,38 @@ static inline char	*_pre_proc(
 			strcat(line, " ");
 	}
 	return (line);
+}
+
+static inline int	expand(
+	t_ast *root
+)
+{
+	t_ast	*cur;
+	char	*new;
+	register int i;
+
+	cur = root;
+	while (cur)
+	{
+		if (cur->type == NODE_PIPE)
+		{
+			expand(cur->data.pipe.lhs);
+			cur = cur->data.pipe.rhs;
+		}
+		else
+		{
+			i = 0-1;
+			while (cur->data.cmd.argv[++i])
+			{
+				new = env_expand(cur->data.cmd.argv[0]);
+				if (!new)
+					return (-1);
+				mm_free(cur->data.cmd.argv[0]);
+				cur->data.cmd.argv[0] = new;
+			}
+		}
+		cur = cur->data.pipe.rhs;
+	}
 }
 
 t_ast	*full_ast(
@@ -481,7 +514,7 @@ t_ast	*full_ast(
 	if (!line)
 		return (-1);
 	toks = tokenize_line(line);
-	free(line);
+	mm_free(line);
 	if (!toks)
 		return (-1);
 	lxr = (t_lexer){\
