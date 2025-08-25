@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:44:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/25 10:02:39 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/25 13:57:20 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,12 @@ __attribute__((cold, unused)) int	init_all(
 }
 
 __attribute__((always_inline, used)) static inline int	_prompt(
-	const char *const restrict prompt,
-	char **envp
+	char *prompt
 )
 {
-	const char		*_prompt = env_expand((char **)&prompt);
-	char			*line;
-	t_exec_data		*data;
+	const char	*_prompt = env_expand(prompt);
+	char		*line;
+	t_exec_data	*data;
 
 	line = read_line(_prompt);
 	mm_free((void *)_prompt);
@@ -69,7 +68,7 @@ __attribute__((always_inline, used)) static inline int	_prompt(
 		if (_LIKELY(data != NULL))
 		{
 			rl_add_history(line);
-			full_exec(data, envp);
+			full_exec(data, NULL);
 		}
 	}
 	return (mm_free(line), 1);
@@ -90,7 +89,7 @@ int	main(int argc, const char **argv, const char **envp)
 	running = 1;
 	while (running)
 	{
-		running = _prompt(DEFAULT_PROMPT, (char **)envp);
+		running = _prompt(DEFAULT_PROMPT);
 	}
 	exit_program(0, DEFAULT_EXIT_MESSAGE);
 	return (0);

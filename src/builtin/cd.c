@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/25 09:56:45 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/25 12:46:38 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ __attribute__((always_inline, used)) static inline char	_check_path(
  * 
  * @todo: change the HOME/OLDPWD environment variables (in the manager)
 */
-__attribute__((used)) char	bltin_cd(
+__attribute__((used)) char	builtin_cd(
 	const char **args,
 	const int fd_in,
 	const int fd_out
@@ -149,10 +149,8 @@ __attribute__((used)) char	bltin_cd(
 		return (_error(opts.error, NULL));
 	else if (opts.oldpwd)
 		dest = env_find("OLDPWD");
-		// dest = getenv("OLDPWD");
 	else if (opts.home)
 		dest = env_find("HOME");
-		// dest = getenv("HOME");
 	else
 		dest = (char *)args[1];
 	error = _check_path(dest);

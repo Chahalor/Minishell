@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/16 11:52:22 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/25 12:46:38 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ __attribute__((always_inline, used)) static inline struct s_args_echo	_parse(
  * 
  * @version 2.0
 */
-__attribute__((used)) char	bltin_echo(
+__attribute__((used)) char	builtin_echo(
 	const char **args,
 	const int fd_in,
 	const int fd_out

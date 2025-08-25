@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 15:36:59 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/25 09:34:24 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/25 14:19:45 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,12 @@ static inline int	__is_delim(
 	const char c
 )
 {
-	return (c == ' ' || c == '\t' || c == '\n'
-		|| c == '\v' || c == '\f' || c == '\r'
-		|| c == '$' || c == '=' || c == '+' || c == '-'
-		|| c == '/' || c == '\\' || c == '.' || c == ','
-		|| c == ';' || c == ':' || c == '!' || c == '?'
-		|| c == '\"' || c == '\'' || c == '`'
-		|| c == '(' || c == ')' || c == '[' || c == ']'
-		|| c == '{' || c == '}' || c == '|'
-	);
+	if (!((c >= 'a' && c <= 'z') ||
+		(c >= 'A' && c <= 'Z') ||
+		(c >= '0' && c <= '9') ||
+		c == '_' || c == '?'))
+		return (0);
+	return (1);
 }
 
 static inline char	*__sub_str(
@@ -39,7 +36,7 @@ static inline char	*__sub_str(
 
 	__i = -1;
 	__size = 0;
-	while (_str[++__i] && !__is_delim(_str[__i]))
+	while (_str[++__i] && __is_delim(_str[__i]))
 		++__size;
 	_result = mm_alloc(__size + 1);
 	if (_UNLIKELY(!_result))
@@ -59,7 +56,6 @@ static inline char	__env_join(
 	const int		__sum = ft_strlen(str1->value) + ft_strlen(str2) + 1;
 	char			*_new;
 
-	ft_fprintf(2, "str1: '%s', str2: '%s'\n", str1->value, str2);
 	if (__sum > str1->allocated)
 	{
 		_new = mm_alloc(str1->allocated + ENV_ALLOC_SIZE);
@@ -80,10 +76,11 @@ static inline char	__env_join(
 
 void	*_env_expand(
 	t_env *env,
-	void **data
+	void *data
 )
 {
-	const char *const	restrict	_str = *(char **)data;
+	const char *const	restrict	_str = (char *)data;
+	t_find_access					access;
 	register int					_i;
 	char							*tmp;
 	t_env_str						result;
@@ -99,14 +96,13 @@ void	*_env_expand(
 		if (_str[_i] == '$' && _str[_i + 1] && _str[_i + 1] != ' ')
 		{
 			tmp = __sub_str(&_str[_i + 1]);
-			ft_fprintf(2, "_sub: '%s'\n", tmp);
-			__env_join(&result, env_manager(e_env_find, tmp));
-			ft_fprintf(2, "_join: '%s'\n", result.value);
-			mm_free(tmp);
+			access = (t_find_access){tmp, 0};
+			__env_join(&result, env_manager(e_env_find, (void *)&access));
 			_i += ft_strlen(tmp);
+			mm_free(tmp);
 		}
 		else
-			__env_join(&result, (char[]){_str[_i], '\0'});
+			__env_join(&result, (char [2]){_str[_i], '\0'});
 	}
 	return (result.value);
 }

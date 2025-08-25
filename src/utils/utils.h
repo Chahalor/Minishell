@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 11:03:50 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/27 12:19:25 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/25 10:35:12 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,12 @@ int			arraylen(
 int			check_path(
 				const char *const restrict path,
 				const int flags
+				);
+
+// ft_itoa.c
+
+char		*ft_itoa(
+				const int n
 				);
 
 #endif /* UTILS_H */
