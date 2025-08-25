@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 12:19:03 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/05 14:32:37 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/25 15:09:48 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 /*                                  Defines                                   */
 /* ************************************************************************** */
 
-# define MM_BUCKET_SIZE		1024	/**/
+# define MM_BUCKET_SIZE		1021	/* a prim number for hashing */
 
 /* ************************************************************************** */
 /*                                  Typedefs                                  */
@@ -49,7 +49,6 @@ enum e_mm_access
 	mm_add,			/* request to add a pointer to the manager    */
 	mm_freeing,		/* reuest to free a pointer from the amanger */
 	mm_free_all,	/* request to free the full manager         */
-	mm_reallocing,	/* request to realloc a pointer (not implemented) */
 };
 
 /* ************************************************************************** */
@@ -58,6 +57,7 @@ enum e_mm_access
 
 struct s_mm_node
 {
+	size_t		alloced;/* size of the allocated block  */
 	void		*ptr;	/* pointer to the memory block */
 	t_mm_node	*next;	/* pointer to the next node   */
 };
@@ -83,6 +83,11 @@ extern void	*mm_memcpy(
 				void *restrict dst,
 				const void *restrict src,
 				register const size_t n
+				);
+
+extern int	_mm_max(
+				const size_t a,
+				const size_t b
 				);
 
 #endif /* _MM_H */

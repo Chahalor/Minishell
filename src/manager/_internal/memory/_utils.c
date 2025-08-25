@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 09:33:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/14 10:50:36 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/25 15:11:09 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,39 @@ __attribute__((always_inline, used)) inline void	*mm_memcpy(
 		((char *)dst)[i] = ((char *)src)[i];
 	return (dst);
 }
+
+/** */
+__attribute__((always_inline, used)) inline int	_mm_max(
+	const size_t a,
+	const size_t b
+)
+{
+	return (a * (a >= b) + b * (b > a));
+}
+
+__attribute__((always_inline, used)) inline void	_mm_dump(	//rm
+	t_mm_node *restrict bucket
+)
+{
+	int						i;
+	t_mm_node	*restrict	current;
+
+	i = -1;
+	while (++i < MM_BUCKET_SIZE)
+	{
+		current = bucket[i].next;
+		if (current)
+		{
+			printf("Bucket %d:\n", i);
+			while (current)
+			{
+				printf("  - %p (%zu bytes)\n", current->ptr,
+					current->alloced);
+				current = current->next;
+			}
+		}
+	}
+}
+
 
 #pragma endregion Functions

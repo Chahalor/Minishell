@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 12:11:57 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/17 15:40:57 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/25 15:06:23 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ __attribute__((malloc)) void	*mm_alloc(
 	while (++i < size)
 		((char *)(node + 1))[i] = 0;
 	node->ptr = (void *)(node + 1);
+	node->alloced = size;
 	node->next = NULL;
 	_mm_store(node, mm_add);
 	return (node->ptr);
@@ -46,12 +47,10 @@ __attribute__((malloc)) void	*mm_alloc(
 /** */
 __attribute__((malloc)) void	*mm_realloc(
 	void *restrict ptr,
-	const size_t nsize,
-	const size_t osize
+	const size_t nsize
 )
 {
-	const size_t	cpsize = osize * (osize >= nsize)
-		+ nsize * (nsize > osize);
+	size_t			cpsize;
 	t_mm_node		*node;
 	void			*new_ptr;
 	register size_t	i;
@@ -64,6 +63,7 @@ __attribute__((malloc)) void	*mm_realloc(
 	new_ptr = mm_alloc(nsize);
 	if (new_ptr == NULL)
 		return (NULL);
+	cpsize = _mm_max(node->alloced, nsize);
 	mm_memcpy(new_ptr, ptr, cpsize);
 	i = cpsize - 1;
 	while (++i < nsize)
