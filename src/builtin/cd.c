@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/16 09:04:27 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/25 09:56:45 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 
 /* -----| Modules   |----- */
 #include "builtin.h"
+#include "env.h"
 
 #pragma endregion Header
 #pragma region Fonctions
@@ -147,9 +148,11 @@ __attribute__((used)) char	bltin_cd(
 	else if (_UNLIKELY(opts.error))
 		return (_error(opts.error, NULL));
 	else if (opts.oldpwd)
-		dest = getenv("OLDPWD");
+		dest = env_find("OLDPWD");
+		// dest = getenv("OLDPWD");
 	else if (opts.home)
-		dest = getenv("HOME");
+		dest = env_find("HOME");
+		// dest = getenv("HOME");
 	else
 		dest = (char *)args[1];
 	error = _check_path(dest);
@@ -157,8 +160,9 @@ __attribute__((used)) char	bltin_cd(
 		return (_error(error, dest));
 	else if (chdir(dest) != 0)
 		return (_error(errno, dest));
-	else
-		return (EXIT_SUCCESS);
+	env_export("OLDPWD", env_find("PWD"));
+	env_export("PWD", getcwd(NULL, 0));
+	return (EXIT_SUCCESS);
 }
 
 #pragma endregion Fonctions

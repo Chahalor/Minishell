@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:44:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/22 16:08:39 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/25 10:02:39 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,10 @@ __attribute__((cold, unused)) int	init_all(
 )
 {
 	args_parser(argc, argv);
-	return (
-		0// init_signal()
-		|| rl_load_history(DEFAULT_HISTORY_FILE)
-		|| env_register(envp)
-	);
+	init_signal();
+	rl_load_history(DEFAULT_HISTORY_FILE);
+	env_register(envp);
+	return (1);
 }
 
 __attribute__((always_inline, used)) static inline int	_prompt(
@@ -54,10 +53,12 @@ __attribute__((always_inline, used)) static inline int	_prompt(
 	char **envp
 )
 {
-	char				*line;
-	t_exec_data			*data;
+	const char		*_prompt = env_expand((char **)&prompt);
+	char			*line;
+	t_exec_data		*data;
 
-	line = read_line(prompt);
+	line = read_line(_prompt);
+	mm_free((void *)_prompt);
 	if (__builtin_expect(!line, unexpected))
 		return (1);
 	else if (line[0] == '\04')
@@ -89,11 +90,7 @@ int	main(int argc, const char **argv, const char **envp)
 	running = 1;
 	while (running)
 	{
-		char *tkt = memdup("$PATH", 6);
-		env_expand(&tkt);
-		ft_printf("expand: %s\n", tkt);
-		running=0;
-		// running = _prompt(DEFAULT_PROMPT, (char **)envp);
+		running = _prompt(DEFAULT_PROMPT, (char **)envp);
 	}
 	exit_program(0, DEFAULT_EXIT_MESSAGE);
 	return (0);

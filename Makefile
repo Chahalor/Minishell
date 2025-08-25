@@ -41,7 +41,8 @@ _OBJ_ALL		:= $(OBJ_ARGS) $(OBJ_BUILTIN) $(OBJ_ENV) $(OBJ_EXEC) $(OBJ_EXIT) $(OBJ
 
 .PHONY: all
 
-all: header norm $(NAME) symbols install
+# all: header norm $(NAME) symbols install
+all: $(NAME)
 
 # ***************************************************** #
 # *                  Compiling                        * #

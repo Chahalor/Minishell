@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 15:10:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/22 16:00:13 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/25 09:57:00 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,16 @@ char	env_destroy(
 	return (env_manager(e_env_destroy, NULL) != NULL);
 }
 
-char	env_expand(
+char	*env_expand(
 	char **str
 )
 {
-	return (env_manager(e_env_expand, (void *)str) != NULL);
+	return (env_manager(e_env_expand, (void *)str));
+}
+
+char	*env_find(
+	const char *key
+)
+{
+	return (env_manager(e_env_find, (void *)key));
 }

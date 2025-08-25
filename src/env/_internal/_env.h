@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 15:25:48 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/22 16:00:58 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/25 09:57:35 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 
 typedef enum e_env_access	t_env_access;
 
+typedef struct s_env_str	t_env_str;
 typedef struct s_env		t_env;
 typedef struct s_env_node	t_env_node;
 
@@ -33,6 +34,12 @@ enum e_env_access
 	e_env_unset,
 	e_env_find,
 	e_env_destroy
+};
+
+struct s_env_str
+{
+	char	*value;
+	int		allocated;
 };
 
 struct s_env
