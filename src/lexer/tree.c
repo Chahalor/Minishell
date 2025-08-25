@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 08:10:07 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/10 10:45:14 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/07/28 19:02:49 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,35 +160,35 @@ void	ast_print(\
 	i = 0;
 	while (i < (size_t)d)
 	{
-		printf("  ");
+		// printf("  ");
 		++i;
 	}
 	if (n->type == NODE_PIPE)
 	{
-		puts(BLUE "PIPE" RESET);
+		// puts(BLUE "PIPE" RESET);
 		ast_print(n->data.pipe.lhs, d + 1);
 		ast_print(n->data.pipe.rhs, d + 1);
 	}
 	else
 	{
-		printf(YELLOW "CMD:" RESET);
+		// printf(YELLOW "CMD:" RESET);
 		i = 0;
 		while (n->data.cmd.argv && n->data.cmd.argv[i])
 		{
-			printf(" %s", n->data.cmd.argv[i]);
+			// printf(" %s", n->data.cmd.argv[i]);
 			++i;
 		}
-		puts("");
+		// puts("");
 		r = n->data.cmd.redirs;
 		while (r)
 		{
 			i = 0;
 			while (i < (size_t)(d + 1))
 			{
-				printf("  ");
+				// printf("  ");
 				++i;
 			}
-			printf(RED "redir" RESET " %d -> %s\n", r->type, r->file);
+			// printf(RED "redir" RESET " %d -> %s\n", r->type, r->file);
 			r = r->next;
 		}
 	}

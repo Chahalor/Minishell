@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/27 09:50:49 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/25 12:46:38 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,14 @@ t_blt_link	*get_builtins(
 )
 {
 	static t_blt_link	builtins[] = {
-	{"cd", bltin_cd},
-	{"exit", bltin_exit},
-	{"env", bltin_env},
-	{"pwd", bltin_pwd},
-	{"echo", bltin_echo},
-	{"export", bltin_export},
-	{"unset", bltin_unset},
-	{"history", bltin_history},
+	{"cd", builtin_cd},
+	{"exit", builtin_exit},
+	{"env", builtin_env},
+	{"pwd", builtin_pwd},
+	{"echo", builtin_echo},
+	{"export", builtin_export},
+	{"unset", builtin_unset},
+	{"history", builtin_history},
 	{NULL, NULL}};
 	register int		i;
 

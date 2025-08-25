@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/16 11:53:08 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/25 12:46:38 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ __attribute__((always_inline, used)) static inline char	_error(
  * 
  * @version 1.0
 */
-__attribute__((used)) char	bltin_exit(
+__attribute__((used)) char	builtin_exit(
 	const char **args,
 	const int fd_in,
 	const int fd_out

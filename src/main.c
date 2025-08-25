@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:44:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/22 15:20:04 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/25 14:43:15 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 #include "lexer.h"
 #include "exec.h"
 #include "builtin.h"
+#include "env.h"
 #include "utils.h"
 
 volatile sig_atomic_t	g_last_signal = 0;	/* Global signal variable */
@@ -36,24 +37,27 @@ volatile sig_atomic_t	g_last_signal = 0;	/* Global signal variable */
 /** */
 __attribute__((cold, unused)) int	init_all(
 	int argc,
-	const char **argv
+	const char **argv,
+	const char **envp
 )
 {
 	args_parser(argc, argv);
-	return (
-		init_signal()
-		|| rl_load_history(DEFAULT_HISTORY_FILE));
+	init_signal();
+	rl_load_history(DEFAULT_HISTORY_FILE);
+	env_register(envp);
+	return (1);
 }
 
 __attribute__((always_inline, used)) static inline int	_prompt(
-	const char *const restrict prompt,
-	char **envp
+	char *prompt
 )
 {
-	char				*line;
-	t_exec_data			*data;
+	const char	*_prompt = env_expand(prompt);
+	char		*line;
+	t_exec_data	*data;
 
-	line = read_line(prompt);
+	line = read_line(_prompt);
+	mm_free((void *)_prompt);
 	if (__builtin_expect(!line, unexpected))
 		return (1);
 	else if (line[0] == '\04')
@@ -64,7 +68,7 @@ __attribute__((always_inline, used)) static inline int	_prompt(
 		if (_LIKELY(data != NULL))
 		{
 			rl_add_history(line);
-			full_exec(data, envp);
+			full_exec(data, env_getall());
 		}
 	}
 	return (mm_free(line), 1);
@@ -76,16 +80,16 @@ __attribute__((always_inline, used)) static inline int	_prompt(
 /**
  *
  */
-int	main(int argc, const char **argv, char **envp)
+int	main(int argc, const char **argv, const char **envp)
 {
 	int	running;
 
-	if (_UNLIKELY(!init_all(argc, argv)))
+	if (_UNLIKELY(!init_all(argc, argv, envp)))
 		return (exit_program(1, "main(): Failed to initialize"), EXIT_FAILURE);
 	running = 1;
 	while (running)
 	{
-		running = _prompt(DEFAULT_PROMPT, envp);
+		running = _prompt(DEFAULT_PROMPT);
 	}
 	exit_program(0, DEFAULT_EXIT_MESSAGE);
 	return (0);

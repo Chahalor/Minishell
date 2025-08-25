@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:47:53 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/24 08:54:27 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/25 14:04:23 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 #  define VERIONS
 # endif	/* VERIONS */
 
-# define expect	__glibc_likely		/* __builtin_expect((cond), 1) */
-# define unexpect	__glibc_unlikely	/* __builtin_expect((cond), 0) */
+# define _LIKELY	__glibc_likely		/* __builtin_expect((cond), 1) */
+# define _UNLIKELY	__glibc_unlikely	/* __builtin_expect((cond), 0) */
 
 # ifndef DEBUG
 #  define DEBUG		0				/* 0: debug disabled, 1: debug enabled */
@@ -36,10 +36,10 @@
 
 # define ENABLE_RL	1				/* 0: disable read_line, 1: enable it */
 
-# define DEFAULT_PROMPT			"Mini$ "		/* default prompt          */
-# define DEFAULT_HEREDOC		"heredoc> "		/* default heredoc prompt */
-# define SHELL_NAME				"minishell"		/* shell name            */
-# define DEFAULT_EXIT_MESSAGE	"Exit 👻"		/* exit message         */
+# define DEFAULT_PROMPT			"Mini@$USER[$?]> "	/* default prompt         */
+# define DEFAULT_HEREDOC		"heredoc> "			/* default heredoc prompt */
+# define SHELL_NAME				"minishell"			/* shell name            */
+# define DEFAULT_EXIT_MESSAGE	"Exit 👻"			/* exit message         */
 
 # define DEFAULT_HISTORY_FILE	".minihistory"	/* default file */
 

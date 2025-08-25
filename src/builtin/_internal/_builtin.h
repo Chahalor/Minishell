@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:15:37 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/13 13:53:08 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/25 12:27:01 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 /* ************************************************************************** */
 
 typedef struct s_blt_link	t_blt_link;	/* Builtin link structure */
+
 
 /* ************************************************************************** */
 /*                                 Enums                                      */
@@ -66,6 +67,12 @@ struct s_args_exit
 	unsigned int	exit_code	: 16;	/* Exit code               */
 	char			error;				/* Error flag             */
 	unsigned char	help		: 1;	/* Help flag             */
+};
+
+struct s_args_export
+{
+	int	help;	/**/
+	int	error;	/**/
 };
 
 #endif /* _BUILTIN_H */

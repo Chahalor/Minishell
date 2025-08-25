@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:10:39 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/18 10:26:14 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/25 12:46:38 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,49 +62,49 @@ char		exec_builtin(
 
 // different builtin functions
 
-char		bltin_cd(
+char		builtin_cd(
 				const char **args,
 				const int fd_in,
 				const int fd_out
 				);
 
-char		bltin_echo(
+char		builtin_echo(
 				const char **args,
 				const int fd_in,
 				const int fd_out
 				);
 
-char		bltin_env(
+char		builtin_env(
 				const char **args,
 				const int fd_in,
 				const int fd_out
 				);
 
-char		bltin_export(
+char		builtin_export(
 				const char **args,
 				const int fd_in,
 				const int fd_out
 				);
 
-char		bltin_pwd(
+char		builtin_pwd(
 				const char **args,
 				const int fd_in,
 				const int fd_out
 				);
 
-char		bltin_unset(
+char		builtin_unset(
 				const char **args,
 				const int fd_in,
 				const int fd_out
 				);
 
-char		bltin_exit(
+char		builtin_exit(
 				const char **args,
 				const int fd_in,
 				const int fd_out
 				);
 
-char		bltin_history(
+char		builtin_history(
 				const char **args,
 				const int fd_in,
 				const int fd_out

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/17 15:01:17 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/25 14:44:16 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,17 +142,20 @@ __attribute__((always_inline, used)) static inline char	_exec_pipes(
  * @retval		~0 if the command executed successfully.
  * @retval		-1 if the pipe() failed.
  * 
- * @version	1.1
+ * @version	1.2
  */
 int	full_exec(
 	t_exec_data *const restrict data,
-	char *const envp[]
+	char **const envp
 )
 {
+	int	code;
 	if (data->pipe)
-		return (_exec_pipes(data, envp));
+		code = _exec_pipes(data, envp);
 	else
-		return (_exec_one(data, envp));
+		code = _exec_one(data, envp);
+	free_tab(envp);
+	return (code);
 }
 
 #pragma endregion Fonctions
