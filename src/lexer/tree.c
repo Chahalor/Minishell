@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 08:40:35 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/26 16:49:52 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/26 16:54:25 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,6 +260,12 @@ static inline int	apply_redirs(
 	}
 	return (j - start);
 }
+
+/**
+ * 
+ * @todo: handle all redirections, at the monent it sigsev
+ * 
+ */
 
 t_exec_data	*token_to_exec(
 	t_token **tokens,
