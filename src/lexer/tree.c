@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 08:40:35 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/26 13:25:40 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/26 14:11:41 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static inline t_token	*_quote_handling(
 		tok = token_new(line + start, TOKEN_DQUOTE, (*i)++ - start);
 		delim = '"';
 	}
-	printf("Quoted token: %.*s\n", (int)(*i - start - 1), line + start);
+	printf("Quoted token: %.*s\n", (int)(*i - start - 1), line + start);	//rm
 	if (line[*i - 1] != delim)
 		tok->type = PARSER_ERR_MISSING_QUOTE;
 	return (tok);
@@ -168,18 +168,6 @@ t_token	**tokenize_line(
 	}
 	*count = idx;
 	return (tokens);
-}
-
-int	check_syntax(
-	const t_token **tokens
-)
-{
-	register int	i;
-
-	i = -1;
-	while (tokens[++i])
-		return (0);
-	return (1);
 }
 
 const char *show_type(
@@ -299,12 +287,10 @@ t_exec_data	*token_to_exec(
 		arg = mm_alloc((nb_args + 2) * sizeof(char *));
 		if (_UNLIKELY(!arg))
 			return (mm_free(current->cmd), NULL); // shale also free data
-		arg[0] = tokens[i - nb_args - 1]->value;
-		j = 0;
+		j = -1;
 		while (++j < nb_args + 1)
 		{
-			arg[j] = memdup(tokens[i - nb_args + j]->value,
-				tokens[i - nb_args + j]->size); // need to check for NULL
+			arg[j] = tokens[i - nb_args - 1 + j]->value;
 		}
 		arg[j] = NULL;
 		current->args = arg;
