@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/17 14:59:31 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/26 14:41:06 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 
 #pragma endregion Header
 #pragma region Fonctions
+
+extern sig_atomic_t	g_last_signal;
 
 /** */
 __attribute__((always_inline, used)) static inline int	_signals(
@@ -78,14 +80,18 @@ __attribute__((used)) int	_analyse(
 	const int status
 )
 {
+	int	code;
+
 	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
+		code = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
-		return (_signals(status));
+		code = _signals(status);
 	else if (WIFSTOPPED(status))
-		return (_stop(status));
+		code = _stop(status);
 	else
-		return (-1);
+		code = -1;
+	g_last_signal = code;
+	return (code);
 }
 
 #pragma endregion Fonctions

@@ -6,11 +6,12 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 15:10:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/25 14:38:49 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/26 14:27:52 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_env.h"
+#include "ft_printf.h" //rm
 
 char	env_export(
 	const char *key,
@@ -45,6 +46,7 @@ char	*env_expand(
 	char *str
 )
 {
+	ft_fprintf(2, "expanding <%s>\n", str);	//rm
 	return (env_manager(e_env_expand, (void *)str));
 }
 

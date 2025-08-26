@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 08:40:35 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/26 14:25:01 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/26 16:49:52 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,12 @@
 
 #include "_lexer.h"
 #include "lexer.h"
+#include "env.h"
 
 #pragma endregion HEADERS
 #pragma region FUNCTIONS
+
+#pragma region TOKEN
 
 
 /* Create a new token */
@@ -28,8 +31,7 @@ static inline t_token	*token_new(
 {
 	t_token	*tok;
 
-	ft_fprintf(2, "%s called\n", __func__);
-	tok = malloc(sizeof(t_token));
+	tok = mm_alloc(sizeof(t_token));
 	if (!tok)
 		return (NULL);
 	tok->value = strndup(str, size);
@@ -49,12 +51,13 @@ static inline t_token	*_quote_handling(
 	t_token			*tok;
 	char			delim;
 
+	(void)idx;
+	ft_fprintf(2, "%s called\n", __func__);
 	if (line[*i] == '\'')
 	{
 		start = ++(*i);
 		while (*i < len && line[*i] != '\'')
 			++(*i);
-		++(*idx);
 		tok = token_new(line + start, TOKEN_QUOTE, (*i)++ - start);
 		delim = '\'';
 	}
@@ -63,11 +66,9 @@ static inline t_token	*_quote_handling(
 		start = ++(*i);
 		while (*i < len && line[*i] != '"')
 			++(*i);
-		++(*idx);
 		tok = token_new(line + start, TOKEN_DQUOTE, (*i)++ - start);
 		delim = '"';
 	}
-	printf("Quoted token: %.*s\n", (int)(*i - start - 1), line + start);	//rm
 	if (line[*i - 1] != delim)
 		tok->type = PARSER_ERR_MISSING_QUOTE;
 	return (tok);
@@ -81,34 +82,27 @@ static inline t_token	*_redirect_handling(
 {
 	t_token	*tok;
 
+	(void)idx;
 	ft_fprintf(2, "%s called\n", __func__);
 	if (line[*i] == '>')
 	{
 		if (line[*i + 1] == '>')
 		{
 			tok = token_new(">>", TOKEN_DGREATER, 2);
-			++(*idx);
 			*i += 2;
 		}
 		else
-		{
 			tok = token_new(">", TOKEN_GREATER, 1 + 0 * ++(*i));
-			++(*idx);
-		}
 	}
 	else
 	{
 		if (line[*i + 1] == '<')
 		{
 			tok = token_new("<<", TOKEN_DLESS, 2);
-			++(*idx);
 			*i += 2;
 		}
 		else
-		{
 			tok = token_new("<", TOKEN_LESS, 1 + 0 * ++(*i));
-			++(*idx);
-		}
 	}
 	return (tok);
 }
@@ -135,6 +129,7 @@ static inline t_token	*_word_handling(
 		tok = token_new(line + start, TOKEN_CMD, *i - start);
 	else
 		tok = token_new(line + start, TOKEN_WORD, *i - start);
+	ft_fprintf(2, "end of word_andling idx=%d\n", *idx);
 	return (tok);
 }
 
@@ -144,31 +139,32 @@ t_token	**tokenize_line(
 	int *const restrict count
 )
 {
-	register const size_t	len = strlen(line);
-	size_t					cap = 1;
-	t_token					**tokens = malloc(cap * sizeof(t_token*));
+	register const size_t	len = ft_strlen(line);
+	t_token					**tokens = mm_alloc(PARSER_ALLOC_SIZE * sizeof(t_token*));
 	size_t					idx = 0;
 	size_t					i;
 
+	tokens[0] = NULL;
 	i = 0;
 	while (i < len)
 	{
-		ft_fprintf(2, "idx=%d\n", idx);
+		ft_fprintf(2, "line[%d]=<%c>, idx=%d\n", i, line[i], idx);
 		if (isspace(line[i]))
 			++i;
 		else if (line[i] == '|')
-			tokens[idx++] = token_new("|", TOKEN_PIPE, 1 + 0 * ++i);
-		else if (line[i] == '\'' || line[i] == '"')
-			tokens[idx] = _quote_handling(line, &i, len, &idx);
-		else if (line[i] == '>' || line[i] == '<')
-			tokens[idx] = _redirect_handling(line, &i, &idx);
-		else
-			tokens[idx] = _word_handling(line, (size_t *[2]){&i, &idx}, (const t_token **)tokens, len);
-		if (idx >= cap)
 		{
-			cap *= 2;
-			tokens = realloc(tokens, cap * sizeof(t_token*));
+			ft_fprintf(2, "token pipe created\n");
+			tokens[idx++] = token_new("|", TOKEN_PIPE, 1 + 0 * ++i);
 		}
+		else if (line[i] == '\'' || line[i] == '"')
+			tokens[idx++] = _quote_handling(line, &i, len, &idx);
+		else if (line[i] == '>' || line[i] == '<')
+			tokens[idx++] = _redirect_handling(line, &i, &idx);
+		else
+			tokens[idx++] = _word_handling(line, (size_t *[2]){&i, &idx}, (const t_token **)tokens, len);
+		ft_fprintf(2, "idx=%d tokens[%d]=%p\n", idx, idx, tokens[idx]);
+		if (!(idx % PARSER_ALLOC_SIZE))
+			tokens = mm_realloc(tokens, (idx + PARSER_ALLOC_SIZE) * sizeof(t_token*));
 	}
 	*count = idx;
 	return (tokens);
@@ -197,6 +193,9 @@ const char *show_type(
 
 	return (messages[type % (PARSER_ERR_MEMORY_ALLOCATION + 1)]);
 }
+
+#pragma endregion TOKEN
+#pragma region TO EXEC
 
 static inline t_exec_data	*new_exec(
 
@@ -270,7 +269,6 @@ t_exec_data	*token_to_exec(
 	t_exec_data		*data;
 	t_exec_data		*current;
 	register int	nb_args;
-	char			**arg;
 	register int	i;
 	register int	j;
 
@@ -288,23 +286,26 @@ t_exec_data	*token_to_exec(
 			return (mm_free(current), NULL); // shale also free data
 		while (tokens[++i] && is_word(tokens[i]->type))
 			++nb_args;
-		arg = mm_alloc((nb_args + 2) * sizeof(char *));
-		if (_UNLIKELY(!arg))
+		current->args = mm_alloc((nb_args + 2) * sizeof(char *));
+		if (_UNLIKELY(!current->args))
 			return (mm_free(current->cmd), NULL); // shale also free data
 		j = -1;
 		while (++j < nb_args + 1)
 		{
-			arg[j] = tokens[i - nb_args - 1 + j]->value;
+			if (tokens[i - nb_args - 1 + j]->type == TOKEN_DQUOTE ||
+				tokens[i - nb_args - 1 + j]->type == TOKEN_WORD)
+				current->args[j] = env_expand(tokens[i - nb_args - 1 + j]->value);
+			else
+				current->args[j] = tokens[i - nb_args - 1 + j]->value;
 		}
-		arg[j] = NULL;
-		current->args = arg;
+		current->args[j] = NULL;
 		if (!tokens[i])
 			break ;
 		else if (tokens[i]->type == TOKEN_PIPE)
 		{
 			current->pipe = new_exec();
 			if (!current->pipe)
-				return (mm_free(current->cmd), mm_free(arg), NULL); // shale also free data
+				return (mm_free(current->cmd), free_tab(current->args), NULL); // shale also free data
 			current = current->pipe;
 			++i;
 		}
@@ -316,6 +317,8 @@ t_exec_data	*token_to_exec(
 	return (data);
 }
 
+#pragma endregion "TO EXEC"
+
 /* ===== Debug print ===== */
 void	print_tokens(
 	const t_token **tokens,
@@ -324,6 +327,11 @@ void	print_tokens(
 {
 	register int	i;
 
+	if (_UNLIKELY(!tokens || count < 1))
+	{
+		printf("No tokens to display\n");
+		return ;
+	}
 	i = -1;
 	while (++i < count)
 		printf("[%s] type=%s (%d) size=%d\n", tokens[i]->value,
@@ -357,7 +365,6 @@ void	print_exec(
 		printf("Next command:\n");
 		current = current->pipe;
 	}
-	
 }
 
 #pragma endregion FUNCTIONS
