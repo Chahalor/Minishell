@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/25 14:44:16 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/26 12:32:54 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ int	full_exec(
 )
 {
 	int	code;
+
 	if (data->pipe)
 		code = _exec_pipes(data, envp);
 	else

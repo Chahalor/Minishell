@@ -5,528 +5,369 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/10 08:10:07 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/25 15:41:20 by nduvoid          ###   ########.fr       */
+/*   Created: 2025/08/26 08:40:35 by nduvoid           #+#    #+#             */
+/*   Updated: 2025/08/26 13:25:40 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma region Header
+#pragma region HEADERS
 
-/* -----| Internals |----- */
-#include "_internal/_lexer.h"
-
-/* -----| Modules   |----- */
+#include "_lexer.h"
 #include "lexer.h"
-#include "env.h"
 
-#pragma endregion Header
-#pragma region Fonctions
+#pragma endregion HEADERS
+#pragma region FUNCTIONS
 
-// /* prototypes unchanged … */
-// t_ast	*ast_cmd_new(char **argv);
-// t_ast	*ast_pipe_new(t_ast *lhs, t_ast *rhs);
-// int		ast_add_redir(t_ast *cmd, t_redir_type t, char *file);
-// void	ast_destroy(t_ast *n);
-// void	ast_print(const t_ast *n, int depth);
-// t_ast	*parse_pipeline(t_lexer *lxr);
-// void	token_free_all(t_token *toks);
-// t_token	*tokenize_line(const char *line);
 
-/* --------------------------- implémentation --------------------------- */
-
-static void	*xfree(\
-	void *p
+/* Create a new token */
+static inline t_token	*token_new(
+	const char *str,
+	const int type,
+	const int size
 )
 {
-	return (mm_free(p), NULL);
-}
+	t_token	*tok;
 
-t_ast	*ast_cmd_new(\
-	char **argv
-)
-{
-	t_ast	*n;
-
-	n = mm_alloc(sizeof(*n));
-	if (!n)
+	tok = malloc(sizeof(t_token));
+	if (!tok)
 		return (NULL);
-	n->type = NODE_CMD;
-	n->data.cmd.argv = argv;
-	n->data.cmd.redirs = NULL;
-	return (n);
+	tok->value = strndup(str, size);
+	tok->type = type;
+	tok->size = size;
+	return (tok);
 }
 
-t_ast	*ast_pipe_new(\
-	t_ast *l,
-	t_ast *r
+static inline t_token	*_quote_handling(
+	const char *line,
+	size_t *i,
+	size_t len,
+	size_t *idx
 )
 {
-	t_ast	*n;
+	register size_t	start;
+	t_token			*tok;
+	char			delim;
 
-	if (!l || !r)
-		return (NULL);
-	n = mm_alloc(sizeof(*n));
-	if (!n)
-		return (NULL);
-	n->type = NODE_PIPE;
-	n->data.pipe.lhs = l;
-	n->data.pipe.rhs = r;
-	return (n);
-}
-
-static t_redir	*redir_new(\
-	t_redir_type t,
-	char *f
-)
-{
-	t_redir	*r;
-
-	r = mm_alloc(sizeof(*r));
-	if (!r)
-		return (NULL);
-	r->type = t;
-	r->file = f;
-	r->next = NULL;
-	return (r);
-}
-
-int	ast_add_redir(\
-	t_ast *cmd,
-	t_redir_type t,
-	char *f
-)
-{
-	t_redir	**cur;
-
-	if (!cmd || cmd->type != NODE_CMD)
-		return (-1);
-	cur = &cmd->data.cmd.redirs;
-	while (*cur)
-		cur = &(*cur)->next;
-	*cur = redir_new(t, f);
-	return (*cur ? 0 : -1);
-}
-
-static void	redir_clear(\
-	t_redir *r
-)
-{
-	t_redir	*n;
-
-	while (r)
+	if (line[*i] == '\'')
 	{
-		n = r->next;
-		xfree(r->file);
-		mm_free(r);
-		r = n;
-	}
-}
-
-void	ast_destroy(\
-	t_ast *n
-)
-{
-	register size_t	i = 0;
-
-	if (!n)
-		return ;
-	if (n->type == NODE_PIPE)
-	{
-		ast_destroy(n->data.pipe.lhs);
-		ast_destroy(n->data.pipe.rhs);
+		start = ++(*i);
+		while (*i < len && line[*i] != '\'')
+			++(*i);
+		++(*idx);
+		tok = token_new(line + start, TOKEN_QUOTE, (*i)++ - start);
+		delim = '\'';
 	}
 	else
 	{
-		if (n->data.cmd.argv)
+		start = ++(*i);
+		while (*i < len && line[*i] != '"')
+			++(*i);
+		++(*idx);
+		tok = token_new(line + start, TOKEN_DQUOTE, (*i)++ - start);
+		delim = '"';
+	}
+	printf("Quoted token: %.*s\n", (int)(*i - start - 1), line + start);
+	if (line[*i - 1] != delim)
+		tok->type = PARSER_ERR_MISSING_QUOTE;
+	return (tok);
+}
+
+static inline t_token	*_redirect_handling(
+	const char *line,
+	size_t *i,
+	size_t *idx
+)
+{
+	t_token	*tok;
+
+	if (line[*i] == '>')
+	{
+		if (line[*i + 1] == '>')
 		{
-			while (n->data.cmd.argv[i])
-				mm_free(n->data.cmd.argv[i++]);
-			mm_free(n->data.cmd.argv);
+			tok = token_new(">>", TOKEN_DGREATER, 2);
+			++(*idx);
+			*i += 2;
 		}
-		redir_clear(n->data.cmd.redirs);
-	}
-	mm_free(n);
-}
-
-void	ast_print(\
-	const t_ast *n,
-	int d
-)
-{
-	t_redir			*r;
-	size_t			i;
-
-	if (!n)
-		return ;
-	i = 0;
-	while (i < (size_t)d)
-	{
-		printf("  ");
-		++i;
-	}
-	if (n->type == NODE_PIPE)
-	{
-		puts(BLUE "PIPE" RESET);
-		ast_print(n->data.pipe.lhs, d + 1);
-		ast_print(n->data.pipe.rhs, d + 1);
+		else
+		{
+			tok = token_new(">", TOKEN_GREATER, 1 + 0 * ++(*i));
+			++(*idx);
+		}
 	}
 	else
 	{
-		printf(YELLOW "CMD:" RESET);
-		i = 0;
-		while (n->data.cmd.argv && n->data.cmd.argv[i])
+		if (line[*i + 1] == '<')
 		{
-			printf(" %s", n->data.cmd.argv[i]);
+			tok = token_new("<<", TOKEN_DLESS, 2);
+			++(*idx);
+			*i += 2;
+		}
+		else
+		{
+			tok = token_new("<", TOKEN_LESS, 1 + 0 * ++(*i));
+			++(*idx);
+		}
+	}
+	return (tok);
+}
+
+static inline t_token	*_word_handling(
+	const char *line,
+	size_t *const transfer[2],
+	const t_token **tokens,
+	size_t len
+)
+{
+	size_t *const	i = transfer[0];
+	size_t *const	idx = transfer[1];
+	const size_t	start = *i;
+	t_token			*tok;
+
+	while (*i < len && !isspace(line[*i]) &&
+		line[*i] != '|' && line[*i] != '<' && line[*i] != '>')
+		++(*i);
+	if (!(*idx))
+		tok = token_new(line + start, TOKEN_CMD, *i - start);
+	else if (*idx && tokens[*idx - 1] && (tokens[*idx - 1]->type == TOKEN_PIPE))
+		tok = token_new(line + start, TOKEN_CMD, *i - start);
+	else
+		tok = token_new(line + start, TOKEN_WORD, *i - start);
+	return (tok);
+}
+
+/* Simple tokenizer: splits line into tokens */
+t_token	**tokenize_line(
+	const char *const restrict line,
+	int *const restrict count
+)
+{
+	register const size_t	len = strlen(line);
+	size_t					cap = 1;
+	t_token					**tokens = malloc(cap * sizeof(t_token*));
+	size_t					idx = 0;
+	size_t					i;
+
+	i = 0;
+	while (i < len)
+	{
+		if (isspace(line[i]))
+			++i;
+		else if (line[i] == '|')
+			tokens[idx++] = token_new("|", TOKEN_PIPE, 1 + 0 * ++i);
+		else if (line[i] == '\'' || line[i] == '"')
+			tokens[idx++] = _quote_handling(line, &i, len, &idx);
+		else if (line[i] == '>' || line[i] == '<')
+			tokens[idx++] = _redirect_handling(line, &i, &idx);
+		else
+			tokens[idx++] = _word_handling(line, (size_t *[2]){&i, &idx}, (const t_token **)tokens, len);
+		if (idx >= cap)
+		{
+			cap *= 2;
+			tokens = realloc(tokens, cap * sizeof(t_token*));
+		}
+	}
+	*count = idx;
+	return (tokens);
+}
+
+int	check_syntax(
+	const t_token **tokens
+)
+{
+	register int	i;
+
+	i = -1;
+	while (tokens[++i])
+		return (0);
+	return (1);
+}
+
+const char *show_type(
+	const int type
+)
+{
+	static const char	*messages[14] = {
+		[TOKEN_CMD] = BLUE "CMD" RESET,
+		[TOKEN_PIPE] = CYAN "PIPE" RESET,
+		[TOKEN_QUOTE] = YELLOW "QUOTE" RESET,
+		[TOKEN_DQUOTE] = GREEN "DQUOTE" RESET,
+		[TOKEN_GREATER] = RED "GREATER" RESET,
+		[TOKEN_LESS] = MAGENTA "LESS" RESET,
+		[TOKEN_DGREATER] = BLUE "DGREATER" RESET,
+		[TOKEN_DLESS] = BLUE "DLESS" RESET,
+		[TOKEN_WORD] = WHITE "WORD" RESET,
+		[PARSER_ERR_NONE] = GREEN "NO ERROR" RESET,
+		[PARSER_ERR_MISSING_QUOTE] = RED "MISSING QUOTE" RESET,
+		[PARSER_ERR_UNEXPECTED_TOKEN] = RED "UNEXPECTED TOKEN" RESET,
+		[PARSER_ERR_INVALID_REDIRECTION] = RED "INVALID REDIRECTION" RESET,
+		[PARSER_ERR_MEMORY_ALLOCATION] = RED "MEMORY ALLOCATION" RESET
+	};
+
+	return (messages[type % (TOKEN_WORD + 1)]);
+}
+
+static inline t_exec_data	*new_exec(
+
+)
+{
+	t_exec_data	*data;
+
+	data = mm_alloc(sizeof(t_exec_data));
+	if (!data)
+		return (NULL);
+	*data = (t_exec_data){
+		.cmd = NULL,
+		.args = NULL,
+		.status = 0,
+		.pid = -1,
+		.fd_in = -1,
+		.fd_out = -1,
+		.type = 0,
+		.pipe = NULL,
+		.next = NULL
+	};
+	return (data);
+}
+
+static inline int	is_word(
+	const int token
+)
+{
+	return (token == TOKEN_WORD || token == TOKEN_CMD ||
+		token == TOKEN_QUOTE || token == TOKEN_DQUOTE);
+}
+
+static inline int	is_redirect(
+	const int token
+)
+{
+	return (token == TOKEN_GREATER || token == TOKEN_LESS ||
+		token == TOKEN_DGREATER || token == TOKEN_DLESS);
+}
+
+static inline int	apply_redirs(
+	t_exec_data *data,
+	t_token **tok,
+	const int start
+)
+{
+	register int	j;
+
+	j = start - 1;
+	while (tok[++j] && (is_redirect(tok[j]->type) || is_word(tok[j]->type)))
+	{
+		if (tok[j]->type == TOKEN_GREATER)
+			data->fd_out = open(tok[j + 1]->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		else if (tok[j]->type == TOKEN_DGREATER)
+			data->fd_out = open(tok[j + 1]->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		else if (tok[j]->type == TOKEN_LESS)
+			data->fd_in = open(tok[j + 1]->value, O_RDONLY, 0644);
+		else if (tok[j]->type == TOKEN_DLESS)
+			data->fd_in = heredoc_all(tok[j + 1]->value);
+		else
+			continue ;
+	}
+	return (j - start);
+}
+
+t_exec_data	*token_to_exec(
+	t_token **tokens,
+	const int count
+)
+{
+	t_exec_data		*data;
+	t_exec_data		*current;
+	register int	nb_args;
+	char			**arg;
+	register int	i;
+	register int	j;
+
+	(void)count;
+	data = new_exec();
+	if (!data)
+		return (NULL);
+	current = data;
+	i = -1;
+	while (tokens[++i])
+	{
+		nb_args = 0;
+		current->cmd = _get_bin(tokens[i]->value);
+		if (!current->cmd)
+			return (mm_free(current), NULL); // shale also free data
+		while (tokens[++i] && is_word(tokens[i]->type))
+			++nb_args;
+		arg = mm_alloc((nb_args + 2) * sizeof(char *));
+		if (_UNLIKELY(!arg))
+			return (mm_free(current->cmd), NULL); // shale also free data
+		arg[0] = tokens[i - nb_args - 1]->value;
+		j = 0;
+		while (++j < nb_args + 1)
+		{
+			arg[j] = memdup(tokens[i - nb_args + j]->value,
+				tokens[i - nb_args + j]->size); // need to check for NULL
+		}
+		arg[j] = NULL;
+		current->args = arg;
+		if (!tokens[i])
+			break ;
+		else if (tokens[i]->type == TOKEN_PIPE)
+		{
+			current->pipe = new_exec();
+			if (!current->pipe)
+				return (mm_free(current->cmd), mm_free(arg), NULL); // shale also free data
+			current = current->pipe;
 			++i;
 		}
-		puts("");
-		r = n->data.cmd.redirs;
-		while (r)
-		{
-			i = 0;
-			while (i < (size_t)(d + 1))
-			{
-				printf("  ");
-				++i;
-			}
-			printf(RED "redir" RESET " %d -> %s\n", r->type, r->file);
-			r = r->next;
-		}
-	}
-}
-
-static t_token	*next_tok(\
-	t_lexer *l
-)
-{
-	return (&l->tokens[l->pos++]);
-}
-
-static t_token	*peek_tok(\
-	t_lexer *l
-)
-{
-	return (&l->tokens[l->pos]);
-}
-
-void	token_free_all(\
-	t_token *t
-)
-{
-	register size_t	i = (size_t)-1;
-
-	if (!t)
-		return ;
-	while (t[++i].type != TOK_EOF)
-		if (t[i].type == TOK_WORD)
-			mm_free(t[i].value);
-	mm_free(t);
-}
-
-static int	read_redir(\
-	t_lexer *lxr,
-	t_ast *cmd
-)
-{
-	t_token			*tok;
-	t_redir_type	tp;
-	char			*file;
-
-	tok = next_tok(lxr);
-	tp = (tok->type == TOK_LESS) ? REDIR_IN :
-		(tok->type == TOK_GREAT) ? REDIR_OUT :
-		(tok->type == TOK_DGREAT) ? REDIR_APPEND : REDIR_HEREDOC;
-	tok = next_tok(lxr);
-	if (tok->type != TOK_WORD)
-		return (-1);
-	file = strdup(tok->value);
-	return (file && !ast_add_redir(cmd, tp, file) ? 0 : -1);
-}
-
-static int	consume_redirs(\
-	t_lexer *lxr,
-	t_ast *cmd
-)
-{
-	while (peek_tok(lxr)->type == TOK_LESS || peek_tok(lxr)->type == TOK_GREAT \
-		|| peek_tok(lxr)->type == TOK_DGREAT || peek_tok(lxr)->type == TOK_DLESS)
-		if (read_redir(lxr, cmd) == -1)
-			return (-1);
-	return (0);
-}
-
-static t_ast	*parse_simple_command(\
-	t_lexer *lxr
-)
-{
-	t_ast			*cmd;
-	t_token			*tok;
-	t_token			*scan;
-	char			**argv;
-	size_t			ac = 0;
-	register size_t	i = 0;
-
-	tok = peek_tok(lxr);
-	if (tok->type != TOK_WORD && tok->type != TOK_LESS \
-		&& tok->type != TOK_GREAT && tok->type != TOK_DGREAT \
-		&& tok->type != TOK_DLESS)
-		return (NULL);
-	scan = tok;
-	while (scan->type == TOK_WORD || scan->type == TOK_LESS \
-		|| scan->type == TOK_GREAT || scan->type == TOK_DGREAT \
-		|| scan->type == TOK_DLESS)
-	{
-		if (scan->type == TOK_WORD)
-		{
-			++ac;
-			++scan;
-		}
+		else if (is_redirect(tokens[i]->type))
+			i += apply_redirs(current, tokens, i);
 		else
-			scan += 2;
-	}
-	argv = calloc(ac + 1, sizeof(char *));
-	if (!argv)
-		return (NULL);
-	cmd = ast_cmd_new(argv);
-	if (!cmd)
-		return (mm_free(argv), NULL);
-	if (consume_redirs(lxr, cmd) == -1)
-		return (ast_destroy(cmd), NULL);
-	while (peek_tok(lxr)->type == TOK_WORD)
-	{
-		argv[i] = strdup(next_tok(lxr)->value);
-		if (!argv[i++])
-			return (ast_destroy(cmd), NULL);
-		if (consume_redirs(lxr, cmd) == -1)
-			return (ast_destroy(cmd), NULL);
-	}
-	return (cmd);
-}
-
-t_ast	*parse_pipeline(\
-	t_lexer *lxr
-)
-{
-	t_ast	*lhs;
-	t_ast	*rhs;
-
-	lhs = parse_simple_command(lxr);
-	if (!lhs)
-		return (NULL);
-	if (peek_tok(lxr)->type == TOK_PIPE)
-	{
-		++lxr->pos;
-		rhs = parse_pipeline(lxr);
-		if (!rhs)
-			return (ast_destroy(lhs), NULL);
-		return (ast_pipe_new(lhs, rhs));
-	}
-	return (lhs);
-}
-
-static int	push_token(\
-	t_token **toks,
-	size_t *n,
-	size_t *cap,
-	t_tok_type tp,
-	char *val
-)
-{
-	if (*n + 2 > *cap)
-	{
-		*cap *= 2;
-		*toks = (t_token *)mm_realloc(*toks, *cap * sizeof(**toks));
-		if (!*toks)
-			return (-1);
-	}
-	(*toks)[*n].type = tp;
-	(*toks)[*n].value = val;
-	(*n)++;
-	return (0);
-}
-
-t_token	*tokenize_line(\
-	const char *line
-)
-{
-	t_token		*toks;
-	char		*word;
-	size_t		cap = 16;
-	size_t		len;
-	size_t		n = 0;
-
-	toks = mm_alloc(cap * sizeof(*toks));
-	if (!toks)
-		return (NULL);
-	while (*line)
-	{
-		while (isspace((unsigned char)*line))
-			++line;
-		if (!*line)
 			break ;
-		if (*line == '|')
+	}
+	return (data);
+}
+
+/* ===== Debug print ===== */
+void	print_tokens(
+	const t_token **tokens,
+	const int count
+)
+{
+	register int	i;
+
+	i = -1;
+	while (++i < count)
+		printf("[%s] type=%s size=%d\n", tokens[i]->value,
+			show_type(tokens[i]->type), tokens[i]->size);
+}
+
+void	print_exec(
+	const t_exec_data *const restrict exec
+)
+{
+	t_exec_data	*current;
+
+	current = (t_exec_data *)exec;
+	while (current)
+	{
+		printf("Command: '%s'\n", current->cmd);
+		printf("Arguments:\n");
+		if (current->args)
 		{
-			push_token(&toks, &n, &cap, TOK_PIPE, NULL);
-			++line;
-		}
-		else if (*line == '<' && line[1] == '<')
-		{
-			push_token(&toks, &n, &cap, TOK_DLESS, NULL);
-			line += 2;
-		}
-		else if (*line == '>' && line[1] == '>')
-		{
-			push_token(&toks, &n, &cap, TOK_DGREAT, NULL);
-			line += 2;
-		}
-		else if (*line == '<')
-		{
-			push_token(&toks, &n, &cap, TOK_LESS, NULL);
-			++line;
-		}
-		else if (*line == '>')
-		{
-			push_token(&toks, &n, &cap, TOK_GREAT, NULL);
-			++line;
+			register int	j;
+
+			j = -1;
+			while (current->args[++j])
+				printf("  arg[%d]: '%s'\n", j, current->args[j]);
 		}
 		else
-		{
-			const char	*start = line;
-
-			while (*line && !isspace((unsigned char)*line) \
-				&& *line != '|' && *line != '<' && *line != '>')
-				++line;
-			len = (size_t)(line - start);
-			word = strndup(start, len);
-			if (!word || push_token(&toks, &n, &cap, TOK_WORD, word))
-				return (token_free_all(toks), NULL);
-		}
+			printf("  No arguments\n");
+		printf("Input FD: %d\n", current->fd_in);
+		printf("Output FD: %d\n", current->fd_out);
+		printf("Status: %d\n", current->status);
+		printf("Next command:\n");
+		current = current->pipe;
 	}
-	push_token(&toks, &n, &cap, TOK_EOF, NULL);
-	return (toks);
+	
 }
 
-__attribute__((unused))
-static inline char	*_pre_proc(
-	const int argc,
-	char **argv
-)
-
-{
-	register unsigned int	i;
-	size_t					len;
-	char					*line;
-
-	len = 1;
-	i = 1;
-	while (i < (unsigned)argc)
-		len += strlen(argv[i++]) + 1;
-	line = mm_alloc(len);
-	if (!line)
-		return (NULL);
-	*line = '\0';
-	i = 1;
-	while (i < (unsigned)argc)
-	{
-		strcat(line, argv[i]);
-		if (++i < (unsigned)argc)
-			strcat(line, " ");
-	}
-	return (line);
-}
-
-static inline int	expand(
-	t_ast *root
-)
-{
-	t_ast	*cur;
-	char	*new;
-	register int i;
-
-	cur = root;
-	while (cur)
-	{
-		if (cur->type == NODE_PIPE)
-		{
-			expand(cur->data.pipe.lhs);
-			cur = cur->data.pipe.rhs;
-		}
-		else
-		{
-			i = 0-1;
-			while (cur->data.cmd.argv[++i])
-			{
-				new = env_expand(cur->data.cmd.argv[0]);
-				if (!new)
-					return (-1);
-				mm_free(cur->data.cmd.argv[0]);
-				cur->data.cmd.argv[0] = new;
-			}
-		}
-		cur = cur->data.pipe.rhs;
-	}
-}
-
-t_ast	*full_ast(
-	char **input
-)
-{
-	t_ast					*root;
-	t_lexer					lxr;
-	t_token					*toks;
-	char					*line;
-
-	line = memdup(*input, ft_strlen(*input) + 1);// _pre_proc(1, input);
-	if (_UNLIKELY(!line))
-		return (ft_perror("full_ast(): pre_proc failed"), NULL);
-	toks = tokenize_line(line);
-	mm_free(line);
-	if (_UNLIKELY(!toks))
-		return (ft_perror("full_ast(): tokenize_line failed"), NULL);
-	lxr = (t_lexer){
-		.tokens = toks,
-		.pos = 0
-	};
-	root = parse_pipeline(&lxr);
-	if (_UNLIKELY(!root))
-		return (ft_perror(""), token_free_all(toks), NULL);
-	ast_print(root, 0);
-	// ast_destroy(root);
-	return (token_free_all(toks), root);
-}
-
-#pragma endregion Fonctions
-#pragma region Main
-
-/*int	main(int argc, char **argv)
-{
-	t_ast					*root;
-	t_lexer					lxr;
-	t_token					*toks;
-	char					*line;
-	size_t					len = 1;
-	unsigned int			i;
-
-	if (argc < 2)
-		return (-1);
-	i = 1;
-	line = _pre_proc(argc, argv);
-	if (!line)
-		return (-1);
-	toks = tokenize_line(line);
-	mm_free(line);
-	if (!toks)
-		return (-1);
-	lxr = (t_lexer){\
-		.tokens = toks,\
-		.pos = 0\
-	};
-	root = parse_pipeline(&lxr);
-	if (!root)
-		return (token_free_all(toks), -1);
-	ast_print(root, 0);
-	ast_destroy(root);
-	return (token_free_all(toks), 0);
-}*/
-
-#pragma endregion Main
+#pragma endregion FUNCTIONS

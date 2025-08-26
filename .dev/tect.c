@@ -7,9 +7,10 @@
 
 typedef enum e_token_type t_token_type;
 typedef struct s_token t_token;
-
+	
 enum e_token_type
 {
+	TOKEN_CMD,
 	TOKEN_PIPE,
 	TOKEN_QUOTE,
 	TOKEN_DQUOTE,
@@ -47,14 +48,14 @@ static inline char *strjoin(char *s1, const char *s2)
 	return result;
 }
 
-static inline int	is_delim(
+/*static inline int	is_delim(
 	const char c
 )
 {
 	return (c == ' ' || c == '\'' || c == '"' || c == '|' || c == '>' || c == '<');
-}
+}*/
 
-char	**spliter(
+/*char	**spliter(
 	char *line
 )
 {
@@ -105,7 +106,7 @@ char	**spliter(
 			delim = ' ';
 	}
 	return result;
-}
+}*/
 
 
 #pragma endregion PARSER
@@ -116,7 +117,7 @@ char	**spliter(
 // {
 // 	char *cmd = NULL;
 
-// 	for (int i = 1; i < argc; i++)
+// 	for (int i = 1; i < argc; ++i)
 // 	{
 // 		char *tmp = strdup(argv[i]);
 // 		if (!tmp)
@@ -136,117 +137,160 @@ char	**spliter(
 #pragma region GPT
 
 /* Create a new token */
-t_token *token_new(const char *str, int type, int size)
+t_token	*token_new(
+	const char *str,
+	const int type,
+	const int size
+)
 {
-    t_token *tok = malloc(sizeof(t_token));
-    if (!tok) return NULL;
-    tok->value = strndup(str, size);
-    tok->type = type;
-    tok->size = size;
-    return tok;
+	t_token	*tok;
+
+	tok = malloc(sizeof(t_token));
+	if (!tok)
+		return (NULL);
+	tok->value = strndup(str, size);
+	tok->type = type;
+	tok->size = size;
+	return (tok);
 }
 
 /* Simple tokenizer: splits line into tokens */
-t_token **tokenize_line(const char *line, int *count)
+t_token	**tokenize_line(
+	const char *const restrict line,
+	int *const restrict count
+)
 {
-	size_t len = strlen(line);
-	size_t cap = 8;
-	t_token **tokens = malloc(cap * sizeof(t_token*));
-	size_t idx = 0;
+	register const size_t	len = strlen(line);
+	size_t					cap = 1;
+	t_token					**tokens = malloc(cap * sizeof(t_token*));
+	register size_t			idx = 0;
+	register size_t			i;
+	register size_t			start;
 
-	for (size_t i = 0; i < len; ) {
-		if (isspace(line[i])) { i++; continue; }
-
-		if (line[i] == '|') {
-			tokens[idx++] = token_new("|", TOKEN_PIPE, 1); i++;
+	i = 0;
+	while (i < len)
+	{
+		if (isspace(line[i]))
+			++i;
+		else if (line[i] == '|')
+			tokens[idx++] = token_new("|", TOKEN_PIPE, 1 + 0 * ++i);
+		else if (line[i] == '\'')
+		{
+			start = ++i;
+			while (i < len && line[i] != '\'')
+				++i;
+			printf("Single quoted token: %.*s\n", (int)(i - start), line + start);
+			tokens[idx++] = token_new(line + start, TOKEN_QUOTE, i++ - start);
 		}
-		else if (line[i] == '\'') {
-			size_t start = i+1;
-			i++;
-			while (i < len && line[i] != '\'') i++;
-			tokens[idx++] = token_new(line+start, TOKEN_QUOTE, i-start);
-			i++; // skip closing quote
+		else if (line[i] == '"')
+		{
+			start = ++i;
+			while (i < len && line[i] != '"')
+				++i;
+			tokens[idx++] = token_new(line + start, TOKEN_DQUOTE, i++ - start);
 		}
-		else if (line[i] == '"') {
-			size_t start = i+1;
-			i++;
-			while (i < len && line[i] != '"') i++;
-			tokens[idx++] = token_new(line+start, TOKEN_DQUOTE, i-start);
-			i++; // skip closing quote
+		else if (line[i] == '>' && line[i + 1] == '>')
+		{
+			tokens[idx++] = token_new(">>", TOKEN_DGREATER, 2);
+			i += 2;
 		}
-		else if (line[i] == '>' && line[i+1] == '>') {
-			tokens[idx++] = token_new(">>", TOKEN_DGREATER, 2); i+=2;
+		else if (line[i] == '<' && line[i + 1] == '<')
+		{
+			tokens[idx++] = token_new("<<", TOKEN_DLESS, 2);
+			i += 2;
 		}
-		else if (line[i] == '<' && line[i+1] == '<') {
-			tokens[idx++] = token_new("<<", TOKEN_DLESS, 2); i+=2;
-		}
-		else if (line[i] == '>') {
-			tokens[idx++] = token_new(">", TOKEN_GREATER, 1); i++;
-		}
-		else if (line[i] == '<') {
-			tokens[idx++] = token_new("<", TOKEN_LESS, 1); i++;
-		}
-		else {
-			size_t start = i;
+		else if (line[i] == '>')
+			tokens[idx++] = token_new(">", TOKEN_GREATER, 1 + 0 * ++i);
+		else if (line[i] == '<')
+			tokens[idx++] = token_new("<", TOKEN_LESS, 1 + 0 * ++i);
+		else
+		{
+			start = i;
 			while (i < len && !isspace(line[i]) &&
 				line[i] != '|' && line[i] != '<' && line[i] != '>')
-				i++;
-			tokens[idx++] = token_new(line+start, TOKEN_WORD, i-start);
+				++i;
+			if (!idx)
+				tokens[idx++] = token_new(line + start, TOKEN_CMD, i - start);
+			else if (idx && tokens[idx - 1] && (tokens[idx - 1]->type == TOKEN_PIPE))
+			{
+				tokens[idx++] = token_new(line + start, TOKEN_CMD, i - start);
+				printf("Identified CMD token: '%.*s'\n", (int)(i - start), line + start);
+			}
+			else
+			{
+				tokens[idx++] = token_new(line + start, TOKEN_WORD, i - start);
+				printf("Identified WORD token: '%.*s'\n", (int)(i - start), line + start);
+			}
 		}
-
-		// Resize array if needed
-		if (idx >= cap) {
+		if (idx >= cap)
+		{
 			cap *= 2;
 			tokens = realloc(tokens, cap * sizeof(t_token*));
 		}
 	}
-
 	*count = idx;
-	return tokens;
+	return (tokens);
 }
 
-char *show_type(int type)
+#define RED "\033[1;31m"
+#define GREEN "\033[1;32m"
+#define YELLOW "\033[1;33m"
+#define BLUE "\033[1;34m"
+#define MAGENTA "\033[1;35m"
+#define CYAN "\033[1;36m"
+#define WHITE "\033[1;37m"
+#define RESET "\033[0m"
+
+const char *show_type(
+	const int type
+)
 {
-	switch(type)
-	{
-		case TOKEN_PIPE: return "\033[1;36mPIPE\033[0m";
-		case TOKEN_QUOTE: return "\033[1;33mQUOTE\033[0m";
-		case TOKEN_DQUOTE: return "\033[1;32mDQUOTE\033[0m";
-		case TOKEN_GREATER: return "\033[1;31mGREATER\033[0m";
-		case TOKEN_LESS: return "\033[1;35mLESS\033[0m";
-		case TOKEN_DGREATER: return "\033[1;34mDGREATER\033[0m";
-		case TOKEN_DLESS: return "\033[1;34mDLESS\033[0m";
-		case TOKEN_WORD: return "\033[1;37mWORD\033[0m";
-		default: return "\033[1;30mUNKNOWN\033[0m";
-	}
+	static const char	*types[9] = {
+		[TOKEN_CMD] = BLUE "CMD" RESET,
+		[TOKEN_PIPE] = CYAN "PIPE" RESET,
+		[TOKEN_QUOTE] = YELLOW "QUOTE" RESET,
+		[TOKEN_DQUOTE] = GREEN "DQUOTE" RESET,
+		[TOKEN_GREATER] = RED "GREATER" RESET,
+		[TOKEN_LESS] = MAGENTA "LESS" RESET,
+		[TOKEN_DGREATER] = BLUE "DGREATER" RESET,
+		[TOKEN_DLESS] = BLUE "DLESS" RESET,
+		[TOKEN_WORD] = WHITE "WORD" RESET,
+	};
+
+	return (types[type % (TOKEN_WORD + 1)]);
 }
 
 /* ===== Debug print ===== */
-void print_tokens(t_token **tokens, int count)
+void	print_tokens(
+	const t_token **tokens,
+	const int count
+)
 {
-    for (int i = 0; i < count; i++)
-        printf("[%s] type=%s size=%d\n", tokens[i]->value, show_type(tokens[i]->type), tokens[i]->size);
+	register int	i;
+
+	i = -1;
+	while (++i < count)
+		printf("[%s] type=%s size=%d\n", tokens[i]->value,
+			show_type(tokens[i]->type), tokens[i]->size);
 }
 
 /* ===== Test ===== */
 int main(int argc, char **argv)
 {
-	int i = 0;
-	char *line = NULL;
-	while (argv[++i])
-		line = strjoin(line, argv[i]);
-    int count;
-    t_token **tokens = tokenize_line(line, &count);
-    print_tokens(tokens, count);
+	char *line = argv[1];
 
-    // Free tokens
-    for (int i=0;i<count;i++) {
-        free(tokens[i]->value);
-        free(tokens[i]);
-    }
-    free(tokens);
+	int count = 0;
+	t_token **tokens = tokenize_line(line, &count);
+	print_tokens((const t_token **)tokens, count);
 
-    return 0;
+	// Free tokens
+	for (int i=0;i<count;++i) {
+		free(tokens[i]->value);
+		free(tokens[i]);
+	}
+	free(tokens);
+
+	return 0;
 }
 
 

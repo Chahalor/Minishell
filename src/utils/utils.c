@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 11:04:28 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/28 17:04:05 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/26 13:17:09 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "utils.h"
 
 /* -----| Modules  |----- */
-	//...
+#include "ft_printf.h" //rm
 
 #pragma endregion Header
 #pragma region Fonctions
