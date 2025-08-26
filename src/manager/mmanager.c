@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 12:11:57 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/26 13:18:08 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/26 16:21:10 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 #pragma region Functions
 
 /** */
-__attribute__((malloc)) void	*mm_alloc(
+__attribute__((malloc, used)) void	*mm_alloc(
 	const size_t size
 )
 {
@@ -46,7 +46,7 @@ __attribute__((malloc)) void	*mm_alloc(
 }
 
 /** */
-__attribute__((malloc)) void	*mm_realloc(
+__attribute__((malloc, used)) void	*mm_realloc(
 	void *restrict ptr,
 	const size_t nsize
 )
@@ -74,7 +74,7 @@ __attribute__((malloc)) void	*mm_realloc(
 }
 
 /** */
-__attribute__(()) void	mm_free(
+__attribute__((used)) void	mm_free(
 	void *restrict ptr
 )
 {
@@ -84,7 +84,7 @@ __attribute__(()) void	mm_free(
 }
 
 /** */
-__attribute__(()) void	mm_destroy(void)
+__attribute__((used)) void	mm_destroy(void)
 {
 	_mm_store(NULL, mm_free_all);
 }

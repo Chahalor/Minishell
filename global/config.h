@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:47:53 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/25 14:04:23 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/26 16:23:33 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,7 @@
 # define DEFAULT_EXIT_MESSAGE	"Exit 👻"			/* exit message         */
 
 # define DEFAULT_HISTORY_FILE	".minihistory"	/* default file */
+
+# define PARSER_ALLOC_SIZE		16	/* default parser allocation size */
 
 #endif /* CONFIG_H */
