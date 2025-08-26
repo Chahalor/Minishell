@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 08:40:35 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/26 14:11:41 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/26 14:25:01 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static inline t_token	*token_new(
 {
 	t_token	*tok;
 
+	ft_fprintf(2, "%s called\n", __func__);
 	tok = malloc(sizeof(t_token));
 	if (!tok)
 		return (NULL);
@@ -80,6 +81,7 @@ static inline t_token	*_redirect_handling(
 {
 	t_token	*tok;
 
+	ft_fprintf(2, "%s called\n", __func__);
 	if (line[*i] == '>')
 	{
 		if (line[*i + 1] == '>')
@@ -123,6 +125,7 @@ static inline t_token	*_word_handling(
 	const size_t	start = *i;
 	t_token			*tok;
 
+	ft_fprintf(2, "%s called\n", __func__);
 	while (*i < len && !isspace(line[*i]) &&
 		line[*i] != '|' && line[*i] != '<' && line[*i] != '>')
 		++(*i);
@@ -150,16 +153,17 @@ t_token	**tokenize_line(
 	i = 0;
 	while (i < len)
 	{
+		ft_fprintf(2, "idx=%d\n", idx);
 		if (isspace(line[i]))
 			++i;
 		else if (line[i] == '|')
 			tokens[idx++] = token_new("|", TOKEN_PIPE, 1 + 0 * ++i);
 		else if (line[i] == '\'' || line[i] == '"')
-			tokens[idx++] = _quote_handling(line, &i, len, &idx);
+			tokens[idx] = _quote_handling(line, &i, len, &idx);
 		else if (line[i] == '>' || line[i] == '<')
-			tokens[idx++] = _redirect_handling(line, &i, &idx);
+			tokens[idx] = _redirect_handling(line, &i, &idx);
 		else
-			tokens[idx++] = _word_handling(line, (size_t *[2]){&i, &idx}, (const t_token **)tokens, len);
+			tokens[idx] = _word_handling(line, (size_t *[2]){&i, &idx}, (const t_token **)tokens, len);
 		if (idx >= cap)
 		{
 			cap *= 2;
@@ -191,7 +195,7 @@ const char *show_type(
 		[PARSER_ERR_MEMORY_ALLOCATION] = RED "MEMORY ALLOCATION" RESET
 	};
 
-	return (messages[type % (TOKEN_WORD + 1)]);
+	return (messages[type % (PARSER_ERR_MEMORY_ALLOCATION + 1)]);
 }
 
 static inline t_exec_data	*new_exec(
@@ -322,8 +326,8 @@ void	print_tokens(
 
 	i = -1;
 	while (++i < count)
-		printf("[%s] type=%s size=%d\n", tokens[i]->value,
-			show_type(tokens[i]->type), tokens[i]->size);
+		printf("[%s] type=%s (%d) size=%d\n", tokens[i]->value,
+			show_type(tokens[i]->type), tokens[i]->type, tokens[i]->size);
 }
 
 void	print_exec(
