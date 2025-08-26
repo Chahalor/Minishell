@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:19:39 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/27 09:57:42 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/26 10:51:27 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,25 @@ void		token_free_all(
 
 void		ast_destroy(
 				t_ast *n
+				);
+
+t_exec_data *token_to_exec(
+				t_token **tokens,
+				int count
+				);
+
+t_token		**tokenize_line(
+				const char *const restrict line,
+				int *const restrict count
+				);
+
+void		print_tokens(
+				const t_token **tokens,
+				const int count
+				);
+
+void		print_exec(
+				const t_exec_data *const restrict exec
 				);
 
 #endif /* LEXER_H */
