@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/18 10:14:52 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/27 15:49:10 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ __attribute__((always_inline, used)) static inline int	_redirect(
  * 
  * @version 1.0
  */
-__attribute__((always_inline, used, noreturn)) static inline int	_child(
+__attribute__((always_inline, used, noreturn))
+static inline int	_child(
 	t_exec_data *const restrict data,
 	char *const envp[],
 	const int prev_read,
@@ -147,7 +148,8 @@ __attribute__((hot))	int	exec_bin(
 	{
 		data->pid = pid;
 		set_last_child(pid);
-		close(prev_read);
+		if (prev_read > 0)
+			close(prev_read);
 		return (0);
 	}
 	else

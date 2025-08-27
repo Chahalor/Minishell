@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:19:39 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/26 10:51:27 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/27 15:33:08 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,7 @@ void		ast_destroy(
 				);
 
 t_exec_data *token_to_exec(
-				t_token **tokens,
-				int count
+				t_token **tokens
 				);
 
 t_token		**tokenize_line(
