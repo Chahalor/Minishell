@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/25 12:46:38 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 12:47:38 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,9 @@ __attribute__((used)) char	builtin_cd(
 	const int fd_out
 )
 {
+	const char				*dests[2] = {"HOME", "OLDPWD"};
 	const struct s_args_cd	opts = _parse(args);
+	char					*cwd;
 	char					*dest;
 	int						error;
 
@@ -147,10 +149,8 @@ __attribute__((used)) char	builtin_cd(
 		return (_help());
 	else if (_UNLIKELY(opts.error))
 		return (_error(opts.error, NULL));
-	else if (opts.oldpwd)
-		dest = env_find("OLDPWD");
-	else if (opts.home)
-		dest = env_find("HOME");
+	else if (opts.oldpwd || opts.home)
+		dest = env_find((void *)dests[opts.oldpwd == 1]);
 	else
 		dest = (char *)args[1];
 	error = _check_path(dest);
@@ -158,9 +158,10 @@ __attribute__((used)) char	builtin_cd(
 		return (_error(error, dest));
 	else if (chdir(dest) != 0)
 		return (_error(errno, dest));
+	cwd = getcwd(NULL, 0);
 	env_export("OLDPWD", env_find("PWD"));
-	env_export("PWD", getcwd(NULL, 0));
-	return (EXIT_SUCCESS);
+	env_export("PWD", cwd);
+	return (free(cwd), EXIT_SUCCESS);
 }
 
 #pragma endregion Fonctions

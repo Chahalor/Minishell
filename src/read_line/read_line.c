@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:06:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 11:04:14 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 12:37:06 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ __attribute__((used, cold)) void	rl_reset_cmd(void)
 {
 	struct termios	t;
 
+	t = (struct termios){0};
 	tcgetattr(STDIN_FILENO, &t);
 	t.c_lflag |= (ICANON | ECHO);
 	tcsetattr(STDIN_FILENO, TCSANOW, &t);
