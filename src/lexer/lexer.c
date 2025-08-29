@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/27 15:57:38 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 08:50:16 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,12 +127,14 @@ __attribute__((deprecated)) t_exec_data	*lexer(
 	const char *const restrict line
 )
 {
-	t_exec_data		*data;
-	int count = 0;
-	t_token **tokens = tokenize_line(line, &count);
+	t_exec_data	*data;
+	int			count = 0;
+	t_token		**tokens = tokenize_line(line, &count);
+
 	print_tokens((void *)tokens, count);
 	data = token_to_exec(tokens);
 	print_exec(data);
+	printf("\n======================================\n\n");
 	return (data);
 }
 

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 08:40:35 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/27 18:07:16 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 08:52:45 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,27 +203,27 @@ t_token	**tokenize_line(
 #pragma endregion TOKEN
 #pragma region TO EXEC
 
+__attribute_maybe_unused__
 static inline t_exec_data	*new_exec(
-
+	const int nb_args
 )
 {
-	t_exec_data	*data;
+	t_exec_data	*exec;
 
-	data = mm_alloc(sizeof(t_exec_data));
-	if (!data)
+	exec = mm_alloc(sizeof(t_exec_data));
+	if (_UNLIKELY(!exec))
 		return (NULL);
-	*data = (t_exec_data){
+	*exec = (t_exec_data){
 		.cmd = NULL,
-		.args = NULL,
-		.status = 0,
-		.pid = -1,
+		.args = mm_alloc(nb_args * sizeof(char *)),
+		.pipe = NULL,
+		.type = 0,
 		.fd_in = -1,
 		.fd_out = -1,
-		.type = 0,
-		.pipe = NULL,
-		.next = NULL
+		.status = -1,
+		.pid = 0,
 	};
-	return (data);
+	return (exec);
 }
 
 static inline int	is_word(
@@ -239,7 +239,7 @@ static inline int	is_redirect(
 )
 {
 	return (token == TOKEN_GREATER || token == TOKEN_LESS ||
-		token == TOKEN_DGREATER || token == TOKEN_DLESS || token == TOKEN_WORD);
+		token == TOKEN_DGREATER || token == TOKEN_DLESS);
 }
 
 static inline int	_heredoc(
@@ -249,6 +249,7 @@ static inline int	_heredoc(
 	return (heredoc_all(delimiter));
 }
 
+__attribute_maybe_unused__
 static inline int	apply_redirs(
 	t_exec_data *data,
 	t_token **tok,
@@ -276,7 +277,7 @@ static inline int	apply_redirs(
 	else
 		return (j - start);
 }
-
+__attribute_maybe_unused__
 static inline void	_show_error(
 	const t_token **tok,
 	int index,
@@ -295,6 +296,7 @@ static inline void	_show_error(
 	ft_fprintf(2, "\n");
 }
 
+__attribute_maybe_unused__
 static inline int	check_tokens(
 	t_token **tok
 )
@@ -319,14 +321,16 @@ static inline int	check_tokens(
 			err.token = tok[i];
 			break ;
 		}
-		else if (i && ((is_redirect(tok[i]->type) && is_redirect(last_token)) || !is_word(tok[i]->type)))
+		else if (i && ((is_redirect(tok[i]->type) && is_redirect(last_token)) /*|| !is_word(tok[i]->type)*/))
 		{
+			ft_fprintf(2, RED "error at 1 (last=%s)\n" RESET, show_type(last_token));
 			err.error = (PARSER_ERR_INVALID_REDIRECTION);
 			err.token = tok[i];
 			break ;
 		}
 		else if (i && tok[i]->type == TOKEN_DLESS && !tok[i + 1])	// ne marche pas
 		{
+			ft_fprintf(2, YELLOW "error at 2 (last=%s)\n" RESET, show_type(last_token));
 			err.error = (PARSER_ERR_INVALID_REDIRECTION);
 			err.token = tok[i];
 			break ;
@@ -345,27 +349,33 @@ static inline int	check_tokens(
 }
 
 __attribute_maybe_unused__
-static int count_args(t_token **tok)
+static inline int count_args(
+	const t_token *const restrict *const restrict tok
+)
 {
-	int i = 0;
-	int count = 0;
+	register int	i;
+	register int	count;
 
-	while (tok[i] && tok[i]->type != TOKEN_PIPE)
-	{
+	i = -1;
+	count = 0;
+	while (tok[++i] && !is_redirect(tok[i]->type))
 		if (tok[i]->type == TOKEN_CMD || tok[i]->type == TOKEN_WORD)
-			count++;
-		i++;
-	}
-	return count;
+			++count;
+	return (count);
 }
 
-static inline char *ft_strdup(const char *s)
+__attribute_maybe_unused__
+static inline char *ft_strdup(
+	const char *s
+)
 {
-	size_t len = ft_strlen(s);
-	char *dup = mm_alloc(len + 1);
-	if (dup)
+	const size_t	len = ft_strlen(s);
+	char			*dup;
+	
+	dup = mm_alloc(len + 1);
+	if (_LIKELY(dup != NULL))
 		ft_memcpy(dup, s, len + 1);
-	return dup;
+	return (dup);
 }
 
 t_exec_data	*token_to_exec(
@@ -376,24 +386,16 @@ t_exec_data	*token_to_exec(
 	register int	i;
 	register int	j;
 
-	if (_UNLIKELY(!tok || !*tok))
+	if (_UNLIKELY(!tok || !*tok || check_tokens(tok) != PARSER_ERR_NONE))
 		return (NULL);
-	exec = mm_alloc(sizeof(t_exec_data));
-	if (_UNLIKELY(!exec))
-		return (NULL);
-	exec->fd_in = -1;
-	exec->fd_out = -1;
-	exec->status = 0;
-	exec->pid = -1;
-	exec->pipe = NULL;
-	exec->args = mm_alloc((count_args(tok) + 2) * sizeof(char *));
-	if (_UNLIKELY(!exec->args))
+	exec = new_exec(count_args((void *)tok) + 2);
+	if (_UNLIKELY(!exec || !exec->args))
 		return (mm_free(exec), NULL);
 	i = 0;
 	j = 0;
 	while (tok[i] && tok[i]->type != TOKEN_PIPE)
 	{
-		if (tok[i]->type == TOKEN_WORD || tok[i]->type == TOKEN_QUOTE || tok[i]->type == TOKEN_DQUOTE)
+		if (tok[i]->type == TOKEN_WORD || tok[i]->type == TOKEN_CMD || tok[i]->type == TOKEN_QUOTE || tok[i]->type == TOKEN_DQUOTE)
 		{
 			if (!exec->cmd)
 				exec->cmd = _get_bin(tok[i]->value);
@@ -515,6 +517,8 @@ void	print_exec(
 {
 	t_exec_data	*current;
 
+	if (_UNLIKELY(!exec))
+		return ((void)printf("No execution data to display\n"));
 	current = (t_exec_data *)exec;
 	while (current)
 	{
@@ -537,5 +541,6 @@ void	print_exec(
 		current = current->pipe;
 	}
 }
+
 #pragma endregion DEBUG
 #pragma endregion FUNCTIONS

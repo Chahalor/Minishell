@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/27 10:02:49 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 09:12:44 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,14 @@ __attribute__((always_inline, used)) static inline	int	_pipe(
 	int *out_fd
 )
 {
-	*out_fd = STDOUT_FILENO + (current->fd_out > 0)
-		* (current->fd_out - STDOUT_FILENO);
-	if (current->pipe)
-		if (_UNLIKELY(_piping(pipe_fd, out_fd) < 0))
-			return (-1);
 	if (current->fd_out > -1)
 	{
-		close(*out_fd);
 		*out_fd = current->fd_out;
 		pipe_fd[1] = *out_fd;
 	}
-	return (*out_fd);
+	else if (_UNLIKELY(current->pipe && _piping(pipe_fd, out_fd) < 0))
+			return (-1);
+	return (0);
 }
 
 /**
