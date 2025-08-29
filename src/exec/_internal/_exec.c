@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 09:00:25 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 11:02:11 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,28 +83,6 @@ __attribute__((always_inline, used)) static inline int	_redirect(
 	}
 }
 
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-
-static void print_fd_target(int fd, const char *name)	//rm
-{
-	char path[64];
-	char buf[256];
-	ssize_t n;
-
-	snprintf(path, sizeof(path), "/proc/self/fd/%d", fd);
-	n = readlink(path, buf, sizeof(buf) - 1);
-	if (n == -1)
-	{
-		perror("readlink");
-		return;
-	}
-	buf[n] = '\0';
-	dprintf(STDERR_FILENO, YELLOW"%s (fd %d) -> %s\n" RESET, name, fd, buf);
-}
-
-
 /**
  * @brief	All logic for the child process when executing a command.
  * 
@@ -137,8 +115,6 @@ static inline int	_child(
 	reset_signal();
 	if (_UNLIKELY(!data->cmd))
 		exit_program(EXIT_FAILURE, NULL);
-	print_fd_target(STDIN_FILENO, "stdin");		//rm
-	print_fd_target(STDOUT_FILENO, "stdout");	//rm
 	execve(data->cmd, data->args, envp);
 	exit_program(127, NULL);
 	exit(EXIT_FAILURE);

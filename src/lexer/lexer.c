@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 08:50:16 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 10:34:20 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,80 @@
 // 		return (data);
 // 	}
 // }
+
+static inline const char *show_type(
+	const int type
+)
+{
+	static const char	*messages[15] = {
+		[TOKEN_CMD] = BLUE "CMD" RESET,
+		[TOKEN_PIPE] = CYAN "PIPE" RESET,
+		[TOKEN_QUOTE] = YELLOW "QUOTE" RESET,
+		[TOKEN_DQUOTE] = GREEN "DQUOTE" RESET,
+		[TOKEN_GREATER] = RED "GREATER" RESET,
+		[TOKEN_LESS] = MAGENTA "LESS" RESET,
+		[TOKEN_DGREATER] = BLUE "DGREATER" RESET,
+		[TOKEN_DLESS] = BLUE "DLESS" RESET,
+		[TOKEN_WORD] = WHITE "WORD" RESET,
+		[PARSER_ERR_NONE] = GREEN "NO ERROR" RESET,
+		[PARSER_ERR_MISSING_QUOTE] = RED "MISSING QUOTE" RESET,
+		[PARSER_ERR_UNEXPECTED_TOKEN] = RED "UNEXPECTED TOKEN" RESET,
+		[PARSER_ERR_BROKEN_PIPE] = RED "BROKEN PIPE" RESET,
+		[PARSER_ERR_INVALID_REDIRECTION] = RED "INVALID REDIRECTION" RESET,
+		[PARSER_ERR_MEMORY_ALLOCATION] = RED "MEMORY ALLOCATION" RESET
+	};
+
+	return (messages[type % (PARSER_ERR_MEMORY_ALLOCATION + 1)]);
+}
+
+void	print_tokens(
+	const t_token **tokens,
+	const int count
+)
+{
+	register int	i;
+
+	if (_UNLIKELY(!tokens || count < 1))
+	{
+		printf("No tokens to display\n");
+		return ;
+	}
+	i = -1;
+	while (++i < count)
+		printf("(%d)[%s] type=%s (%d) size=%d\n", i, tokens[i]->value,
+			show_type(tokens[i]->type), tokens[i]->type, tokens[i]->size);
+}
+
+void	print_exec(
+	const t_exec_data *const restrict exec
+)
+{
+	t_exec_data	*current;
+
+	if (_UNLIKELY(!exec))
+		return ((void)printf("No execution data to display\n"));
+	current = (t_exec_data *)exec;
+	while (current)
+	{
+		printf("Command: '%s' (%p)\n", current->cmd, current);
+		printf("Arguments:\n");
+		if (current->args)
+		{
+			register int	j;
+
+			j = -1;
+			while (current->args[++j])
+				printf("  arg[%d]: '%s'\n", j, current->args[j]);
+			printf("  arg[%d]: %p\n", j, current->args[j]);
+		}
+		else
+			printf("  No arguments\n");
+		printf("Input FD: %d\n", current->fd_in);
+		printf("Output FD: %d\n", current->fd_out);
+		printf("Status: %d\n", current->status);
+		current = current->pipe;
+	}
+}
 
 /**
  * @brief	Lexer function that parses a command line and builds an execution

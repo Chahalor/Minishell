@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 08:40:35 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 08:52:45 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 10:33:30 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,32 +21,7 @@
 
 #pragma region TOKEN
 
-const char *show_type(
-	const int type
-)
-{
-	static const char	*messages[15] = {
-		[TOKEN_CMD] = BLUE "CMD" RESET,
-		[TOKEN_PIPE] = CYAN "PIPE" RESET,
-		[TOKEN_QUOTE] = YELLOW "QUOTE" RESET,
-		[TOKEN_DQUOTE] = GREEN "DQUOTE" RESET,
-		[TOKEN_GREATER] = RED "GREATER" RESET,
-		[TOKEN_LESS] = MAGENTA "LESS" RESET,
-		[TOKEN_DGREATER] = BLUE "DGREATER" RESET,
-		[TOKEN_DLESS] = BLUE "DLESS" RESET,
-		[TOKEN_WORD] = WHITE "WORD" RESET,
-		[PARSER_ERR_NONE] = GREEN "NO ERROR" RESET,
-		[PARSER_ERR_MISSING_QUOTE] = RED "MISSING QUOTE" RESET,
-		[PARSER_ERR_UNEXPECTED_TOKEN] = RED "UNEXPECTED TOKEN" RESET,
-		[PARSER_ERR_BROKEN_PIPE] = RED "BROKEN PIPE" RESET,
-		[PARSER_ERR_INVALID_REDIRECTION] = RED "INVALID REDIRECTION" RESET,
-		[PARSER_ERR_MEMORY_ALLOCATION] = RED "MEMORY ALLOCATION" RESET
-	};
-
-	return (messages[type % (PARSER_ERR_MEMORY_ALLOCATION + 1)]);
-}
-
-/* Create a new token */
+/* Create a new token
 static inline t_token	*token_new(
 	const char *str,
 	const int type,
@@ -163,7 +138,7 @@ static inline t_token	*_word_handling(
 	return (tok);
 }
 
-/* Simple tokenizer: splits line into tokens */
+//  Simple tokenizer: splits line into tokens 
 t_token	**tokenize_line(
 	const char *const restrict line,
 	int *const restrict count
@@ -200,7 +175,7 @@ t_token	**tokenize_line(
 	return (tokens);
 }
 
-#pragma endregion TOKEN
+#pragma endregion TOKEN*/
 #pragma region TO EXEC
 
 __attribute_maybe_unused__
@@ -225,59 +200,7 @@ static inline t_exec_data	*new_exec(
 	};
 	return (exec);
 }
-
-static inline int	is_word(
-	const int token
-)
-{
-	return (token == TOKEN_WORD || token == TOKEN_CMD ||
-		token == TOKEN_QUOTE || token == TOKEN_DQUOTE);
-}
-
-static inline int	is_redirect(
-	const int token
-)
-{
-	return (token == TOKEN_GREATER || token == TOKEN_LESS ||
-		token == TOKEN_DGREATER || token == TOKEN_DLESS);
-}
-
-static inline int	_heredoc(
-	const char *const restrict delimiter
-)
-{
-	return (heredoc_all(delimiter));
-}
-
-__attribute_maybe_unused__
-static inline int	apply_redirs(
-	t_exec_data *data,
-	t_token **tok,
-	const int start
-)
-{
-	register int	j;
-
-	j = start - 1;
-	while (tok[++j] && (is_redirect(tok[j]->type) || is_word(tok[j]->type)))
-	{
-		if (tok[j]->type == TOKEN_GREATER)
-			data->fd_out = open(tok[j + 1]->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		else if (tok[j]->type == TOKEN_DGREATER)
-			data->fd_out = open(tok[j + 1]->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		else if (tok[j]->type == TOKEN_LESS)
-			data->fd_in = open(tok[j + 1]->value, O_RDONLY, 0644);
-		else if (tok[j]->type == TOKEN_DLESS)
-			data->fd_in = heredoc_all(tok[j + 1]->value);
-		else
-			continue ;
-	}
-	if (_UNLIKELY(data->fd_in < 0 || data->fd_out < 0))
-		return (mm_free(data), -1); // make sure to free all data
-	else
-		return (j - start);
-}
-__attribute_maybe_unused__
+/*__attribute_maybe_unused__
 static inline void	_show_error(
 	const t_token **tok,
 	int index,
@@ -306,6 +229,13 @@ static inline int	check_tokens(
 	int				last_token;
 
 	err.error = PARSER_ERR_NONE;
+	if (tok[0] && tok[0]->type == TOKEN_PIPE)
+	{
+		err.error = PARSER_ERR_BROKEN_PIPE;
+		err.token = tok[0];
+		_show_error((const t_token **)tok, 0, err.error);
+		return (err.error);
+	}
 	i = -1;
 	while (tok[++i])
 	{
@@ -321,16 +251,14 @@ static inline int	check_tokens(
 			err.token = tok[i];
 			break ;
 		}
-		else if (i && ((is_redirect(tok[i]->type) && is_redirect(last_token)) /*|| !is_word(tok[i]->type)*/))
+		else if (i && (((_is_redir(tok[i]->type) && _is_redir(last_token)) || (_is_redir (tok[i]->type) && !_is_word(tok[i]->type)))))
 		{
-			ft_fprintf(2, RED "error at 1 (last=%s)\n" RESET, show_type(last_token));
 			err.error = (PARSER_ERR_INVALID_REDIRECTION);
 			err.token = tok[i];
 			break ;
 		}
-		else if (i && tok[i]->type == TOKEN_DLESS && !tok[i + 1])	// ne marche pas
+		else if (tok[i]->type == TOKEN_DLESS && !tok[i + 1])
 		{
-			ft_fprintf(2, YELLOW "error at 2 (last=%s)\n" RESET, show_type(last_token));
 			err.error = (PARSER_ERR_INVALID_REDIRECTION);
 			err.token = tok[i];
 			break ;
@@ -346,7 +274,7 @@ static inline int	check_tokens(
 	if (err.error != PARSER_ERR_NONE)
 		_show_error((const t_token **)tok, i, err.error);
 	return (err.error);
-}
+}*/
 
 __attribute_maybe_unused__
 static inline int count_args(
@@ -358,33 +286,52 @@ static inline int count_args(
 
 	i = -1;
 	count = 0;
-	while (tok[++i] && !is_redirect(tok[i]->type))
+	while (tok[++i] && !_is_redir(tok[i]->type))
 		if (tok[i]->type == TOKEN_CMD || tok[i]->type == TOKEN_WORD)
 			++count;
 	return (count);
 }
 
-__attribute_maybe_unused__
-static inline char *ft_strdup(
-	const char *s
+static inline int	__redir(
+	t_token **tok,
+	t_exec_data *exec,
+	int *const restrict i
 )
 {
-	const size_t	len = ft_strlen(s);
-	char			*dup;
-	
-	dup = mm_alloc(len + 1);
-	if (_LIKELY(dup != NULL))
-		ft_memcpy(dup, s, len + 1);
-	return (dup);
+	if (tok[*i]->type == TOKEN_GREATER)
+		exec->fd_out = open(tok[++(*i)]->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	else if (tok[*i]->type == TOKEN_DGREATER)
+		exec->fd_out = open(tok[++(*i)]->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	else if (tok[*i]->type == TOKEN_LESS)
+		exec->fd_in = open(tok[++(*i)]->value, O_RDONLY);
+	else if (tok[*i]->type == TOKEN_DLESS)
+		exec->fd_in = heredoc_all(tok[++(*i)]->value);
+	return (0);
+}
+
+static inline int	__new_cmd(
+	t_exec_data *exec,
+	t_token **tok,
+	int *const restrict j,
+	const int i
+)
+{
+	if (!exec->cmd)
+		exec->cmd = _get_bin(tok[i]->value);
+	if (tok[i]->type != TOKEN_QUOTE)
+		exec->args[(*j)++] = env_expand(tok[i]->value);
+	else
+		exec->args[(*j)++] = tok[i]->value;
+	return (-(exec->cmd == NULL));
 }
 
 t_exec_data	*token_to_exec(
 	t_token **tok
 )
 {
-	t_exec_data		*exec;
-	register int	i;
-	register int	j;
+	t_exec_data	*exec;
+	int			i;
+	int			j;
 
 	if (_UNLIKELY(!tok || !*tok || check_tokens(tok) != PARSER_ERR_NONE))
 		return (NULL);
@@ -395,26 +342,10 @@ t_exec_data	*token_to_exec(
 	j = 0;
 	while (tok[i] && tok[i]->type != TOKEN_PIPE)
 	{
-		if (tok[i]->type == TOKEN_WORD || tok[i]->type == TOKEN_CMD || tok[i]->type == TOKEN_QUOTE || tok[i]->type == TOKEN_DQUOTE)
-		{
-			if (!exec->cmd)
-				exec->cmd = _get_bin(tok[i]->value);
-			if (tok[i]->type != TOKEN_QUOTE)
-				exec->args[j++] = env_expand(tok[i]->value);
-			else
-				exec->args[j++] = tok[i]->value;
-		}
-		else if (tok[i]->type == TOKEN_GREATER)
-			exec->fd_out = open(tok[++i]->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		else if (tok[i]->type == TOKEN_DGREATER)
-			exec->fd_out = open(tok[++i]->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		else if (tok[i]->type == TOKEN_LESS)
-			exec->fd_in = open(tok[++i]->value, O_RDONLY);
-		else if (tok[i]->type == TOKEN_DLESS)
-		{
-			exec->fd_in = _heredoc(tok[i + 1] ? tok[i + 1]->value : NULL);
-			++i;
-		}
+		if (_is_word(tok[i]->type))
+			__new_cmd(exec, tok, &j, i);
+		else if (_is_redir(tok[i]->type))
+			__redir(tok, exec, &i);
 		++i;
 	}
 	exec->args[j] = NULL;
@@ -441,7 +372,7 @@ t_exec_data	*token_to_exec(
 	while (tok[++i])
 	{
 		nb_args = 0;
-		if (!is_word(tok[i]->type))
+		if (!_is_word(tok[i]->type))
 		{
 			redir_status = apply_redirs(current, tok, i);
 			if (redir_status < 0)
@@ -452,7 +383,7 @@ t_exec_data	*token_to_exec(
 		current->cmd = _get_bin(tok[i]->value);
 		if (!current->cmd)
 			return (mm_free(current), NULL); // shale also free data
-		while (tok[++i] && is_word(tok[i]->type))
+		while (tok[++i] && _is_word(tok[i]->type))
 			++nb_args;
 		current->args = mm_alloc((nb_args + 2) * sizeof(char *));
 		if (_UNLIKELY(!current->args))
@@ -476,7 +407,7 @@ t_exec_data	*token_to_exec(
 				return (mm_free(current->cmd), free_tab(current->args), NULL); // shale also free data
 			current = current->pipe;
 		}
-		else if (is_redirect(tok[i]->type))
+		else if (_is_redir(tok[i]->type))
 		{
 			redir_status = apply_redirs(current, tok, i);
 			if (redir_status < 0)
@@ -490,57 +421,4 @@ t_exec_data	*token_to_exec(
 }*/
 
 #pragma endregion "TO EXEC"
-#pragma region DEBUG
-
-/* ===== Debug print ===== */
-void	print_tokens(
-	const t_token **tokens,
-	const int count
-)
-{
-	register int	i;
-
-	if (_UNLIKELY(!tokens || count < 1))
-	{
-		printf("No tokens to display\n");
-		return ;
-	}
-	i = -1;
-	while (++i < count)
-		printf("(%d)[%s] type=%s (%d) size=%d\n", i, tokens[i]->value,
-			show_type(tokens[i]->type), tokens[i]->type, tokens[i]->size);
-}
-
-void	print_exec(
-	const t_exec_data *const restrict exec
-)
-{
-	t_exec_data	*current;
-
-	if (_UNLIKELY(!exec))
-		return ((void)printf("No execution data to display\n"));
-	current = (t_exec_data *)exec;
-	while (current)
-	{
-		printf("Command: '%s' (%p)\n", current->cmd, current);
-		printf("Arguments:\n");
-		if (current->args)
-		{
-			register int	j;
-
-			j = -1;
-			while (current->args[++j])
-				printf("  arg[%d]: '%s'\n", j, current->args[j]);
-			printf("  arg[%d]: %p\n", j, current->args[j]);
-		}
-		else
-			printf("  No arguments\n");
-		printf("Input FD: %d\n", current->fd_in);
-		printf("Output FD: %d\n", current->fd_out);
-		printf("Status: %d\n", current->status);
-		current = current->pipe;
-	}
-}
-
-#pragma endregion DEBUG
 #pragma endregion FUNCTIONS
