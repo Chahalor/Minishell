@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 13:54:55 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 15:25:44 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,8 @@ __attribute__((used)) static inline int	_show_cmds(
  *  @retval		+1 if the directory cannot be opened
  *  @retval		-1 on memory allocation failure.
 */
-__attribute__((used)) static inline int	_show_paths(
+__attribute__((used))
+static inline int	_show_paths(
 	const char *const restrict word,
 	t_rl_completion *const restrict data
 )
@@ -192,6 +193,14 @@ static inline int	_replace(
 	return (0);
 }
 
+// static inline int	__get_word(
+// 	t_rl_data *const restrict data,
+// 	char **words
+// )
+// {
+// 	int	sum;
+// }
+
 /**
  *  @brief	Handle the completion of the last word in the result.
  * 
@@ -209,7 +218,6 @@ int	completion(
 {
 	char			**words;
 	register int	nb_words;
-	int				token;
 	t_rl_completion	completion;
 
 	_neutral(&completion, sizeof(t_rl_completion));
@@ -217,11 +225,8 @@ int	completion(
 	if (_UNLIKELY(!words))
 		return (-1);
 	nb_words = arraylen((const void *const *)words);
-	token = tokenize(words[nb_words - 1]);
-	if (token == token_cmd)
-		_show_cmds(words[nb_words - 1], &completion);
-	else if (token > token_cmd && token < unknown)
-		_show_paths(words[nb_words - 1], &completion);
+	_show_paths(words[nb_words - 1], &completion);
+	_show_cmds(words[nb_words - 1], &completion);
 	if (completion.nb_entries == 1)
 		_replace(&completion, data);
 	else if (completion.nb_entries > 0)

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 12:05:05 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 15:32:45 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,8 @@ __attribute__((deprecated)) t_exec_data	*lexer(
 	t_token		**tokens;
 
 	count = 0;
+	if (_UNLIKELY(!line || !*line))
+		return (NULL);
 	tokens = tokenize_line(line, &count);
 	data = token_to_exec(tokens);
 	return (data);

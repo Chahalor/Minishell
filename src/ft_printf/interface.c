@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 16:12:05 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/03 15:36:30 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 15:27:47 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ __attribute__((__format__(__printf__, 1, 2))) int	ft_printf(
 	ft_bzero(buffer, PRINTF_BUFFER_SIZE);
 	print = _init_print(buffer, 1, PRINTF_BUFFER_SIZE);
 	write_loop(format, args, &print);
-	write(print.fd, print.buffer, print.buff_pos);
+	if (__builtin_expect(!format || write(1, "", 0) != -1, expected))
+		write(print.fd, print.buffer, print.buff_pos);
 	va_end(args);
 	return (print.nb_char);
 }
