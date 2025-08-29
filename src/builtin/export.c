@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/25 14:20:33 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 11:10:36 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,32 +31,32 @@ static inline int	_is_valid_name(
 	if (_UNLIKELY(!str || !*str))
 		return (0);
 	if (_UNLIKELY(!(
-		('a' <= str[0] && str[0] <= 'z')
-		|| ('A' <= str[0] && str[0] <= 'Z'))
-		|| str[0] == '_'))
+				('a' <= str[0] && str[0] <= 'z')
+				|| ('A' <= str[0] && str[0] <= 'Z'))
+			|| str[0] == '_'))
 		return (0);
 	i = 0;
 	while (str[++i])
-		if (!((str[i] >= 'a' && str[i] <= 'z') ||
-			(str[i] >= 'A' && str[i] <= 'Z') ||
-			(str[i] >= '0' && str[i] <= '9') ||
-			str[i] == '_'))
+		if (!((str[i] >= 'a' && str[i] <= 'z')
+				|| (str[i] >= 'A' && str[i] <= 'Z')
+				|| (str[i] >= '0' && str[i] <= '9')
+				|| str[i] == '_'))
 			return (0);
 	return (1);
 }
 
-static inline int	_help()
+static inline int	_help(void)
 {
 	ft_fprintf(STDERR_FILENO,
 		BLUE "Usage:" RESET " export [options] [name=value]\n"
 		"Exports the given variables to the environment.\n"
 		YELLOW "Options:\n" RESET
 		"  -h, --help                display this help and exit\n"
-	);
+		);
 	return (EXIT_FAILURE);
 }
 
-static inline struct s_args_export _export_parse(
+static inline struct s_args_export	_export_parse(
 	const char **args
 )
 {
@@ -65,7 +65,7 @@ static inline struct s_args_export _export_parse(
 
 	i = 0;
 	if (_UNLIKELY(ft_strncmp(args[i], "-h", 2) == 0
-		|| ft_strncmp(args[i], "--help", 6) == 0))
+			|| ft_strncmp(args[i], "--help", 6) == 0))
 		return ((struct s_args_export){.help = 1});
 	while (args[++i])
 	{
@@ -73,7 +73,7 @@ static inline struct s_args_export _export_parse(
 		if (_UNLIKELY(!splited))
 			return ((struct s_args_export){.error = ENOMEM});
 		else if (_LIKELY(_is_valid_name(splited[0]) && splited[1]))
-				env_export(splited[0], splited[1]);
+			env_export(splited[0], splited[1]);
 		free_tab(splited);
 	}
 	return ((struct s_args_export){0});

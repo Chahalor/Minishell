@@ -6,17 +6,26 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 15:11:21 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 11:02:02 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 12:00:38 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "_env.h"
-# include "ft_printf.h"
 
 extern sig_atomic_t	g_last_signal;	/* Global signal variable */
 
-static inline void *_env_unset(
+extern inline void	*_env_find(
+						t_env *env,
+						char *str,
+						const int mode
+						);
+
+extern inline void	*_env_getall(
+						t_env *env
+						);
+
+static inline void	*_env_unset(
 	t_env *env,
 	void *data
 )
@@ -85,11 +94,9 @@ static inline void	*_env_register(
 }
 
 static inline void	*_env_destroy(
-	t_env *env,
-	void *data
+	t_env *env
 )
 {
-	(void)data;
 	t_env_node	*current;
 	t_env_node	*next;
 
@@ -107,62 +114,6 @@ static inline void	*_env_destroy(
 	return (NULL);
 }
 
-static inline void	*_env_find(
-	t_env *env,
-	char *str,
-	const int mode
-)
-{
-	t_env_node	*current;
-
-	if (ft_strncmp("?", str, 1) == 0)
-		return (ft_itoa(g_last_signal));
-	else if (ft_strncmp("~", str, 2) == 0)
-		return (env_find("HOME"));
-	current = env->nodes;
-	while (current)
-	{
-		if (ft_strlen(current->key) == ft_strlen(str)
-			&& !ft_strncmp(current->key, str, ft_strlen(str)))
-		{
-			if (mode)
-				return (current); 
-			else
-				return (current->value);
-		}
-		current = current->next;
-	}
-	return (NULL);
-}
-
-static inline void	*_env_getall(
-	t_env *env
-)
-{
-	char			**result;
-	t_env_node		*_current;
-	register int	_i;
-
-	result = mm_alloc(sizeof(char *) * (env->nb_node + 1));
-	if (_UNLIKELY(!result))
-		return (NULL);
-	_current = env->nodes;
-	_i = -1;
-	while (_current)
-	{
-		result[++_i] = mm_alloc(ft_strlen(_current->key)
-			+ ft_strlen(_current->value) + 2);
-		if (_UNLIKELY(!result[_i]))
-			return (free_tab(result), NULL);
-		ft_memcpy(result[_i], _current->key, ft_strlen(_current->key));
-		result[_i][ft_strlen(_current->key)] = '=';
-		ft_memcpy(&result[_i][ft_strlen(_current->key) + 1],
-			_current->value, ft_strlen(_current->value) + 1);
-		_current = _current->next;
-	}
-	return (result);
-}
-
 void	*env_manager(
 	const int access,
 	void *data
@@ -172,12 +123,12 @@ void	*env_manager(
 	t_find_access	*__find;
 
 	if (_LIKELY(access == e_env_expand))
-		return (_env_expand(&env, data));
+		return (_env_expand(data));
 	else if (access == e_env_find)
 	{
 		__find = (t_find_access *)data;
-		return (_env_find(&env,
-			(void *)__find->key,
+		return (_env_find(&env, \
+			(void *)__find->key, \
 			__find->mode));
 	}
 	else if (access == e_env_export)
@@ -189,7 +140,7 @@ void	*env_manager(
 	else if (access == e_env_register)
 		return (_env_register(&env, data));
 	else if (access == e_env_destroy)
-		return (_env_destroy(&env, data));
+		return (_env_destroy(&env));
 	else
 		return (NULL);
 }

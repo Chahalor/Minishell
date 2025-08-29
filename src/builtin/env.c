@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/25 13:48:00 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 11:08:01 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 #pragma endregion Header
 #pragma region Fonctions
 
-
 static int	__help(void)
 {
 	ft_fprintf(STDERR_FILENO,
@@ -30,7 +29,7 @@ static int	__help(void)
 		"Shows the current environment variables.\n"
 		YELLOW "Options:\n" RESET
 		"  -h, --help                display this help and exit\n"
-	);
+		);
 	return (EXIT_FAILURE);
 }
 

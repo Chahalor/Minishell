@@ -6,12 +6,11 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 10:44:41 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/25 14:31:50 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 11:59:34 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_env.h"
-# include "ft_printf.h"
 
 static inline void	*__env_new_export(
 	t_env *const restrict env,
@@ -46,8 +45,8 @@ static inline void	*__env_old_export(
 	char **_data
 )
 {
-	const t_find_access				find = {_data[0], 1};
-	t_env_node *const	restrict	current = env_manager(e_env_find, (void *)&find);
+	const t_find_access	find = {_data[0], 1};
+	t_env_node *const	current = env_manager(e_env_find, (void *)&find);
 
 	(void)env;
 	mm_free(current->value);

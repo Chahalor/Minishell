@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 10:34:20 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 12:03:54 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,117 +21,29 @@
 #pragma endregion Header
 #pragma region Fonctions
 
-// /** */
-// static inline int	_heredoc(
-// 	const t_redir *const restrict r,
-// 	t_exec_data *const restrict data
-// )
-// {
-// 	data->fd_in = heredoc_all(r->file);
-// 	if (_UNLIKELY(data->fd_in < 0))
-// 		return (mm_free(data->cmd), mm_free(data), -1);
-// 	else
-// 		return (data->fd_in);
-// }
+#if DEBUG == 1
 
-// /** */
-// static inline t_exec_data	*exec_data_new(
-// 	const t_ast *const n
-// )
-// {
-// 	t_exec_data	*result;
-
-// 	result = mm_alloc(1 * sizeof(t_exec_data));
-// 	if (_UNLIKELY(!result))
-// 		return (NULL);
-// 	*result = (t_exec_data){
-// 		.cmd = _get_bin(n->data.cmd.argv[0]),
-// 		.args = n->data.cmd.argv,
-// 		.pipe = NULL,
-// 		.type = 0,
-// 		.fd_in = -1,
-// 		.fd_out = -1,
-// 		.status = -1,
-// 	};
-// 	return (result);
-// }
-
-// /** */
-// static inline t_exec_data	*apply_redirs(
-// 	t_exec_data *data,
-// 	t_redir *r
-// )
-// {
-// 	while (r)
-// 	{
-// 		if (r->type == REDIR_IN)
-// 			data->fd_in = open(r->file, O_RDONLY, 0644);
-// 		else if (r->type == REDIR_HEREDOC)
-// 		{
-// 			if (_UNLIKELY(_heredoc(r, data) < 0))
-// 				return (mm_free(data->cmd), mm_free(data), NULL);
-// 		}
-// 		else if (r->type == REDIR_OUT)
-// 			data->fd_out = open(r->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-// 		else
-// 			data->fd_out = open(r->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-// 		data->type = r->type;
-// 		r = r->next;
-// 	}
-// 	return (data);
-// }
-
-// /** */
-// t_exec_data	*ast_to_exec_data(
-// 	t_ast	*n
-// )
-// {
-// 	t_exec_data	*data;
-
-// 	if (_UNLIKELY(!n))
-// 		return (NULL);
-// 	else if (n->type == NODE_PIPE)
-// 	{
-// 		data = ast_to_exec_data(n->data.pipe.lhs);
-// 		if (data)
-// 			data->pipe = ast_to_exec_data(n->data.pipe.rhs);
-// 		return (data);
-// 	}
-// 	else
-// 	{
-// 		data = exec_data_new(n);
-// 		if (_UNLIKELY(!data))
-// 			return (NULL);
-// 		data = apply_redirs(data, n->data.cmd.redirs);
-// 		if (_UNLIKELY(!data->cmd && !isatty(data->fd_out)))
-// 		{
-// 			close(data->fd_out);
-// 			data->fd_out = -1;
-// 		}
-// 		return (data);
-// 	}
-// }
-
-static inline const char *show_type(
+__attribute_maybe_unused__
+static inline const char	*show_type(
 	const int type
 )
 {
-	static const char	*messages[15] = {
-		[TOKEN_CMD] = BLUE "CMD" RESET,
-		[TOKEN_PIPE] = CYAN "PIPE" RESET,
-		[TOKEN_QUOTE] = YELLOW "QUOTE" RESET,
-		[TOKEN_DQUOTE] = GREEN "DQUOTE" RESET,
-		[TOKEN_GREATER] = RED "GREATER" RESET,
-		[TOKEN_LESS] = MAGENTA "LESS" RESET,
-		[TOKEN_DGREATER] = BLUE "DGREATER" RESET,
-		[TOKEN_DLESS] = BLUE "DLESS" RESET,
-		[TOKEN_WORD] = WHITE "WORD" RESET,
-		[PARSER_ERR_NONE] = GREEN "NO ERROR" RESET,
-		[PARSER_ERR_MISSING_QUOTE] = RED "MISSING QUOTE" RESET,
-		[PARSER_ERR_UNEXPECTED_TOKEN] = RED "UNEXPECTED TOKEN" RESET,
-		[PARSER_ERR_BROKEN_PIPE] = RED "BROKEN PIPE" RESET,
-		[PARSER_ERR_INVALID_REDIRECTION] = RED "INVALID REDIRECTION" RESET,
-		[PARSER_ERR_MEMORY_ALLOCATION] = RED "MEMORY ALLOCATION" RESET
+	static const char	*messages[15] = {\
+		[TOKEN_CMD] = BLUE "CMD" RESET, \
+		[TOKEN_PIPE] = CYAN "PIPE" RESET, \
+		[TOKEN_QUOTE] = YELLOW "QUOTE" RESET, \
+		[TOKEN_DQUOTE] = GREEN "DQUOTE" RESET, \
+		[TOKEN_GREATER] = RED "GREATER" RESET, \
+		[TOKEN_LESS] = MAGENTA "LESS" RESET, \
+		[TOKEN_DGREATER] = BLUE "DGREATER" RESET, \
+		[TOKEN_DLESS] = BLUE "DLESS" RESET, \
+		[TOKEN_WORD] = WHITE "WORD" RESET, \
+		[PARSER_ERR_NONE] = GREEN "NO ERROR" RESET, \
+		[PARSER_ERR_MISSING_QUOTE] = RED "MISSING QUOTE" RESET, \
+		[PARSER_ERR_UNEXPECTED_TOKEN] = RED "UNEXPECTED TOKEN" RESET, \
+		[PARSER_ERR_BROKEN_PIPE] = RED "BROKEN PIPE" RESET, \
+		[PARSER_ERR_INVALID_REDIRECTION] = RED "INVALID REDIRECTION" RESET, \
+		[PARSER_ERR_MEMORY_ALLOCATION] = RED "MEMORY ALLOCATION" RESET \
 	};
 
 	return (messages[type % (PARSER_ERR_MEMORY_ALLOCATION + 1)]);
@@ -156,10 +68,11 @@ void	print_tokens(
 }
 
 void	print_exec(
-	const t_exec_data *const restrict exec
+	const t_exec_data *const exec
 )
 {
-	t_exec_data	*current;
+	t_exec_data		*current;
+	register int	j;
 
 	if (_UNLIKELY(!exec))
 		return ((void)printf("No execution data to display\n"));
@@ -170,8 +83,6 @@ void	print_exec(
 		printf("Arguments:\n");
 		if (current->args)
 		{
-			register int	j;
-
 			j = -1;
 			while (current->args[++j])
 				printf("  arg[%d]: '%s'\n", j, current->args[j]);
@@ -185,6 +96,8 @@ void	print_exec(
 		current = current->pipe;
 	}
 }
+
+#endif
 
 /**
  * @brief	Lexer function that parses a command line and builds an execution
@@ -202,13 +115,13 @@ __attribute__((deprecated)) t_exec_data	*lexer(
 )
 {
 	t_exec_data	*data;
-	int			count = 0;
-	t_token		**tokens = tokenize_line(line, &count);
+	int			count;
+	t_token		**tokens;
 
+	count = 0;
+	tokens = tokenize_line(line, &count);
 	print_tokens((void *)tokens, count);
 	data = token_to_exec(tokens);
-	print_exec(data);
-	printf("\n======================================\n\n");
 	return (data);
 }
 

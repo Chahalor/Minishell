@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/25 14:24:10 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 11:10:55 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,17 @@
 #pragma endregion Header
 #pragma region Fonctions
 
-
 static int	_help(void)
 {
 	ft_fprintf(2,
 		"Usage: unset [options] [VARIABLE]\n"
 		"Options:\n"
 		"  -h, --help                display this help and exit\n"
-	);
+		);
 	return (EXIT_FAILURE);
 }
 
-static inline int _unset_parse(
+static inline int	_unset_parse(
 	const char **args__
 )
 {
@@ -69,7 +68,6 @@ char	builtin_unset(
 		ft_fprintf(2, "unset: '%s'\n", args__[i]);
 		env_unset(args__[i]);
 	}
-	
 	return (EXIT_SUCCESS);
 }
 

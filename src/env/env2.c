@@ -1,41 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   env2.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 15:10:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 11:53:19 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 11:53:32 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_env.h"
 
-char	env_export(
-	const char *key,
-	const char *value
+char	*env_expand(
+	char *str
 )
 {
-	return (env_manager(e_env_export, (void *[2]){(char *)key,
-			(char *)value}) != NULL);
+	return (env_manager(e_env_expand, (void *)str));
 }
 
-char	env_register(
-	const char **envp
-)
-{
-	return (env_manager(e_env_register, (void *)envp) != NULL);
-}
-
-char	env_unset(
+char	*env_find(
 	const char *key
 )
 {
-	return (env_manager(e_env_unset, (void *)key) != NULL);
+	const struct s_env_find_access	data = {(char *)key, 0};
+
+	return (env_manager(e_env_find, (void *)&data));
 }
 
-char	env_destroy(void)
+char	**env_getall(void)
 {
-	return (env_manager(e_env_destroy, NULL) != NULL);
+	return (env_manager(e_env_getall, NULL));
 }
