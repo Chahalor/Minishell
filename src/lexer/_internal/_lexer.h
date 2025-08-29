@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 09:28:52 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/27 10:15:48 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 10:08:51 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,26 @@ struct s_tok_error
 /* ************************************************************************** */
 /*                                 Prototypes                                 */
 /* ************************************************************************** */
+
+// _is.c
+
+extern int	_is_word(
+				const int token
+				);
+
+extern int	_is_redir(
+				const int token
+				);
+
+extern int	_is_space(
+				const char c
+				);
+
+// _check.c
+
+extern int	check_tokens(
+				t_token **tok
+				);
 
 char		*_get_bin(
 				char *name

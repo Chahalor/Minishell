@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 15:11:21 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/25 14:37:24 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 11:02:02 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,12 @@ static inline void *_env_unset(
 	_prev = NULL;
 	while (_current)
 	{
-		ft_fprintf(2, "compare '%s' and '%s'\n", _current->key, _data); //--- rm ---
 		if (ft_strncmp(_current->key, _data, ft_strlen(_data)) == 0)
 		{
 			if (_prev)
 				_prev->next = _current->next;
 			else
 				env->nodes = _current->next;
-			ft_fprintf(2, "current={%s=%s}\n", _current->key, _current->value); //--- rm ---
 			mm_free(_current);
 			--env->nb_node;
 			return (_prev);
