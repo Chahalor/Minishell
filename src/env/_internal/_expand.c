@@ -6,22 +6,21 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 15:36:59 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/25 14:19:45 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 12:00:27 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "_env.h"
- #include "ft_printf.h"
 
 static inline int	__is_delim(
 	const char c
 )
 {
-	if (!((c >= 'a' && c <= 'z') ||
-		(c >= 'A' && c <= 'Z') ||
-		(c >= '0' && c <= '9') ||
-		c == '_' || c == '?'))
+	if (!((c >= 'a' && c <= 'z')
+			|| (c >= 'A' && c <= 'Z')
+			|| (c >= '0' && c <= '9')
+			|| c == '_' || c == '?'))
 		return (0);
 	return (1);
 }
@@ -70,12 +69,11 @@ static inline char	__env_join(
 		&str1->value[__sum - ft_strlen(str2) - 1],
 		str2,
 		ft_strlen(str2) + 1
-	);
+		);
 	return (1);
 }
 
 void	*_env_expand(
-	t_env *env,
 	void *data
 )
 {
@@ -85,7 +83,6 @@ void	*_env_expand(
 	char							*tmp;
 	t_env_str						result;
 
-	(void)env;
 	result.value = mm_alloc(ENV_ALLOC_SIZE);
 	if (_UNLIKELY(!result.value))
 		return (NULL);

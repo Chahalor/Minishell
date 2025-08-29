@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 15:25:48 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/25 14:00:23 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 12:00:31 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 
 # pragma once
 
-#include "mmanager.h"
-#include "utils.h"
+# include "mmanager.h"
+# include "utils.h"
 
 # define ENV_ALLOC_SIZE	128
 
-typedef enum e_env_access	t_env_access;
+typedef enum e_env_access			t_env_access;
 
 typedef struct s_env_find_access	t_env_find_access;
 typedef t_env_find_access			t_find_access;
@@ -67,19 +67,18 @@ struct s_env_node
 };
 
 extern void	*_env_export(
-			t_env *const restrict env,
-			void *data,
-			const int mode
-			);
+				t_env *const restrict env,
+				void *data,
+				const int mode
+				);
 
-void	*_env_expand(
-			t_env *env,
-			void *data
-			);
+void		*_env_expand(
+				void *data
+				);
 
-void	*env_manager(
-			const int access,
-			void *data
-			);
+void		*env_manager(
+				const int access,
+				void *data
+				);
 
 #endif /* !_ENV_H */

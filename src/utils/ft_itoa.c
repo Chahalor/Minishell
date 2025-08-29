@@ -6,11 +6,26 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 10:26:40 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/27 11:57:14 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 11:37:08 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
+
+static inline t_uint	_get_size(
+	unsigned int n
+)
+{
+	t_uint	size;
+
+	size = (n < 0 || n == 0);
+	while (n > 0)
+	{
+		n /= 10;
+		++size;
+	}
+	return (size);
+}
 
 char	*ft_itoa(
 	const int n
@@ -20,19 +35,8 @@ char	*ft_itoa(
 	char			*str;
 	int				len;
 
-	if (n < 0)
-		nb = (unsigned int)(-n);
-	else
-		nb = (unsigned int)n;
-	len = (n < 0 || nb == 0);
-	{
-		unsigned int tmp = nb;
-		while (tmp > 0)
-		{
-			tmp /= 10;
-			++len;
-		}
-	}
+	nb = (unsigned int)-n * (n < 0) + (unsigned int)n * (n >= 0);
+	len = _get_size(nb);
 	str = mm_alloc(sizeof(char) * (len + 1));
 	if (_UNLIKELY(!str))
 		return (NULL);
@@ -48,4 +52,3 @@ char	*ft_itoa(
 		str[0] = '-';
 	return (str);
 }
-
