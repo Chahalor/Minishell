@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 15:11:21 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 11:59:56 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 14:11:57 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ extern inline void	*_env_find(
 
 	if (ft_strncmp("?", str, 1) == 0)
 		return (ft_itoa(g_last_signal));
-	else if (ft_strncmp("~", str, 2) == 0)
+	else if (ft_strncmp("~", str, 1) == 0)
 		return (env_find("HOME"));
 	current = env->nodes;
 	while (current)

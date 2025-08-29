@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 11:10:36 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 14:23:12 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static inline struct s_args_export	_export_parse(
 		splited = ft_split((char *)args[i], '=');
 		if (_UNLIKELY(!splited))
 			return ((struct s_args_export){.error = ENOMEM});
-		else if (_LIKELY(_is_valid_name(splited[0]) && splited[1]))
+		else if (_LIKELY(_is_valid_name(splited[0])))
 			env_export(splited[0], splited[1]);
 		free_tab(splited);
 	}

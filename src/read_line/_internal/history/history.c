@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 08:08:28 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/18 08:45:12 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 15:05:05 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@
 
 #pragma endregion Header
 #pragma region Fonctions
+
+extern char	*_history_get(
+				t_rl_history *const restrict data,
+				const int access
+				);
 
 /** */
 __attribute__((always_inline, used)) static inline char	*_history_get_all(
@@ -57,7 +62,7 @@ __attribute__((always_inline, used)) static inline char	*_history_add(
 	const int	alloc_size = ((len + _RL_ALLOC_SIZE - 1) / _RL_ALLOC_SIZE)
 		* _RL_ALLOC_SIZE + 1;
 
-	if (_UNLIKELY(!data || !line || len < 1))
+	if (_UNLIKELY(!data || !line || !*line || line[0] == '\n' || len < 1))
 		return (NULL);
 	else
 	{
@@ -72,50 +77,6 @@ __attribute__((always_inline, used)) static inline char	*_history_add(
 			ft_fprintf(data->fd, "%s\n", line);
 		return ((char *)line);
 	}
-}
-
-/**
- * @brief	return the next/previous line in the history.
- * 
- * @param	data		The history data
- * @param	direction	The direction to go
- * 
- * @return	The line in the history
- * @retval		NULL if there is no line in this direction
- * @retval		The line in the history
- * 
- * @version 1.0
-*/
-__attribute__((always_inline, used)) static inline char	*_history_get(
-	t_rl_history *const restrict data,
-	const int access
-)
-{
-	char	*result;
-
-	if (_UNLIKELY(!data))
-		return (NULL);
-	else if (_LIKELY(access == rl_get_next))
-	{
-		data->pos = (data->pos + 1) % _RL_HIST_SIZE;
-		result = data->storage[data->pos];
-		if (!result)
-			data->pos = (data->pos - 1 + _RL_HIST_SIZE) % _RL_HIST_SIZE;
-		return (result);
-	}
-	else if (_LIKELY(access == rl_get_prev))
-	{
-		data->pos = (data->pos - 1 + _RL_HIST_SIZE) % _RL_HIST_SIZE;
-		result = data->storage[data->pos];
-		if (!result)
-		{
-			data->pos = (data->pos + 1) % _RL_HIST_SIZE;
-			return (data->storage[data->pos]);
-		}
-		else
-			return (result);
-	}
-	return (NULL);
 }
 
 /**

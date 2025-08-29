@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:44:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/27 11:50:51 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 14:32:47 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ __attribute__((always_inline, used)) static inline int	_prompt(
 		data = lexer(line);
 		if (_LIKELY(data != NULL))
 			full_exec(data, env_getall());
-		rl_add_history(line);
+		if ((_LIKELY(line != NULL)))
+			rl_add_history(line);
 	}
 	return (mm_free(line), 1);
 }

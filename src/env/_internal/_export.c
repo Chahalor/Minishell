@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 10:44:41 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 11:59:34 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 14:20:11 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ static inline void	*__env_new_export(
 	const int	_alloc_size = sizeof(t_env_node) + _key_len + _val_len + 2;
 	t_env_node	*current;
 
-	if (_UNLIKELY(!_data || !_data[0] || !_data[1]))
-		return (NULL);
 	current = mm_alloc(_alloc_size);
 	if (_UNLIKELY(!current))
 		return (NULL);
@@ -65,7 +63,7 @@ inline void	*_env_export(
 	const char			**_data = (const char **)data;
 	const t_find_access	find = {(char *)_data[0], 0};
 
-	if (_UNLIKELY(!_data || !_data[0] || !_data[1]))
+	if (_UNLIKELY(!_data || !_data[0] /*|| !_data[1]*/))
 		return (NULL);
 	else if (mode || env_manager(e_env_find, (void *)&find) == NULL)
 		return (__env_new_export(env, data));

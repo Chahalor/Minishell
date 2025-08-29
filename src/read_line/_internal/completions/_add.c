@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 13:43:52 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 13:55:28 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 13:57:38 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 #pragma endregion Header
 #pragma region Functions
 
-int	_rl_comp_add(
+int	_rl_completion_add(
 	t_rl_completion *comp,
 	const char *const restrict word,
 	struct dirent *entry
