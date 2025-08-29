@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 13:52:15 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 13:54:55 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,6 @@ __attribute__((used)) static inline int	_show_cmds(
 		while (entry && dt->nb_entries < _RL_COMP_LIMIT)
 		{
 			_rl_completion_add(dt, word, entry);
-			// if (ft_strncmp(entry->d_name, word, ft_strlen(word)) == 0)
-			// 	dt->entry[dt->nb_entries++] = memdup(entry, sizeof(t_dirent));
 			entry = readdir(dir);
 		}
 		closedir(dir);
@@ -122,9 +120,6 @@ __attribute__((used)) static inline int	_show_paths(
 	while (entry && data->nb_entries < _RL_COMP_LIMIT)
 	{
 		_rl_completion_add(data, path_file, entry);
-		// if (ft_strncmp(entry->d_name, path_file, ft_strlen(path_file)) == 0
-		// 	&& (entry->d_name[0] != '.' || path_file[0] == '.'))
-		// 	data->entry[data->nb_entries++] = memdup(entry, sizeof(t_dirent));
 		entry = readdir(dir);
 	}
 	closedir(dir);
