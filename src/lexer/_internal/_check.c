@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 09:41:27 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 15:37:36 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 16:21:42 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static inline int	__check_redir(
 	const int i
 )
 {
-	if (tok[i] && !tok[i + 1])
+	if (tok[i] && _is_redir(tok[i]->type) && !tok[i + 1])
 	{
 		err->error = PARSER_ERR_UNEXPECTED_TOKEN;
 		err->token = tok[i];

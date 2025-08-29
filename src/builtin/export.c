@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 14:23:12 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 16:20:04 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ static inline int	_help(void)
 }
 
 static inline struct s_args_export	_export_parse(
-	const char **args
+	const char **args,
+	const int fd_out
 )
 {
 	register int	i;
@@ -74,8 +75,12 @@ static inline struct s_args_export	_export_parse(
 			return ((struct s_args_export){.error = ENOMEM});
 		else if (_LIKELY(_is_valid_name(splited[0])))
 			env_export(splited[0], splited[1]);
+		else
+			ft_fprintf(fd_out, "export: `%s': not a valid identifier\n", splited[0]);
 		free_tab(splited);
 	}
+	if (i == 1)
+		return ((struct s_args_export){.printf_all = 1});
 	return ((struct s_args_export){0});
 }
 
@@ -87,12 +92,19 @@ char	builtin_export(
 	const int fd_out
 )
 {
-	const struct s_args_export	args_env = _export_parse(args);
+	const struct s_args_export	args_env = _export_parse(args, fd_out);
+	const char					**env = (const char **)env_getall();
+	register int				i;
 
 	(void)fd_in;
-	(void)fd_out;
 	if (_UNLIKELY(args_env.help))
 		return (_help());
+	else if (args_env.printf_all)
+	{
+		i = -1;
+		while (env && env[++i])
+			ft_fprintf(fd_out, "%s\n", env[i]);
+	}
 	else if (args_env.error)
 	{
 		ft_fprintf(2, "env: %s\n", strerror(args_env.error));

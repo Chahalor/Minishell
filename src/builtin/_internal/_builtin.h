@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:15:37 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 11:11:01 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 16:16:19 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,9 @@ struct s_args_exit
 
 struct s_args_export
 {
-	int	help;	/**/
-	int	error;	/**/
+	int	printf_all;	/**/
+	int	help;		/**/
+	int	error;		/**/
 };
 
 #endif /* _BUILTIN_H */
