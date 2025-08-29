@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 11:01:49 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 12:50:06 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,7 @@ char	exec_builtin_fork(
 	if (!args->pid)
 		exit_program(builtins->func((const char **)args->args, fd_in, fd_out),
 			NULL);
-	else if (args->pid > 0)
-		set_last_child(args->pid);
-	else
+	else if (args->pid < 0)
 		return (perror("exec_bin(): fork() failed"), -1);
 	return (0);
 }

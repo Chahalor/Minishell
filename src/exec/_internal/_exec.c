@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 11:02:11 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 12:50:18 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,6 @@ __attribute__((hot))	int	exec_bin(
 	else if (pid > 0)
 	{
 		data->pid = pid;
-		set_last_child(pid);
 		if (prev_read > 0)
 			close(prev_read);
 		return (0);

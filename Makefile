@@ -19,12 +19,12 @@ DEBUGFLAGS	:=
 DIR_SRC		:= src
 DIR_OBJ		:= .build
 DIR_BONUS	:= 
-INCLUDE_ALL	:=-Iglobal -I$(DIR_SRC)/args -I$(DIR_SRC)/builtin -I$(DIR_SRC)/env -I$(DIR_SRC)/exec -I$(DIR_SRC)/exit -I$(DIR_SRC)/ft_printf -I$(DIR_SRC)/global-manager -I$(DIR_SRC)/lexer -I$(DIR_SRC)/manager -I$(DIR_SRC)/read_line -I$(DIR_SRC)/signal -I$(DIR_SRC)/utils
+INCLUDE_ALL	:=-Iglobal -I$(DIR_SRC)/args -I$(DIR_SRC)/builtin -I$(DIR_SRC)/env -I$(DIR_SRC)/exec -I$(DIR_SRC)/exit -I$(DIR_SRC)/ft_printf -I$(DIR_SRC)/lexer -I$(DIR_SRC)/manager -I$(DIR_SRC)/read_line -I$(DIR_SRC)/signal -I$(DIR_SRC)/utils
 
 _DEPS		:= $(_OBJ_ALL:.o=.d)
 
 # Here we include all the makefile.mk files
-include  src/args/makefile.mk src/builtin/makefile.mk src/env/makefile.mk src/exec/makefile.mk src/exit/makefile.mk src/ft_printf/makefile.mk src/global-manager/makefile.mk src/lexer/makefile.mk src/manager/makefile.mk src/read_line/makefile.mk src/signal/makefile.mk src/utils/makefile.mk
+include  src/args/makefile.mk src/builtin/makefile.mk src/env/makefile.mk src/exec/makefile.mk src/exit/makefile.mk src/ft_printf/makefile.mk src/lexer/makefile.mk src/manager/makefile.mk src/read_line/makefile.mk src/signal/makefile.mk src/utils/makefile.mk
 -include $(_DEPS)
 
 SRC_MAIN	:= main.c
@@ -33,7 +33,7 @@ SRC_BONUS	:=
 # all object files for the modules
 _OBJ_MAIN	:= $(addprefix $(DIR_OBJ)/, $(SRC_MAIN:.c=.o))
 _OBJ_BONUS	:= $(addprefix $(DIR_OBJ)/, $(SRC_BONUS:.c=.o))
-_OBJ_ALL		:= $(OBJ_ARGS) $(OBJ_BUILTIN) $(OBJ_ENV) $(OBJ_EXEC) $(OBJ_EXIT) $(OBJ_FT_PRINTF) $(OBJ_GLOBAL-MANAGER) $(OBJ_LEXER) $(OBJ_MANAGER) $(OBJ_READ_LINE) $(OBJ_SIGNAL) $(OBJ_UTILS)
+_OBJ_ALL		:= $(OBJ_ARGS) $(OBJ_BUILTIN) $(OBJ_ENV) $(OBJ_EXEC) $(OBJ_EXIT) $(OBJ_FT_PRINTF) $(OBJ_LEXER) $(OBJ_MANAGER) $(OBJ_READ_LINE) $(OBJ_SIGNAL) $(OBJ_UTILS)
 
 # ***************************************************** #
 # *                    Rules                          * #

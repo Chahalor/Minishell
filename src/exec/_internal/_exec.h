@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:49:39 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/17 14:11:54 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 12:49:42 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@
 
 /* -----| Modules   |----- */
 # include "ft_printf.h"
-# include "global_manager.h"
 # include "signals.h"
 
 typedef struct s_exec_data	t_exec_data;	/* Execution data structure */
