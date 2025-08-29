@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:57:59 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/24 08:25:44 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 13:49:13 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,13 +212,21 @@ int			handle_ansi(
 				t_rl_data *const restrict data
 				);
 
-// dir/_free.c
+// completions/_add.c
+
+int			_rl_completion_add(
+				t_rl_completion *completion,
+				const char *const restrict word,
+				struct dirent *entry
+				);
+
+// completions/_free.c
 
 extern void	_rl_free_completion__(
 				t_rl_completion *const restrict data
 				);
 
-// dir/_tokenize.c
+// completions/_tokenize.c
 
 int			is_dir(
 				const char *const restrict path
@@ -232,7 +240,7 @@ int			tokenize(
 				const char *const restrict word
 				);
 
-// dir/dir.c
+// completions/completions.c
 
 int			completion(
 				t_rl_data *const restrict data
