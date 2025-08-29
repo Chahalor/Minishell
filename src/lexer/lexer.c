@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 12:03:54 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 12:05:05 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,6 @@ __attribute__((deprecated)) t_exec_data	*lexer(
 
 	count = 0;
 	tokens = tokenize_line(line, &count);
-	print_tokens((void *)tokens, count);
 	data = token_to_exec(tokens);
 	return (data);
 }

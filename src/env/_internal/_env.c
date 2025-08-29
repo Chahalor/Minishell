@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 15:11:21 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 12:00:38 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/08/29 12:04:58 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 
 extern sig_atomic_t	g_last_signal;	/* Global signal variable */
 
-extern inline void	*_env_find(
-						t_env *env,
-						char *str,
-						const int mode
-						);
+extern void	*_env_find(
+				t_env *env,
+				char *str,
+				const int mode
+				);
 
-extern inline void	*_env_getall(
-						t_env *env
-						);
+extern void	*_env_getall(
+				t_env *env
+				);
 
 static inline void	*_env_unset(
 	t_env *env,
