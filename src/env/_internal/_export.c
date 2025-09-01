@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 10:44:41 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/01 13:32:03 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/01 14:07:00 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ static inline void	*__env_old_export(
 	mm_free(current->value);
 	if (!_data[1])
 	{
-		ft_fprintf(2, "%s: Unset value for key '%s'\n", __func__, _data[0]); //rm
 		current->value = NULL;
 		return (current);
 	}

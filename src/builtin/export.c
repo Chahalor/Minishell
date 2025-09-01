@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/01 14:05:40 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/01 14:09:33 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ static inline int	_export_split(
 	i = -1;
 	while (str[++i] && str[i] != '=')
 		;
-	ft_fprintf(2, "%s: key='%s', value='%s', i=%d, len=%d\n", __func__, str, str + i + 1, i, ft_strlen(str)); //rm
 	(splited)[0] = mm_alloc(i + 1);
 	if (!str[i])
 		(splited)[1] = NULL;
@@ -124,10 +123,12 @@ char	builtin_export(
 	const struct s_args_export	args_env = _export_parse(args, fd_out);
 	const char					**env = (const char **)env_getall(1);
 	register int				i;
+	int							exit_status;
 
 	(void)fd_in;
+	exit_status = EXIT_SUCCESS;
 	if (_UNLIKELY(args_env.help))
-		return (_help());
+		return (free_tab((char **)env), _help());
 	else if (args_env.printf_all)
 	{
 		i = -1;
@@ -137,9 +138,10 @@ char	builtin_export(
 	else if (args_env.error)
 	{
 		ft_fprintf(2, "env: %s\n", strerror(args_env.error));
-		return (EXIT_FAILURE);
+		exit_status = EXIT_FAILURE;
 	}
-	return (EXIT_SUCCESS);
+	free_tab((char **)env);
+	return (exit_status);
 }
 
 #pragma endregion Fonctions
