@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 11:08:01 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/01 13:22:46 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	builtin_env(
 	(void)fd_in__;
 	if (_UNLIKELY(help_))
 		return (__help());
-	_env = env_getall();
+	_env = env_getall(0);
 	if (_UNLIKELY(!_env))
 	{
 		perror("env");

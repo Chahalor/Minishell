@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 10:44:41 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/01 12:28:14 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/01 13:32:03 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ static inline void	*__env_new_export(
 	if (_UNLIKELY(!current->key || !current->value))
 		return (mm_free(current->key), mm_free(current->value), mm_free(current), NULL);
 	ft_memcpy(current->key, _data[0], _key_len + 1);
-	ft_memcpy(current->value, _data[1], _val_len + 1);
+	if (!_data[1])
+		current->value = NULL;
+	else
+		ft_memcpy(current->value, _data[1], _val_len + 1);
 	current->next = NULL;
 	if (_UNLIKELY(!env->nodes))
 		env->nodes = current;
@@ -51,9 +54,16 @@ static inline void	*__env_old_export(
 
 	(void)env;
 	mm_free(current->value);
-	current->value = memdup(_data[1], ft_strlen(_data[1]) + 1);
+	if (!_data[1])
+	{
+		ft_fprintf(2, "%s: Unset value for key '%s'\n", __func__, _data[0]); //rm
+		current->value = NULL;
+		return (current);
+	}
+	current->value = mm_alloc(ft_strlen(_data[1]) + 1);
 	if (_UNLIKELY(!current->value))
 		return (NULL);
+	ft_memcpy(current->value, _data[1], ft_strlen(_data[1]) + 1);
 	return (current);
 }
 

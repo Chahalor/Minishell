@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 15:11:21 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/01 12:57:08 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/01 13:21:25 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ extern void	*_env_find(
 				);
 
 extern void	*_env_getall(
-				t_env *env
+				t_env *env,
+				const int mode
 				);
 
 static inline void	*_env_unset(
@@ -143,7 +144,7 @@ void	*env_manager(
 	else if (access == e_env_unset)
 		return (_env_unset(&env, data));
 	else if (access == e_env_getall)
-		return (_env_getall(&env));
+		return (_env_getall(&env, *(int *)data));
 	else if (access == e_env_register)
 		return (_env_register(&env, data));
 	else if (access == e_env_destroy)

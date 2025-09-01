@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/01 08:20:20 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/01 14:05:40 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,20 @@ static inline int	_export_split(
 	i = -1;
 	while (str[++i] && str[i] != '=')
 		;
-	(splited)[0] = memdup(str, i);
-	(splited)[1] = memdup(str + i + 1, ft_strlen(str + i + 1) + 1);
-	(splited)[2] = NULL;
-	if (!splited[0] || !splited[1] || (!_is_valid_name((splited)[0])))
+	ft_fprintf(2, "%s: key='%s', value='%s', i=%d, len=%d\n", __func__, str, str + i + 1, i, ft_strlen(str)); //rm
+	(splited)[0] = mm_alloc(i + 1);
+	if (!str[i])
+		(splited)[1] = NULL;
+	else
+		(splited)[1] = mm_alloc(ft_strlen(str + i + 1) + 1);
+	if (_UNLIKELY(!splited[0]))
 		return (free_tab(splited), 1);
+	ft_memcpy((splited)[0], str, i);
+	if (splited[1])
+		ft_memcpy((splited)[1], str + i + 1, ft_strlen(str + i + 1) + 1);
+	(splited)[2] = NULL;
+	if (!splited[0] || (!_is_valid_name((splited)[0])))
+		return (1);
 	else
 		return (0);
 }
@@ -93,6 +102,7 @@ static inline struct s_args_export	_export_parse(
 		if (_export_split(args[i], splited))
 		{
 			ft_fprintf(fd_out, "export: `%s': not a valid identifier\n", splited[0]);
+			free_tab(splited);
 			continue ;
 		}
 		env_export(splited[0], splited[1]);
@@ -112,7 +122,7 @@ char	builtin_export(
 )
 {
 	const struct s_args_export	args_env = _export_parse(args, fd_out);
-	const char					**env = (const char **)env_getall();
+	const char					**env = (const char **)env_getall(1);
 	register int				i;
 
 	(void)fd_in;
