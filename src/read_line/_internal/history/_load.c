@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 15:54:17 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/18 09:33:49 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/01 14:38:36 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ __attribute__((always_inline, used)) static inline int	_skip(
 	nb_skipped = 0;
 	while (nb_lines-- > _RL_HIST_SIZE)
 	{
-		free(gnl(fd));
+		mm_free(gnl(fd));
 		++nb_skipped;
 	}
 	return (nb_skipped);
@@ -125,9 +125,9 @@ __attribute__((cold, unused)) int	_load_history(
 		if (__builtin_expect(!_history_manager(rl_add, line), unexpected))
 		{
 			close(fd);
-			return (free(line), perror("Error: loading history failed"), -2);
+			return (mm_free(line), perror("Error: loading history failed"), -2);
 		}
-		free(line);
+		mm_free(line);
 		line = gnl(fd);
 	}
 	while (++i < _RL_HIST_SIZE)

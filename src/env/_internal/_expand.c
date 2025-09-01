@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 15:36:59 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 12:00:27 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/01 15:12:51 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,15 @@ static inline char	__env_join(
 )
 {
 	const int		__sum = ft_strlen(str1->value) + ft_strlen(str2) + 1;
+	int				__size;
 	char			*_new;
 
-	if (__sum > str1->allocated)
+	ft_fprintf(2, "Joining: '%s' to '%s'\n", str1->value, str2); // rm
+	if (__sum >= str1->allocated)
 	{
-		_new = mm_alloc(str1->allocated + ENV_ALLOC_SIZE);
+		__size = ((__sum + ENV_ALLOC_SIZE - 1) / ENV_ALLOC_SIZE) * ENV_ALLOC_SIZE;
+		ft_fprintf(2, "Reallocating: '%d' to fit '%d'\n", str1->allocated, __size); // rm
+		_new = mm_alloc(str1->allocated + __size);
 		if (_UNLIKELY(!_new))
 			return (0);
 		ft_memcpy(_new, str1->value, str1->allocated);
@@ -70,6 +74,7 @@ static inline char	__env_join(
 		str2,
 		ft_strlen(str2) + 1
 		);
+	ft_fprintf(2, "%s: '%s'\n", "Result", str1->value); // rm
 	return (1);
 }
 
@@ -93,12 +98,13 @@ void	*_env_expand(
 		if (_str[_i] == '$' && _str[_i + 1] && _str[_i + 1] != ' ')
 		{
 			tmp = __sub_str(&_str[_i + 1]);
+			ft_fprintf(2, "Expanding: %s\n", tmp); // rm
 			access = (t_find_access){tmp, 0};
 			__env_join(&result, env_manager(e_env_find, (void *)&access));
 			_i += ft_strlen(tmp);
 			mm_free(tmp);
 		}
-		else
+		else if (_str[_i] != '\'' && _str[_i] != '\"')
 			__env_join(&result, (char [2]){_str[_i], '\0'});
 	}
 	return (result.value);

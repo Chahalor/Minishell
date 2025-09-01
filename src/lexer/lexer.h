@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:19:39 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 11:11:07 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/01 14:52:39 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ t_token		**tokenize_line(
 				);
 
 void		print_tokens(
-				const t_token **tokens,
+				t_token **tokens,
 				const int count
 				);
 

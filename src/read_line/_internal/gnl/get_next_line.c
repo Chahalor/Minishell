@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 11:39:16 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/02 09:05:31 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/01 14:37:10 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ __attribute__((used)) inline char	_loop(
 		_read(fd, storage);
 		if (__builtin_expect(storage->status < 0, 0))
 		{
-			free(storage->line);
+			mm_free(storage->line);
 			_gnl_bzero(storage, sizeof(t_storage));
 			return (storage->status);
 		}
@@ -180,7 +180,7 @@ __attribute__((used)) inline char	_loop(
 	_get(storage);
 	if (__builtin_expect(storage->status < 0, 0))
 	{
-		free(storage->line);
+		mm_free(storage->line);
 		_gnl_bzero(storage, sizeof(t_storage));
 		return (storage->status);
 	}

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 08:08:28 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 15:05:05 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/01 14:44:54 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ __attribute__((always_inline, used)) static inline char	*_history_add(
 			return (NULL);
 		ft_memcpy(data->storage[data->pos], line, len);
 		data->storage[data->pos][len] = '\0';
-		data->pos = (data->pos + 1) % _RL_HIST_SIZE;
+		// data->pos = (data->pos + 1) % _RL_HIST_SIZE;
 		data->size += (data->size < _RL_HIST_SIZE);
 		if (_LIKELY(data->fd > 0))
 			ft_fprintf(data->fd, "%s\n", line);

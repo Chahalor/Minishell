@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:44:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/01 13:23:12 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/01 14:43:03 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,17 @@ __attribute__((cold, unused)) int	init_all(
 	const char **envp
 )
 {
+	int		shlvl;
+	char	*shlvl_str;
+
 	args_parser(argc, argv);
 	init_signal();
 	rl_load_history(DEFAULT_HISTORY_FILE);
 	env_register(envp);
+	shlvl = ft_atoi(env_find("SHLVL"));
+	shlvl_str = ft_itoa(shlvl + 1);
+	env_export("SHLVL", shlvl_str);
+	mm_free(shlvl_str);
 	return (1);
 }
 
@@ -65,10 +72,10 @@ __attribute__((always_inline, used)) static inline int	_prompt(
 	else
 	{
 		data = lexer(line);
-		if (_LIKELY(data != NULL))
-			full_exec(data, env_getall(1));
 		if ((_LIKELY(line != NULL)))
 			rl_add_history(line);
+		if (_LIKELY(data != NULL))
+			full_exec(data, env_getall(1));
 	}
 	return (mm_free(line), 1);
 }

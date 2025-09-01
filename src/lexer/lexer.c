@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 15:32:45 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/01 14:52:28 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static inline const char	*show_type(
 }
 
 void	print_tokens(
-	const t_token **tokens,
+	t_token **tokens,
 	const int count
 )
 {
@@ -122,7 +122,9 @@ __attribute__((deprecated)) t_exec_data	*lexer(
 	if (_UNLIKELY(!line || !*line))
 		return (NULL);
 	tokens = tokenize_line(line, &count);
+	print_tokens(tokens, count); // rm
 	data = token_to_exec(tokens);
+	print_exec(data);	//rm
 	return (data);
 }
 

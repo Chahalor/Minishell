@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:34:51 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/17 15:19:16 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/01 14:37:54 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include <unistd.h>
 
 /* -----| Globals   |----- */
-	//...
+# include "mmanager.h"
 
 /* -----| Internals |----- */
 	//...
