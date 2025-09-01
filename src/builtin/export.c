@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 16:20:04 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/01 08:20:20 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,27 +56,46 @@ static inline int	_help(void)
 	return (EXIT_FAILURE);
 }
 
+static inline int	_export_split(
+	const char *const restrict str,
+	char *splited[3]
+)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i] && str[i] != '=')
+		;
+	(splited)[0] = memdup(str, i);
+	(splited)[1] = memdup(str + i + 1, ft_strlen(str + i + 1) + 1);
+	(splited)[2] = NULL;
+	if (!splited[0] || !splited[1] || (!_is_valid_name((splited)[0])))
+		return (free_tab(splited), 1);
+	else
+		return (0);
+}
+
 static inline struct s_args_export	_export_parse(
 	const char **args,
 	const int fd_out
 )
 {
 	register int	i;
-	char			**splited;
+	char			*splited[3];
 
 	i = 0;
 	if (_UNLIKELY(ft_strncmp(args[i], "-h", 2) == 0
 			|| ft_strncmp(args[i], "--help", 6) == 0))
 		return ((struct s_args_export){.help = 1});
+	_neutral(splited, sizeof(splited));
 	while (args[++i])
 	{
-		splited = ft_split((char *)args[i], '=');
-		if (_UNLIKELY(!splited))
-			return ((struct s_args_export){.error = ENOMEM});
-		else if (_LIKELY(_is_valid_name(splited[0])))
-			env_export(splited[0], splited[1]);
-		else
+		if (_export_split(args[i], splited))
+		{
 			ft_fprintf(fd_out, "export: `%s': not a valid identifier\n", splited[0]);
+			continue ;
+		}
+		env_export(splited[0], splited[1]);
 		free_tab(splited);
 	}
 	if (i == 1)

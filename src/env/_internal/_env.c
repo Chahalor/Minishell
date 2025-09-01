@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 15:11:21 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 12:04:58 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/01 12:57:08 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,17 +77,24 @@ static inline void	*_env_register(
 {
 	const char		**_envp = (const char **)data;
 	register int	i;
-	char			**split;
+	register int	j;
+	char			*split[3];
 
-	split = ft_split(_envp[0], '=');
-	_env_export(env, split, 1);
-	free_tab(split);
-	env->nodes = env->last;
-	i = 0;
+	split[2] = NULL;
+	_neutral(split, sizeof(split));
+	i = -1;
 	while (_envp[++i])
 	{
-		split = ft_split(_envp[i], '=');
-		_env_export(env, split, 1);
+		j = -1;
+		while (_envp[i][++j] && _envp[i][j] != '=')
+			;
+		split[0] = mm_alloc(j + 1);
+		split[1] = mm_alloc(ft_strlen(_envp[i] + j + 1) + 1);
+		if (_UNLIKELY(!split[0] || !split[1]))
+			continue ;
+		ft_memcpy(split[0], _envp[i], j);
+		ft_memcpy(split[1], _envp[i] + j + 1, ft_strlen(_envp[i] + j + 1) + 1);
+		_env_export(env, (void *)split, 1);
 		free_tab(split);
 	}
 	return (NULL);

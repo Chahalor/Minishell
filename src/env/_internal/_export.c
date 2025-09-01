@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 10:44:41 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 14:20:11 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/01 12:28:14 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,25 @@ static inline void	*__env_new_export(
 {
 	const int	_key_len = ft_strlen(_data[0]);
 	const int	_val_len = ft_strlen(_data[1]);
-	const int	_alloc_size = sizeof(t_env_node) + _key_len + _val_len + 2;
 	t_env_node	*current;
 
-	current = mm_alloc(_alloc_size);
+	current = mm_alloc(sizeof(t_env_node));
 	if (_UNLIKELY(!current))
 		return (NULL);
-	current->key = (char *)(current + 1);
+	current->key = mm_alloc(_key_len + 1);
+	current->value = mm_alloc(_val_len + 1);
+	if (_UNLIKELY(!current->key || !current->value))
+		return (mm_free(current->key), mm_free(current->value), mm_free(current), NULL);
 	ft_memcpy(current->key, _data[0], _key_len + 1);
-	current->value = current->key + _key_len + 1;
 	ft_memcpy(current->value, _data[1], _val_len + 1);
 	current->next = NULL;
-	if (env->last)
+	if (_UNLIKELY(!env->nodes))
+		env->nodes = current;
+	else if (_LIKELY(env->last != NULL))
 		env->last->next = current;
 	env->last = current;
 	++env->nb_node;
-	env->size += _alloc_size;
+	env->size += _key_len + _val_len + 2;
 	return (current);
 }
 
@@ -63,7 +66,7 @@ inline void	*_env_export(
 	const char			**_data = (const char **)data;
 	const t_find_access	find = {(char *)_data[0], 0};
 
-	if (_UNLIKELY(!_data || !_data[0] /*|| !_data[1]*/))
+	if (_UNLIKELY(!_data || !_data[0]))
 		return (NULL);
 	else if (mode || env_manager(e_env_find, (void *)&find) == NULL)
 		return (__env_new_export(env, data));

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 15:25:48 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 12:00:31 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/01 12:28:52 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 # include "mmanager.h"
 # include "utils.h"
+#include "ft_printf.h" //rm
 
 # define ENV_ALLOC_SIZE	128
 

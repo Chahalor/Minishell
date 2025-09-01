@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 11:04:28 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 14:29:52 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/01 12:45:59 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,39 +62,28 @@ extern inline void	_neutral(\
 	const unsigned int size
 )	// v.1. >>> tag: def->neutral
 {
-	volatile unsigned long long		*restrict	area_64b;
-	volatile unsigned char	*restrict			area_8b;
-	const unsigned int							len_64b = (size >> 3);
-	register unsigned int						i;
+	register unsigned int	i;
 
-	area_64b = (volatile unsigned long long *)area;
 	i = 0;
-	while (i++ != len_64b)
-		*(area_64b++) = 0;
-	i <<= 3;
-	area_8b = (volatile unsigned char *)area + i;
-	while (!((size - i++) >> 31))
-		*(area_8b++) = 0;
+	while (i < size)
+		((char *)area)[i++] = 0;
 }
 
 /** */
-__attribute__((always_inline, used, malloc)) inline void	*memdup(
+__attribute__((always_inline, used, malloc))
+inline void	*memdup(
 	const void *const restrict src,
 	size_t size
 )
 {
-	char							*dup;
-	const char *const	restrict	_src = (const char *)src;
-	register size_t					i;
+	char			*dup;
 
 	if (_UNLIKELY(!src || !size))
 		return (NULL);
 	dup = (char *)mm_alloc(size);
 	if (__builtin_expect(!dup, unexpected))
 		return (NULL);
-	i = -1;
-	while (++i < size)
-		dup[i] = _src[i];
+	ft_memcpy(dup, src, size);
 	return ((void *)dup);
 }
 

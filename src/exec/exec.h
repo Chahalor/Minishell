@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:46:56 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/25 14:44:32 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/01 12:30:43 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct s_exec_data	t_exec_data;	/* Execution data structure */
 
 struct s_exec_data
 {
-	char		*cmd;	/* command to execute                                */
+	char		*cmd;	/* binary to execute                                 */
 	char		**args;	/* arguments for the command                        */
 	int			status;	/* status of the command                           */
 	pid_t		pid;	/* process ID of the command                      */
