@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 08:08:28 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/02 08:55:25 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/02 15:28:16 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,58 +21,79 @@
 #pragma endregion Header
 #pragma region Fonctions
 
+static inline int	__cmp(
+	const char *const restrict str1,
+	const char *const restrict str2
+)
+{
+	register int	__i;
+
+	if (_UNLIKELY(!str1 || !str2))
+		return (0);
+	__i = 0;
+	while (str1[__i] && str2[__i] && str1[__i] == str2[__i])
+		__i++;
+	return ((unsigned char)str1[__i] - (unsigned char)str2[__i]);
+}
+
 static inline char	*__rl_hist_get_next(
 	t_rl_history *const restrict data
 )
 {
-	int		start;
-	char	*result;
-	char	*last;
+	char	*_result;
+	char	*__last;
+	int		__start;
+	int		__pos;
 
-	last = data->storage[data->pos];
-	start = data->pos;
-	data->pos = (data->pos + 1) % _RL_HIST_SIZE;
-	result = data->storage[data->pos];
-	if (data->pos == start || !result)
+	__last = data->storage[data->pos];
+	__start = data->pos;
+	__pos = (data->pos + 1) % _RL_HIST_SIZE;
+	_result = data->storage[__pos];
+	if (__cmp(_result, __last) != 0)
 	{
-		data->pos = start;
-		return (NULL);
+		data->pos = __pos;
+		return (_result);
 	}
-	while (result && last && ft_strncmp(result, last, ft_strlen(last)) == 0)
+	while (_result && __last && __cmp(_result, __last) == 0)
 	{
-		data->pos = (data->pos + 1) % _RL_HIST_SIZE;
-		result = data->storage[data->pos];
-		if (data->pos == start)
-			return (NULL);
+		__pos = (__pos + 1) % _RL_HIST_SIZE;
+		_result = data->storage[__pos];
+		if (__pos == __start)
+			break ;
 	}
-	return (result);
+	if (_LIKELY(_result != NULL))
+		data->pos = __pos;
+	return (_result);
 }
 
 static inline char	*__rl_hist_get_prev(
 	t_rl_history *const restrict data
 )
 {
-	int		start;
-	char	*result;
-	char	*last;
+	char	*_result;
+	char	*__last;
+	int		__start;
+	int		__pos;
 
-	last = data->storage[data->pos];
-	start = data->pos;
-	data->pos = (data->pos - 1 + _RL_HIST_SIZE) % _RL_HIST_SIZE;
-	result = data->storage[data->pos];
-	if (data->pos == start || !result)
+	__last = data->storage[data->pos];
+	__start = data->pos;
+	__pos = (data->pos - 1 + _RL_HIST_SIZE) % _RL_HIST_SIZE;
+	_result = data->storage[__pos];
+	if (__cmp(_result, __last) != 0)
 	{
-		data->pos = start;
-		return (NULL);
+		data->pos = __pos;
+		return (_result);
 	}
-	while (result && last && ft_strncmp(result, last, ft_strlen(last)) == 0)
+	while (_result && __last && __cmp(_result, __last) == 0)
 	{
-		data->pos = (data->pos - 1 + _RL_HIST_SIZE) % _RL_HIST_SIZE;
-		result = data->storage[data->pos];
-		if (data->pos == start)
-			return (NULL);
+		__pos = (__pos - 1 + _RL_HIST_SIZE) % _RL_HIST_SIZE;
+		_result = data->storage[__pos];
+		if (__pos == __start)
+			break ;
 	}
-	return (result);
+	if (_LIKELY(_result != NULL))
+		data->pos = __pos;
+	return (_result);
 }
 
 /**
