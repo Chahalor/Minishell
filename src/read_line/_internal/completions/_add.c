@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 13:43:52 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/02 09:05:33 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/02 15:50:39 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 
 #pragma endregion Header
 #pragma region Prototypes
+
 char	*_get_file(
 			const char *const restrict path
 			);
@@ -31,6 +32,7 @@ char	*_get_dir(
 			const char *const restrict path
 			);
 
+#pragma endregion Prototypes
 #pragma region Functions
 
 __attribute__((used))

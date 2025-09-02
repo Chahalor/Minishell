@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/02 15:49:27 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/02 15:52:48 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,18 @@
  *  @retval		.error The error type if any error occurred.
  *  @retval		.help A flag indicating if help was requested.
 */
-__attribute__((always_inline, used)) static inline struct s_args_exit	_parse(
+__attribute__((always_inline, used)) static inline t_args_exit	_parse(
 	const char **args
 )
 {
-	const int			argc = arraylen((void *)args);
-	struct s_args_exit	parsed;
-	register int		i;
+	t_args_exit		parsed;
+	register int	i;
 
-	if (argc > 2)
-		return ((struct s_args_exit){.error = builtin_error_too_many_args});
-	parsed = (struct s_args_exit){0};
+	if (arraylen((void *)args) > 2)
+		return ((t_args_exit){.error = builtin_error_too_many_args});
+	parsed = (t_args_exit){0};
 	if (!args[1])
-		return (struct s_args_exit){.exit_code = EXIT_SUCCESS};
+		return ((t_args_exit){.exit_code = EXIT_SUCCESS});
 	i = 1;
 	if (ft_strncmp(args[i], "-h", 3) == 0
 		|| ft_strncmp(args[i], "--help", 7) == 0)
@@ -121,7 +120,7 @@ __attribute__((used)) char	builtin_exit(
 	const int fd_out
 )
 {
-	const struct s_args_exit	parsed = _parse(args);
+	const t_args_exit	parsed = _parse(args);
 
 	(void)fd_in;
 	(void)fd_out;

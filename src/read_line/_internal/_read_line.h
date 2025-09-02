@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:57:59 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/02 09:04:27 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/02 15:50:27 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 /*                                 Defines                                    */
 /* ************************************************************************** */
 
-#define _GNU_SOURCE
+# define _GNU_SOURCE
 
 # define _RL_ALLOC_SIZE	1024	/* Size of every alloc/realloc of Read_line */
 # define _RL_ANSI_BUFF	16		/* Size of the ANSI handler buffer         */

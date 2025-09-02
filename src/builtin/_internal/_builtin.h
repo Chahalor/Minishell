@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:15:37 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/02 15:45:12 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/02 15:51:38 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 /* ************************************************************************** */
 
 typedef struct s_blt_link	t_blt_link;	/* Builtin link structure */
+
+typedef struct s_args_exit	t_args_exit;	/* Arguments for exit command */
 
 /* ************************************************************************** */
 /*                                 Enums                                      */
