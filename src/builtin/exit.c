@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/25 12:46:38 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/02 15:49:27 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,15 @@ __attribute__((always_inline, used)) static inline struct s_args_exit	_parse(
 	const char **args
 )
 {
+	const int			argc = arraylen((void *)args);
 	struct s_args_exit	parsed;
 	register int		i;
 
+	if (argc > 2)
+		return ((struct s_args_exit){.error = builtin_error_too_many_args});
 	parsed = (struct s_args_exit){0};
 	if (!args[1])
-	{
-		parsed.exit_code = EXIT_SUCCESS;
-		return (parsed);
-	}
+		return (struct s_args_exit){.exit_code = EXIT_SUCCESS};
 	i = 1;
 	if (ft_strncmp(args[i], "-h", 3) == 0
 		|| ft_strncmp(args[i], "--help", 7) == 0)
@@ -54,7 +54,10 @@ __attribute__((always_inline, used)) static inline struct s_args_exit	_parse(
 		if (is_nbr(args[i]))
 			parsed.exit_code = (unsigned int)ft_atoi(args[i]);
 		else
+		{
 			parsed.error = builtin_error_not_numeric;
+			parsed.exit_code = 2;
+		}
 	}
 	if (args[i + 1])
 		parsed.error = builtin_error_too_many_args;
@@ -94,7 +97,8 @@ __attribute__((always_inline, used)) static inline char	_error(
 	};
 
 	ft_printf("%s", msg[error]);
-	exit_program(exit_code, DEFAULT_EXIT_MESSAGE);
+	if (error != builtin_error_too_many_args)
+		exit_program(exit_code, DEFAULT_EXIT_MESSAGE);
 	return (EXIT_FAILURE);
 }
 
