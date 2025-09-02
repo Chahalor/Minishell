@@ -162,7 +162,7 @@ update:
 
 
 # -----| Symbols check |----- #
-SUPPRESED_SYMBOLS	:=	memset
+SUPPRESED_SYMBOLS	:=	memset memcpy memset
 ALLOWED_SYMBOLS		:=	readline rl_clear_history rl_on_new_line rl_replace_line rl_redisplay add_history \
 						printf malloc free write access open read close fork wait waitpid wait3 wait4 signal \
 						sigaction sigemptyset sigaddset kill exit getcwd chdir stat lstat fstat unlink execve \
@@ -173,7 +173,7 @@ symbols:
 	awk ' \
 	BEGIN { \
 		split("$(ALLOWED_SYMBOLS)", allowed); \
-		split("$(SUPPRESSED_SYMBOLS)", suppressed); \
+		split("$(SUPPRESED_SYMBOLS)", suppressed); \
 		for (i in allowed) allow[allowed[i]] = 1; \
 		for (i in suppressed) supp[suppressed[i]] = 1; \
 		suppressed_count = 0; \
