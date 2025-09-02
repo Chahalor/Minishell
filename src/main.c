@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:44:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/01 14:43:03 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/02 08:53:41 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ volatile sig_atomic_t	g_last_signal = 0;	/* Global signal variable */
 /** */
 __attribute__((cold, unused)) int	init_all(
 	int argc,
-	const char **argv, 
+	const char **argv,
 	const char **envp
 )
 {

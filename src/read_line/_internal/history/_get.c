@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 08:08:28 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 15:11:00 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/02 08:55:25 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static inline char	*__rl_hist_get_prev(
  * @version 1.0
 */
 __attribute__((always_inline, used))
-extern inline char *_history_get(
+extern inline char	*_history_get(
 	t_rl_history *const restrict data,
 	const int access
 )

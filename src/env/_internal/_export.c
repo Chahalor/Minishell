@@ -6,11 +6,23 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 10:44:41 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/01 14:07:00 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/02 09:01:31 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_env.h"
+
+static inline void	__free_node(
+	t_env_node *const restrict node
+)
+{
+	if (_LIKELY(node != NULL))
+	{
+		mm_free(node->key);
+		mm_free(node->value);
+		mm_free(node);
+	}
+}
 
 static inline void	*__env_new_export(
 	t_env *const restrict env,
@@ -27,7 +39,7 @@ static inline void	*__env_new_export(
 	current->key = mm_alloc(_key_len + 1);
 	current->value = mm_alloc(_val_len + 1);
 	if (_UNLIKELY(!current->key || !current->value))
-		return (mm_free(current->key), mm_free(current->value), mm_free(current), NULL);
+		return (__free_node(current), NULL);
 	ft_memcpy(current->key, _data[0], _key_len + 1);
 	if (!_data[1])
 		current->value = NULL;

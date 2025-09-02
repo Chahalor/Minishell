@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 15:25:44 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/02 08:57:28 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,93 +39,18 @@ extern void	_add_builtin(
 				const char *const restrict path_file
 				);
 
+extern int	_add_cmds(
+				const char *const restrict word,
+				t_rl_completion *const restrict dt
+				);
+
+extern int	_add_paths(
+				const char *const restrict word,
+				t_rl_completion *const restrict dt
+				);
+
 #pragma endregion Prototypes
 #pragma region Fonctions
-
-/**
- * @brief	Store all commands in the PATH environment variable that
- *  match the given word in the completion data.
- * 
- * @param	word	The word to match against command names.
- * @param	data	The completion data structure to store results.
- * 
- * @return	The success status of the operation.
- * @retval		+0 on success
- * @retval		-1 on error
- * @retval		-2 on memory allocation failure.
- * 
- * @todo: replace getenv by the manager getenv function
-*/
-__attribute__((used)) static inline int	_show_cmds(
-	const char *const restrict word,
-	t_rl_completion *const restrict dt
-)
-{
-	char			**paths;
-	register int	i;
-	DIR				*dir;
-	struct dirent	*entry;
-
-	paths = ft_split(getenv("PATH"), ':');
-	if (_UNLIKELY(!paths))
-		return (-2);
-	_add_builtin(dt, word);
-	i = -1;
-	while (paths[++i] && dt->nb_entries < _RL_COMP_LIMIT)
-	{
-		dir = opendir(paths[i]);
-		if (_UNLIKELY(!dir))
-			continue ;
-		entry = readdir(dir);
-		while (entry && dt->nb_entries < _RL_COMP_LIMIT)
-		{
-			_rl_completion_add(dt, word, entry);
-			entry = readdir(dir);
-		}
-		closedir(dir);
-	}
-	return (free_tab(paths), 0);
-}
-
-/**
- * @brief	Store all files and directories in the current directory
- *  that match the given word in the completion data.
- * 
- *  @param	word	The word to match against file and directory names.
- *  @param	data	The completion data structure to store results.
- *
- *  @return	The success status of the operation.
- *  @retval		=0 on success
- *  @retval		+1 if the directory cannot be opened
- *  @retval		-1 on memory allocation failure.
-*/
-__attribute__((used))
-static inline int	_show_paths(
-	const char *const restrict word,
-	t_rl_completion *const restrict data
-)
-{
-	char		*path_dir;
-	char		*path_file;
-	DIR			*dir;
-	t_dirent	*entry;
-
-	path_dir = _get_dir(word);
-	path_file = _get_file(word);
-	if (_UNLIKELY(!path_dir || !path_file))
-		return (free(path_dir), free(path_file), -1);
-	dir = opendir(path_dir);
-	if (_UNLIKELY(!dir))
-		return (1);
-	entry = readdir(dir);
-	while (entry && data->nb_entries < _RL_COMP_LIMIT)
-	{
-		_rl_completion_add(data, path_file, entry);
-		entry = readdir(dir);
-	}
-	closedir(dir);
-	return (mm_free(path_dir), mm_free(path_file), 0);
-}
 
 /**
  *  @brief	Display the completion entries in the terminal.
@@ -164,6 +89,38 @@ static inline int	_show(
 	return (0);
 }
 
+__attribute__((always_inline, used, malloc))
+static inline char	*__sub_str(
+	t_rl_completion *const restrict completion,
+	const char *const restrict str
+)
+{
+	char			*_result;
+	register int	__len;
+	register int	__i;
+	register int	__cmp;
+
+	(void)str;
+	__len = ft_strlen(completion->entry[0]->d_name);
+	__i = 0;
+	while (__i < completion->nb_entries - 1)
+	{
+		__cmp = 0;
+		while (completion->entry[__i]->d_name[__cmp]
+			== completion->entry[__i + 1]->d_name[__cmp] && __cmp < __len)
+			++__cmp;
+		if (__cmp < __len)
+			__len = __cmp;
+		++__i;
+	}
+	_result = mm_alloc(__len + 1);
+	if (_UNLIKELY(!_result))
+		return (NULL);
+	ft_memcpy(_result, completion->entry[0]->d_name, __len);
+	_result[__len] = '\0';
+	return (_result);
+}
+
 /**
  * @brief	Replace the last word in the result with the completion word.
  * 
@@ -174,10 +131,11 @@ static inline int	_show(
  */
 static inline int	_replace(
 	t_rl_completion *const restrict completion,
-	t_rl_data *const restrict data
+	t_rl_data *const restrict data,
+	const char *const restrict sub
 )
 {
-	const char *const	word = completion->entry[0]->d_name;
+	char				*_sub_str;
 	register int		i;
 
 	i = data->line_length;
@@ -186,20 +144,14 @@ static inline int	_replace(
 	_neutral(data->result + i, data->line_length - i);
 	data->cursor_pos = i;
 	data->line_length = i;
-	_rl_add(data, word, rl_str);
+	_sub_str = __sub_str(completion, sub);
+	_rl_add(data, _sub_str, rl_str);
 	if (completion->entry[0]->d_type == DT_DIR)
 		_rl_add(data, "/", rl_chr);
 	ft_printf("\033[2K\r%s%s", data->prompt, data->result);
+	mm_free(_sub_str);
 	return (0);
 }
-
-// static inline int	__get_word(
-// 	t_rl_data *const restrict data,
-// 	char **words
-// )
-// {
-// 	int	sum;
-// }
 
 /**
  *  @brief	Handle the completion of the last word in the result.
@@ -225,12 +177,13 @@ int	completion(
 	if (_UNLIKELY(!words))
 		return (-1);
 	nb_words = arraylen((const void *const *)words);
-	_show_paths(words[nb_words - 1], &completion);
-	_show_cmds(words[nb_words - 1], &completion);
-	if (completion.nb_entries == 1)
-		_replace(&completion, data);
-	else if (completion.nb_entries > 0)
+	_add_paths(words[nb_words - 1], &completion);
+	_add_cmds(words[nb_words - 1], &completion);
+	if (completion.nb_entries > 0)
+	{
+		_replace(&completion, data, words[nb_words - 1]);
 		_show(&completion, data);
+	}
 	return (free_tab(words), _rl_free_completion__(&completion), 0);
 }
 

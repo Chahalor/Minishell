@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 09:41:27 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 16:21:42 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/02 08:59:54 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ static inline int	__check_redir(
 	if (i && tok[i]->type == TOKEN_PIPE && *last_token == TOKEN_PIPE)
 		*err = (t_tok_error){.error = PARSER_ERR_BROKEN_PIPE, .token = tok[i]};
 	else if (i && (((_is_redir(tok[i]->type) && _is_redir(*last_token)) \
-			|| (_is_redir(tok[i]->type) && (tok[i + 1] && _is_word(tok[i + 1]->type) != 1)))))
+			|| (_is_redir(tok[i]->type) && (tok[i + 1]
+				&& _is_word(tok[i + 1]->type) != 1)))))
 		*err = (t_tok_error){.error = PARSER_ERR_INVALID_REDIRECTION,
 			.token = tok[i]};
 	else if (tok[i]->type == TOKEN_DLESS && !tok[i + 1])
