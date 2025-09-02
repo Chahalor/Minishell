@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:47:53 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/26 16:23:33 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/02 09:15:40 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@
 
 # define DEFAULT_HISTORY_FILE	".minihistory"	/* default file */
 
-# define PARSER_ALLOC_SIZE		16	/* default parser allocation size */
+# define PARSER_ALLOC_SIZE		16		/* default parser allocation size */
+# define _RL_HIST_SIZE			4096	/* Size of the history buffer    */
 
 #endif /* CONFIG_H */

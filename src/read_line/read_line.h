@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:08:04 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/22 15:17:07 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/02 09:15:27 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@
 # define RL_VERSION_MAJOR		0
 # define RL_VERSION_MINOR		2
 # define RL_VERSION_PATCH		0
-
-# define _RL_HIST_SIZE	1024	/* Size of the history buffer */
 
 /* ************************************************************************** */
 /*                                 Typedefs                                   */
