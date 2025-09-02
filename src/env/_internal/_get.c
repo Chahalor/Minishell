@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 15:11:21 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/01 13:51:05 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/02 09:01:12 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,19 @@ extern inline void	*_env_find(
 	return (NULL);
 }
 
+static inline void	__cpy(
+	char **result,
+	t_env_node *_current,
+	int _i
+)
+{
+	ft_memcpy(result[_i], _current->key, ft_strlen(_current->key));
+	if (_current->value)
+		result[_i][ft_strlen(_current->key)] = '=';
+	ft_memcpy(&result[_i][ft_strlen(_current->key) + 1],
+		_current->value, ft_strlen(_current->value) + 1);
+}
+
 extern inline void	*_env_getall(
 	t_env *env,
 	const int mode
@@ -62,17 +75,18 @@ extern inline void	*_env_getall(
 		if (!_current->value && !mode)
 		{
 			_current = _current->next;
-			continue;
+			continue ;
 		}
 		result[++_i] = mm_alloc(ft_strlen(_current->key)
 				+ ft_strlen(_current->value) + 2);
 		if (_UNLIKELY(!result[_i]))
 			return (free_tab(result), NULL);
-		ft_memcpy(result[_i], _current->key, ft_strlen(_current->key));
-		if (_current->value)
-			result[_i][ft_strlen(_current->key)] = '=';
-		ft_memcpy(&result[_i][ft_strlen(_current->key) + 1],
-			_current->value, ft_strlen(_current->value) + 1);
+		__cpy(result, _current, _i);
+		// ft_memcpy(result[_i], _current->key, ft_strlen(_current->key));
+		// if (_current->value)
+		// 	result[_i][ft_strlen(_current->key)] = '=';
+		// ft_memcpy(&result[_i][ft_strlen(_current->key) + 1],
+		// 	_current->value, ft_strlen(_current->value) + 1);
 		_current = _current->next;
 	}
 	return (result);

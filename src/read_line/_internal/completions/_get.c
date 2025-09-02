@@ -1,16 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   _dir.c                                             :+:      :+:    :+:   */
+/*   _completions.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/27 12:56:47 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/02 09:04:47 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#define _GNU_SOURCE
 
 #pragma region Header
 
@@ -35,7 +33,8 @@
  * 			of the path.
  * @retval	NULL if the path is NULL or empty.
 */
-__attribute__((used, visibility("hidden"))) char	*_get_dir(
+__attribute__((used, visibility("hidden")))
+char	*_get_dir(
 	const char *const restrict path
 )
 {
@@ -69,7 +68,8 @@ __attribute__((used, visibility("hidden"))) char	*_get_dir(
  * @retval	NULL if the path is NULL or empty.
  * @retval	A pointer to the file name part of the path.
 */
-__attribute__((used, visibility("hidden"))) char	*_get_file(
+__attribute__((used, visibility("hidden")))
+char	*_get_file(
 	const char *const restrict path
 )
 {
@@ -87,31 +87,6 @@ __attribute__((used, visibility("hidden"))) char	*_get_file(
 	ft_memcpy(result, path + i, ft_strlen(path) - i);
 	result[ft_strlen(path) - i] = '\0';
 	return (result);
-}
-
-__attribute__((used, visibility("hidden"))) void	_add_builtin(
-	t_rl_completion *const restrict completion,
-	const char *const restrict path_file
-)
-{
-	static const char	*builtins[] = {
-		"cd", "echo", "env", "exit", "export",
-		"pwd", "unset", "history", NULL};
-	t_dirent			entry;
-	register int		i;
-
-	i = -1;
-	while (builtins[++i])
-	{
-		if (ft_strncmp(builtins[i], path_file, ft_strlen(path_file)) == 0)
-		{
-			_neutral(entry.d_name, sizeof(entry.d_name));
-			entry.d_type = DT_REG;
-			ft_memcpy(entry.d_name, builtins[i], ft_strlen(builtins[i]));
-			completion->entry[completion->nb_entries++]
-				= memdup(&entry, sizeof(t_dirent));
-		}
-	}
 }
 
 #pragma endregion Fonctions

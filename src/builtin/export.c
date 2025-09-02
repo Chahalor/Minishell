@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/01 14:09:33 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/02 08:57:52 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,8 @@ static inline struct s_args_export	_export_parse(
 	{
 		if (_export_split(args[i], splited))
 		{
-			ft_fprintf(fd_out, "export: `%s': not a valid identifier\n", splited[0]);
+			ft_fprintf(fd_out, "export: `%s': not a valid identifier\n", \
+				splited[0]);
 			free_tab(splited);
 			continue ;
 		}
