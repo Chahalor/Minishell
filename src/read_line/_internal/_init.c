@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 08:06:51 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/16 08:43:02 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/03 10:35:26 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ __attribute__((always_inline, used)) inline void	_init_cmd(
 	data->terms.resore = data->terms.oldt;
 	_set_raw(&data->terms.raw);
 	write(STDOUT_FILENO, "\033[?2004h", 8);
-	write(STDOUT_FILENO, data->prompt, data->prompt_length);
+	write(STDOUT_FILENO, data->prompt, ft_strlen(data->prompt));
 }
 
 #pragma endregion Fonctions

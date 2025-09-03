@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:06:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 12:37:06 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/03 10:38:03 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,14 @@
 #include "read_line.h"
 
 #pragma endregion Header
-#pragma region Fonctions
+#pragma region    Prototypes
+
+extern int	_prompt_length(
+				const char *const restrict prompt
+				);
+
+#pragma endregion Prototypes
+#pragma region    Fonctions
 
 /**
  * @brief Reads a line from standard input with a prompt.
@@ -44,7 +51,7 @@ __attribute__((used, hot, malloc)) char	*read_line(
 		.line_length = 0,
 		.cursor_pos = 0,
 		.prompt = (char *)prompt,
-		.prompt_length = ft_strlen(prompt),
+		.prompt_length = _prompt_length(prompt),
 		.status = normal,
 	};
 	if (_UNLIKELY(!rl_data.result))
