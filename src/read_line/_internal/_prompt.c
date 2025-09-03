@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:06:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/03 10:37:09 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/03 11:07:14 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,10 @@ static inline int	__ansi_len(
 	if (_UNLIKELY(str == NULL || str[0] != '\033' || str[1] != '['))
 		return (0);
 	__i = 2;
-	while (str[__i] != '\0') {
-		if ((str[__i] >= 'a' && str[__i] <= 'z') || (str[__i] >= 'A' && str[__i] <= 'Z'))
+	while (str[__i] != '\0')
+	{
+		if ((str[__i] >= 'a' && str[__i] <= 'z')
+			|| (str[__i] >= 'A' && str[__i] <= 'Z'))
 			return (__i + 1); 
 		__i++;
 	}
@@ -45,6 +47,8 @@ extern inline int	_prompt_length(
 	register int	__i;
 	register int	length;
 
+	if (_UNLIKELY(!prompt))
+		return (0);
 	length = 0;
 	__i = 0;
 	while (prompt[__i])

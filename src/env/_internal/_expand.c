@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 15:36:59 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/03 09:34:25 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/03 11:06:49 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ void	*_env_expand(
 	t_env_str						result;
 
 	result.value = mm_alloc(ENV_ALLOC_SIZE);
-	if (_UNLIKELY(!result.value))
-		return (NULL);
+	if (_UNLIKELY(!result.value || !data))
+		return (mm_free(result.value), NULL);
 	result.allocated = ENV_ALLOC_SIZE;
 	_i = -1;
 	while (_str[++_i])

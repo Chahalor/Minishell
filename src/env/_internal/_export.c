@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 10:44:41 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/02 09:01:31 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/03 11:22:03 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ static inline void	*__env_old_export(
 	t_env_node *const	current = env_manager(e_env_find, (void *)&find);
 
 	(void)env;
+	if (current->value && !_data[1])
+		return (current);
 	mm_free(current->value);
 	if (!_data[1])
 	{

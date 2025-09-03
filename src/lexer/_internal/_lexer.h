@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 09:28:52 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/03 08:47:01 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/03 11:02:54 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,11 @@ struct s_tok_error
 
 // _alloc.c
 
-extern int	_token_handler(
-				t_token **tokens,
-				const char *const restrict line,
-				size_t *const transfer[2],
-				const int len
-				);
+extern t_token	*token_new(
+					const char *str,
+					const int type,
+					const int size
+					);
 
 // _is.c
 
