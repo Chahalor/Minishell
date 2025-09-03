@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 15:11:21 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/01 13:21:25 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/03 10:07:31 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,34 +26,10 @@ extern void	*_env_getall(
 				const int mode
 				);
 
-static inline void	*_env_unset(
-	t_env *env,
-	void *data
-)
-{
-	const char	*_data = (const char *)data;
-	t_env_node	*_current;
-	t_env_node	*_prev;
-
-	_current = env->nodes;
-	_prev = NULL;
-	while (_current)
-	{
-		if (ft_strncmp(_current->key, _data, ft_strlen(_data)) == 0)
-		{
-			if (_prev)
-				_prev->next = _current->next;
-			else
-				env->nodes = _current->next;
-			mm_free(_current);
-			--env->nb_node;
-			return (_prev);
-		}
-		_prev = _current;
-		_current = _current->next;
-	}
-	return (NULL);
-}
+extern void	*_env_unset(
+				t_env *env,
+				void *data
+				);
 
 __attribute__((unused))
 static inline void	*__env_init(
