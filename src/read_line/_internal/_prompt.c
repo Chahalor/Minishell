@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:06:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/03 11:07:14 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/03 11:30:25 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static inline int	__ansi_len(
 	{
 		if ((str[__i] >= 'a' && str[__i] <= 'z')
 			|| (str[__i] >= 'A' && str[__i] <= 'Z'))
-			return (__i + 1); 
+			return (__i + 1);
 		__i++;
 	}
 	return (0);

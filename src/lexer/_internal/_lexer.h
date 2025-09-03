@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 09:28:52 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/03 11:02:54 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/03 11:30:47 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,34 +101,34 @@ extern t_token	*token_new(
 
 // _is.c
 
-extern int	_is_word(
-				const int token
-				);
+extern int		_is_word(
+					const int token
+					);
 
-extern int	_is_redir(
-				const int token
-				);
+extern int		_is_redir(
+					const int token
+					);
 
-extern int	_is_space(
-				const char c
-				);
+extern int		_is_space(
+					const char c
+					);
 
-extern int	_is_redirections(
-				const char c
-				);
+extern int		_is_redirections(
+					const char c
+					);
 
-extern int	_is_quote(
-				const char c
-				);
+extern int		_is_quote(
+					const char c
+					);
 
 // _check.c
 
-extern int	check_tokens(
-				t_token **tok
-				);
+extern int		check_tokens(
+					t_token **tok
+					);
 
-char		*_get_bin(
-				char *name
-				);
+char			*_get_bin(
+					char *name
+					);
 
 #endif /* _LEXER_H */

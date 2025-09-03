@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 10:57:24 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/03 11:04:59 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/03 11:44:17 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ static inline void	__quotes(
 	size_t len,
 	t_token *tok
 )
-{	t_token	*tmp;
+{
+	t_token	*tmp;
 	char	*chr_tmp;
 
 	tmp = _quote_handling(line, i, len);
@@ -92,7 +93,10 @@ static inline void	__quotes(
 	else if (tmp && tmp->type == TOKEN_QUOTE)
 		chr_tmp = tmp->value;
 	else
-		return ; // better error handling pls
+	{
+		tok->type = PARSER_ERR_UNEXPECTED_TOKEN;
+		return ;
+	}
 	chr_tmp = ft_strcat(tok->value, chr_tmp);
 	mm_free(tmp->value);
 	mm_free(tmp);
@@ -111,7 +115,9 @@ static inline t_token	*_word_handling(
 	const size_t	idx = *transfer[1];
 	const size_t	start = *i;
 	t_token			*tok;
+	t_token			*tmp;
 
+	tmp = NULL;
 	while (*i < len && !_is_space(line[*i]) && !_is_redirections(line[*i])
 			&& !_is_quote(line[*i]))
 		++(*i);
@@ -121,7 +127,7 @@ static inline t_token	*_word_handling(
 		tok = token_new(line + start, TOKEN_CMD, *i - start);
 	else
 		tok = token_new(line + start, TOKEN_WORD, *i - start);
-	if (i && _is_quote(line[*i]))	// segfault on missing terminating quote
+	if (i && _is_quote(line[*i]))
 		__quotes(line, i, len, tok);
 	return (tok);
 }

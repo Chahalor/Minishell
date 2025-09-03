@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 09:41:27 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/03 11:05:43 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/03 11:46:09 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@
 #pragma region    Prototypes
 
 extern int	_token_handler(
-						t_token **tokens,
-						const char *const restrict line,
-						size_t *const transfer[2],
-						const int len
-						);
+				t_token **tokens,
+				const char *const restrict line,
+				size_t *const transfer[2],
+				const int len
+				);
 
 #pragma endregion Prototypes
 #pragma region    FUNCTIONS
@@ -48,7 +48,9 @@ t_token	**tokenize_line(
 			++i;
 		else
 			_token_handler(tokens, line, (size_t *[2]){&i, &idx}, len);
-		if (!(idx % PARSER_ALLOC_SIZE))
+		if (!tokens[idx - 1] || tokens[idx - 1]->type > PARSER_ERR_NONE)
+			break ;
+		else if (!(idx % PARSER_ALLOC_SIZE))
 			tokens = mm_realloc(tokens, (idx + PARSER_ALLOC_SIZE)
 					* sizeof(t_token *));
 	}
