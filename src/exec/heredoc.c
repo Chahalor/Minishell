@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/22 15:18:00 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/03 13:07:59 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 
 #pragma endregion Header
 #pragma region Fonctions
+
+extern volatile sig_atomic_t	g_last_signal;
 
 /**
  * @brief Reads lines from standard input until the delimiter is encountered,
@@ -162,7 +164,11 @@ int	heredoc_all(
 		close(here_fd[1]);
 	}
 	if (_UNLIKELY(out < 0))
+	{
+		if (out == -2)
+			g_last_signal = 130;
 		return (close(here_fd[0]), out);
+	}
 	return (here_fd[0]);
 }
 

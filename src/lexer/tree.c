@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 08:40:35 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 11:15:42 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/03 13:08:57 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ static inline int	__redir(
 {
 	const int	flag_truc = O_WRONLY | O_CREAT | O_TRUNC;
 	const int	flag_app = O_WRONLY | O_CREAT | O_APPEND;
+	int			heredoc_fd;
 
 	if (tok[*i]->type == TOKEN_GREATER)
 		exec->fd_out = open(tok[++(*i)]->value, flag_truc, 0644);
@@ -72,7 +73,12 @@ static inline int	__redir(
 	else if (tok[*i]->type == TOKEN_LESS)
 		exec->fd_in = open(tok[++(*i)]->value, O_RDONLY);
 	else if (tok[*i]->type == TOKEN_DLESS)
-		exec->fd_in = heredoc_all(tok[++(*i)]->value);
+	{
+		heredoc_fd = heredoc_all(tok[++(*i)]->value);
+		if (heredoc_fd < 0)
+			return (-1);
+		exec->fd_in = heredoc_fd;
+	}
 	return (0);
 }
 
@@ -112,7 +118,9 @@ t_exec_data	*token_to_exec(
 		if (_is_word(tok[i]->type))
 			__new_cmd(exec, tok, &j, i);
 		else if (_is_redir(tok[i]->type))
-			__redir(tok, exec, &i);
+			if (__redir(tok, exec, &i) < 0)
+				return (mm_free(exec->cmd), free_tab(exec->args),
+					mm_free(exec), NULL);
 		++i;
 	}
 	exec->args[j] = NULL;
