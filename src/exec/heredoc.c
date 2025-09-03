@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/03 13:07:59 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/03 13:19:50 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 /* -----| Modules   |----- */
 #include "exec.h"
+#include "env.h"
 
 #pragma endregion Header
 #pragma region Fonctions
@@ -44,11 +45,12 @@ static inline char	**_read(
 	const char *const restrict delimiter
 )
 {
+	const char					*prompt = env_find("PS2");
 	char						*line;
 	char						**new_storage;
 	register int				i;
 
-	line = read_line(DEFAULT_HEREDOC);
+	line = read_line(prompt);
 	i = 0;
 	while (line && ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1))
 	{
@@ -63,7 +65,7 @@ static inline char	**_read(
 		}
 		(storage)[i++] = line;
 		(storage)[i] = NULL;
-		line = read_line(DEFAULT_HEREDOC);
+		line = read_line(prompt);
 	}
 	if (_UNLIKELY(!line))
 		return (free_tab(storage), NULL);
@@ -84,18 +86,26 @@ static inline char	**_read(
  *
  * @version 1.0
 */
-__attribute__((always_inline, used)) static inline int	_write(
+__attribute__((always_inline, used))
+static inline int	_write(
 	const char *const *const storage,
 	const int fd
 )
 {
 	register int	i;
 	int				exit_code;
+	char			*expanded;
 
 	exit_code = 0;
 	i = -1;
 	while (storage[++i] && exit_code > -1)
-		exit_code = ft_fprintf(fd, "%s\n", storage[i]);
+	{
+		expanded = env_expand((void *)storage[i]);
+		if (_UNLIKELY(!expanded))
+			return (ft_perror("%s", __func__), -1);
+		exit_code = ft_fprintf(fd, "%s\n", expanded);
+		mm_free(expanded);
+	}
 	return (exit_code > 0);
 }
 
@@ -113,16 +123,14 @@ __attribute__((always_inline, used)) static inline int	_write(
  * * @retval	-3	No lines read before the delimiter.
  * 
  * @version 3.0
- * 
- * @todo: avant _write faut faire la var expentions (e.g. $HOME)
  */
 int	heredoc(
 	const char *const restrict delimiter,
 	int fd
 )
 {
-	char			**storage;
-	int				exit_code;
+	char	**storage;
+	int		exit_code;
 
 	storage = mm_alloc(sizeof(char *) * (HD_ALLOC_SIZE + 1));
 	if (_UNLIKELY(!storage))

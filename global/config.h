@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:47:53 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/03 09:22:11 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/03 13:12:01 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 # define ENABLE_RL	1				/* 0: disable read_line, 1: enable it */
 
 # define PS1	"\e[1;34m$USER\e[0m@\e[1;32m$PWD\e[0m[\e[1;32m$?\e[0m]> "
+# define PS2	"\e[1;32mheredoc\e[0m> "
 # define DEFAULT_HEREDOC		"heredoc> "			/* default heredoc prompt */
 # define SHELL_NAME				"minishell"			/* shell name            */
 # define DEFAULT_EXIT_MESSAGE	"Exit 👻"			/* exit message         */

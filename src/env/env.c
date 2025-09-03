@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 15:10:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/03 11:50:02 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/03 13:12:14 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	env_init(
 	shlvl_str = ft_itoa(ft_atoi(env_find("SHLVL")) + 1);
 	env_export("SHLVL", shlvl_str);
 	env_export("PS1", PS1);
+	env_export("PS2", PS2);
 	history_path = env_expand(DEFAULT_HISTORY_FILE);
 	env_export("HISTORY_PATH", history_path);
 	mm_free(shlvl_str);
