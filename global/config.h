@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:47:53 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/02 16:28:32 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/03 09:22:11 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@
 # define SHELL_NAME				"minishell"			/* shell name            */
 # define DEFAULT_EXIT_MESSAGE	"Exit 👻"			/* exit message         */
 
-# define DEFAULT_HISTORY_FILE	".minihistory"	/* default file */
+# define DEFAULT_HISTORY_FILE	"~/.minihistory"	/* default file */
 
 # define PARSER_ALLOC_SIZE		16		/* default parser allocation size */
 # define _RL_HIST_SIZE			4096	/* Size of the history buffer    */

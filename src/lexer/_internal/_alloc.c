@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 11:28:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/01 14:57:54 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/03 09:04:34 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 #include "_lexer.h"
 #include "lexer.h"
+#include "env.h"
 
 #pragma endregion HEADERS
 #pragma region FUNCTIONS
@@ -53,6 +54,7 @@ static inline t_token	*_quote_handling(
 	t_token			*tok;
 	char			delim;
 
+	ft_fprintf(STDERR_FILENO, "Quote handling at index %d, char: '%s'\n", *i, &line[*i]);
 	delim = line[*i];
 	start = ++(*i);
 	while (*i < len && line[*i] != delim)
@@ -109,9 +111,11 @@ static inline t_token	*_word_handling(
 	const size_t	idx = *transfer[1];
 	const size_t	start = *i;
 	t_token			*tok;
+	t_token			*tmp;
+	char			*chr_tmp;
 
-	while (*i < len && !_is_space(line[*i])
-		&& line[*i] != '|' && line[*i] != '<' && line[*i] != '>')
+	while (*i < len && !_is_space(line[*i]) && !_is_redirections(line[*i])
+			&& !_is_quote(line[*i]))
 		++(*i);
 	if (!idx)
 		tok = token_new(line + start, TOKEN_CMD, *i - start);
@@ -119,6 +123,21 @@ static inline t_token	*_word_handling(
 		tok = token_new(line + start, TOKEN_CMD, *i - start);
 	else
 		tok = token_new(line + start, TOKEN_WORD, *i - start);
+	if (i && _is_quote(line[*i]))	// segfault on missing terminating quote
+	{
+		tmp = _quote_handling(line, i, len);
+		if (tmp && tmp->type == TOKEN_DQUOTE)
+			chr_tmp = env_expand(tmp->value);
+		else if (tmp && tmp->type == TOKEN_QUOTE)
+			chr_tmp = tmp->value;
+		else
+			return (NULL); // better error handling pls
+		chr_tmp = ft_strcat(tok->value, chr_tmp);
+		mm_free(tmp->value);
+		mm_free(tmp);
+		mm_free(tok->value);
+		tok->value = chr_tmp;
+	}
 	return (tok);
 }
 
@@ -141,6 +160,8 @@ extern inline int	_token_handler(
 	else
 		tokens[(*idx)++] = _word_handling(line, transfer,
 				(const t_token **)tokens, len);
+	if (_UNLIKELY(!tokens[*idx - 1]))
+		return (-1);
 	return (0);
 }
 

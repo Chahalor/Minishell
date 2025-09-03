@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 09:28:52 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 11:34:54 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/03 08:47:01 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,14 @@ extern int	_is_redir(
 				);
 
 extern int	_is_space(
+				const char c
+				);
+
+extern int	_is_redirections(
+				const char c
+				);
+
+extern int	_is_quote(
 				const char c
 				);
 

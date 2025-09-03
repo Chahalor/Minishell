@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 15:08:32 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/01 13:22:01 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/03 09:09:29 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,10 @@ char	env_register(
 			);
 
 char	env_destroy(void);
+
+int		env_init(
+			const char	**envp
+			);
 
 char	*env_expand(
 			char *str

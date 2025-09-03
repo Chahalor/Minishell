@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 09:41:27 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 11:51:16 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/03 08:46:53 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,20 @@ inline int	_is_space(
 )
 {
 	return (c == ' ' || c == '\t' || c == '\n');
+}
+
+inline int	_is_redirections(
+	const char c
+)
+{
+	return (c == '>' || c == '<' || c == '|');
+}
+
+inline int	_is_quote(
+	const char c
+)
+{
+	return (c == '\'' || c == '"');
 }
 
 #pragma endregion FUNCTIONS

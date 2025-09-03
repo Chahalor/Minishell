@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 10:26:40 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 11:37:08 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/03 09:01:55 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,29 @@ char	*ft_itoa(
 	if (n < 0)
 		str[0] = '-';
 	return (str);
+}
+
+__attribute__((used, malloc))
+char	*ft_strcat(
+	const char *const restrict s1,
+	const char *const restrict s2
+)
+{
+	const int		len1 = ft_strlen(s1);
+	const int		len2 = ft_strlen(s2);
+	char			*result;
+	register int	i;
+
+	result = mm_alloc((len1 + len2 + 1) * sizeof(char));
+	if (_UNLIKELY(!result))
+		return (NULL);
+	i = -1;
+	while (s1[++i])
+		result[i] = s1[i];
+	i = -1;
+	while (s2[++i])
+		result[len1 + i] = s2[i];
+	result[len1 + i] = '\0';
+	mm_free((void *)s2);
+	return (result);
 }

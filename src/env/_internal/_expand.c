@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 15:36:59 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/02 08:11:55 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/03 09:34:25 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,13 @@ static inline int	__is_delim(
 	return (1);
 }
 
+static inline int	__is_var(
+	const char *_str
+)
+{
+	return ((*_str == '$' && _str[1] && _str[1] != ' ') || *_str == '~');
+}
+
 static inline char	*__sub_str(
 	const char *const restrict _str
 )
@@ -33,6 +40,8 @@ static inline char	*__sub_str(
 	register int	__size;
 	char			*_result;
 
+	if (_str[-1] == '~')
+		return (memdup("~", 2));
 	__i = -1;
 	__size = 0;
 	while (_str[++__i] && __is_delim(_str[__i]))
@@ -92,12 +101,12 @@ void	*_env_expand(
 	_i = -1;
 	while (_str[++_i])
 	{
-		if (_str[_i] == '$' && _str[_i + 1] && _str[_i + 1] != ' ')
+		if (__is_var(&_str[_i]))
 		{
 			tmp = __sub_str(&_str[_i + 1]);
 			access = (t_find_access){tmp, 0};
 			__env_join(&result, env_manager(e_env_find, (void *)&access));
-			_i += ft_strlen(tmp);
+			_i += ft_strlen(tmp) - (_str[_i] == '~');
 			mm_free(tmp);
 		}
 		else if (_str[_i] != '\'' && _str[_i] != '\"')

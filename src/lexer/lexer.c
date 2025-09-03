@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/02 08:12:11 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/03 08:40:19 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,14 @@ static inline const char	*show_type(
 	return (messages[type % (PARSER_ERR_MEMORY_ALLOCATION + 1)]);
 }
 
+#endif
+
 void	print_tokens(
 	t_token **tokens,
 	const int count
 )
+#if DEBUG == 1
+
 {
 	register int	i;
 
@@ -66,10 +70,20 @@ void	print_tokens(
 		printf("(%d)[%s] type=%s (%d) size=%d\n", i, tokens[i]->value,
 			show_type(tokens[i]->type), tokens[i]->type, tokens[i]->size);
 }
+#else
+
+{
+	(void)tokens;
+	(void)count;
+}
+
+#endif
 
 void	print_exec(
 	const t_exec_data *const exec
 )
+#if DEBUG == 1
+
 {
 	t_exec_data		*current;
 	register int	j;
@@ -97,6 +111,11 @@ void	print_exec(
 	}
 }
 
+#else
+{
+	(void)exec;
+}
+
 #endif
 
 /**
@@ -122,6 +141,7 @@ __attribute__((deprecated)) t_exec_data	*lexer(
 	if (_UNLIKELY(!line || !*line))
 		return (NULL);
 	tokens = tokenize_line(line, &count);
+	print_tokens(tokens, count);
 	data = token_to_exec(tokens);
 	return (data);
 }
