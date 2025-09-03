@@ -6,13 +6,12 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 15:10:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/03 09:23:44 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/03 11:50:02 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "_env.h"
-# include "ft_printf.h" //rm
 
 char	env_export(
 	const char *key,
@@ -41,7 +40,7 @@ char	env_destroy(void)
 {
 	return (env_manager(e_env_destroy, NULL) != NULL);
 }
-	
+
 __attribute__((unused, cold))
 int	env_init(
 	const char	**envp
@@ -55,7 +54,6 @@ int	env_init(
 	env_export("SHLVL", shlvl_str);
 	env_export("PS1", PS1);
 	history_path = env_expand(DEFAULT_HISTORY_FILE);
-	ft_fprintf(2, "History path: %s\n", history_path);	//rm
 	env_export("HISTORY_PATH", history_path);
 	mm_free(shlvl_str);
 	mm_free(history_path);

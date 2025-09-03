@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 10:57:24 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/03 11:44:17 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/03 11:49:58 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ static inline t_token	*_word_handling(
 	t_token			*tmp;
 
 	tmp = NULL;
-	while (*i < len && !_is_space(line[*i]) && !_is_redirections(line[*i])
+	while (*i < len && !_is_space(line[*i]) && !_is_redirections(line[*i]) \
 			&& !_is_quote(line[*i]))
 		++(*i);
 	if (!idx)
