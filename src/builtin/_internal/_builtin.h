@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:15:37 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/02 15:51:38 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/04 14:39:44 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@
 /*                                 Typedefs                                   */
 /* ************************************************************************** */
 
-typedef struct s_blt_link	t_blt_link;	/* Builtin link structure */
+typedef struct s_blt_link		t_blt_link;	/* Builtin link structure */
 
-typedef struct s_args_exit	t_args_exit;	/* Arguments for exit command */
+typedef struct s_args_exit		t_args_exit;	/* Arguments for exit command */
+typedef struct s_args_history	t_args_history;	/* Arguments for history cmd */
 
 /* ************************************************************************** */
 /*                                 Enums                                      */
@@ -75,6 +76,12 @@ struct s_args_export
 	int	printf_all;	/**/
 	int	help;		/**/
 	int	error;		/**/
+};
+
+struct s_args_history
+{
+	char	*target;	/* */
+	int		help;		/**/
 };
 
 #endif /* _BUILTIN_H */
