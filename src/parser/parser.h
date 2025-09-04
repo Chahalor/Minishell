@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.h                                            :+:      :+:    :+:   */
+/*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:19:39 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/01 14:52:39 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/04 13:19:38 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEXER_H
-# define LEXER_H
+#ifndef PARSER_H
+# define PARSER_H
 
 # pragma once
 
@@ -27,7 +27,7 @@
 # include "type.h"
 
 /* -----| Internals |----- */
-# include "_internal/_lexer.h"
+# include "_internal/_parser.h"
 
 /* -----| Modules   |----- */
 # include "exec.h"
@@ -37,7 +37,7 @@
 /* ************************************************************************** */
 
 typedef struct s_ast	t_ast;		/* Abstract syntax tree structure */
-typedef struct s_lexer	t_lexer;	/* Lexer structure               */
+typedef struct s_parser	t_parser;	/* Lexer structure               */
 typedef struct s_token	t_token;	/* Token structure              */
 
 /* ************************************************************************** */
@@ -50,7 +50,7 @@ typedef struct s_token	t_token;	/* Token structure              */
 /*                                 Prototypes                                 */
 /* ************************************************************************** */
 
-t_exec_data	*lexer(
+t_exec_data	*parser(
 				const char *const restrict line
 				);
 
@@ -59,7 +59,7 @@ t_exec_data	*lexer(
 // 				);
 
 t_ast		*parse_pipeline(
-				t_lexer *lxr
+				t_parser *lxr
 				);
 
 t_ast		*full_ast(

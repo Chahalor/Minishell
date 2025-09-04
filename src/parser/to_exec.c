@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
+/*   to_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/03 10:48:53 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/04 13:19:09 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma region Header
 
 /* -----| Internals |----- */
-#include "_lexer.h"
+#include "_parser.h"
 
 /* -----| Modules   |----- */
-#include "lexer.h"
+#include "parser.h"
 
 #pragma endregion Header
 #pragma region Fonctions
@@ -130,7 +130,8 @@ void	print_exec(
  * @retval		data if the command line is valid and the execution data
  * 					structure is built successfully.
 */
-__attribute__((deprecated)) t_exec_data	*lexer(
+__attribute__((deprecated))
+t_exec_data	*parser(
 	const char *const restrict line
 )
 {

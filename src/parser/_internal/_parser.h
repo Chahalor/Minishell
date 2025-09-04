@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   _lexer.h                                           :+:      :+:    :+:   */
+/*   _parser.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 09:28:52 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/03 11:30:47 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/04 13:19:44 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef _LEXER_H
-# define _LEXER_H
+#ifndef _PARSER_H
+# define _PARSER_H
 
 # pragma once
 
@@ -30,7 +30,7 @@
 # include "type.h"
 
 /* -----| Internals |----- */
-# include "lexer.h"
+# include "parser.h"
 
 /* -----| Modules   |----- */
 	//...

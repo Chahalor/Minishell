@@ -6,17 +6,17 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/04 09:39:13 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/04 13:19:09 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma region Header
 
 /* -----| Internals |----- */
-#include "_lexer.h"
+#include "_parser.h"
 
 /* -----| Modules   |----- */
-#include "lexer.h"
+#include "parser.h"
 
 #pragma endregion Header
 #pragma region Fonctions

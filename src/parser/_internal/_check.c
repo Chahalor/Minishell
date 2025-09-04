@@ -6,14 +6,14 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 09:41:27 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/02 15:53:10 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/04 13:19:09 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma region HEADERS
 
-#include "_lexer.h"
-#include "lexer.h"
+#include "_parser.h"
+#include "parser.h"
 #include "env.h"
 
 #pragma endregion HEADERS
