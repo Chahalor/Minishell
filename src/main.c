@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:44:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/04 13:19:09 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/04 14:01:35 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,10 @@ static inline int	_prompt(
 		return (1);
 	else if (line[0] == '\04')
 		return (mm_free(line), 0);
-	else
+	else if (_LIKELY(line != NULL))
 	{
 		data = parser(line);
-		if ((_LIKELY(line != NULL)))
-			rl_add_history(line);
+		rl_add_history(line);
 		if (_LIKELY(data != NULL))
 			full_exec(data, env_getall(1));
 	}

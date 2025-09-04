@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/04 09:44:45 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/04 14:08:09 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 
 #pragma endregion Header
 #pragma region Fonctions
+
+extern volatile sig_atomic_t	g_last_signal;	/* Global signal variable */
 
 /** */
 __attribute__((always_inline, used)) static inline	int	_pipe(
