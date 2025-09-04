@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/04 13:19:09 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/04 13:21:10 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ t_exec_data	*parser(
 	tokens = tokenize_line(line, &count);
 	print_tokens(tokens, count);
 	data = token_to_exec(tokens);
+	print_exec(data);
 	return (data);
 }
 

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 09:28:52 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/04 13:19:44 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/04 13:20:47 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@
 /*                                 Typedefs                                   */
 /* ************************************************************************** */
 
-typedef enum e_token_type	t_token_type;	/* Token types         */
+typedef enum e_token_type	t_token_type;	/* Token types                   */
 
-typedef struct s_token		t_token;		/* Token structure  */
-typedef struct s_tok_error	t_tok_error;		/* Token with error structure */
+typedef struct s_token		t_token;		/* Token structure             */
+typedef struct s_tok_error	t_tok_error;	/* Token with error structure */
 
 typedef struct s_exec_data	t_exec_data;	/* Execution data structure */
 
