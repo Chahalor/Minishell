@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 10:59:18 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/04 09:44:45 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,18 +90,27 @@ __attribute__((always_inline, used)) static inline char	_exec_one(
 	char *const envp[]
 )
 {
-	int	in_fd;
-	int	out_fd;
+	int			in_fd;
+	int			out_fd;
+	struct stat	st;
 
 	in_fd = -1;
 	out_fd = STDOUT_FILENO;
 	out_fd += (current->fd_out > 0) * (current->fd_out - STDOUT_FILENO);
-	if (current->fd_in > 0)
-		in_fd = current->fd_in;
-	if (get_builtins(current->args[0]))
-		exec_builtin(current, envp, in_fd, out_fd);
+	_neutral(&st, sizeof(st));
+	stat(current->cmd, &st);
+	if (S_ISDIR(st.st_mode) && !get_builtins(current->cmd))
+		builtin_cd((const char *[3]){"cd", current->cmd, NULL}, \
+			in_fd, out_fd);
 	else
-		exec_bin(current, envp, in_fd, out_fd);
+	{
+		if (current->fd_in > 0)
+			in_fd = current->fd_in;
+		if (get_builtins(current->args[0]))
+			exec_builtin(current, envp, in_fd, out_fd);
+		else
+			exec_bin(current, envp, in_fd, out_fd);
+	}
 	return (_wait_childrens(current));
 }
 
