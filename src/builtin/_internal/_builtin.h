@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:15:37 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/04 14:39:44 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/05 08:43:01 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,13 @@ enum e_builtin_error
 	builtin_error_no_such_file = 2,		/* No such file or directory error */
 	builtin_error_not_a_directory = 3,	/* Not a directory error          */
 	builtin_error_not_numeric = 4,		/* Not a numeric argument error  */
+};
+
+enum e_builtin_parse
+{
+	builtin_error = -1,		/* Error flag                */
+	builtin_no_error = 0,	/* No error flag            */
+	builtin_help = 1,		/* Help flag               */
 };
 
 /* ************************************************************************** */

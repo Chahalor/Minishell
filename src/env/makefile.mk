@@ -2,8 +2,8 @@ DIR_MODULE_ENV		:= env
 DIR_INTERFACE_ENV	:= $(DIR_MODULE_ENV)
 DIR_INTERNAL_ENV	:= $(DIR_MODULE_ENV)/_internal
 
-SRC_INTERFACE_ENV	:= env.c env2.c 
-SRC_INTERNAL_ENV	:= _env.c _expand.c _export.c _get.c _unset.c 
+SRC_INTERFACE_ENV	:= env2.c env.c 
+SRC_INTERNAL_ENV	:= _expand.c _get.c _unset.c _env.c _export.c 
 
 OBJ_ENV			:= $(addprefix $(DIR_OBJ)/$(DIR_INTERFACE_ENV)/, $(SRC_INTERFACE_ENV:.c=.o))
 OBJ_ENV			+= $(addprefix $(DIR_OBJ)/$(DIR_INTERNAL_ENV)/, $(SRC_INTERNAL_ENV:.c=.o))

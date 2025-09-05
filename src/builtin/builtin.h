@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:10:39 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/25 12:46:38 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/05 08:48:20 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,12 @@ char		builtin_exit(
 				);
 
 char		builtin_history(
+				const char **args,
+				const int fd_in,
+				const int fd_out
+				);
+
+char		builtin_which(
 				const char **args,
 				const int fd_in,
 				const int fd_out
