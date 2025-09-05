@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/04 14:48:45 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/05 09:14:02 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ char	builtin_history(
 {
 	const t_history			*rl = rl_get_history();
 	const t_args_history	_args = _parse(args);
-	register int	i;
+	register int			i;
 
 	(void)fd_in;
 	if (_UNLIKELY(!rl))

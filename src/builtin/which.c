@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/05 08:52:59 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/05 09:14:05 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,5 @@ char	builtin_which(
 	}
 	return (_ret);
 }
-
 
 #pragma endregion Fonctions

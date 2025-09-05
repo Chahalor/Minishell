@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:44:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/04 14:01:35 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/05 09:13:39 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,10 @@ static inline int	_prompt(
 	line = read_line(_prompt);
 	mm_free((void *)_prompt);
 	if (__builtin_expect(!line, unexpected))
+	{
+		g_last_signal = 130;
 		return (1);
+	}
 	else if (line[0] == '\04')
 		return (mm_free(line), 0);
 	else if (_LIKELY(line != NULL))
