@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 13:43:52 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/02 15:50:39 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/05 08:49:02 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static inline void	_add_builtin(
 {
 	static const char	*builtins[] = {
 		"cd", "echo", "env", "exit", "export",
-		"pwd", "unset", "history", NULL};
+		"pwd", "unset", "history", "which", NULL};
 	t_dirent			entry;
 	register int		i;
 
