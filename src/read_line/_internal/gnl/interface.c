@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 11:39:16 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/18 09:33:57 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/12 11:30:16 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*get_next_line(
 	int					out;
 	char				*result;
 
-	if (__glibc_unlikely(fd < 0 || fd >= MAX_FD))
+	if (__builtin_expect(fd < 0 || fd >= MAX_FD, 0))
 		return (NULL);
 	while (storage[fd].status >= 0 && storage[fd].status != 1)
 	{
@@ -92,7 +92,7 @@ int	count_lines(
 	ssize_t			bytes_read;
 	register int	i;
 
-	if (__glibc_unlikely(fd < 0 || fd >= MAX_FD))
+	if (__builtin_expect(fd < 0 || fd >= MAX_FD, 0))
 		return (-1);
 	count = 0;
 	bytes_read = read(fd, buffer, BUFFER_SIZE);
@@ -101,7 +101,7 @@ int	count_lines(
 		buffer[bytes_read] = '\0';
 		i = -1;
 		while (++i < bytes_read)
-			if (__glibc_unlikely(buffer[i] == '\n'))
+			if (__builtin_expect(buffer[i] == '\n', 0))
 				++count;
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 	}

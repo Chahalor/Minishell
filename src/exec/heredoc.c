@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/03 13:19:50 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/12 11:20:27 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@
 extern volatile sig_atomic_t	g_last_signal;
 
 /**
- * @brief Reads lines from standard input until the delimiter is encountered,
+ * @brief Reads lines from standard input until the sep is encountered,
  * and stores them in a dynamically allocated array.
  * 
  * @param	char	**storage           Pointer to a pointer that will hold
  * 					the address of the dynamically allocated array of strings.
- * @param	char	*restrict delimiter The string that marks the end of input.
+ * @param	char	*restrict sep The string that marks the end of input.
  * 
  * @return	Returns all readed lines
  * * @retval	char **	All readed lines stored in a dynamically allocated array.
@@ -42,17 +42,18 @@ extern volatile sig_atomic_t	g_last_signal;
 */
 static inline char	**_read(
 	char **storage,
-	const char *const restrict delimiter
+	const char *const restrict sep
 )
 {
-	const char					*prompt = env_find("PS2");
-	char						*line;
-	char						**new_storage;
-	register int				i;
+	const char		*prompt = env_find("PS2");
+	char			*line;
+	char			**new_storage;
+	register int	i;
 
 	line = read_line(prompt);
 	i = 0;
-	while (line && ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1))
+	while (line && line[0] != '\04'
+		&& ft_strncmp(line, sep, ft_strlen(sep) + 1))
 	{
 		if ((i + 1) % HD_ALLOC_SIZE == 0)
 		{
@@ -64,7 +65,6 @@ static inline char	**_read(
 			storage = new_storage;
 		}
 		(storage)[i++] = line;
-		(storage)[i] = NULL;
 		line = read_line(prompt);
 	}
 	if (_UNLIKELY(!line))
@@ -110,22 +110,22 @@ static inline int	_write(
 }
 
 /**
- * @brief Reads lines from standard input until the delimiter is encountered,
+ * @brief Reads lines from standard input until the sep is encountered,
  * 		and writes them to the specified file descriptor.
  * 
- * @param	char	*const delimiter string that marks the end.
+ * @param	char	*const sep string that marks the end.
  * @param	int		fd The file descriptor to write to.
  * 
  * @return	Returns the exit code of the heredoc operation.
  * * @retval	>= 0	The exit code of the write operation.
  * * @retval	-1	Memory allocation failed.
  * * @retval	-2	Error occurred during reading.
- * * @retval	-3	No lines read before the delimiter.
+ * * @retval	-3	No lines read before the sep.
  * 
  * @version 3.0
  */
 int	heredoc(
-	const char *const restrict delimiter,
+	const char *const restrict sep,
 	int fd
 )
 {
@@ -135,7 +135,7 @@ int	heredoc(
 	storage = mm_alloc(sizeof(char *) * (HD_ALLOC_SIZE + 1));
 	if (_UNLIKELY(!storage))
 		return (-1);
-	storage = _read(storage, delimiter);
+	storage = _read(storage, sep);
 	if (_UNLIKELY(!storage))
 		return (mm_free(storage), -2);
 	exit_code = _write((const char *const *const)storage, fd);
@@ -146,10 +146,10 @@ int	heredoc(
 }
 
 /**
- * @brief Creates a pipe and reads lines from standard input until the delimiter
+ * @brief Creates a pipe and reads lines from standard input until the sep
  * is encountered, writing them to the write end of the pipe.
  *
- * @param	char	*const delimiter string that marks the end.
+ * @param	char	*const sep string that marks the end.
  *
  * @return	Returns the read end of the pipe.
  *  @retval	>= 0	The read end of the pipe.
@@ -158,7 +158,7 @@ int	heredoc(
  * @version 1.0
  */
 int	heredoc_all(
-	const char *const restrict delimiter
+	const char *const restrict sep
 )
 {
 	int	here_fd[2];
@@ -168,7 +168,7 @@ int	heredoc_all(
 		return (perror("heredoc_all(): pipe() failed"), -1);
 	else
 	{
-		out = heredoc(delimiter, here_fd[1]);
+		out = heredoc(sep, here_fd[1]);
 		close(here_fd[1]);
 	}
 	if (_UNLIKELY(out < 0))
