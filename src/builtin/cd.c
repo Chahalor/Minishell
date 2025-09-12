@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/01 14:17:26 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/12 12:21:14 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,8 +128,6 @@ __attribute__((always_inline, used)) static inline char	_check_path(
  * 		(e.g., too many arguments, no such file or directory, not a directory).
  * 
  * @version	2.0
- * 
- * @todo: change the HOME/OLDPWD environment variables (in the manager)
 */
 __attribute__((used)) char	builtin_cd(
 	const char **args,

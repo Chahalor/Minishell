@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/04 14:37:16 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/12 12:23:39 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ static inline struct s_args_export	_export_parse(
 	char			*splited[3];
 
 	i = 0;
+	if (!args[1])
+		return ((struct s_args_export){.printf_all = 1});
 	if (_UNLIKELY(ft_strncmp(args[1], "-h", 2) == 0
 			|| ft_strncmp(args[1], "--help", 6) == 0))
 		return ((struct s_args_export){.help = 1});
@@ -105,8 +107,6 @@ static inline struct s_args_export	_export_parse(
 			env_export(splited[0], splited[1]);
 		free_tab(splited);
 	}
-	if (i == 1)
-		return ((struct s_args_export){.printf_all = 1});
 	return ((struct s_args_export){0});
 }
 

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/26 14:41:06 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/12 12:24:30 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,6 @@ __attribute__((always_inline, used)) static inline int	_stop(
  * @retval		<0 if the child process was terminated by a signal.
  * 
  * @version	1.0
- * 
- * @todo: should update the $? variable in the shell.
  */
 __attribute__((used)) int	_analyse(
 	const int status

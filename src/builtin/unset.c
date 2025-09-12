@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 11:10:55 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/12 12:24:22 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,6 @@ static inline int	_unset_parse(
 		return (0);
 }
 
-/**
- * @todo: verify that it work for like `unset "BOB AMOGUS" BANANE`
-*/
 __attribute__((used))
 char	builtin_unset(
 	const char **args__,
@@ -64,10 +61,7 @@ char	builtin_unset(
 		return (_help());
 	i = 0;
 	while (args__[++i])
-	{
-		ft_fprintf(2, "unset: '%s'\n", args__[i]);
 		env_unset(args__[i]);
-	}
 	return (EXIT_SUCCESS);
 }
 

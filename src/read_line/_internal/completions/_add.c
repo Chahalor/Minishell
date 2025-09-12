@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 13:43:52 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/05 08:49:02 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/12 12:25:07 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 
 /* -----| Modules   |----- */
 #include "read_line.h"
+#include "env.h"
 
 #pragma endregion Header
 #pragma region Prototypes
@@ -86,7 +87,7 @@ extern inline int	_add_cmds(
 	DIR				*dir;
 	struct dirent	*entry;
 
-	paths = ft_split(getenv("PATH"), ':');
+	paths = ft_split(env_find("PATH"), ':');
 	if (_UNLIKELY(!paths))
 		return (-2);
 	_add_builtin(dt, word);

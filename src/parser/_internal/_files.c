@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/04 13:19:09 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/12 12:25:43 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 /* -----| Modules   |----- */
 #include "parser.h"
+#include "env.h"
 
 #pragma endregion Header
 #pragma region Fonctions
@@ -39,7 +40,7 @@ __attribute__((always_inline, used)) static inline char	*get_in_path(
 	char			*full_path;
 	register int	i;
 
-	paths = ft_split(getenv("PATH"), ':');
+	paths = ft_split(env_find("PATH"), ':');
 	if (_UNLIKELY(!paths))
 		return (perror("get_in_path(): ft_split() failed"), NULL);
 	i = -1;
