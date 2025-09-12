@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:46:24 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/04 14:07:25 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/12 12:36:03 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,8 +139,8 @@ __attribute__((always_inline, used)) inline int	init_signal(void)
 	sigemptyset(&sigstp_action.sa_mask);
 	return (
 		sigaction(SIGINT, &sigint_action, NULL) == -1
-		|| sigaction(SIGQUIT, &sigquit_action, NULL) == -1
-		|| sigaction(SIGTSTP, &sigstp_action, NULL) == -1
+		&& sigaction(SIGQUIT, &sigquit_action, NULL) == -1
+		&& sigaction(SIGTSTP, &sigstp_action, NULL) == -1
 	);
 }
 #pragma endregion Fonctions

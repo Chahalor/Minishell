@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 15:10:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/03 13:12:14 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/12 12:36:12 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,5 @@ int	env_init(
 	env_export("HISTORY_PATH", history_path);
 	mm_free(shlvl_str);
 	mm_free(history_path);
-	return (1);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:44:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/08 08:27:44 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/12 12:35:45 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,20 @@ volatile sig_atomic_t	g_last_signal = 0;	/* Global signal variable */
 
 /** */
 __attribute__((cold, unused))
-int	init_all(
+static inline int	init_all(
 	int argc,
 	const char **argv,
 	const char **envp
 )
 {
+	int	__error;
+
+	__error = 0;
 	args_parser(argc, argv);
-	init_signal();
-	env_init(envp);
-	rl_load_history(env_find("HISTORY_PATH"));
-	return (1);
+	__error += init_signal();
+	__error += env_init(envp);
+	__error += rl_load_history(env_find("HISTORY_PATH"));
+	return (__error);
 }
 
 __attribute__((always_inline, used))
@@ -81,13 +84,13 @@ static inline int	_prompt(
 #pragma region Main
 
 /**
- *
+ * @authors nduvoid rcreuzea
  */
 int	main(int argc, const char **argv, const char **envp)
 {
 	int	running;
 
-	if (_UNLIKELY(!init_all(argc, argv, envp)))
+	if (_UNLIKELY(init_all(argc, argv, envp)))
 		return (exit_program(1, "main(): Failed to initialize"), EXIT_FAILURE);
 	running = 1;
 	while (running)

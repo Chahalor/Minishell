@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 11:04:15 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 11:04:30 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/12 12:36:29 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ __attribute__((used, cold)) int	rl_load_history(
 	const char *const restrict filename
 )
 {
-	return (_history_manager(rl_load, filename) == NULL);
+	return (_history_manager(rl_load, filename) != NULL);
 }
 
 __attribute__((used, cold)) t_history	*rl_get_history(void)
