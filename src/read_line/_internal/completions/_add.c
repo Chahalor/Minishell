@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 13:43:52 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/12 12:25:07 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/12 12:28:03 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,6 @@ static inline void	_add_builtin(
  * @retval		+0 on success
  * @retval		-1 on error
  * @retval		-2 on memory allocation failure.
- * 
- * @todo: replace getenv by the manager getenv function
 */
 __attribute__((used))
 extern inline int	_add_cmds(
