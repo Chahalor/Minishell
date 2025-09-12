@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 15:05:39 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/16 11:54:00 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/12 12:49:17 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ __attribute__((always_inline, used)) static inline void	show_help(void)
 {
 	ft_printf(
 		UNDERLINE BLUE "Usage:" RESET "./Minishell [options]\n"
+		"  A basic shell implementation.\n"
 		UNDERLINE YELLOW "Options:\n" RESET
 		"  -h, --help       Show this help message\n"
 		UNDERLINE BLUE "Author:\n" RESET

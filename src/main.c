@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:44:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/12 12:35:45 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/12 12:48:54 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static inline int	init_all(
 )
 {
 	int	__error;
-
+	
 	__error = 0;
 	args_parser(argc, argv);
 	__error += init_signal();
