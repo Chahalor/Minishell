@@ -6,14 +6,14 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 10:26:40 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/03 09:01:55 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/15 18:51:39 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
 static inline t_uint	_get_size(
-	unsigned int n
+	int n
 )
 {
 	t_uint	size;

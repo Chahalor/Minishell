@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 08:08:28 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/15 14:57:03 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/15 19:25:42 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,9 @@ static inline int	__cmp(
 	return ((unsigned char)str1[__i] - (unsigned char)str2[__i]);
 }
 
-static inline char	*__rl_hist_get_next(
-	t_rl_history *const restrict data
+static inline char	*__rl_hist_get(
+	t_rl_history *const restrict data,
+	const int delta
 )
 {
 	char	*_result;
@@ -47,7 +48,7 @@ static inline char	*__rl_hist_get_next(
 
 	__last = data->storage[data->pos];
 	__start = data->pos;
-	__pos = (data->pos + 1) % _RL_HIST_SIZE;
+	__pos = (data->pos + delta + _RL_HIST_SIZE) % _RL_HIST_SIZE;
 	_result = data->storage[__pos];
 	if (__cmp(_result, __last) != 0)
 	{
@@ -56,7 +57,7 @@ static inline char	*__rl_hist_get_next(
 	}
 	while (_result && __last && __cmp(_result, __last) == 0)
 	{
-		__pos = (__pos + 1) % _RL_HIST_SIZE;
+		__pos = (__pos + delta + _RL_HIST_SIZE) % _RL_HIST_SIZE;
 		_result = data->storage[__pos];
 		if (__pos == __start)
 			break ;
@@ -66,35 +67,6 @@ static inline char	*__rl_hist_get_next(
 	return (_result);
 }
 
-static inline char	*__rl_hist_get_prev(
-	t_rl_history *const restrict data
-)
-{
-	char	*_result;
-	char	*__last;
-	int		__start;
-	int		__pos;
-
-	__last = data->storage[data->pos];
-	__start = data->pos;
-	__pos = (data->pos - 1 + _RL_HIST_SIZE) % _RL_HIST_SIZE;
-	_result = data->storage[__pos];
-	if (__cmp(_result, __last) != 0)
-	{
-		data->pos = __pos;
-		return (_result);
-	}
-	while (_result && __last && __cmp(_result, __last) == 0)
-	{
-		__pos = (__pos - 1 + _RL_HIST_SIZE) % _RL_HIST_SIZE;
-		_result = data->storage[__pos];
-		if (__pos == __start)
-			break ;
-	}
-	if (_LIKELY(_result != NULL))
-		data->pos = __pos;
-	return (_result);
-}
 
 /**
  * @brief	return the next/previous line in the history.
@@ -117,9 +89,9 @@ extern inline char	*_history_get(
 	if (_UNLIKELY(!data))
 		return (NULL);
 	else if (_LIKELY(access == rl_get_next))
-		return (__rl_hist_get_next(data));
+		return (__rl_hist_get(data, +1));
 	else if (_LIKELY(access == rl_get_prev))
-		return (__rl_hist_get_prev(data));
+		return (__rl_hist_get(data, -1));
 	return (NULL);
 }
 

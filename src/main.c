@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:44:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/15 14:37:30 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/15 19:16:35 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static inline int	_prompt(
 		if (_LIKELY(data != NULL))
 			full_exec(data, env_getall(1));
 	}
-	return (/*mm_free(line),*/ 1);
+	return (mm_free(line), 1);
 }
 
 #pragma endregion Fonctions

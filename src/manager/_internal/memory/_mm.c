@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _mm.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
+/*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 12:20:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/15 15:44:55 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/09/15 18:55:22 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@
 #pragma region Functions
 
 /** */
-__attribute__((always_inline, used)) static inline void	_add_to_bucket(
+__attribute__((always_inline, used))
+static inline void	_add_to_bucket(
 	t_mm_node *restrict bucket,
 	void *restrict ptr
 )
@@ -38,21 +39,18 @@ __attribute__((always_inline, used)) static inline void	_add_to_bucket(
 }
 
 /** */
-__attribute__((always_inline, used)) static inline t_mm_node	*_find_ptr(
+__attribute__((always_inline, used))
+static inline t_mm_node	*_find_ptr(
 	t_mm_node *restrict bucket,
 	void *restrict ptr
 )
 {
 	const int				index = _hash(ptr);
 	t_mm_node	*restrict	current;
-	t_mm_node	*restrict	last;
 
 	current = &bucket[index];
 	while (current->next && current->ptr != ptr)
-	{
-		last = current;
 		current = current->next;
-	}
 	if (current->ptr == ptr)
 		return (current);
 	return (NULL);
