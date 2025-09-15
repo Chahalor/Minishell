@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 08:40:35 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/15 13:04:09 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/15 13:30:43 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,9 +128,9 @@ t_exec_data	*token_to_exec(
 	j = 0;
 	while (tok[i] && tok[i]->type != TOKEN_PIPE)
 	{
-		if (_is_word(tok[i]->type))
+		if (_is_word(tok[i]->type) && tok[i]->size > 0)
 			__new_cmd(exec, tok, &j, i);
-		else if (_is_redir(tok[i]->type))
+		else if (_is_redir(tok[i]->type) && tok[i]->size > 0)
 			if (__redir(tok, exec, &i) < 0)
 				return (mm_free(exec->cmd), free_tab(exec->args),
 					mm_free(exec), NULL);
