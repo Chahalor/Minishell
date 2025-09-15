@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _read.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
+/*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/26 16:22:31 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/15 16:02:02 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ __attribute__((hot)) int	_read(
 			handle_special(data, c);
 		else
 		{
-			_rl_add(data, &c, rl_chr);
+			_rl_add(data, (char [2]){c, '\0'}, rl_chr);
 			refresh_line(data);
 		}
 	}

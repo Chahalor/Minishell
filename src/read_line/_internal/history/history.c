@@ -6,7 +6,7 @@
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 08:08:28 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/15 14:25:31 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/09/15 15:55:12 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ __attribute__((always_inline, used)) static inline char	*_history_add(
 		data->pos = (data->pos + 1) % _RL_HIST_SIZE;
 		data->size += (data->size < _RL_HIST_SIZE);
 		if (_LIKELY(data->fd > 0))
-			ft_fprintf(data->fd, "%s\n", line);
-		return ((char *)line);
+			ft_fprintf(data->fd, "%s\n", str);
+		return (str);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 12:19:03 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/15 13:41:59 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/09/15 15:42:43 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ typedef struct s_mm_node	t_mm_node;	/* */
 enum e_mm_access
 {
 	mm_add,			/* request to add a pointer to the manager    */
-	mm_freeing,		/* reuest to free a pointer from the amanger */
+	mm_find,		/* request to find a pointer in da bucket */
+	mm_freeing,		/* request to free a pointer from the amanger */
 	mm_free_all,	/* request to free the full manager         */
 };
 

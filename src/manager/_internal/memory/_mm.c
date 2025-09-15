@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _mm.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
+/*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 12:20:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/17 15:21:12 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/15 15:44:55 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,27 @@ __attribute__((always_inline, used)) static inline void	_add_to_bucket(
 	while (current && current->next)
 		current = current->next;
 	current->next = (t_mm_node *)node;
+}
+
+/** */
+__attribute__((always_inline, used)) static inline t_mm_node	*_find_ptr(
+	t_mm_node *restrict bucket,
+	void *restrict ptr
+)
+{
+	const int				index = _hash(ptr);
+	t_mm_node	*restrict	current;
+	t_mm_node	*restrict	last;
+
+	current = &bucket[index];
+	while (current->next && current->ptr != ptr)
+	{
+		last = current;
+		current = current->next;
+	}
+	if (current->ptr == ptr)
+		return (current);
+	return (NULL);
 }
 
 /** */
@@ -97,6 +118,8 @@ __attribute__((visibility("hidden"))) void	*_mm_store(
 
 	if (access == mm_add)
 		_add_to_bucket(bucket, ptr);
+	else if (access == mm_find)
+		_find_ptr(bucket, ptr);
 	else if (access == mm_freeing)
 		_free_one(bucket, ptr);
 	else if (access == mm_free_all)
