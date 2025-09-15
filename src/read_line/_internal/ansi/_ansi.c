@@ -75,11 +75,56 @@ __attribute__((always_inline, used)) static inline void	_del(
 	t_rl_data *const restrict data
 )
 {
-	if (data->cursor_pos < data->line_length)
+	int				len;
+	unsigned char	c;
+	int				i;
+	int				j;
+
+	if (data->cursor_pos >= data->line_length)
+		return ;
+	len = 1;
+	c = (unsigned char)data->result[data->cursor_pos];
+	len = 1 + (c >= 0xC0) + (c >= 0xE0) + (c >= 0xF0);
+	if (data->cursor_pos + len > data->line_length)
+		len = data->line_length - data->cursor_pos;
+	i = data->cursor_pos;
+	j = data->cursor_pos + len;
+	while (j <= data->line_length)
+		data->result[i++] = data->result[j++];
+	data->line_length -= len;
+	refresh_line(data);
+}
+
+/** */
+__attribute__((always_inline, used)) static inline int	_history_entry(
+	t_rl_data *const restrict data,
+	char *line
+)
+{
+	char	*tmp;
+	int		len;
+
+	if (line)
 	{
-		_remove(data);
-		write(STDOUT_FILENO, "\033[P", 3);
+		len = ft_strlen(line);
+		tmp = mm_realloc(data->result, len + 1);
+		if (_UNLIKELY(!tmp))
+			return (1);
+		data->result = tmp;
+		ft_memcpy(data->result, line, len);
+		data->result[len] = '\0';
+		data->line_length = len;
+		data->cursor_pos = len;
+		refresh_line(data);
+		return (1);
 	}
+	if (data->result && data->line_length > 0)
+		_neutral(data->result, data->line_length);
+	data->result[0] = '\0';
+	data->line_length = 0;
+	data->cursor_pos = 0;
+	refresh_line(data);
+	return (1);
 }
 
 /**
@@ -104,21 +149,7 @@ __attribute__((always_inline, used)) static inline int	_history(
 		line = _history_manager(rl_get_next, NULL);
 	else
 		line = NULL;
-	if (line)
-	{
-		data->result = line;
-		data->line_length = ft_strlen(line);
-		data->cursor_pos = data->line_length;
-		ft_printf("\r\033[%dC\033[K%s", data->prompt_length, data->result);
-	}
-	else
-	{
-		ft_printf("\r\033[%dC\033[K", data->prompt_length);
-		_neutral(data->result, data->line_length);
-		data->line_length = 0;
-		data->cursor_pos = 0;
-	}
-	return (1);
+	return (_history_entry(data, line));
 }
 
 /**

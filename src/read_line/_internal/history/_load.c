@@ -134,7 +134,7 @@ __attribute__((cold, unused)) int	_load_history(
 		data->storage[i++] = NULL;
 	data->storage[_RL_HIST_SIZE] = NULL;
 	close(fd);
-	data->fd = open(filename, O_RDWR | O_APPEND);
+	data->fd = open(filename, O_RDWR | O_APPEND, 0644);
 	return (0);
 }
 

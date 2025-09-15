@@ -51,17 +51,9 @@ __attribute__((used)) static inline int	_rl_add_char(
 		data->result[data->line_length] = c;
 	else
 	{
-		//i = data->line_length;
-		//while (i-- > data->cursor_pos)
-		//	(data->result)[i + 1] = (data->result)[i];
-		//data->result[data->cursor_pos] = c;
-		++data->line_length;
-		i = data->cursor_pos;
-		while (i < data->line_length)
-		{
+		i = data->line_length;
+		while (i-- > data->cursor_pos)
 			data->result[i + 1] = data->result[i];
-			++i;
-		}
 		data->result[data->cursor_pos] = c;
 	}
 	data->result[data->line_length + 1] = '\0';

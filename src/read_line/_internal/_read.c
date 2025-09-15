@@ -40,22 +40,23 @@ __attribute__((used)) int	_remove(
 		return (0);
 	else if (data->cursor_pos == data->line_length)
 	{
-		(data->result)[data->line_length - 1] = '\0';
-		return (data->line_length - 1);
+		if (data->line_length > 0)
+			--data->line_length;
+		data->result[data->line_length] = '\0';
+		return (data->line_length);
 	}
 	else
 	{
 		i = data->cursor_pos;
 		while (i < data->line_length)
 		{
-			(data->result)[i] = (data->result)[i + 1];
+			data->result[i] = data->result[i + 1];
 			++i;
 		}
-		(data->result)[data->line_length - 1] = '\0';
 		--data->line_length;
-		return (data->line_length - 1);
+		data->result[data->line_length] = '\0';
+		return (data->line_length);
 	}
-	return (0);
 }
 
 /**
@@ -69,14 +70,46 @@ __attribute__((used)) int	refresh_line(
 	t_rl_data *const restrict data
 )
 {
-	const int						move = data->line_length - data->cursor_pos;
-	const char *const	restrict	to_write = data->result + data->cursor_pos
-		- 1;
+	const int	move = data->line_length - data->cursor_pos;
 
-	ft_printf("%s", to_write);
+	ft_printf("\r\033[J");
+	ft_printf("%s", data->prompt);
+	if (data->line_length > 0)
+		write(STDOUT_FILENO, data->result, data->line_length);
 	if (move > 0)
-		ft_printf("\033[K\033[%dD", move);
+		ft_printf("\033[%dD", move);
 	return (1);
+}
+
+/** */
+__attribute__((used, always_inline)) static inline int	back_move(
+	t_rl_data *const restrict data
+)
+{
+	const int		start = data->cursor_pos;
+	int 			len;
+	unsigned char	c;
+	int 			i;
+	int				j;
+
+	i = start;
+	while (i > 0 && ((unsigned char)data->result[i - 1] & 0xC0) == 0x80)
+		--i;
+	if (i <= 0 || start <= 0)
+		return (0);
+	c = (unsigned char)data->result[i - 1];
+	len = 1 + (c >= 0xC0) + (c >= 0xE0) + (c >= 0xF0);
+	i = i * (len <= start);
+	if (len > start)
+		len = start;
+	else
+		i = start - len;
+	j = i + len;
+	while (j <= data->line_length)
+		data->result[i++] = data->result[j++];
+	data->cursor_pos -= len;
+	data->line_length -= len;
+	return (refresh_line(data));
 }
 
 /**
@@ -97,13 +130,7 @@ __attribute__((used)) static int	handle_special(
 	if (c == '\033')
 		return (handle_ansi(data));
 	else if ((c == 127 || c == 8))
-	{
-		if (!data->cursor_pos)
-			return (0);
-		--data->cursor_pos;
-		_remove(data);
-		return (write(STDOUT_FILENO, "\033[D\033[P", 6));
-	}
+		return (back_move(data));
 	else if (c == 4)
 	{
 		if (data->line_length == 0)
@@ -151,7 +178,7 @@ __attribute__((hot)) int	_read(
 			data->status = eof;
 		else if (data->status != past && (c == '\r' || c == '\n'))
 			break ;
-		else if (c < 32 || c > 126)
+		else if ((unsigned char)c < 32 || (unsigned char)c > 126)
 			handle_special(data, c);
 		else
 		{
