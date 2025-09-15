@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _load.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
+/*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 15:54:17 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/03 09:51:58 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/15 14:50:42 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,8 +119,8 @@ __attribute__((cold, unused)) int	_load_history(
 		return (data->fd = _create(filename), 0);
 	_skip(fd, _count(filename));
 	line = gnl(fd);
-	i = -1;
-	while (line && ++i < _RL_HIST_SIZE)
+	i = 0;
+	while (line && i++ < _RL_HIST_SIZE)
 	{
 		if (__builtin_expect(!_history_manager(rl_add, line), unexpected))
 		{
@@ -130,8 +130,9 @@ __attribute__((cold, unused)) int	_load_history(
 		mm_free(line);
 		line = gnl(fd);
 	}
-	while (++i < _RL_HIST_SIZE)
-		data->storage[i] = NULL;
+	while (i < _RL_HIST_SIZE)
+		data->storage[i++] = NULL;
+	data->storage[_RL_HIST_SIZE] = NULL;
 	close(fd);
 	data->fd = open(filename, O_RDWR | O_APPEND);
 	return (0);

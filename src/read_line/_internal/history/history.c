@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   history.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
+/*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 08:08:28 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/02 09:35:38 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/15 14:25:31 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,18 +59,18 @@ __attribute__((always_inline, used)) static inline char	*_history_add(
 )
 {
 	const int	len = ft_strlen(line);
-	const int	alloc_size = ((len + _RL_ALLOC_SIZE - 1) / _RL_ALLOC_SIZE)
-		* _RL_ALLOC_SIZE + 1;
+	char		*str;
 
 	if (_UNLIKELY(!data || !line || !*line || line[0] == '\n' || len < 1))
 		return (NULL);
 	else
 	{
-		data->storage[data->pos] = (char *)mm_alloc(alloc_size + 1);
-		if (_UNLIKELY(!data->storage[data->pos]))
+		str = (char *)mm_alloc(len + 1);
+		if (_UNLIKELY(!str))
 			return (NULL);
-		ft_memcpy(data->storage[data->pos], line, len);
-		data->storage[data->pos][len] = '\0';
+		ft_memcpy(str, line, len);
+		str[len] = '\0';
+		data->storage[data->pos] = str;
 		data->pos = (data->pos + 1) % _RL_HIST_SIZE;
 		data->size += (data->size < _RL_HIST_SIZE);
 		if (_LIKELY(data->fd > 0))
@@ -102,9 +102,13 @@ __attribute__((always_inline, used)) static inline char	*_clear(
 			data->storage[data->size] = NULL;
 		}
 	}
+	data->size = 0;
 	data->pos = 0;
-	close(data->fd);
-	data->fd = -1;
+	if (data->fd)
+	{
+		close(data->fd);
+		data->fd = -1;
+	}
 	return (NULL);
 }
 

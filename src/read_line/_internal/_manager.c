@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _manager.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
+/*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/25 15:08:08 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/15 15:17:16 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,22 +37,31 @@ __attribute__((used)) static inline int	_rl_add_char(
 	t_rl_data *const restrict data
 )
 {
+	char			*tmp;
 	register int	i;
 
-	if ((data->line_length + 1) % _RL_ALLOC_SIZE == 0)
+	if (data->line_length + 2 >= _RL_ALLOC_SIZE)
 	{
-		data->result = mm_realloc(data->result,
-				data->line_length + _RL_ALLOC_SIZE + 1);
-		if (_UNLIKELY(!data->result))
+		tmp = mm_realloc(data->result, data->line_length + _RL_ALLOC_SIZE + 1);
+		if (_UNLIKELY(!tmp))
 			return (data->status = error, 0);
+		data->result = tmp;
 	}
 	if (data->cursor_pos == data->line_length)
 		data->result[data->line_length] = c;
 	else
 	{
-		i = data->line_length;
-		while (i-- > data->cursor_pos)
-			(data->result)[i + 1] = (data->result)[i];
+		//i = data->line_length;
+		//while (i-- > data->cursor_pos)
+		//	(data->result)[i + 1] = (data->result)[i];
+		//data->result[data->cursor_pos] = c;
+		++data->line_length;
+		i = data->cursor_pos;
+		while (i < data->line_length)
+		{
+			data->result[i + 1] = data->result[i];
+			++i;
+		}
 		data->result[data->cursor_pos] = c;
 	}
 	data->result[data->line_length + 1] = '\0';

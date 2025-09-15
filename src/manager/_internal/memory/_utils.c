@@ -6,7 +6,7 @@
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 09:33:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/15 13:41:36 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/09/15 15:20:30 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,12 @@ __attribute__((always_inline, used)) inline void	*mm_memcpy(
 
 	if (dst == NULL || src == NULL)
 		return (NULL);
-	if (n == 0)
-		return (dst);
-	i = -1;
-	while (++i < n)
+	i = 0;
+	while (i < n)
+	{
 		((char *)dst)[i] = ((char *)src)[i];
+		++i;
+	}
 	return (dst);
 }
 
