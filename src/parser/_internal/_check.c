@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 09:41:27 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/04 13:19:09 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/15 12:44:42 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 
 #pragma endregion HEADERS
 #pragma region FUNCTIONS
+
+extern volatile sig_atomic_t	g_last_signal;
 
 static inline const char	*show_type(
 	const int type
@@ -62,6 +64,7 @@ static inline void	__show_error(
 	while (tok[++index] && index < _start + 5)
 		ft_fprintf(2, " %s", tok[index]->value);
 	ft_fprintf(2, "\n");
+	g_last_signal = 2;
 }
 
 static inline int	__first_check(
