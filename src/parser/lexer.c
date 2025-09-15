@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 08:40:35 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/15 12:36:30 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/15 13:04:09 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,10 @@ static inline int	__new_cmd(
 {
 	if (!exec->cmd)
 	{
-		exec->cmd = _get_bin(tok[i]->value);
+		if (exec->type != TOKEN_QUOTE)
+			exec->cmd = _get_bin(env_expand(tok[i]->value));
+		else
+			exec->cmd = _get_bin(tok[i]->value);
 		if (!exec->cmd)
 		{
 			g_last_signal = 127;

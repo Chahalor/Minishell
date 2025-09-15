@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/15 12:59:29 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/15 13:05:08 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,6 @@ __attribute__((used)) char	builtin_cd(
 		dest = env_find((void *)dests[opts.oldpwd == 1]);
 	else
 		dest = (char *)args[1];
-	ft_fprintf(2, "cd: Changing to directory: %s\n", dest); //rm
 	error = _check_path(dest);
 	if (error)
 		return (_error(error, dest));
