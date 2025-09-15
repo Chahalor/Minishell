@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/15 12:39:57 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/15 12:53:14 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,6 @@ int	full_exec(
 	else
 		code = _exec_one(data, envp);
 	free_tab(envp);
-	g_last_signal = code;
 	return (code);
 }
 

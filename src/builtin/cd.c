@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/12 12:21:14 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/15 12:59:29 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,18 @@ __attribute__((always_inline, used)) static inline char	_error(
 	const char *const filename
 )
 {
-	ft_fprintf(2, RED "cd: <%s>: %s\n" RESET, filename, strerror(error));
+	if (error == builtin_error_too_many_args)
+		ft_fprintf(2, RED "cd: too many arguments\n" RESET);
+	else if (error == builtin_error_no_such_file)
+		ft_fprintf(2, RED "cd: <%s>: No such file or directory\n" RESET,
+			filename);
+	else if (error == builtin_error_not_a_directory)
+		ft_fprintf(2, RED "cd: <%s>: Not a directory\n" RESET, filename);
+	else if (error == builtin_error_not_numeric)
+		ft_fprintf(2, RED "cd: <%s>: Numeric argument required\n" RESET,
+			filename);
+	else
+		ft_fprintf(2, RED "cd: <%s>: %s\n" RESET, filename, strerror(error));
 	return (EXIT_FAILURE);
 }
 
@@ -151,6 +162,7 @@ __attribute__((used)) char	builtin_cd(
 		dest = env_find((void *)dests[opts.oldpwd == 1]);
 	else
 		dest = (char *)args[1];
+	ft_fprintf(2, "cd: Changing to directory: %s\n", dest); //rm
 	error = _check_path(dest);
 	if (error)
 		return (_error(error, dest));
