@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _utils.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
+/*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 09:33:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 11:51:38 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/15 13:41:36 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,12 @@ __attribute__((always_inline, used)) inline void	*mm_memcpy(
 }
 
 /** */
-__attribute__((always_inline, used)) inline int	_mm_max(
+__attribute__((always_inline, used)) inline int	_mm_min(
 	const size_t a,
 	const size_t b
 )
 {
-	return (a * (a >= b) + b * (b > a));
+	return (a * (a <= b) + b * (b < a));
 }
 
 __attribute__((always_inline, used)) inline void	_mm_dump(
@@ -96,7 +96,7 @@ __attribute__((always_inline, used)) inline void	_mm_dump(
 			while (current)
 			{
 				printf("  - %p (%zu bytes)\n", current->ptr,
-					current->alloced);
+					current->allocated);
 				current = current->next;
 			}
 		}

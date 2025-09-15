@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mmanager.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
+/*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 12:11:57 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/12 11:29:15 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/15 13:41:41 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ __attribute__((malloc, used)) void	*mm_alloc(
 	while (++i < size)
 		((char *)(node + 1))[i] = 0;
 	node->ptr = (void *)(node + 1);
-	node->alloced = size;
+	node->allocated = size;
 	node->next = NULL;
 	_mm_store(node, mm_add);
 	return (node->ptr);
@@ -64,11 +64,11 @@ __attribute__((malloc, used)) void	*mm_realloc(
 	new_ptr = mm_alloc(nsize);
 	if (new_ptr == NULL)
 		return (NULL);
-	cpsize = _mm_max(node->alloced, nsize);
+	cpsize = _mm_min(node->allocated, nsize);
 	mm_memcpy(new_ptr, ptr, cpsize);
-	i = cpsize - 1;
-	while (++i < nsize)
-		((char *)new_ptr)[i] = 0;
+	i = cpsize;
+	while (i < nsize)
+		((char *)new_ptr)[i++] = 0;
 	mm_free(node->ptr);
 	return (new_ptr);
 }

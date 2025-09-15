@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _mm.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
+/*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 12:19:03 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/25 15:09:48 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/15 13:41:59 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ enum e_mm_access
 
 struct s_mm_node
 {
-	size_t		alloced;/* size of the allocated block  */
+	size_t		allocated;/* size of the allocated block  */
 	void		*ptr;	/* pointer to the memory block */
 	t_mm_node	*next;	/* pointer to the next node   */
 };
@@ -85,7 +85,7 @@ extern void	*mm_memcpy(
 				register const size_t n
 				);
 
-extern int	_mm_max(
+extern int	_mm_min(
 				const size_t a,
 				const size_t b
 				);
