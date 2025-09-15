@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:06:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/15 12:27:16 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/15 14:40:16 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,10 @@ static inline char	*_rl_end_process(
 	if (rl_data->status == eof)
 		return (mm_free(rl_data->result), memdup("\04", 1));
 	else if (rl_data->status < exiting || !rl_data->line_length)
-		return (mm_free(rl_data->result), NULL);
+	{
+		mm_free(rl_data->result);
+		return (NULL);
+	}
 	else
 		return (rl_data->result);
 }
