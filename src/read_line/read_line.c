@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:06:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/03 10:38:03 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/15 12:27:16 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,26 @@ extern int	_prompt_length(
 
 #pragma endregion Prototypes
 #pragma region    Fonctions
+
+extern volatile sig_atomic_t	g_last_signal;
+
+/** */
+static inline char	*_rl_end_process(
+	t_rl_data *const rl_data
+)
+{
+	_set_default(&rl_data->terms.resore);
+	write(STDOUT_FILENO, "\033[?2004l\n", 9);
+	_history_manager(rl_reset_pos, NULL);
+	if (_UNLIKELY(rl_data->status == interr))
+		g_last_signal = 130;
+	if (rl_data->status == eof)
+		return (mm_free(rl_data->result), memdup("\04", 1));
+	else if (rl_data->status < exiting || !rl_data->line_length)
+		return (mm_free(rl_data->result), NULL);
+	else
+		return (rl_data->result);
+}
 
 /**
  * @brief Reads a line from standard input with a prompt.
@@ -58,15 +78,7 @@ __attribute__((used, hot, malloc)) char	*read_line(
 		return (NULL);
 	_init_cmd(&rl_data);
 	rl_data.line_length = _read(&rl_data);
-	_set_default(&rl_data.terms.resore);
-	write(STDOUT_FILENO, "\033[?2004l\n", 9);
-	_history_manager(rl_reset_pos, NULL);
-	if (rl_data.status == eof)
-		return (mm_free(rl_data.result), memdup("\04", 1));
-	if (rl_data.status < exiting || !rl_data.line_length)
-		return (mm_free(rl_data.result), NULL);
-	else
-		return (rl_data.result);
+	return (_rl_end_process(&rl_data));
 }
 
 /** */
