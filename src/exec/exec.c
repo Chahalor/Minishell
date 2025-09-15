@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/04 14:08:09 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/15 12:39:57 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ __attribute__((always_inline, used)) static inline char	_exec_one(
 	int			out_fd;
 	struct stat	st;
 
+	if (_UNLIKELY(!current || !current->cmd))
+		return (127);
 	in_fd = -1;
 	out_fd = STDOUT_FILENO;
 	out_fd += (current->fd_out > 0) * (current->fd_out - STDOUT_FILENO);
@@ -131,6 +133,8 @@ __attribute__((always_inline, used)) static inline char	_exec_pipes(
 	current = data;
 	while (current)
 	{
+		if (_UNLIKELY(!current->cmd))
+			return (_wait_childrens(data), 127);
 		_pipe(current, pipe_fd, &out_fd);
 		if (get_builtins(current->args[0]))
 			exec_builtin_fork(current, envp, prev_read, out_fd);
@@ -168,6 +172,7 @@ int	full_exec(
 	else
 		code = _exec_one(data, envp);
 	free_tab(envp);
+	g_last_signal = code;
 	return (code);
 }
 

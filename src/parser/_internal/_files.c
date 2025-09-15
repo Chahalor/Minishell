@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/12 12:25:43 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/15 12:36:17 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 
 #pragma endregion Header
 #pragma region Fonctions
+
+extern volatile sig_atomic_t	g_last_signal;
 
 /**
  * @brief	Searches for a command in the PATH environment variable.
@@ -71,8 +73,10 @@ __attribute__((used)) inline char	*_get_bin(
 		return (path);
 	file_type = check_path(name, F_OK | X_OK);
 	if (_UNLIKELY(file_type == e_not_found))
-		return (ft_fprintf(STDERR_FILENO,
-				SHELL_NAME ": %s: command not found\n", name), NULL);
+	{
+		ft_fprintf(2, SHELL_NAME ": %s: command not found\n", name);
+		return (NULL);
+	}
 	else
 		return (name);
 }

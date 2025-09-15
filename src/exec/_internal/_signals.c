@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/12 12:24:30 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/15 12:37:46 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ __attribute__((used)) int	_analyse(
 		code = _stop(status);
 	else
 		code = -1;
-	g_last_signal = code;
 	return (code);
 }
 

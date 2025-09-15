@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 08:40:35 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/04 13:19:09 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/15 12:36:30 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 
 #pragma endregion HEADERS
 #pragma region FUNCTIONS
+
+extern sig_atomic_t	g_last_signal;
 
 static inline t_exec_data	*new_exec(
 	const int nb_args
@@ -90,7 +92,15 @@ static inline int	__new_cmd(
 )
 {
 	if (!exec->cmd)
+	{
 		exec->cmd = _get_bin(tok[i]->value);
+		if (!exec->cmd)
+		{
+			g_last_signal = 127;
+			exec->status = 127;
+			return (-1);
+		}
+	}
 	if (tok[i]->type != TOKEN_QUOTE)
 		exec->args[(*j)++] = env_expand(tok[i]->value);
 	else
