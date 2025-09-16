@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _tokenizer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
+/*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 09:41:27 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 16:28:42 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 16:46:42 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ t_token	**tokenize_line(
 	size_t					idx;
 	size_t					i;
 
-	idx = 0;
 	tokens = mm_alloc(PARSER_ALLOC_SIZE * sizeof(t_token *));
+	idx = 0;
 	i = 0;
 	while (i < len)
 	{
@@ -48,17 +48,17 @@ t_token	**tokenize_line(
 			++i;
 		else
 		{
-			if (_UNLIKELY(_token_handler(tokens, line, (size_t *[2]){&i, &idx}, len)))
-				break ;
-			else if (!tokens[idx - 1] || tokens[idx - 1]->type > PARSER_ERR_NONE)
+			if (_UNLIKELY(\
+					_token_handler(tokens, line, (size_t *[2]){&i, &idx}, len) \
+					|| (!tokens[idx - 1] \
+						|| tokens[idx - 1]->type > PARSER_ERR_NONE)))
 				break ;
 			else if (!((idx - 1) % PARSER_ALLOC_SIZE))
 				tokens = mm_realloc(tokens, (idx + PARSER_ALLOC_SIZE)
 						* sizeof(t_token *));
 		}
 	}
-	*count = idx;
-	return (tokens);
+	return (*count = idx, tokens);
 }
 
 #pragma endregion FUNCTIONS
