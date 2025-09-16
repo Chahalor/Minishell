@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 10:29:48 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 11:29:22 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,10 @@ __attribute__((always_inline, used)) static inline t_exec_data	*_closing(
 	t_exec_data	*next;
 
 	if (*prev_read > STDIN_FILENO)
-		close(*prev_read);
+		fdm_close(*prev_read);
 	if (current->pipe)
 	{
-		close(out_fd);
+		fdm_close(out_fd);
 		*prev_read = pipe_fd[0];
 		next = current->pipe;
 	}

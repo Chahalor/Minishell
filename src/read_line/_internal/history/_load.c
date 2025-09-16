@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _load.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
+/*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 15:54:17 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/15 14:50:42 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/09/16 11:34:18 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ __attribute__((always_inline, used)) static inline int	_count(
 	const char *const restrict filename
 )
 {
-	const int	fd = open(filename, O_RDONLY, 0644);
+	const int	fd = fdm_open(filename, O_RDONLY, 0644);
 	int			count;
 
 	if (_UNLIKELY(fd < 0))
 		return (ft_perror(ERROR
 				"history load: opening %s file failed", filename), -1);
 	count = count_lines(fd);
-	close(fd);
+	fdm_close(fd);
 	return (count);
 }
 
@@ -85,7 +85,7 @@ __attribute__((always_inline, used)) static inline int	_create(
 	const char *const restrict filename
 )
 {
-	const int	fd = open(filename, O_RDWR | O_CREAT | O_APPEND, 0644);
+	const int	fd = fdm_open(filename, O_RDWR | O_CREAT | O_APPEND, 0644);
 
 	if (_UNLIKELY(fd < 0))
 		return (perror(RED "Error:" RESET " creating history file failed"), -1);
@@ -111,7 +111,7 @@ __attribute__((cold, unused)) int	_load_history(
 	t_rl_history *const restrict data
 )
 {
-	const int		fd = open(filename, O_RDONLY, 0644);
+	const int		fd = fdm_open(filename, O_RDONLY, 0644);
 	char			*line;
 	register int	i;
 
@@ -124,7 +124,7 @@ __attribute__((cold, unused)) int	_load_history(
 	{
 		if (__builtin_expect(!_history_manager(rl_add, line), unexpected))
 		{
-			close(fd);
+			fdm_close(fd);
 			return (mm_free(line), perror("Error: loading history failed"), -2);
 		}
 		mm_free(line);
@@ -133,8 +133,8 @@ __attribute__((cold, unused)) int	_load_history(
 	while (i < _RL_HIST_SIZE)
 		data->storage[i++] = NULL;
 	data->storage[_RL_HIST_SIZE] = NULL;
-	close(fd);
-	data->fd = open(filename, O_RDWR | O_APPEND, 0644);
+	fdm_close(fd);
+	data->fd = fdm_open(filename, O_RDWR | O_APPEND, 0644);
 	return (0);
 }
 

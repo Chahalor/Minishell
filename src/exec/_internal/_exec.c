@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 10:30:01 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 11:29:32 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ __attribute__((always_inline, used)) static inline int	_redirect(
 	else
 	{
 		dup2(fd, new_fd);
-		close(fd);
+		fdm_close(fd);
 		return (0);
 	}
 }
@@ -157,7 +157,7 @@ __attribute__((hot))	int	exec_bin(
 	{
 		data->pid = pid;
 		if (prev_read > 0)
-			close(prev_read);
+			fdm_close(prev_read);
 		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGTSTP, SIG_IGN);

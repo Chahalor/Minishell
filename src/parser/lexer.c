@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 08:40:35 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 09:54:31 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 11:27:25 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,11 @@ static inline int	__redir(
 	int			heredoc_fd;
 
 	if (tok[*i]->type == TOKEN_GREATER)
-		exec->fd_out = open(tok[++(*i)]->value, flag_truc, 0644);
+		exec->fd_out = fdm_open(tok[++(*i)]->value, flag_truc, 0644);
 	else if (tok[*i]->type == TOKEN_DGREATER)
-		exec->fd_out = open(tok[++(*i)]->value, flag_app, 0644);
+		exec->fd_out = fdm_open(tok[++(*i)]->value, flag_app, 0644);
 	else if (tok[*i]->type == TOKEN_LESS)
-		exec->fd_in = open(tok[++(*i)]->value, O_RDONLY);
+		exec->fd_in = fdm_open(tok[++(*i)]->value, O_RDONLY, 0);
 	else if (tok[*i]->type == TOKEN_DLESS)
 	{
 		heredoc_fd = heredoc_all(tok[++(*i)]->value);

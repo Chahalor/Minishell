@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/12 11:20:27 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 11:29:27 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,13 +169,13 @@ int	heredoc_all(
 	else
 	{
 		out = heredoc(sep, here_fd[1]);
-		close(here_fd[1]);
+		fdm_close(here_fd[1]);
 	}
 	if (_UNLIKELY(out < 0))
 	{
 		if (out == -2)
 			g_last_signal = 130;
-		return (close(here_fd[0]), out);
+		return (fdm_close(here_fd[0]), out);
 	}
 	return (here_fd[0]);
 }

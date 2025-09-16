@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 12:11:57 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/28 16:34:12 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 11:34:43 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,14 @@ int	_fdm_store(
 		{
 			if (_storage[i])
 			{
-				close(i);
+				fdm_close(i);
 				_storage[i] = 0;
 			}
 		}
 	}
 	else if (access == fd_is_open)
 		return (_storage[fd]);
-	return (-1);
+	return (0);
 }
 
 #pragma endregion Functions
