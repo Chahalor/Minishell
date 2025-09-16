@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _handlers.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
+/*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 10:57:24 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 09:43:49 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 13:57:57 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,12 +116,14 @@ static inline t_token	*_word_handling(
 	const size_t	start = *i;
 	t_token			*tok;
 
+	if (_UNLIKELY(!tokens || !line || !transfer))
+		return (NULL);
 	while (*i < len && !_is_space(line[*i]) && !_is_redirections(line[*i]) \
 			&& !_is_quote(line[*i]))
 		++(*i);
 	if (!idx)
 		tok = token_new(line + start, TOKEN_CMD, *i - start);
-	else if (idx && tokens[idx - 1] && (tokens[idx - 1]->type == TOKEN_PIPE))
+	else if (idx > 0 && tokens[idx - 1] && (tokens[idx - 1]->type == TOKEN_PIPE))
 		tok = token_new(line + start, TOKEN_CMD, *i - start);
 	else
 		tok = token_new(line + start, TOKEN_WORD, *i - start);
@@ -140,6 +142,8 @@ extern inline int	_token_handler(
 	size_t *const	i = (size_t * const)transfer[0];
 	size_t *const	idx = (size_t * const)transfer[1];
 
+	if (_UNLIKELY(!tokens || !line || !transfer))
+		return (-1);
 	if (line[*i] == '|')
 		tokens[(*idx)++] = token_new("|", TOKEN_PIPE, 1 + 0 * ++(*i));
 	else if (line[*i] == '\'' || line[*i] == '"')
