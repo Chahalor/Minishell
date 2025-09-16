@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 10:57:24 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 16:35:17 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 16:48:33 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,45 @@
 #include "env.h"
 
 #pragma endregion HEADERS
-#pragma region    Prototypes
+#pragma region    
+
+t_token *_quote_handling(
+			const char *line,
+			size_t *i,
+			size_t len
+			);
 
 #pragma endregion Prototypes
 #pragma region FUNCTIONS
 
-static inline t_token	*_quote_handling(
+static inline void	__quotes(
+	const char *line,
+	size_t *const i,
+	size_t len,
+	t_token *tok
+)
+{
+	t_token	*tmp;
+	char	*chr_tmp;
+
+	tmp = _quote_handling(line, i, len);
+	if (tmp && tmp->type == TOKEN_DQUOTE)
+		chr_tmp = env_expand(tmp->value);
+	else if (tmp && tmp->type == TOKEN_QUOTE)
+		chr_tmp = tmp->value;
+	else
+	{
+		tok->type = PARSER_ERR_UNEXPECTED_TOKEN;
+		return ;
+	}
+	chr_tmp = ft_strcat(tok->value, chr_tmp);
+	mm_free(tmp->value);
+	mm_free(tmp);
+	mm_free(tok->value);
+	tok->value = chr_tmp;
+}
+
+inline t_token	*_quote_handling(
 	const char *line,
 	size_t *i,
 	size_t len
@@ -42,6 +75,8 @@ static inline t_token	*_quote_handling(
 		tok = token_new(line + start, TOKEN_DQUOTE, (*i)++ - start);
 	if (line[*i - 1] != delim)
 		tok->type = PARSER_ERR_MISSING_QUOTE;
+	if (*i && _is_quote(line[*i]))
+		__quotes(line, i, len, tok);
 	return (tok);
 }
 
@@ -75,33 +110,6 @@ static inline t_token	*_redirect_handling(
 			tok = token_new("<", TOKEN_LESS, 1 + 0 * ++(*i));
 	}
 	return (tok);
-}
-
-static inline void	__quotes(
-	const char *line,
-	size_t *const i,
-	size_t len,
-	t_token *tok
-)
-{
-	t_token	*tmp;
-	char	*chr_tmp;
-
-	tmp = _quote_handling(line, i, len);
-	if (tmp && tmp->type == TOKEN_DQUOTE)
-		chr_tmp = env_expand(tmp->value);
-	else if (tmp && tmp->type == TOKEN_QUOTE)
-		chr_tmp = tmp->value;
-	else
-	{
-		tok->type = PARSER_ERR_UNEXPECTED_TOKEN;
-		return ;
-	}
-	chr_tmp = ft_strcat(tok->value, chr_tmp);
-	mm_free(tmp->value);
-	mm_free(tmp);
-	mm_free(tok->value);
-	tok->value = chr_tmp;
 }
 
 static inline t_token	*_word_handling(
