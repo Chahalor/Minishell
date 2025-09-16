@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/02 08:57:28 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 13:56:29 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ static inline int	_replace(
 	data->line_length = i;
 	_sub_str = __sub_str(completion, sub);
 	_rl_add(data, _sub_str, rl_str);
-	if (completion->entry[0]->d_type == DT_DIR)
+	if (completion->entry[0]->d_type == DT_DIR && completion->nb_entries == 1)
 		_rl_add(data, "/", rl_chr);
 	ft_printf("\033[2K\r%s%s", data->prompt, data->result);
 	mm_free(_sub_str);
