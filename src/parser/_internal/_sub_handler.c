@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:38:10 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 17:38:40 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 20:03:03 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ extern inline void	__words(
 
 	(void)len;
 	size = *i;
-	while (*i && !_is_space(line[*i]) && !_is_redirections(line[*i]) \
+	while (*i && line[*i] && !_is_space(line[*i]) && !_is_redirections(line[*i]) \
 			&& !_is_quote(line[*i]))
 		++(*i);
 	size = *i - size;
