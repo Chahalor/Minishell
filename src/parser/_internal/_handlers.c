@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 10:57:24 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 17:39:10 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 20:10:59 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,8 +168,6 @@ extern inline int	_token_handler(
 		return (-1);
 	while (line[*i] && !_is_space(line[*i]) && !_is_redirections(line[*i]))
 	{
-		// ft_fprintf(2, "DEBUG: In handler loop at char '%d' (i=%d)\n",
-		// 	line[*i], *i);
 		if (_is_quote(line[*i]))
 			__quotes(line, i, len, tokens[*idx - 1]);
 		else
