@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/25 12:46:38 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 14:20:58 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,18 +85,21 @@ __attribute__((used)) char	builtin_pwd(
 {
 	const char	help = _parse(args);
 	const char	*pwd = getcwd(NULL, 0);
+	char		exit_code;
 
+	exit_code = EXIT_SUCCESS;
 	(void)fd_in;
 	if (_UNLIKELY(!args || help))
-		return (_help());
+		exit_code = _help();
 	else if (_UNLIKELY(!pwd))
-		return (ft_perror("pwd: getcwd failed"), EXIT_FAILURE);
-	else
 	{
-		ft_fprintf(fd_out, "%s\n", pwd);
-		free((void *)pwd);
-		return (EXIT_SUCCESS);
+		exit_code = EXIT_FAILURE;
+		ft_perror("pwd: getcwd failed");
 	}
+	else
+		ft_fprintf(fd_out, "%s\n", pwd);
+	free((void *)pwd);
+	return (exit_code);
 }
 
 #pragma endregion Fonctions
