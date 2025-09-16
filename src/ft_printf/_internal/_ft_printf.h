@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _ft_printf.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
+/*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:40:52 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/22 10:01:53 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 14:30:15 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@
 /*                                 Defines                                    */
 /* ************************************************************************** */
 
-# define PRINTF_BUFFER_SIZE		4096	/* Max number of char before a print */
+# define PRINTF_BUFFER_SIZE		8192	/* Max number of char before a print */
 # define PRINTF_HEX_BUFFER_SIZE	32		/* Max number of char in an hax number*/
 # define PRINTF_DEC_BUFFER_SIZE	10		/* Max number of char in a int       */
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
+/*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/02 15:52:48 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 14:28:44 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,7 @@ __attribute__((always_inline, used)) static inline t_args_exit	_parse(
 */
 __attribute__((always_inline, used)) static inline char	_help(void)
 {
-	ft_printf("look what that do:\n");
-	exit_program(EXIT_FAILURE, DEFAULT_EXIT_MESSAGE);
+	exit_program(EXIT_FAILURE, ABSOLUTE_CINEMA);
 	return (EXIT_FAILURE);
 }
 
