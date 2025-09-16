@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _handlers.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
+/*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 10:57:24 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 13:59:26 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/09/16 16:35:17 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,7 @@ static inline t_token	*_word_handling(
 		++(*i);
 	if (!idx)
 		tok = token_new(line + start, TOKEN_CMD, *i - start);
-	else if (idx > 0 && tokens[idx - 1] \
-			&& (tokens[idx - 1]->type == TOKEN_PIPE))
+	else if (tokens[idx - 1] && (tokens[idx - 1]->type == TOKEN_PIPE))
 		tok = token_new(line + start, TOKEN_CMD, *i - start);
 	else
 		tok = token_new(line + start, TOKEN_WORD, *i - start);

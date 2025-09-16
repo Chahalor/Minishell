@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _tokenizer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
+/*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 09:41:27 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 11:43:27 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/09/16 16:28:42 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,25 +29,6 @@ extern int	_token_handler(
 #pragma endregion Prototypes
 #pragma region    FUNCTIONS
 
-/*static inline int	_logic(
-	t_token **tokens,
-	const char *const restrict line,
-	size_t *const transfer[2],
-	const int len
-)
-{
-	size_t	idx;
-
-	idx = *transfer[1];
-	_token_handler(tokens, line, transfer, len);
-	if (!tokens[idx - 1] || tokens[idx - 1]->type > PARSER_ERR_NONE)
-		return (1);
-	else if (!((idx) % PARSER_ALLOC_SIZE))
-		tokens = mm_realloc(tokens, (idx + PARSER_ALLOC_SIZE)
-				* sizeof(t_token *));
-	return (0);
-}*/
-
 t_token	**tokenize_line(
 	const char *const restrict line,
 	int *const restrict count
@@ -67,8 +48,9 @@ t_token	**tokenize_line(
 			++i;
 		else
 		{
-			_token_handler(tokens, line, (size_t *[2]){&i, &idx}, len);
-			if (!tokens[idx - 1] || tokens[idx - 1]->type > PARSER_ERR_NONE)
+			if (_UNLIKELY(_token_handler(tokens, line, (size_t *[2]){&i, &idx}, len)))
+				break ;
+			else if (!tokens[idx - 1] || tokens[idx - 1]->type > PARSER_ERR_NONE)
 				break ;
 			else if (!((idx - 1) % PARSER_ALLOC_SIZE))
 				tokens = mm_realloc(tokens, (idx + PARSER_ALLOC_SIZE)

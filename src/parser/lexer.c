@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 08:40:35 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 16:08:46 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 16:40:44 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static inline int	count_args(
 	i = -1;
 	count = 0;
 	while (tok[++i] && !_is_redir(tok[i]->type))
-		if (tok[i]->type == TOKEN_CMD || tok[i]->type == TOKEN_WORD)
+		if (_is_word(tok[i]->type))
 			++count;
 	return (count);
 }
@@ -130,7 +130,7 @@ t_exec_data	*token_to_exec(
 	j = 0;
 	while (tok[i] && tok[i]->type != TOKEN_PIPE)
 	{
-		if (_is_word(tok[i]->type) && tok[i]->size > 0)
+		if (_is_word(tok[i]->type))
 			__new_cmd(exec, tok, &j, i);
 		else if (_is_redir(tok[i]->type) && tok[i]->size > 0)
 			if (__redir(tok, exec, &i) < 0)
