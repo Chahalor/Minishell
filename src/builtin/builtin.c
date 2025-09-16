@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/05 08:48:07 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 08:28:25 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,8 @@ char	exec_builtin(
 	if (_UNLIKELY(!args || !args->cmd || !builtins))
 		return (-1);
 	args->pid = 0;
-	return (builtins->func((const char **)args->args, fd_in, fd_out));
+	args->status = builtins->func((const char **)args->args, fd_in, fd_out);
+	return (args->status);
 }
 
 #pragma endregion Fonctions

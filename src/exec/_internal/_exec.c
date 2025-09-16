@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/15 15:57:57 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 08:27:35 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ extern int	_analyse(const int status);
 
 #pragma endregion Prototypes
 #pragma region Fonctions
+
+extern sig_atomic_t	g_last_signal;
 
 /**
  * @brief	Waits for all child processes to finish and updates their status.
@@ -46,11 +48,12 @@ __attribute__((always_inline, used)) inline int	_wait_childrens(
 
 	status = 0;
 	curr = (t_exec_data *)data;
-	if (_LIKELY(curr->pid > 0 && waitpid(curr->pid, &status, 0)) != -1)
+	if (_LIKELY(curr->pid > 0 && waitpid(curr->pid, &status, 0) != -1))
 		curr->status = _analyse(status);
 	last_exit = curr->status;
 	if (_LIKELY(curr->pipe != NULL))
 		last_exit = _wait_childrens(curr->pipe);
+	g_last_signal = last_exit;
 	return (last_exit);
 }
 

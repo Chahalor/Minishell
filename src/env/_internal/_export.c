@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 10:44:41 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/03 11:27:20 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 08:38:02 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ inline void	*_env_export(
 )
 {
 	const char			**_data = (const char **)data;
-	const t_find_access	find = {(char *)_data[0], 0};
+	const t_find_access	find = {(char *)_data[0], 1};
 
 	if (_UNLIKELY(!_data || !_data[0]))
 		return (NULL);

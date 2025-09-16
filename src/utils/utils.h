@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 11:03:50 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/03 08:55:22 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 08:33:46 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,12 @@ char		*ft_itoa(
 char		*ft_strcat(
 				const char *const restrict s1,
 				const char *const restrict s2
+				);
+
+// check.c
+
+extern int	ft_is_space(
+				const char c
 				);
 
 #endif /* UTILS_H */

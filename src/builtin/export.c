@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/12 12:23:39 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 08:42:21 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ static inline int	_is_valid_name(
 		return (0);
 	if (_UNLIKELY(!(
 				('a' <= str[0] && str[0] <= 'z')
-				|| ('A' <= str[0] && str[0] <= 'Z'))
-			|| str[0] == '_'))
+				|| ('A' <= str[0] && str[0] <= 'Z')
+			|| str[0] == '_')))
 		return (0);
 	i = 0;
 	while (str[++i])
@@ -88,11 +88,13 @@ static inline struct s_args_export	_export_parse(
 	const int fd_out
 )
 {
-	register int	i;
-	char			*splited[3];
+	struct s_args_export	output;
+	register int			i;
+	char					*splited[3];
 
+	output = (struct s_args_export){0, 0, 0};
 	i = 0;
-	if (!args[1])
+	if (!args[1] || ft_strlen(args[1]) == 0)
 		return ((struct s_args_export){.printf_all = 1});
 	if (_UNLIKELY(ft_strncmp(args[1], "-h", 2) == 0
 			|| ft_strncmp(args[1], "--help", 6) == 0))
@@ -101,13 +103,16 @@ static inline struct s_args_export	_export_parse(
 	while (args[++i])
 	{
 		if (_export_split(args[i], splited))
+		{
 			ft_fprintf(fd_out, "export: `%s': not a valid identifier\n", \
 				splited[0]);
+			output.error = 1;
+		}
 		else
 			env_export(splited[0], splited[1]);
 		free_tab(splited);
 	}
-	return ((struct s_args_export){0});
+	return (output);
 }
 
 /** */
@@ -133,11 +138,8 @@ char	builtin_export(
 		while (env && env[++i])
 			ft_fprintf(fd_out, "%s\n", env[i]);
 	}
-	else if (args_env.error)
-	{
-		ft_fprintf(2, "env: %s\n", strerror(args_env.error));
+	if (args_env.error)
 		exit_status = EXIT_FAILURE;
-	}
 	free_tab((char **)env);
 	return (exit_status);
 }

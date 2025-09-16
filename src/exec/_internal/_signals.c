@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/15 12:52:31 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 08:26:54 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@
 
 #pragma endregion Header
 #pragma region Fonctions
-
-extern sig_atomic_t	g_last_signal;
 
 /** */
 __attribute__((always_inline, used)) static inline int	_signals(
@@ -88,7 +86,6 @@ __attribute__((used)) int	_analyse(
 		code = _stop(status);
 	else
 		code = -1;
-	g_last_signal = code;
 	return (code);
 }
 

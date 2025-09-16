@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/25 12:46:38 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 08:47:53 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,14 @@ __attribute__((always_inline, used)) static inline int	_is_no_nl(
 {
 	register int	i;
 
-	if (!(arg[0] == '-'))
+	if (_UNLIKELY(!arg || !*arg))
 		return (0);
 	i = 0;
-	while (arg[++i])
+	while (ft_is_space(*arg))
+		i++;
+	if (!(arg[i] == '-'))
+		return (0);
+	while (arg[++i] && !ft_is_space(arg[i]))
 	{
 		if (arg[i] != 'n')
 			return (0);

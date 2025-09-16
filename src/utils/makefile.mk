@@ -2,7 +2,7 @@ DIR_MODULE_UTILS		:= utils
 DIR_INTERFACE_UTILS	:= $(DIR_MODULE_UTILS)
 DIR_INTERNAL_UTILS	:= $(DIR_MODULE_UTILS)/_internal
 
-SRC_INTERFACE_UTILS	:= ft_split.c file.c utils2.c ft_itoa.c utils.c 
+SRC_INTERFACE_UTILS	:= ft_split.c file.c utils2.c utils.c ft_itoa.c check.c 
 SRC_INTERNAL_UTILS	:= 
 
 OBJ_UTILS			:= $(addprefix $(DIR_OBJ)/$(DIR_INTERFACE_UTILS)/, $(SRC_INTERFACE_UTILS:.c=.o))
