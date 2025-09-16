@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mmanager.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
+/*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 12:11:57 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/15 19:11:57 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 11:17:59 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,30 +45,6 @@ __attribute__((malloc, used)) void	*mm_alloc(
 	node->next = NULL;
 	_mm_store(node, mm_add);
 	return (node->ptr);
-}
-
-__attribute__((always_inline, used)) static inline void	_free_one(
-	t_mm_node *restrict bucket,
-	void *restrict ptr
-)
-{
-	const int				index = _hash(ptr);
-	t_mm_node	*restrict	current;
-	t_mm_node	*restrict	last;
-
-	current = &bucket[index];
-	while (current->next && current->ptr != ptr)
-	{
-		last = current;
-		current = current->next;
-	}
-	if (current->ptr == ptr)
-	{
-		if (last)
-			last->next = current->next;
-		free(current);
-		current = NULL;
-	}
 }
 
 /** */

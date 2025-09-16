@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _ansi.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
+/*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:19:00 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/26 16:45:31 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 11:52:30 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,62 +37,29 @@ __attribute__((always_inline, used)) static inline int	_read_ansi(
 	register int buffer_size
 )
 {
-	int				bytes_read;
+	int				len;
+	char			c;
 	register int	i;
-	char			ch;
 
 	if (!buffer || buffer_size < 2)
 		return (-1);
-	i = -1;
-	buffer[++i] = '\033';
-	bytes_read = read(STDIN_FILENO, &ch, 1);
-	if (__builtin_expect(bytes_read <= 0 || ch != '[', unexpected))
+	buffer[0] = '\033';
+	len = read(STDIN_FILENO, &c, 1);
+	if (__builtin_expect(len <= 0 || c != '[', unexpected))
 		return (-1);
-	buffer[++i] = ch;
+	buffer[1] = c;
+	i = 2;
 	while (i < buffer_size - 1)
 	{
-		bytes_read = read(STDIN_FILENO, &ch, 1);
-		if (__builtin_expect(bytes_read <= 0, unexpected))
+		len = read(STDIN_FILENO, &c, 1);
+		if (__builtin_expect(len <= 0, unexpected))
 			return (-1);
-		buffer[++i] = ch;
-		if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z') || ch == '~')
+		buffer[i++] = c;
+		if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == '~')
 			break ;
 	}
-	buffer[++i] = '\0';
+	buffer[i++] = '\0';
 	return (i);
-}
-
-/**
- * @brief	Remove the char after the cursor position.
- * 
- * @param	data The read line data structure containing the result\
- * 				 and prompt.
- * @param	action The action to perform ('3' for delete).
- * 
- * @return	Void
-*/
-__attribute__((always_inline, used)) static inline void	_del(
-	t_rl_data *const restrict data
-)
-{
-	int				len;
-	unsigned char	c;
-	int				i;
-	int				j;
-
-	if (data->cursor_pos >= data->line_length)
-		return ;
-	len = 1;
-	c = (unsigned char)data->result[data->cursor_pos];
-	len = 1 + (c >= 0xC0) + (c >= 0xE0) + (c >= 0xF0);
-	if (data->cursor_pos + len > data->line_length)
-		len = data->line_length - data->cursor_pos;
-	i = data->cursor_pos;
-	j = data->cursor_pos + len;
-	while (j <= data->line_length)
-		data->result[i++] = data->result[j++];
-	data->line_length -= len;
-	refresh_line(data);
 }
 
 /** */
@@ -107,24 +74,22 @@ __attribute__((always_inline, used)) static inline int	_history_entry(
 	if (line)
 	{
 		len = ft_strlen(line);
-		tmp = mm_realloc(data->result, len + 1);
+		tmp = mm_alloc(len + 1);
 		if (_UNLIKELY(!tmp))
-			return (1);
+			return (refresh_line(data));
 		data->result = tmp;
 		ft_memcpy(data->result, line, len);
 		data->result[len] = '\0';
 		data->line_length = len;
 		data->cursor_pos = len;
-		refresh_line(data);
-		return (1);
+		return (refresh_line(data));
 	}
 	if (data->result && data->line_length > 0)
 		_neutral(data->result, data->line_length);
 	data->result[0] = '\0';
 	data->line_length = 0;
 	data->cursor_pos = 0;
-	refresh_line(data);
-	return (1);
+	return (refresh_line(data));
 }
 
 /**
@@ -150,6 +115,37 @@ __attribute__((always_inline, used)) static inline int	_history(
 	else
 		line = NULL;
 	return (_history_entry(data, line));
+}
+
+/** */
+__attribute__((used, always_inline)) static inline int	back_move(
+	t_rl_data *const restrict data
+)
+{
+	const int		start = data->cursor_pos;
+	int 			len;
+	unsigned char	c;
+	int 			i;
+	int				j;
+
+	i = start;
+	while (i > 0 && ((unsigned char)data->result[i - 1] & 0xC0) == 0x80)
+		--i;
+	if (i <= 0 || start <= 0)
+		return (0);
+	c = (unsigned char)data->result[i - 1];
+	len = 1 + (c >= 0xC0) + (c >= 0xE0) + (c >= 0xF0);
+	i = i * (len <= start);
+	if (len > start)
+		len = start;
+	else
+		i = start - len;
+	j = i + len;
+	while (j <= data->line_length)
+		data->result[i++] = data->result[j++];
+	data->cursor_pos -= len;
+	data->line_length -= len;
+	return (refresh_line(data));
 }
 
 /**
@@ -178,7 +174,7 @@ __attribute__((used)) int	handle_ansi(
 		|| ft_strncmp(ansi, "\033[B", 3) == 0)
 		_history(data, ansi[2]);
 	else if (ft_strncmp(ansi, "\033[3~", 4) == 0)
-		_del(data);
+		back_move(data);
 	else if (ft_strncmp(ansi, "\033[200~", 6) == 0)
 		data->status = past;
 	else if (ft_strncmp(ansi, "\033[201~", 6) == 0)
