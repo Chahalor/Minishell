@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 09:40:24 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 13:33:27 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static inline int	_is_valid_name(
 	if (_UNLIKELY(!(
 				('a' <= str[0] && str[0] <= 'z')
 				|| ('A' <= str[0] && str[0] <= 'Z')
-			|| str[0] == '_')))
+				|| str[0] == '_')))
 		return (0);
 	i = 0;
 	while (str[++i])

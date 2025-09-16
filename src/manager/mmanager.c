@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mmanager.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
+/*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 12:11:57 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 12:16:05 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/09/16 13:33:45 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ __attribute__((malloc, used)) void	*mm_realloc(
 )
 {
 	void			*new_ptr;
-	register int 	cpsize;
+	register int	cpsize;
 
 	if (ptr == NULL)
 		return (mm_alloc(nsize));

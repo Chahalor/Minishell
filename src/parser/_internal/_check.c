@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 09:41:27 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/15 14:25:26 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 13:42:40 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ static inline int	__check_redir(
 {
 	if (tok[i] && _is_redir(tok[i]->type) && !tok[i + 1])
 		err->error = PARSER_ERR_UNEXPECTED_TOKEN;
-	else if (i && _is_redir(tok[i]->type) && tok[i]->type != TOKEN_DLESS && !_is_word(tok[i - 1]->type))
+	else if (i && _is_redir(tok[i]->type) && tok[i]->type != TOKEN_DLESS
+		&& !_is_word(tok[i - 1]->type))
 		err->error = PARSER_ERR_UNEXPECTED_TOKEN;
 	else if (_is_redir(tok[i]->type) && tok[i]->type != TOKEN_DLESS && !i)
 		err->error = PARSER_ERR_UNEXPECTED_TOKEN;

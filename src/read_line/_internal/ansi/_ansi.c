@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _ansi.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
+/*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:19:00 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 12:15:14 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/09/16 13:33:17 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,9 +125,9 @@ __attribute__((used, always_inline)) static inline int	back_move(
 )
 {
 	const int		start = data->cursor_pos;
-	int 			len;
+	int				len;
 	unsigned char	c;
-	int 			i;
+	int				i;
 	int				j;
 
 	i = start;

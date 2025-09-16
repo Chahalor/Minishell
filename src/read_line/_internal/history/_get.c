@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 08:08:28 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/15 19:25:42 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 13:33:22 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ static inline char	*__rl_hist_get(
 		data->pos = __pos;
 	return (_result);
 }
-
 
 /**
  * @brief	return the next/previous line in the history.
