@@ -6,7 +6,7 @@
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/15 15:17:16 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/09/16 12:08:30 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,13 @@ __attribute__((used)) static inline int	_rl_add_char(
 )
 {
 	char			*tmp;
+	int				new_len;
 	register int	i;
 
 	if (data->line_length + 2 >= _RL_ALLOC_SIZE)
 	{
-		tmp = mm_realloc(data->result, data->line_length + _RL_ALLOC_SIZE + 1);
+		new_len = data->line_length + _RL_ALLOC_SIZE + 1;
+		tmp = mm_realloc(data->result, new_len);
 		if (_UNLIKELY(!tmp))
 			return (data->status = error, 0);
 		data->result = tmp;

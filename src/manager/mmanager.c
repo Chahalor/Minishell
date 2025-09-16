@@ -6,7 +6,7 @@
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 12:11:57 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 11:17:59 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/09/16 12:16:05 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,23 +53,21 @@ __attribute__((malloc, used)) void	*mm_realloc(
 	const size_t nsize
 )
 {
-	size_t			cpsize;
-	t_mm_node		*node;
 	void			*new_ptr;
+	register int 	cpsize;
 
 	if (ptr == NULL)
 		return (mm_alloc(nsize));
 	else if (nsize < 1)
 		return (mm_free(ptr), NULL);
-	node = _mm_store(ptr, mm_find);
-	if (!node)
-		return (mm_alloc(nsize));
 	new_ptr = mm_alloc(nsize);
 	if (!new_ptr)
 		return (NULL);
-	cpsize = _mm_min(node->allocated, nsize);
+	cpsize = 0;
+	while (((char *)ptr)[cpsize])
+		++cpsize;
 	mm_memcpy(new_ptr, ptr, cpsize);
-	mm_free(node->ptr);
+	mm_free(ptr);
 	return (new_ptr);
 }
 

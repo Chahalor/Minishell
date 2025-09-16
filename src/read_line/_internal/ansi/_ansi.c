@@ -6,7 +6,7 @@
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:19:00 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 11:52:30 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/09/16 12:15:14 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,14 @@ __attribute__((always_inline, used)) static inline int	_history_entry(
 )
 {
 	char	*tmp;
+	int		full_len;
 	int		len;
 
 	if (line)
 	{
 		len = ft_strlen(line);
-		tmp = mm_alloc(len + 1);
+		full_len = _RL_ALLOC_SIZE + (len * (len > _RL_ALLOC_SIZE));
+		tmp = mm_alloc(full_len);
 		if (_UNLIKELY(!tmp))
 			return (refresh_line(data));
 		data->result = tmp;
