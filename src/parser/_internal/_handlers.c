@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 10:57:24 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 16:48:33 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 16:52:56 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #pragma endregion HEADERS
 #pragma region    
 
-t_token *_quote_handling(
+t_token	*_quote_handling(
 			const char *line,
 			size_t *i,
 			size_t len
