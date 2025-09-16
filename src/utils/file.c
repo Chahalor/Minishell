@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 11:04:28 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/27 10:34:49 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 10:12:56 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ __attribute__((used)) int	check_path(
 	if (_UNLIKELY(!path))
 		return (0);
 	else if (access(path, access_mode))
-		return (e_not_found);
+		return (-(errno == EACCES));
 	else
 	{
 		if (stat(path, &file_stat) < 0)

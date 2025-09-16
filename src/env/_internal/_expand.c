@@ -6,12 +6,13 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 15:36:59 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/03 11:06:49 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 09:54:26 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "_env.h"
+# include "ft_printf.h"
 
 static inline int	__is_delim(
 	const char c
@@ -109,7 +110,7 @@ void	*_env_expand(
 			_i += ft_strlen(tmp) - (_str[_i] == '~');
 			mm_free(tmp);
 		}
-		else if (_str[_i] != '\'' && _str[_i] != '\"')
+		else //if (_str[_i] != '\'' && _str[_i] != '\"') faut check que comment sa a rien casser
 			__env_join(&result, (char [2]){_str[_i], '\0'});
 	}
 	return (result.value);

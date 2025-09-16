@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/15 12:36:17 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 10:13:10 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,12 @@ __attribute__((used)) inline char	*_get_bin(
 	if (_UNLIKELY(file_type == e_not_found))
 	{
 		ft_fprintf(2, SHELL_NAME ": %s: command not found\n", name);
+		return (NULL);
+	}
+	else if (file_type == e_perm_denied)
+	{
+		ft_fprintf(2, SHELL_NAME ": %s: Permission denied\n", name);
+		g_last_signal = 126;
 		return (NULL);
 	}
 	else

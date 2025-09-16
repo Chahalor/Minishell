@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/15 12:53:14 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 10:29:48 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,8 @@ __attribute__((always_inline, used)) static inline char	_exec_one(
 	_neutral(&st, sizeof(st));
 	stat(current->cmd, &st);
 	if (S_ISDIR(st.st_mode) && !get_builtins(current->cmd))
-		builtin_cd((const char *[3]){"cd", current->cmd, NULL}, \
-			in_fd, out_fd);
+		return (builtin_cd((const char *[3]){"cd", current->cmd, NULL}, \
+			in_fd, out_fd));
 	else
 	{
 		if (current->fd_in > 0)
@@ -115,7 +115,7 @@ __attribute__((always_inline, used)) static inline char	_exec_one(
 		else
 			exec_bin(current, envp, in_fd, out_fd);
 	}
-	return (_wait_childrens(current));
+	return (_wait_childrens(current, -1));
 }
 
 /** */
@@ -128,13 +128,19 @@ __attribute__((always_inline, used)) static inline char	_exec_pipes(
 	int			pipe_fd[2];
 	int			prev_read;
 	int			out_fd;
+	int			exit_code;
 
+	exit_code = -1;
 	prev_read = -1;
 	current = data;
 	while (current)
 	{
 		if (_UNLIKELY(!current->cmd))
-			return (_wait_childrens(data), 127);
+		{
+			current = current->pipe;
+			exit_code = 127;
+			continue ;
+		}
 		_pipe(current, pipe_fd, &out_fd);
 		if (get_builtins(current->args[0]))
 			exec_builtin_fork(current, envp, prev_read, out_fd);
@@ -142,7 +148,7 @@ __attribute__((always_inline, used)) static inline char	_exec_pipes(
 			exec_bin(current, envp, prev_read, out_fd);
 		current = _closing(&prev_read, out_fd, current, pipe_fd);
 	}
-	return (_wait_childrens(data));
+	return (_wait_childrens(data, exit_code));
 }
 
 /**

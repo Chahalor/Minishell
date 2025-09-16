@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 08:27:35 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 10:30:01 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ extern sig_atomic_t	g_last_signal;
  * @version	1.0
  */
 __attribute__((always_inline, used)) inline int	_wait_childrens(
-	t_exec_data *const restrict data
+	t_exec_data *const restrict data,
+	const int exit_code
 )
 {
 	int			status;
@@ -52,7 +53,9 @@ __attribute__((always_inline, used)) inline int	_wait_childrens(
 		curr->status = _analyse(status);
 	last_exit = curr->status;
 	if (_LIKELY(curr->pipe != NULL))
-		last_exit = _wait_childrens(curr->pipe);
+		last_exit = _wait_childrens(curr->pipe, exit_code);
+	if (exit_code != -1)
+		last_exit = exit_code;
 	g_last_signal = last_exit;
 	return (last_exit);
 }

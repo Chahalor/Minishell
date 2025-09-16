@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 09:34:45 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 09:53:12 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,56 +131,5 @@ char	builtin_echo(
 		write(fd_out, "\n", 1);
 	return (EXIT_SUCCESS);
 }
-
-// static inline int	check_opts(
-// 	const char *const restrict arg,
-// 	int *const restrict no_nl
-// )
-// {
-// 	int	i;
-
-// 	if (_UNLIKELY(!arg || !*arg))
-// 		return (0);
-// 	if (arg[0] != '-')
-// 		return (0);
-// 	i = 1;
-// 	while (arg[i])
-// 	{
-// 		if (arg[i] != 'n')
-// 			return (0);
-// 		i++;
-// 	}
-// 	*no_nl = 1;
-// 	return (i);
-// }
-
-// __attribute__((used))
-// char	builtin_echo(
-// 	const char **args,
-// 	const int fd_in,
-// 	const int fd_out
-// )
-// {
-// 	int	i;
-// 	int	no_nl;
-// 	int	is_opts;
-
-// 	(void)fd_in;
-// 	no_nl = 0;
-// 	is_opts = 1;
-// 	i = 1;
-// 	while (args[i])
-// 	{
-// 		is_opts = check_opts(args[i], &no_nl) != 0;
-// 		i += check_opts(args[i], &no_nl);
-// 		write(fd_out, args[i], ft_strlen(args[i]));
-// 		if (args[i + 1])
-// 			write(fd_out, " ", 1);
-// 		i++;
-// 	}
-// 	if (!no_nl)
-// 		write(fd_out, "\n", 1);
-// 	return (EXIT_SUCCESS);
-// }
 
 #pragma endregion Fonctions

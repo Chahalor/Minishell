@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 11:03:50 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 08:33:46 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 10:12:00 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef enum e_file	t_file_type;	/* File type enumeration */
 
 enum	e_file
 {
+	e_perm_denied = -1,	/* Permission denied         */
 	e_not_found = 0,	/* File not found             */
 	e_file,				/* File is a regular file    */
 	e_directory,		/* File is a directory      */
