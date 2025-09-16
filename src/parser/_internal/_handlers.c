@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 10:57:24 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 16:52:56 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 17:29:56 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,36 @@ t_token	*_quote_handling(
 
 #pragma endregion Prototypes
 #pragma region FUNCTIONS
+
+static inline void	__words(
+	const char *line,
+	size_t *const i,
+	size_t len,
+	t_token *tok
+)
+{
+	char	*chr_tmp;
+	char	*expanded;
+	int		size;
+
+	(void)len;
+	size = *i;
+	while (*i && !_is_space(line[*i]) && !_is_redirections(line[*i]) \
+			&& !_is_quote(line[*i]))
+		++(*i);
+	size = *i - size;
+	chr_tmp = mm_alloc(size + 1);
+	if (_UNLIKELY(!chr_tmp))
+		return ;
+	ft_memcpy(chr_tmp, line + *i - size, size);
+	chr_tmp[size] = '\0';
+	expanded = env_expand(chr_tmp);
+	mm_free(chr_tmp);
+	chr_tmp = expanded;
+	chr_tmp = ft_strcat(tok->value, chr_tmp);
+	mm_free(tok->value);
+	tok->value = chr_tmp;
+}
 
 static inline void	__quotes(
 	const char *line,
@@ -75,8 +105,6 @@ inline t_token	*_quote_handling(
 		tok = token_new(line + start, TOKEN_DQUOTE, (*i)++ - start);
 	if (line[*i - 1] != delim)
 		tok->type = PARSER_ERR_MISSING_QUOTE;
-	if (*i && _is_quote(line[*i]))
-		__quotes(line, i, len, tok);
 	return (tok);
 }
 
@@ -135,8 +163,6 @@ static inline t_token	*_word_handling(
 		tok = token_new(line + start, TOKEN_CMD, *i - start);
 	else
 		tok = token_new(line + start, TOKEN_WORD, *i - start);
-	if (i && _is_quote(line[*i]))
-		__quotes(line, i, len, tok);
 	return (tok);
 }
 
@@ -163,5 +189,12 @@ extern inline int	_token_handler(
 				(const t_token **)tokens, len);
 	if (_UNLIKELY(!tokens[*idx - 1]))
 		return (-1);
+	while (!_is_space(line[*i]) && !_is_redirections(line[*i]))
+	{
+		if (_is_quote(line[*i]))
+			__quotes(line, i, len, tokens[*idx - 1]);
+		else
+			__words(line, i, len, tokens[*idx - 1]);
+	}
 	return (0);
 }
