@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 10:26:40 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/15 18:51:39 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 09:05:39 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,10 @@ char	*ft_strcat(
 	if (_UNLIKELY(!result))
 		return (NULL);
 	i = -1;
-	while (s1[++i])
+	while (s1 && s1[++i])
 		result[i] = s1[i];
 	i = -1;
-	while (s2[++i])
+	while (s2 && s2[++i])
 		result[len1 + i] = s2[i];
 	result[len1 + i] = '\0';
 	mm_free((void *)s2);

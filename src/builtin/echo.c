@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 08:47:53 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 09:34:45 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,24 @@
 
 #pragma endregion Header
 #pragma region Fonctions
+
+/**
+ * @brief	Displays the help message for the echo command.
+ * 
+ * @param	None
+ * 
+ * @return		Returns EXIT_FAILURE to indicate an error.
+*/
+__attribute__((always_inline, used)) static inline char	_help(void)
+{
+	ft_fprintf(STDERR_FILENO,
+		BLUE "Usage:" RESET " echo [options] [string ...]\n"
+		YELLOW "Options:\n" RESET
+		"  -n, \t\tDo not output the trailing newline\n"
+		"  -h, --help\t\tDisplay this help and exit\n"
+		);
+	return (EXIT_FAILURE);
+}
 
 /** */
 __attribute__((always_inline, used)) static inline int	_is_no_nl(
@@ -41,25 +59,9 @@ __attribute__((always_inline, used)) static inline int	_is_no_nl(
 		if (arg[i] != 'n')
 			return (0);
 	}
+	if (i != (int)ft_strlen(arg))
+		return (0);
 	return (1);
-}
-
-/**
- * @brief	Displays the help message for the echo command.
- * 
- * @param	None
- * 
- * @return		Returns EXIT_FAILURE to indicate an error.
-*/
-__attribute__((always_inline, used)) static inline char	_help(void)
-{
-	ft_fprintf(STDERR_FILENO,
-		BLUE "Usage:" RESET " echo [options] [string ...]\n"
-		YELLOW "Options:\n" RESET
-		"  -n, \t\tDo not output the trailing newline\n"
-		"  -h, --help\t\tDisplay this help and exit\n"
-		);
-	return (EXIT_FAILURE);
 }
 
 /**
@@ -105,7 +107,8 @@ __attribute__((always_inline, used)) static inline struct s_args_echo	_parse(
  * 
  * @version 2.0
 */
-__attribute__((used)) char	builtin_echo(
+__attribute__((used))
+char	builtin_echo(
 	const char **args,
 	const int fd_in,
 	const int fd_out
@@ -128,5 +131,56 @@ __attribute__((used)) char	builtin_echo(
 		write(fd_out, "\n", 1);
 	return (EXIT_SUCCESS);
 }
+
+// static inline int	check_opts(
+// 	const char *const restrict arg,
+// 	int *const restrict no_nl
+// )
+// {
+// 	int	i;
+
+// 	if (_UNLIKELY(!arg || !*arg))
+// 		return (0);
+// 	if (arg[0] != '-')
+// 		return (0);
+// 	i = 1;
+// 	while (arg[i])
+// 	{
+// 		if (arg[i] != 'n')
+// 			return (0);
+// 		i++;
+// 	}
+// 	*no_nl = 1;
+// 	return (i);
+// }
+
+// __attribute__((used))
+// char	builtin_echo(
+// 	const char **args,
+// 	const int fd_in,
+// 	const int fd_out
+// )
+// {
+// 	int	i;
+// 	int	no_nl;
+// 	int	is_opts;
+
+// 	(void)fd_in;
+// 	no_nl = 0;
+// 	is_opts = 1;
+// 	i = 1;
+// 	while (args[i])
+// 	{
+// 		is_opts = check_opts(args[i], &no_nl) != 0;
+// 		i += check_opts(args[i], &no_nl);
+// 		write(fd_out, args[i], ft_strlen(args[i]));
+// 		if (args[i + 1])
+// 			write(fd_out, " ", 1);
+// 		i++;
+// 	}
+// 	if (!no_nl)
+// 		write(fd_out, "\n", 1);
+// 	return (EXIT_SUCCESS);
+// }
 
 #pragma endregion Fonctions
