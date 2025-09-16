@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 14:20:58 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 14:35:04 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 /* -----| Modules   |----- */
 #include "builtin.h"
+#include "env.h"
 
 #pragma endregion Header
 #pragma region Fonctions
@@ -84,21 +85,28 @@ __attribute__((used)) char	builtin_pwd(
 )
 {
 	const char	help = _parse(args);
-	const char	*pwd = getcwd(NULL, 0);
+	char		*pwd;
 	char		exit_code;
 
 	exit_code = EXIT_SUCCESS;
 	(void)fd_in;
 	if (_UNLIKELY(!args || help))
-		exit_code = _help();
-	else if (_UNLIKELY(!pwd))
+		return (_help());
+	pwd = env_find("PWD");
+	if (_UNLIKELY(!pwd))
 	{
-		exit_code = EXIT_FAILURE;
-		ft_perror("pwd: getcwd failed");
+		pwd = getcwd(NULL, 0);
+		if (_UNLIKELY(!pwd))
+		{
+			ft_fprintf(2, RED "Error:" RESET " cannot retrieve current "
+				"working directory: %s\n", strerror(errno));
+			return (EXIT_FAILURE);
+		}
+		ft_fprintf(fd_out, "%s\n", pwd);
+		mm_free(pwd);
 	}
 	else
 		ft_fprintf(fd_out, "%s\n", pwd);
-	free((void *)pwd);
 	return (exit_code);
 }
 
