@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 10:57:24 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 17:29:56 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 17:37:14 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,8 +189,10 @@ extern inline int	_token_handler(
 				(const t_token **)tokens, len);
 	if (_UNLIKELY(!tokens[*idx - 1]))
 		return (-1);
-	while (!_is_space(line[*i]) && !_is_redirections(line[*i]))
+	while (line[*i] && !_is_space(line[*i]) && !_is_redirections(line[*i]))
 	{
+		// ft_fprintf(2, "DEBUG: In handler loop at char '%d' (i=%d)\n",
+		// 	line[*i], *i);
 		if (_is_quote(line[*i]))
 			__quotes(line, i, len, tokens[*idx - 1]);
 		else
