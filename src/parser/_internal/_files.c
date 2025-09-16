@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 10:13:10 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 16:08:30 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,23 @@ __attribute__((used)) inline char	*_get_bin(
 	}
 	else
 		return (name);
+}
+
+extern inline int	_check_dir(
+	const char *const restrict path
+)
+{
+	struct stat	path_stat;
+
+	if (stat(path, &path_stat) != 0)
+		return (0);
+	else if (S_ISDIR(path_stat.st_mode))
+	{
+		ft_fprintf(2, SHELL_NAME ": %s: Is a directory\n", path);
+		g_last_signal = 126;
+		return (1);
+	}
+	return (0);
 }
 
 #pragma endregion Fonctions

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 09:28:52 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/04 13:20:47 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 16:06:59 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,10 @@ extern int		check_tokens(
 
 char			*_get_bin(
 					char *name
+					);
+
+extern int		_check_dir(
+					const char *const restrict path
 					);
 
 #endif /* _LEXER_H */

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 08:40:35 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 11:27:25 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 16:08:46 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,9 @@ static inline int	__redir(
 	const int	flag_app = O_WRONLY | O_CREAT | O_APPEND;
 	int			heredoc_fd;
 
-	if (tok[*i]->type == TOKEN_GREATER)
+	if (_check_dir(tok[*i + 1]->value))
+		return (-1);
+	else if (tok[*i]->type == TOKEN_GREATER)
 		exec->fd_out = fdm_open(tok[++(*i)]->value, flag_truc, 0644);
 	else if (tok[*i]->type == TOKEN_DGREATER)
 		exec->fd_out = fdm_open(tok[++(*i)]->value, flag_app, 0644);
