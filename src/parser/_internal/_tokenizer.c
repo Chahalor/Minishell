@@ -6,7 +6,7 @@
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 09:41:27 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 16:46:42 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/09/16 17:15:03 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_token	**tokenize_line(
 	size_t					idx;
 	size_t					i;
 
-	tokens = mm_alloc(PARSER_ALLOC_SIZE * sizeof(t_token *));
+	tokens = mm_alloc((PARSER_ALLOC_SIZE + 1) * sizeof(t_token *));
 	idx = 0;
 	i = 0;
 	while (i < len)
@@ -54,8 +54,8 @@ t_token	**tokenize_line(
 						|| tokens[idx - 1]->type > PARSER_ERR_NONE)))
 				break ;
 			else if (!((idx - 1) % PARSER_ALLOC_SIZE))
-				tokens = mm_realloc(tokens, (idx + PARSER_ALLOC_SIZE)
-						* sizeof(t_token *));
+				tokens = mm_realloc(tokens, (idx + PARSER_ALLOC_SIZE) \
+									* sizeof(t_token *));
 		}
 	}
 	return (*count = idx, tokens);
