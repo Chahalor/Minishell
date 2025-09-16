@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 10:57:24 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 17:37:14 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/16 17:39:10 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,44 +19,21 @@
 #pragma endregion HEADERS
 #pragma region    
 
-t_token	*_quote_handling(
-			const char *line,
-			size_t *i,
-			size_t len
-			);
+t_token		*_quote_handling(
+				const char *line,
+				size_t *i,
+				size_t len
+				);
+
+extern void	__words(
+				const char *line,
+				size_t *const i,
+				size_t len,
+				t_token *tok
+				);
 
 #pragma endregion Prototypes
 #pragma region FUNCTIONS
-
-static inline void	__words(
-	const char *line,
-	size_t *const i,
-	size_t len,
-	t_token *tok
-)
-{
-	char	*chr_tmp;
-	char	*expanded;
-	int		size;
-
-	(void)len;
-	size = *i;
-	while (*i && !_is_space(line[*i]) && !_is_redirections(line[*i]) \
-			&& !_is_quote(line[*i]))
-		++(*i);
-	size = *i - size;
-	chr_tmp = mm_alloc(size + 1);
-	if (_UNLIKELY(!chr_tmp))
-		return ;
-	ft_memcpy(chr_tmp, line + *i - size, size);
-	chr_tmp[size] = '\0';
-	expanded = env_expand(chr_tmp);
-	mm_free(chr_tmp);
-	chr_tmp = expanded;
-	chr_tmp = ft_strcat(tok->value, chr_tmp);
-	mm_free(tok->value);
-	tok->value = chr_tmp;
-}
 
 static inline void	__quotes(
 	const char *line,
