@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _sub_handler.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
+/*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:38:10 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/17 11:50:11 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/09/17 16:47:42 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ extern inline void	__quotes(
 {
 	t_token	*tmp;
 	char	*chr_tmp;
+	char	*expanded;
 	char	*join;
 
 	if (_UNLIKELY(!tok))
@@ -44,9 +45,11 @@ extern inline void	__quotes(
 		tok->type = tmp->type;
 		return (mm_free(tmp->value), mm_free(tmp));
 	}
-	join = ft_strcat(tok->value, chr_tmp);
+	expanded = env_expand(tok->value);
+	join = ft_strcat(expanded, chr_tmp);
 	mm_free(tok->value);
 	tok->value = join;
+	mm_free(expanded);
 	return (mm_free(tmp->value), mm_free(tmp), mm_free(chr_tmp));
 }
 
