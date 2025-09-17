@@ -6,7 +6,7 @@ on:
 
 jobs:
   exec:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
 
@@ -18,6 +18,9 @@ jobs:
 
       - name: Simple command tests
         run: bash .github/scripts/exec_simple.sh | tee exec_simple_result.txt
+
+      - name: Builtin command tests
+        run: bash .github/scripts/exec_builtins.sh | tee exec_builtins_result.txt
 
       - name: Pipe command tests
         run: bash .github/scripts/exec_pipe.sh | tee exec_pipe_result.txt

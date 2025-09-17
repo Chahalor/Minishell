@@ -48,6 +48,7 @@ NB_SUCCESS=0
 
 mkdir -p "$DIR_TMP"
 
+echo "exec_simple.sh: Starting tests..."
 # Run single-command tests
 for cmd in "${SINGLE_CMDS[@]}"; do
     echo "Running single: $cmd"
