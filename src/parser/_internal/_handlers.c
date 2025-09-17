@@ -3,22 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   _handlers.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
+/*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 10:57:24 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/17 10:44:53 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 11:05:33 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_parser.h"
 #include "parser.h"
 #include "env.h"
-
-t_token		*_quote_handling(
-				const char *line,
-				size_t *i,
-				size_t len
-				);
 
 extern void	__words(
 				const char *line,
@@ -27,34 +21,7 @@ extern void	__words(
 				t_token *tok
 				);
 
-static inline void	__quotes(
-	const char *line,
-	size_t *const i,
-	size_t len,
-	t_token *tok
-)
-{
-	t_token	*tmp;
-	char	*chr_tmp;
-
-	tmp = _quote_handling(line, i, len);
-	if (tmp && tmp->type == TOKEN_DQUOTE)
-		chr_tmp = env_expand(tmp->value);
-	else if (tmp && tmp->type == TOKEN_QUOTE)
-		chr_tmp = tmp->value;
-	else
-	{
-		tok->type = PARSER_ERR_UNEXPECTED_TOKEN;
-		return ;
-	}
-	chr_tmp = ft_strcat(tok->value, chr_tmp);
-	mm_free(tmp->value);
-	mm_free(tmp);
-	mm_free(tok->value);
-	tok->value = chr_tmp;
-}
-
-inline t_token	*_quote_handling(
+extern t_token	*_quote_handling(
 	const char *line,
 	size_t *i,
 	size_t len
@@ -63,16 +30,22 @@ inline t_token	*_quote_handling(
 	register size_t	start;
 	t_token			*tok;
 	char			delim;
+	size_t			end;
+	int				closed;
 
 	delim = line[*i];
 	start = ++(*i);
 	while (*i < len && line[*i] != delim)
 		++(*i);
+	end = *i;
+	closed = (*i < len && line[*i] == delim);
 	if (delim == '\'')
-		tok = token_new(line + start, TOKEN_QUOTE, (*i)++ - start);
+		tok = token_new(line + start, TOKEN_QUOTE, end - start);
 	else
-		tok = token_new(line + start, TOKEN_DQUOTE, (*i)++ - start);
-	if (line[*i - 1] != delim)
+		tok = token_new(line + start, TOKEN_DQUOTE, end - start);
+	if (_LIKELY(closed))
+		++(*i);
+	else
 		tok->type = PARSER_ERR_MISSING_QUOTE;
 	return (tok);
 }
@@ -154,11 +127,12 @@ extern inline int	_token_handler(
 	else if (line[*i] == '>' || line[*i] == '<')
 		tokens[(*idx)++] = _redirect_handling(line, i, idx);
 	else
-		tokens[(*idx)++] = _word_handling(line, transfer,
-				(const t_token **)tokens, len);
+		tokens[(*idx)++] = _word_handling(line, transfer, \
+										(const t_token **)tokens, len);
 	if (_UNLIKELY(!tokens[*idx - 1]))
 		return (-1);
-	while (line[*i] && !_is_space(line[*i]) && !_is_redirections(line[*i]))
+	while (line[*i] && !_is_space(line[*i]) && !_is_redirections(line[*i]) \
+		&& !(tokens[*idx - 1]->type > PARSER_ERR_NONE))
 	{
 		if (_is_quote(line[*i]))
 			__quotes(line, i, len, tokens[*idx - 1]);

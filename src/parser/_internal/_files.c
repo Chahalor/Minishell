@@ -61,7 +61,9 @@ __attribute__((used)) inline char	*_get_bin(
 	char	*path;
 	int		file_type;
 
-	if (get_builtins(name))
+	if (_UNLIKELY(!name))
+		return (NULL);
+	else if (get_builtins(name))
 		return (name);
 	path = get_in_path(name);
 	if (_LIKELY(path != NULL))
