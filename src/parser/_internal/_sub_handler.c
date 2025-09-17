@@ -6,10 +6,10 @@
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:38:10 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/17 11:06:27 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/09/17 11:16:47 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "_parser.h"
+
 #include "parser.h"
 #include "env.h"
 
@@ -80,4 +80,3 @@ extern inline void	__words(
 	mm_free(tok->value);
 	tok->value = chr_tmp;
 }
-

@@ -6,13 +6,20 @@
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 10:57:24 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/17 11:05:33 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/09/17 11:16:28 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_parser.h"
 #include "parser.h"
 #include "env.h"
+
+extern void	__quotes(
+				const char *line,
+				size_t *const i,
+				size_t len,
+				t_token *tok
+				);
 
 extern void	__words(
 				const char *line,
