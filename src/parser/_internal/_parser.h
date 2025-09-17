@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 09:28:52 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 16:06:59 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 14:49:57 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,4 +135,10 @@ extern int		_check_dir(
 					const char *const restrict path
 					);
 
-#endif /* _LEXER_H */
+// _free.c
+
+extern void		free_t_exec(
+					t_exec_data *const restrict exec
+					);
+
+#endif /* _PARSER_H */

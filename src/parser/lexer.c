@@ -6,13 +6,19 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 08:40:35 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/17 14:42:09 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 14:54:52 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_parser.h"
 #include "parser.h"
 #include "env.h"
+
+extern int	to_pipe(
+				t_exec_data *const restrict exec,
+				t_token **tok,
+				const int i
+				);
 
 extern sig_atomic_t	g_last_signal;
 
@@ -132,20 +138,14 @@ t_exec_data	*token_to_exec(
 	while (tok[++i] && tok[i]->type != TOKEN_PIPE)
 	{
 		if (_is_word(tok[i]->type) && __new_cmd(exec, tok, &j, i) < 0)
-				return (mm_free(exec->cmd), free_tab(exec->args), \
-					mm_free(exec), NULL);
+			return (free_t_exec(exec), NULL);
 		else if (_is_redir(tok[i]->type) && tok[i]->size > 0 \
 				&& __redir(tok, exec, &i) < 0)
-			return (mm_free(exec->cmd), free_tab(exec->args), \
-					mm_free(exec), NULL);
+			return (free_t_exec(exec), NULL);
 	}
 	exec->args[j] = NULL;
 	if (tok[i] && tok[i]->type == TOKEN_PIPE && tok[i + 1])
-	{
-		exec->pipe = token_to_exec(&tok[i + 1]);
-		if (_UNLIKELY(!exec->pipe))
-			return (mm_free(exec->cmd), free_tab(exec->args), \
-				mm_free(exec), NULL);
-	}
+		if (to_pipe(exec, tok, i))
+			return (free_t_exec(exec), NULL);
 	return (exec);
 }
