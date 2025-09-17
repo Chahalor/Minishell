@@ -138,7 +138,7 @@ __attribute__((used)) static int	handle_special(
 		return (completion(data));
 	else if (c == 28)
 		return (write(STDOUT_FILENO, &c, 1));
-	else
+	else if (c != '\n' && c != '\r' && c != '\0')
 		return (_rl_add(data, &c, rl_chr), refresh_line(data));
 	return (1);
 }
