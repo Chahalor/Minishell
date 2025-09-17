@@ -6,19 +6,15 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 11:04:28 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/01 12:45:59 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:49:24 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma region Header
 /* -----| Internals |----- */
 #include "utils.h"
 
 /* -----| Modules  |----- */
 	//...
-
-#pragma endregion Header
-#pragma region Fonctions
 
 /** */
 __attribute__((always_inline, used)) inline int	ft_strncmp(
@@ -103,5 +99,3 @@ __attribute__((always_inline, used)) inline void	ft_memcpy(
 		((char *)dst)[i] = ((char *)src)[i];
 	return ;
 }
-
-#pragma endregion Fonctions

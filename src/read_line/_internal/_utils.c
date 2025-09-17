@@ -6,19 +6,15 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:57:20 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/04 14:08:44 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:50:39 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma region Header
 /* -----| Internals |----- */
 #include "_read_line.h"
 
 /* -----| Modules  |----- */
 #include "read_line.h"
-
-#pragma endregion Header
-#pragma region Fonctions
 
 /**
  * @brief	Sets the terminal to raw mode.
@@ -103,5 +99,3 @@ __attribute__((always_inline, used)) inline void	restore_cursor(void)
 {
 	write(STDOUT_FILENO, "\033[u", 3);
 }
-
-#pragma endregion Fonctions

@@ -6,18 +6,13 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 10:57:24 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 20:10:59 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:44:53 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma region HEADERS
 
 #include "_parser.h"
 #include "parser.h"
 #include "env.h"
-
-#pragma endregion HEADERS
-#pragma region    
 
 t_token		*_quote_handling(
 				const char *line,
@@ -31,9 +26,6 @@ extern void	__words(
 				size_t len,
 				t_token *tok
 				);
-
-#pragma endregion Prototypes
-#pragma region FUNCTIONS
 
 static inline void	__quotes(
 	const char *line,

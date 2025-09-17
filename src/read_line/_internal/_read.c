@@ -6,20 +6,15 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/17 08:33:33 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:42:08 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma region Header
 
 /* -----| Internals |----- */
 #include "_read_line.h"
 
 /* -----| Modules   |----- */
 #include "read_line.h"
-
-#pragma endregion Header
-#pragma region Fonctions
 
 /**
  * @brief	Remove the character at the cursor position.
@@ -188,5 +183,3 @@ __attribute__((hot)) int	_read(
 	}
 	return (data->line_length);
 }
-
-#pragma endregion Fonctions

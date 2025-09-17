@@ -6,11 +6,9 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 11:29:27 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:48:09 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma region Header
 
 /* -----| Internals |----- */
 #include "_exec.h"
@@ -19,9 +17,6 @@
 /* -----| Modules   |----- */
 #include "exec.h"
 #include "env.h"
-
-#pragma endregion Header
-#pragma region Fonctions
 
 extern volatile sig_atomic_t	g_last_signal;
 
@@ -179,5 +174,3 @@ int	heredoc_all(
 	}
 	return (here_fd[0]);
 }
-
-#pragma endregion Fonctions

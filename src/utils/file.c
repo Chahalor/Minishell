@@ -6,19 +6,15 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 11:04:28 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 10:12:56 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:49:51 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma region Header
 /* -----| Internals |----- */
 #include "utils.h"
 
 /* -----| Modules  |----- */
 	//...
-
-#pragma endregion Header
-#pragma region Fonctions
 
 /**
  * @brief	Checks the type of a file at the given path.
@@ -66,5 +62,3 @@ __attribute__((used)) int	check_path(
 			return (e_unknown);
 	}
 }
-
-#pragma endregion Fonctions

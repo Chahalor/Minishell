@@ -6,11 +6,9 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 15:05:39 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/12 12:49:17 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:38:07 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma region Header
 
 /* -----| Internals |----- */
 // #include "_args.h"
@@ -22,22 +20,21 @@
 #include "formating.h"
 #include "exit.h"
 
-#pragma endregion Header
-#pragma region Fonctions
-
 /**
  *  @brief	Displays the help message for the program.
  * 
  * This function prints the usage and options of the program to the
  * standard output and then exits the program with a success status.
  */
-__attribute__((always_inline, used)) static inline void	show_help(void)
+__attribute__((always_inline, used))
+static inline void	show_help(void)
 {
 	ft_printf(
 		UNDERLINE BLUE "Usage:" RESET "./Minishell [options]\n"
 		"  A basic shell implementation.\n"
 		UNDERLINE YELLOW "Options:\n" RESET
-		"  -h, --help       Show this help message\n"
+		"  -h, --help       Show this help message\n"\
+		"  -c <command>    Execute the specified command and exit\n"
 		UNDERLINE BLUE "Author:\n" RESET
 		"  nduvoid  <" BLUE UNDERLINE "nduvoid@student.42mulhouse.fr"\
 			RESET ">\n"
@@ -55,7 +52,8 @@ __attribute__((always_inline, used)) static inline void	show_help(void)
  * 
  * @return	the number of arguments parsed (1 for long options).
  */
-__attribute__((always_inline, used)) static inline int	parse_long_option(
+__attribute__((always_inline, used))
+static inline int	parse_long_option(
 	const char *const restrict option,
 	t_args *const restrict args
 )
@@ -82,23 +80,37 @@ __attribute__((always_inline, used)) static inline int	parse_long_option(
  * 
  * @return	the number of arguments parsed (1 for short options).
  */
-__attribute__((always_inline, used)) static inline int	parse_short_option(
-	const char *const restrict option,
-	t_args *const restrict args
+__attribute__((always_inline, used))
+static inline int	parse_short_option(
+	const char **const restrict options,
+	const int index,
+	t_args *const restrict args,
+	const int argc
 )
 {
-	if (ft_strncmp(option, "-h", 2) == 0)
+	if (ft_strncmp(options[index], "-h", 2) == 0)
 	{
 		args->help = 1;
 		show_help();
-		return (1);
+	}
+	else if (ft_strncmp(options[index], "-c", 2) == 0)
+	{
+		args->cmd = 1;
+		args->command = (char **)&options[index + 1];
+		args->nb_cmds = argc - index - 1;
+		if (!args->command || args->command[0][0] == '\0')
+		{
+			ft_fprintf(2, "Option -c requires an argument.\n");
+			args->error = 1;
+		}
+		return (2);
 	}
 	else
 	{
-		ft_fprintf(2, "Unknown option: %s\n", option);
+		ft_fprintf(2, "Unknown option: %s\n", options[index]);
 		args->error = 1;
-		return (1);
 	}
+	return (1);
 }
 
 /**
@@ -130,12 +142,10 @@ __attribute__((cold, unused)) t_args	args_parser(
 			if (argv[i][1] == '-')
 				i += parse_long_option(argv[i], &args);
 			else
-				i += parse_short_option(argv[i], &args);
+				i += parse_short_option(argv, i, &args, argc);
 		}
 		else
 			++i;
 	}
 	return (args);
 }
-
-#pragma endregion Fonctions

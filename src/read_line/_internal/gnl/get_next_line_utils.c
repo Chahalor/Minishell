@@ -6,17 +6,12 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:35:00 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/01 14:36:44 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:43:04 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma region Header
-
 /* -----| Internals |----- */
 #include "get_next_line.h"
-
-#pragma endregion Header
-#pragma region Fonctions
 
 /**
  * @brief	Reallocate the line buffer to a new size. If the line buffer is
@@ -147,5 +142,3 @@ void	_reset(
 	storage->status = 0;
 	storage->line = NULL;
 }
-
-#pragma endregion Fonctions

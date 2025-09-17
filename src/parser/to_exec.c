@@ -6,11 +6,9 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/04 13:21:10 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:47:00 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma region Header
 
 /* -----| Internals |----- */
 #include "_parser.h"
@@ -18,12 +16,8 @@
 /* -----| Modules   |----- */
 #include "parser.h"
 
-#pragma endregion Header
-#pragma region Fonctions
-
 #if DEBUG == 1
 
-__attribute_maybe_unused__
 static inline const char	*show_type(
 	const int type
 )
@@ -148,5 +142,3 @@ t_exec_data	*parser(
 	print_exec(data);
 	return (data);
 }
-
-#pragma endregion Fonctions

@@ -6,20 +6,16 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:06:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/03 11:30:25 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:41:43 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma region Header
 /* -----| Internals |----- */
 #include "_read_line.h"
 #include "formating.h"
 
 /* -----| Modules  |----- */
 #include "read_line.h"
-
-#pragma endregion Header
-#pragma region Fonctions
 
 static inline int	__ansi_len(
 	const char *const restrict str
@@ -63,5 +59,3 @@ extern inline int	_prompt_length(
 	}
 	return (length);
 }
-
-#pragma endregion Fonctions

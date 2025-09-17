@@ -1,16 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   _completions.c                                     :+:      :+:    :+:   */
+/*   _get.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/02 09:04:47 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:43:28 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma region Header
 
 /* -----| Internals |----- */
 #include "_read_line.h"
@@ -20,9 +18,6 @@
 
 /* -----| Modules   |----- */
 #include "read_line.h"
-
-#pragma endregion Header
-#pragma region Fonctions
 
 /**
  * @brief	Get the directory part of a path.
@@ -88,5 +83,3 @@ char	*_get_file(
 	result[ft_strlen(path) - i] = '\0';
 	return (result);
 }
-
-#pragma endregion Fonctions

@@ -6,18 +6,13 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 11:28:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/04 13:19:09 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:45:07 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma region HEADERS
 
 #include "_parser.h"
 #include "parser.h"
 #include "env.h"
-
-#pragma endregion HEADERS
-#pragma region FUNCTIONS
 
 /* Create a new token */
 inline t_token	*token_new(
@@ -43,5 +38,3 @@ inline t_token	*token_new(
 	tok->size = size;
 	return (tok);
 }
-
-#pragma endregion FUNCTIONS

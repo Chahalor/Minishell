@@ -6,20 +6,15 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 08:08:28 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 11:29:53 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:42:55 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma region Header
 
 /* -----| Internals |----- */
 #include "_read_line.h"
 
 /* -----| Modules   |----- */
 #include "read_line.h"
-
-#pragma endregion Header
-#pragma region Fonctions
 
 extern char	*_history_get(
 				t_rl_history *const restrict data,
@@ -150,5 +145,3 @@ __attribute__((used)) char	*_history_manager(
 		return (_clear(&history));
 	return (NULL);
 }
-
-#pragma endregion Fonctions

@@ -6,20 +6,15 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 12:11:57 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 11:30:01 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:47:05 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma region Headers
 
 /* -----| Interface |----- */
 #include "mmanager.h"
 
 /* -----| Internal  |----- */
 #include "_internal/files/_files.h"
-
-#pragma endregion Headers
-#pragma region Functions
 
 /**
  * @brief	Opens a file descriptor and registers it in the file descriptor
@@ -140,5 +135,3 @@ int	fdm_is_open(
 	else
 		return (_fdm_store(fd, fd_is_open));
 }
-
-#pragma endregion Functions

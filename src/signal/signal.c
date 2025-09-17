@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:46:24 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/15 15:51:00 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:41:22 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define _GNU_SOURCE
 #endif /* _GNU_SOURCE */
 
-#pragma region Header
 /* -----| Internals |----- */
 #include "_signals.h"
 
@@ -22,9 +21,6 @@
 #include "signals.h"
 
 extern volatile sig_atomic_t	g_last_signal; // Global signal variable
-
-#pragma endregion Header
-#pragma region Fonctions
 
 __attribute__((cold, visibility("hidden"))) void	_signal_handler(
 	int signal,
@@ -79,4 +75,3 @@ __attribute__((always_inline, used)) inline int	init_signal(void)
 		|| sigaction(SIGTSTP, &sigstp_action, NULL) == -1
 	);
 }
-#pragma endregion Fonctions

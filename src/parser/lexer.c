@@ -6,18 +6,13 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 08:40:35 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 16:40:44 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:45:13 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma region HEADERS
 
 #include "_parser.h"
 #include "parser.h"
 #include "env.h"
-
-#pragma endregion HEADERS
-#pragma region FUNCTIONS
 
 extern sig_atomic_t	g_last_signal;
 
@@ -143,5 +138,3 @@ t_exec_data	*token_to_exec(
 		exec->pipe = token_to_exec(&tok[i + 1]);
 	return (exec);
 }
-
-#pragma endregion FUNCTIONS

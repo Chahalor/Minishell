@@ -6,20 +6,16 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 11:04:15 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/12 12:36:29 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:41:30 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma region Header
 /* -----| Internals |----- */
 #include "_read_line.h"
 #include "formating.h"
 
 /* -----| Modules  |----- */
 #include "read_line.h"
-
-#pragma endregion Header
-#pragma region Fonctions
 
 /**
  * @brief	Adds a line to the history.
@@ -76,5 +72,3 @@ __attribute__((used, cold)) t_history	*rl_get_history(void)
 {
 	return ((t_history *)_history_manager(rl_get_all, NULL));
 }
-
-#pragma endregion Fonctions

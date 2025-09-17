@@ -6,11 +6,10 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:06:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/15 14:40:16 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:40:40 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma region Header
 /* -----| Internals |----- */
 #include "_read_line.h"
 #include "formating.h"
@@ -18,15 +17,9 @@
 /* -----| Modules  |----- */
 #include "read_line.h"
 
-#pragma endregion Header
-#pragma region    Prototypes
-
 extern int	_prompt_length(
 				const char *const restrict prompt
 				);
-
-#pragma endregion Prototypes
-#pragma region    Fonctions
 
 extern volatile sig_atomic_t	g_last_signal;
 
@@ -96,5 +89,3 @@ __attribute__((used, cold)) void	rl_reset_cmd(void)
 	_set_default(&t);
 	return ;
 }
-
-#pragma endregion Fonctions
