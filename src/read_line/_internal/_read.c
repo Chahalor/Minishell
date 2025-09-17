@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 13:33:06 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 08:33:33 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ __attribute__((used)) static int	handle_special(
 		return (completion(data));
 	else if (c == 28)
 		return (write(STDOUT_FILENO, &c, 1));
-	else
+	else if (c != '\n' && c != '\r' && c != '\0')
 		return (_rl_add(data, &c, rl_chr), refresh_line(data));
 	return (1);
 }
