@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Delta_0ne <romain.creuzeau.pro@gmail.co    +#+  +:+       +#+        */
+/*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 08:40:35 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 18:50:56 by Delta_0ne        ###   ########.fr       */
+/*   Updated: 2025/09/17 14:42:09 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ static inline int	__new_cmd(
 		{
 			g_last_signal = 127;
 			exec->status = 127;
+			return (-1);
 		}
 	}
 	if (tok[i]->type != TOKEN_QUOTE)
@@ -131,7 +132,7 @@ t_exec_data	*token_to_exec(
 	while (tok[++i] && tok[i]->type != TOKEN_PIPE)
 	{
 		if (_is_word(tok[i]->type) && __new_cmd(exec, tok, &j, i) < 0)
-			return (mm_free(exec->cmd), free_tab(exec->args), \
+				return (mm_free(exec->cmd), free_tab(exec->args), \
 					mm_free(exec), NULL);
 		else if (_is_redir(tok[i]->type) && tok[i]->size > 0 \
 				&& __redir(tok, exec, &i) < 0)
@@ -139,7 +140,12 @@ t_exec_data	*token_to_exec(
 					mm_free(exec), NULL);
 	}
 	exec->args[j] = NULL;
-	if (tok[i] && tok[i]->type == TOKEN_PIPE)
+	if (tok[i] && tok[i]->type == TOKEN_PIPE && tok[i + 1])
+	{
 		exec->pipe = token_to_exec(&tok[i + 1]);
+		if (_UNLIKELY(!exec->pipe))
+			return (mm_free(exec->cmd), free_tab(exec->args), \
+				mm_free(exec), NULL);
+	}
 	return (exec);
 }
