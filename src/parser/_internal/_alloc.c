@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _alloc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
+/*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 11:28:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/17 10:45:07 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 12:00:56 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ inline t_token	*token_new(
 	t_token			*tok;
 	register int	i;
 
-	tok = mm_alloc(sizeof(t_token));
+	tok = mm_alloc(sizeof(t_token) + sizeof(void *));
 	if (_UNLIKELY(!tok))
 		return (NULL);
 	tok->value = mm_alloc(size + 1);

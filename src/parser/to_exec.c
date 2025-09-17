@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   to_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
+/*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/17 10:47:00 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 13:05:58 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,10 @@ void	print_tokens(
 	}
 	i = -1;
 	while (++i < count)
+	{
 		printf("(%d)[%s] type=%s (%d) size=%d\n", i, tokens[i]->value,
 			show_type(tokens[i]->type), tokens[i]->type, tokens[i]->size);
+	}
 }
 #else
 

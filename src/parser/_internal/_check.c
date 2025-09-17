@@ -6,7 +6,7 @@
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 09:41:27 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/17 11:40:08 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/09/17 13:07:02 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,9 @@ static inline int	__first_check(
 	t_tok_error *err
 )
 {
-	if (tok[0] && tok[0]->type == TOKEN_PIPE)
+	if (!err || !tok || !tok[0])
+		return (PARSER_ERR_MEMORY_ALLOCATION);
+	else if (tok[0]->type == TOKEN_PIPE)
 		*err = (t_tok_error){.error = PARSER_ERR_BROKEN_PIPE, .token = tok[0]};
 	return (err->error);
 }

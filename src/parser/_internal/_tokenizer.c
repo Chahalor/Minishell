@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _tokenizer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Delta_0ne <romain.creuzeau.pro@gmail.co    +#+  +:+       +#+        */
+/*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 09:41:27 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 18:47:11 by Delta_0ne        ###   ########.fr       */
+/*   Updated: 2025/09/17 13:04:51 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,31 @@ extern int	_token_handler(
 				size_t *const transfer[2],
 				const int len
 				);
+
+static int	tokenize_alloc(
+	t_token ***tokens,
+	const size_t idx
+)
+{
+	t_token			**tmp;
+	register size_t	i;
+
+	if (!(idx % PARSER_ALLOC_SIZE))
+	{
+		tmp = mm_alloc((idx + PARSER_ALLOC_SIZE) * sizeof(t_token *));
+		if (_UNLIKELY(!tmp))
+			return (-1);
+		i = 0;
+		while (i != idx)
+		{
+			tmp[i] = (*tokens)[i];
+			++i;
+		}
+		mm_free(*tokens);
+		*tokens = tmp;
+	}
+	return (0);
+}
 
 static int	tokenize_line_logic(
 	const char *const restrict line,
@@ -37,15 +62,11 @@ static int	tokenize_line_logic(
 			_token_handler((*tokens), line, (size_t *[2]){i, idx}, len) \
 			|| (!(*tokens)[*idx - 1] \
 				|| (*tokens)[*idx - 1]->type > PARSER_ERR_NONE)))
-		return (1);
-	else if (!((*idx - 1) % PARSER_ALLOC_SIZE))
-	{
-		(*tokens) = mm_realloc((*tokens), (*idx + PARSER_ALLOC_SIZE)
-				* sizeof(t_token *));
-		if (_UNLIKELY(!(*tokens)))
-			return (-1);
-	}
-	return (0);
+		return (+1);
+	else if (tokenize_alloc(tokens, *idx) != 0)
+		return (-1);
+	else
+		return (+0);
 }
 
 t_token	**tokenize_line(

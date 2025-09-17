@@ -1,8 +1,0 @@
-auto.sh
-bob.txt
-global
-LICENSE
-Makefile
-Minishell
-README.md
-src
