@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _check.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
+/*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 09:41:27 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 17:10:31 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/09/16 13:42:40 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static inline int	__first_check(
 	t_tok_error *err
 )
 {
-	if (!tok && tok[0] && tok[0]->type == TOKEN_PIPE)
+	if (tok[0] && tok[0]->type == TOKEN_PIPE)
 		*err = (t_tok_error){.error = PARSER_ERR_BROKEN_PIPE, .token = tok[0]};
 	return (err->error);
 }
@@ -113,8 +113,7 @@ inline int	check_tokens(
 	int				last_token;
 
 	err.error = PARSER_ERR_NONE;
-	if (_UNLIKELY(__first_check(tok, &err) != PARSER_ERR_NONE))
-		return (err.error);
+	__first_check(tok, &err);
 	i = -1;
 	while (tok[++i] && err.error == PARSER_ERR_NONE)
 	{
