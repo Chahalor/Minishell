@@ -6,7 +6,7 @@
 /*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 10:57:24 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/17 11:16:28 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/09/17 11:54:34 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,30 @@ static inline t_token	*_word_handling(
 	return (tok);
 }
 
+static inline int	_token_handler_logic(
+	t_token **tokens,
+	const char *const restrict line,
+	size_t *const transfer[2],
+	const int len
+)
+{
+	size_t *const	i = (size_t * const)transfer[0];
+	size_t *const	idx = (size_t * const)transfer[1];
+
+	if (_UNLIKELY(!tokens[*idx - 1]))
+		return (-1);
+	while (line[*i] && _is_word(tokens[*idx - 1]->type) \
+		&& !_is_space(line[*i]) && !_is_redirections(line[*i]) \
+		&& !(tokens[*idx - 1]->type > PARSER_ERR_NONE))
+	{
+		if (_is_quote(line[*i]))
+			__quotes(line, i, len, tokens[*idx - 1]);
+		else
+			__words(line, i, len, tokens[*idx - 1]);
+	}
+	return (0);
+}
+
 extern inline int	_token_handler(
 	t_token **tokens,
 	const char *const restrict line,
@@ -136,15 +160,5 @@ extern inline int	_token_handler(
 	else
 		tokens[(*idx)++] = _word_handling(line, transfer, \
 										(const t_token **)tokens, len);
-	if (_UNLIKELY(!tokens[*idx - 1]))
-		return (-1);
-	while (line[*i] && !_is_space(line[*i]) && !_is_redirections(line[*i]) \
-		&& !(tokens[*idx - 1]->type > PARSER_ERR_NONE))
-	{
-		if (_is_quote(line[*i]))
-			__quotes(line, i, len, tokens[*idx - 1]);
-		else
-			__words(line, i, len, tokens[*idx - 1]);
-	}
-	return (0);
+	return (_token_handler_logic(tokens, line, transfer, len));
 }

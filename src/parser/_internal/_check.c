@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _check.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
+/*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 09:41:27 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/17 10:44:42 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 11:40:08 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ static inline void	__show_error(
 {
 	const int	_start = index;
 
-	ft_fprintf(2, "Syntax error near unexpected token: %s\n\t\t",
-		show_type(error));
+	ft_fprintf(2, "Syntax error near unexpected token: %s at index: %d\n\t\t",
+		show_type(error), index);
 	index = (index - 5) * (index > 5);
 	while (index < _start)
 		ft_fprintf(2, "%s ", tok[index++]->value);

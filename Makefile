@@ -82,7 +82,7 @@ re: fclean all
 .PHONY: debug debug.fsanitize debug.fs debug.pg
 
 debug:
-	$(eval DEBUGFLAGS=$(DEBUGFLAGS) -g3 -D DEBUG=0) # DEBUG=1
+	$(eval DEBUGFLAGS=$(DEBUGFLAGS) -g3 -D DEBUG=1)
 	@echo "\033[1;33m DEBUG MODE ACTIVATED $(_RESET)"
 
 debug.fsanitize: debug
