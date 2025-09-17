@@ -6,18 +6,13 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:38:10 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 20:18:35 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:43:48 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma region HEADERS
 
 #include "_parser.h"
 #include "parser.h"
 #include "env.h"
-
-#pragma endregion HEADERS
-#pragma region    FUNCTIONS
 
 extern inline void	__words(
 	const char *line,
@@ -48,5 +43,3 @@ extern inline void	__words(
 	mm_free(tok->value);
 	tok->value = chr_tmp;
 }
-
-#pragma endregion FUNCTIONS

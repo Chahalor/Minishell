@@ -6,20 +6,15 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 12:20:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/15 18:55:22 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:45:39 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma region Headers
 
 /* -----| Interface |----- */
 #include "mmanager.h"
 
 /* -----| Internal  |----- */
 #include "_mm.h"
-
-#pragma endregion Headers
-#pragma region Functions
 
 /** */
 __attribute__((always_inline, used))
@@ -124,5 +119,3 @@ __attribute__((visibility("hidden"))) void	*_mm_store(
 		_free_all_bucket(bucket);
 	return (ptr);
 }
-
-#pragma endregion Functions

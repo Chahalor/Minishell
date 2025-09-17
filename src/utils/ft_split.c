@@ -6,20 +6,15 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 09:51:43 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/29 12:52:02 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:49:31 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma region Header
 
 /* -----| Internals |----- */
 #include "utils.h"
 
 /* -----| Modules   |----- */
 #include "ft_printf.h"
-
-#pragma endregion Header
-#pragma region Fonctions
 
 /**
  * @brief	Free the memory allocated for an array of strings.
@@ -142,5 +137,3 @@ char	**ft_split(char const *s, char c)
 			return (r);
 	}
 }
-
-#pragma endregion Fonctions

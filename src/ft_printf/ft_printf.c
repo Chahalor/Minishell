@@ -6,20 +6,15 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 11:36:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/29 15:02:37 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:48:59 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma region Header
 
 /* -----| Internals |----- */
 #include "_ft_printf.h"
 
 /* -----| Modules   |----- */
 #include "ft_printf.h"
-
-#pragma endregion Header
-#pragma region Fonctions
 
 /**
  * @brief	add a char to the buffer. If the buffer is full, write it to the fd.
@@ -162,5 +157,3 @@ __attribute__((used)) int	write_loop(
 	}
 	return (print->nb_char);
 }
-
-#pragma endregion Fonctions

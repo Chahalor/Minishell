@@ -6,20 +6,15 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 08:08:28 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 13:33:22 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:42:39 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma region Header
 
 /* -----| Internals |----- */
 #include "_read_line.h"
 
 /* -----| Modules   |----- */
 #include "read_line.h"
-
-#pragma endregion Header
-#pragma region Fonctions
 
 static inline int	__cmp(
 	const char *const restrict str1,
@@ -93,5 +88,3 @@ extern inline char	*_history_get(
 		return (__rl_hist_get(data, -1));
 	return (NULL);
 }
-
-#pragma endregion Fonctions

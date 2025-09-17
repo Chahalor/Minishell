@@ -3,14 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
+/*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 14:28:44 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/09/17 10:47:23 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma region Header
 
 /* -----| Internals |----- */
 #include "_builtin.h"
@@ -18,9 +16,6 @@
 
 /* -----| Modules   |----- */
 #include "builtin.h"
-
-#pragma endregion Header
-#pragma region Fonctions
 
 /**
  * @brief	Parses the arguments for the exit command.
@@ -133,5 +128,3 @@ __attribute__((used)) char	builtin_exit(
 		exit_program(parsed.exit_code, DEFAULT_EXIT_MESSAGE);
 	return (EXIT_SUCCESS);
 }
-
-#pragma endregion Fonctions

@@ -6,11 +6,9 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 13:43:52 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/12 12:28:03 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:50:31 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma region Header
 
 /* -----| Internals |----- */
 #include "_read_line.h"
@@ -22,9 +20,6 @@
 #include "read_line.h"
 #include "env.h"
 
-#pragma endregion Header
-#pragma region Prototypes
-
 char	*_get_file(
 			const char *const restrict path
 			);
@@ -32,9 +27,6 @@ char	*_get_file(
 char	*_get_dir(
 			const char *const restrict path
 			);
-
-#pragma endregion Prototypes
-#pragma region Functions
 
 __attribute__((used))
 static inline void	_add_builtin(
@@ -166,5 +158,3 @@ int	_rl_completion_add(
 	comp->entry[comp->nb_entries++] = memdup(entry, sizeof(t_dirent));
 	return (0);
 }
-
-#pragma endregion Functions

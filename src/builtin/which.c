@@ -6,11 +6,9 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/05 09:14:05 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:46:28 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma region Header
 
 /* -----| Internals |----- */
 #include "_builtin.h"
@@ -19,15 +17,9 @@
 /* -----| Modules   |----- */
 #include "builtin.h"
 
-#pragma endregion Header
-#pragma region Prototypes
-
 char			*_get_bin(
 					char *name
 					);
-
-#pragma endregion Prototypes
-#pragma region Fonctions
 
 static inline char	__help(void)
 {
@@ -86,5 +78,3 @@ char	builtin_which(
 	}
 	return (_ret);
 }
-
-#pragma endregion Fonctions

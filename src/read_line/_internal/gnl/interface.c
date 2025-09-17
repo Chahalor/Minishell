@@ -6,17 +6,12 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 11:39:16 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/12 11:30:16 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:43:11 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma region Header
-
 /* -----| Internals |----- */
 #include "get_next_line.h"
-
-#pragma endregion Header
-#pragma region Functions
 
 /**
  * @brief		Get the next line from the file descriptor.
@@ -107,5 +102,3 @@ int	count_lines(
 	}
 	return (count);
 }
-
-#pragma endregion Functions

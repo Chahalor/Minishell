@@ -3,23 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   _manager.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
+/*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 12:08:30 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/09/17 10:42:00 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma region Header
 
 /* -----| Internals |----- */
 #include "_read_line.h"
 
 /* -----| Modules   |----- */
 #include "read_line.h"
-
-#pragma endregion Header
-#pragma region Fonctions
 
 /**
  * @brief	Add a character to the line at the cursor position.
@@ -104,5 +99,3 @@ int	_rl_add(
 		return (i * ret);
 	}
 }
-
-#pragma endregion Fonctions

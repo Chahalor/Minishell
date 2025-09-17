@@ -6,20 +6,15 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:19:00 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/07/22 14:56:44 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:42:23 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma region Header
 
 /* -----| Internals |----- */
 #include "_read_line.h"
 
 /* -----| Modules   |----- */
 #include "read_line.h"
-
-#pragma endregion Header
-#pragma region Fonctions
 
 /** */
 __attribute__((always_inline, used)) static inline int	_is_whitespace(
@@ -122,5 +117,3 @@ __attribute__((always_inline, used)) inline int	_move(
 	else
 		return (0);
 }
-
-#pragma endregion Fonctions

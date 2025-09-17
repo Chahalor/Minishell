@@ -6,20 +6,15 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 08:26:54 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:47:39 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma region Header
 
 /* -----| Internals |----- */
 #include "_exec.h"
 
 /* -----| Modules   |----- */
 #include "exec.h"
-
-#pragma endregion Header
-#pragma region Fonctions
 
 /** */
 __attribute__((always_inline, used)) static inline int	_signals(
@@ -88,5 +83,3 @@ __attribute__((used)) int	_analyse(
 		code = -1;
 	return (code);
 }
-
-#pragma endregion Fonctions

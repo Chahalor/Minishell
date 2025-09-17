@@ -3,21 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   _tokenizer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
+/*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 09:41:27 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 16:46:42 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/09/17 10:44:04 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma region HEADERS
 
 #include "_parser.h"
 #include "parser.h"
 #include "env.h"
-
-#pragma endregion HEADERS
-#pragma region    Prototypes
 
 extern int	_token_handler(
 				t_token **tokens,
@@ -25,9 +20,6 @@ extern int	_token_handler(
 				size_t *const transfer[2],
 				const int len
 				);
-
-#pragma endregion Prototypes
-#pragma region    FUNCTIONS
 
 t_token	**tokenize_line(
 	const char *const restrict line,
@@ -60,5 +52,3 @@ t_token	**tokenize_line(
 	}
 	return (*count = idx, tokens);
 }
-
-#pragma endregion FUNCTIONS
