@@ -6,11 +6,9 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 09:22:03 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:46:21 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma region Header
 
 /* -----| Internals |----- */
 #include "_builtin.h"
@@ -21,9 +19,6 @@
 /* -----| Modules   |----- */
 #include "builtin.h"
 #include "env.h"
-
-#pragma endregion Header
-#pragma region Fonctions
 
 /**
  * @brief	Displays the help message for the cd command.
@@ -172,5 +167,3 @@ __attribute__((used)) char	builtin_cd(
 	env_export("PWD", cwd);
 	return (free(cwd), EXIT_SUCCESS);
 }
-
-#pragma endregion Fonctions

@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 15:04:47 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/24 15:11:55 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 09:55:39 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,13 @@ typedef struct s_args	t_args;	/* Structure to hold parsed arguments */
 
 struct s_args
 {
-	int				argc;			/* Number of arguments        */
-	char			**argv;			/* Array of argument strings */
-	unsigned char	error	: 1;	/* Error flag               */
-	unsigned char	help	: 1;	/* Help flag               */
+	int				argc;			/* Number of arguments         */
+	char			**argv;			/* Array of argument strings  */
+	char			**command;		/* Command string            */
+	int				nb_cmds;		/* Nb Command               */
+	unsigned char	error	: 1;	/* Error flag              */
+	unsigned char	cmd		: 1;	/* Command flag           */
+	unsigned char	help	: 1;	/* Help flag             */
 };
 
 /* ************************************************************************** */

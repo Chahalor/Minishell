@@ -6,18 +6,13 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 11:39:16 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/01 14:37:10 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:43:22 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma region Header
 
 /* -----| Internals |----- */
 #include "get_next_line.h"
 #include "ft_printf.h"
-
-#pragma endregion Header
-#pragma region Prototypes
 
 /* -----| Internals |----- */
 
@@ -37,9 +32,6 @@ extern char	*_gnl_memmove(
 				const void *const restrict src,
 				size_t size
 				);
-
-#pragma endregion Prototypes
-#pragma region Fonctions
 
 /**
  * @brief		Add a character to the line buffer. If the line buffer is full,
@@ -186,5 +178,3 @@ __attribute__((used)) inline char	_loop(
 	}
 	return (storage->status);
 }
-
-#pragma endregion Fonctions

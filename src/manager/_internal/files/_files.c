@@ -6,20 +6,15 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 12:11:57 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 11:34:43 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:45:52 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma region Headers
 
 /* -----| Interface |----- */
 #include "mmanager.h"
 
 /* -----| Internal  |----- */
 #include "_files.h"
-
-#pragma endregion Headers
-#pragma region Functions
 
 /** */
 int	_fdm_store(
@@ -50,5 +45,3 @@ int	_fdm_store(
 		return (_storage[fd]);
 	return (0);
 }
-
-#pragma endregion Functions

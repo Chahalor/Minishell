@@ -6,20 +6,15 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 16:12:05 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/29 15:27:47 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:49:06 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma region Header
 
 /* -----| Internals |----- */
 #include "_ft_printf.h"
 
 /* -----| Modules   |----- */
 #include "ft_printf.h"
-
-#pragma endregion Header
-#pragma region Fonctions
 
 /**
  * @brief	Write The formatted string to the standard output.
@@ -167,5 +162,3 @@ __attribute__((__format__(__printf__, 1, 2))) void	ft_perror(
 	va_end(args);
 	return ;
 }
-
-#pragma endregion Fonctions

@@ -10,14 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma region HEADERS
-
 #include "_parser.h"
 #include "parser.h"
 #include "env.h"
-
-#pragma endregion HEADERS
-#pragma region FUNCTIONS
 
 extern sig_atomic_t	g_last_signal;
 
@@ -148,5 +143,3 @@ t_exec_data	*token_to_exec(
 		exec->pipe = token_to_exec(&tok[i + 1]);
 	return (exec);
 }
-
-#pragma endregion FUNCTIONS

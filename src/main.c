@@ -6,11 +6,9 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:44:25 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/15 19:16:35 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:41:13 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma region Header
 
 /* -----| Systems   |----- */
 #include "allowed.h"
@@ -31,8 +29,25 @@
 
 volatile sig_atomic_t	g_last_signal = 0;	/* Global signal variable */
 
-#pragma endregion Header
-#pragma region Fonctions
+static inline int	_single_command(
+	const t_args *const args
+)
+{
+	t_exec_data	*data;
+	int			i;
+	int			exit_code;
+
+	i = 0;
+	while (i < args->nb_cmds)
+	{
+		data = parser(args->command[i]);
+		if (_UNLIKELY(!data))
+			return (EXIT_FAILURE);
+		exit_code = full_exec(data, env_getall(1));
+		i++;
+	}
+	return (exit_code);
+}
 
 /** */
 __attribute__((cold, unused))
@@ -42,12 +57,16 @@ static inline int	init_all(
 	const char **envp
 )
 {
-	int	__error;
+	int				__error;
+	const t_args	_args = args_parser(argc, argv);
 
+	if (_UNLIKELY(_args.error))
+		return (_args.error);
 	__error = 0;
-	args_parser(argc, argv);
 	__error += init_signal();
 	__error += env_init(envp);
+	if (_UNLIKELY(_args.cmd))
+		exit_program(_single_command(&_args), NULL);
 	__error += rl_load_history(env_find("HISTORY_PATH"));
 	return (__error);
 }
@@ -77,9 +96,6 @@ static inline int	_prompt(
 	return (mm_free(line), 1);
 }
 
-#pragma endregion Fonctions
-#pragma region Main
-
 /**
  * @authors nduvoid rcreuzea
  */
@@ -88,14 +104,11 @@ int	main(int argc, const char **argv, const char **envp)
 	int	running;
 
 	if (_UNLIKELY(init_all(argc, argv, envp)))
-		return (exit_program(1, "main(): Failed to initialize"), EXIT_FAILURE);
+		exit_program(1, NULL);
 	running = 1;
 	while (running)
 	{
 		running = _prompt(env_find("PS1"));
 	}
 	exit_program(0, DEFAULT_EXIT_MESSAGE);
-	return (0);
 }
-
-#pragma endregion Main

@@ -10,21 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma region HEADERS
-
 #include "_parser.h"
 #include "parser.h"
 #include "env.h"
-
-#pragma endregion HEADERS
-#pragma region    
-
-extern void	__quotes(
-				const char *line,
-				size_t *const i,
-				size_t len,
-				t_token *tok
-				);
 
 extern void	__words(
 				const char *line,
@@ -32,9 +20,6 @@ extern void	__words(
 				size_t len,
 				t_token *tok
 				);
-
-#pragma endregion Prototypes
-#pragma region FUNCTIONS
 
 extern t_token	*_quote_handling(
 	const char *line,

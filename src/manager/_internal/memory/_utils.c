@@ -3,23 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   _utils.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreuzea <rcreuzea@student.42mulhouse.f    +#+  +:+       +#+        */
+/*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 09:33:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/15 15:20:30 by rcreuzea         ###   ########.fr       */
+/*   Updated: 2025/09/17 10:45:21 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma region Headers
 
 /* -----| Interface |----- */
 #include "mmanager.h"
 
 /* -----| Internal  |----- */
 #include "_mm.h"
-
-#pragma endregion Headers
-#pragma region Functions
 
 /** 
  * @brief	Hash function to get the index of the pointer in the bucket
@@ -103,5 +98,3 @@ __attribute__((always_inline, used)) inline void	_mm_dump(
 		}
 	}
 }
-
-#pragma endregion Functions

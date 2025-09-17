@@ -6,20 +6,15 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 08:48:17 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/19 10:23:10 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:48:31 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma region Header
 
 /* -----| Internals |----- */
 #include "_ft_printf.h"
 
 /* -----| Modules   |----- */
 #include "ft_printf.h"
-
-#pragma endregion Header
-#pragma region Fonctions
 
 /**
  * @brief	Adds a string to the buffer.
@@ -138,5 +133,3 @@ __attribute__((used)) int	writedec(
 		print->add(print, buffer[i]);
 	return (1);
 }
-
-#pragma endregion Fonctions

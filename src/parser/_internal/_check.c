@@ -6,18 +6,13 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 09:41:27 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 13:42:40 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:44:42 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma region HEADERS
 
 #include "_parser.h"
 #include "parser.h"
 #include "env.h"
-
-#pragma endregion HEADERS
-#pragma region FUNCTIONS
 
 extern volatile sig_atomic_t	g_last_signal;
 
@@ -46,7 +41,6 @@ static inline const char	*show_type(
 	return (messages[type % (PARSER_ERR_MEMORY_ALLOCATION + 1)]);
 }
 
-__attribute_maybe_unused__
 static inline void	__show_error(
 	const t_token **tok,
 	int index,
@@ -133,5 +127,3 @@ inline int	check_tokens(
 		__show_error((const t_token **)tok, i, err.error);
 	return (err.error);
 }
-
-#pragma endregion FUNCTIONS

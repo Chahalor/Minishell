@@ -6,11 +6,9 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 13:33:27 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:46:37 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma region Header
 
 /* -----| Internals |----- */
 #include "_builtin.h"
@@ -18,9 +16,6 @@
 /* -----| Modules   |----- */
 #include "builtin.h"
 #include "env.h"
-
-#pragma endregion Header
-#pragma region Fonctions
 
 static inline int	_is_valid_name(
 	const char *restrict const str
@@ -143,5 +138,3 @@ char	builtin_export(
 	free_tab((char **)env);
 	return (exit_status);
 }
-
-#pragma endregion Fonctions

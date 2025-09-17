@@ -6,11 +6,9 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 12:11:57 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 13:33:45 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:46:04 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma region Headers
 
 /* -----| Interface |----- */
 #include "mmanager.h"
@@ -18,9 +16,6 @@
 /* -----| Internal  |----- */
 #include "_internal/memory/_mm.h"
 #include "ft_printf.h"
-
-#pragma endregion Headers
-#pragma region Functions
 
 /** */
 __attribute__((malloc, used)) void	*mm_alloc(
@@ -86,5 +81,3 @@ __attribute__((used)) void	mm_destroy(void)
 {
 	_mm_store(NULL, mm_free_all);
 }
-
-#pragma endregion Functions

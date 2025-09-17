@@ -6,20 +6,15 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:51:15 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/05/29 15:00:01 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:48:39 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma region Header
 
 /* -----| Internals |----- */
 #include "_ft_printf.h"
 
 /* -----| Modules   |----- */
 #include "ft_printf.h"
-
-#pragma endregion Header
-#pragma region Fonctions
 
 /**
  * @brief	Count the number of characters in a NULL terminated string
@@ -107,5 +102,3 @@ __attribute__((always_inline, used)) inline t_print	_init_raw_print(
 		.add = _raw_add
 	});
 }
-
-#pragma endregion Fonctions

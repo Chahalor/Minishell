@@ -9,23 +9,15 @@
 /*   Updated: 2025/09/17 11:06:27 by rcreuzea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma region HEADERS
-
 #include "_parser.h"
 #include "parser.h"
 #include "env.h"
-
-#pragma endregion HEADERS
-#pragma region    
 
 extern t_token	*_quote_handling(
 					const char *line,
 					size_t *i,
 					size_t len
 					);
-
-#pragma endregion Prototypes
 
 extern inline void	__quotes(
 	const char *line,
@@ -89,4 +81,3 @@ extern inline void	__words(
 	tok->value = chr_tmp;
 }
 
-#pragma endregion FUNCTIONS

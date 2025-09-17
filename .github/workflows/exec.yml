@@ -1,0 +1,32 @@
+name: Execution tests
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  exec:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup
+        run: mkdir .github/tmp/
+
+      - name: Compilation
+        run: make
+
+      - name: Simple command tests
+        run: bash .github/scripts/exec_simple.sh | tee exec_simple_result.txt
+
+      - name: Builtin command tests
+        run: bash .github/scripts/exec_builtins.sh | tee exec_builtins_result.txt
+
+      - name: Pipe command tests
+        run: bash .github/scripts/exec_pipe.sh | tee exec_pipe_result.txt
+
+      - name: Redirection command tests
+        run: bash .github/scripts/exec_redir.sh | tee exec_redir_result.txt
+
+      - name: Cleanup
+        run: make fclean && rm -rf .github/tmp/

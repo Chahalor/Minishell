@@ -6,13 +6,11 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 13:56:29 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:50:01 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #define _GNU_SOURCE
-
-#pragma region Header
 
 /* -----| Internals |----- */
 #include "_read_line.h"
@@ -22,9 +20,6 @@
 
 /* -----| Modules   |----- */
 #include "read_line.h"
-
-#pragma endregion Header
-#pragma region Prototypes
 
 extern char	*_get_dir(
 				const char *const restrict path
@@ -48,9 +43,6 @@ extern int	_add_paths(
 				const char *const restrict word,
 				t_rl_completion *const restrict dt
 				);
-
-#pragma endregion Prototypes
-#pragma region Fonctions
 
 /**
  *  @brief	Display the completion entries in the terminal.
@@ -186,5 +178,3 @@ int	completion(
 	}
 	return (free_tab(words), _rl_free_completion__(&completion), 0);
 }
-
-#pragma endregion Fonctions

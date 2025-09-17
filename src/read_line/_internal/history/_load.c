@@ -6,20 +6,15 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 15:54:17 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 11:34:18 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:42:48 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma region Header
 
 /* -----| Internals |----- */
 #include "_read_line.h"
 
 /* -----| Modules   |----- */
 #include "read_line.h"
-
-#pragma endregion Header
-#pragma region Fonctions
 
 /**
  * @brief	Count the number of lines in a file.
@@ -137,5 +132,3 @@ __attribute__((cold, unused)) int	_load_history(
 	data->fd = fdm_open(filename, O_RDWR | O_APPEND, 0644);
 	return (0);
 }
-
-#pragma endregion Fonctions

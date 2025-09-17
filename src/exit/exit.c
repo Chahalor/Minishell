@@ -6,19 +6,15 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:53:46 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/08/25 09:40:51 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:49:17 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma region Header
 /* -----| Internals |----- */
 	//...
 
 /* -----| Modules   |----- */
 #include "exit.h"
-
-#pragma endregion Header
-#pragma region Fonctions
 
 /**
  * @brief	Exit the program with a message and a status code.
@@ -29,7 +25,8 @@
  * @note	Use this function to exit the program with a message.
  * @note	/!\ This fonction Should be the only way to exit the program. /!\
  */
-__attribute__((noreturn, unused, cold)) void	exit_program(
+__attribute__((noreturn, unused, cold))
+void	exit_program(
 	const int status,
 	const char *restrict msg
 )
@@ -42,9 +39,3 @@ __attribute__((noreturn, unused, cold)) void	exit_program(
 		printf("%s\n", msg);
 	exit(status);
 }
-
-// to close vscode fd
-	// close(37);
-	// close(103);
-
-#pragma endregion Fonctions

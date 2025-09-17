@@ -10,14 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma region HEADERS
-
 #include "_parser.h"
 #include "parser.h"
 #include "env.h"
-
-#pragma endregion HEADERS
-#pragma region    Prototypes
 
 extern int	_token_handler(
 				t_token **tokens,
@@ -25,9 +20,6 @@ extern int	_token_handler(
 				size_t *const transfer[2],
 				const int len
 				);
-
-#pragma endregion Prototypes
-#pragma region    FUNCTIONS
 
 static int	tokenize_line_logic(
 	const char *const restrict line,
@@ -86,5 +78,3 @@ t_token	**tokenize_line(
 	tokens[idx] = NULL;
 	return (*count = idx, tokens);
 }
-
-#pragma endregion FUNCTIONS

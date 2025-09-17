@@ -6,19 +6,15 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 11:04:28 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/13 11:38:16 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:49:45 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma region Header
 /* -----| Internals |----- */
 #include "utils.h"
 
 /* -----| Modules  |----- */
 	//...
-
-#pragma endregion Header
-#pragma region Fonctions
 
 int	is_nbr(
 	const char *const restrict str
@@ -163,5 +159,3 @@ int	arraylen(
 		;
 	return (i);
 }
-
-#pragma endregion Fonctions

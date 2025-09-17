@@ -6,11 +6,9 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/16 11:29:32 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:48:00 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma region Header
 
 /* -----| Internals |----- */
 #include "_exec.h"
@@ -18,13 +16,7 @@
 /* -----| Modules   |----- */
 #include "exec.h"
 
-#pragma endregion Header
-#pragma region Prototypes
-
 extern int	_analyse(const int status);
-
-#pragma endregion Prototypes
-#pragma region Fonctions
 
 extern sig_atomic_t	g_last_signal;
 
@@ -166,5 +158,3 @@ __attribute__((hot))	int	exec_bin(
 	else
 		return (perror("exec_bin(): fork() failed"), -1);
 }
-
-#pragma endregion Fonctions

@@ -6,11 +6,9 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:14:22 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/12 12:24:22 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:46:46 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma region Header
 
 /* -----| Internals |----- */
 #include "_builtin.h"
@@ -18,9 +16,6 @@
 /* -----| Modules   |----- */
 #include "builtin.h"
 #include "env.h"
-
-#pragma endregion Header
-#pragma region Fonctions
 
 static int	_help(void)
 {
@@ -64,5 +59,3 @@ char	builtin_unset(
 		env_unset(args__[i]);
 	return (EXIT_SUCCESS);
 }
-
-#pragma endregion Fonctions

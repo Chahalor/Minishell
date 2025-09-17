@@ -6,20 +6,15 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:21:34 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/06/18 09:31:13 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:41:37 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma region Header
 
 /* -----| Internals |----- */
 #include "_read_line.h"
 
 /* -----| Modules   |----- */
 #include "read_line.h"
-
-#pragma endregion Header
-#pragma region Fonctions
 
 /**
  *  @brief Resets the command line settings to their default state.
@@ -43,5 +38,3 @@ __attribute__((visibility("hidden"), used, cold)) t_history	*_rl_get_all(void)
 {
 	return ((struct s_history *)_history_manager(rl_get_all, NULL));
 }
-
-#pragma endregion Fonctions
