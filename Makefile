@@ -10,7 +10,7 @@ MAKEFLAGS += --no-print-directory
 # *                    Variables                      * #
 # ***************************************************** #
 
-NAME		:= Minishell
+NAME		:= minishell
 BONUS		:=
 
 CC			:= cc
@@ -33,7 +33,7 @@ SRC_BONUS	:=
 # all object files for the modules
 _OBJ_MAIN	:= $(addprefix $(DIR_OBJ)/, $(SRC_MAIN:.c=.o))
 _OBJ_BONUS	:= $(addprefix $(DIR_OBJ)/, $(SRC_BONUS:.c=.o))
-_OBJ_ALL		:= $(OBJ_ARGS) $(OBJ_BUILTIN) $(OBJ_ENV) $(OBJ_EXEC) $(OBJ_EXIT) $(OBJ_FT_PRINTF) $(OBJ_MANAGER) $(OBJ_PARSER) $(OBJ_READ_LINE) $(OBJ_SIGNAL) $(OBJ_UTILS)
+_OBJ_ALL	:= $(OBJ_ARGS) $(OBJ_BUILTIN) $(OBJ_ENV) $(OBJ_EXEC) $(OBJ_EXIT) $(OBJ_FT_PRINTF) $(OBJ_MANAGER) $(OBJ_PARSER) $(OBJ_READ_LINE) $(OBJ_SIGNAL) $(OBJ_UTILS)
 
 # ***************************************************** #
 # *                    Rules                          * #

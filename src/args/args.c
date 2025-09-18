@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 15:05:39 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/17 10:38:07 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/18 07:58:37 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ static inline int	parse_short_option(
 		args->cmd = 1;
 		args->command = (char **)&options[index + 1];
 		args->nb_cmds = argc - index - 1;
-		if (!args->command || args->command[0][0] == '\0')
+		if (index + 1 >= argc || !args->command || args->command[0][0] == '\0')
 		{
 			ft_fprintf(2, "Option -c requires an argument.\n");
 			args->error = 1;
