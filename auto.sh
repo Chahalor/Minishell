@@ -6,7 +6,7 @@ DIR_OBJ=".build"
 DIR_INTERNAL="_internal"
 DIR_INTERFACE=""
 DIR_INCLUDE="global"
-EXEC_NAME=$(basename "$(pwd)")
+EXEC_NAME=$(basename "$(pwd)" | tr '[:upper:]' '[:lower:]')
 
 # other variables
 CC="cc"

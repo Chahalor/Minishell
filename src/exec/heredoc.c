@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/17 10:48:09 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/18 12:19:15 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ static inline char	**_read(
 
 	line = read_line(prompt);
 	i = 0;
-	while (line && line[0] != '\04'
-		&& ft_strncmp(line, sep, ft_strlen(sep) + 1))
+	while ((line && line[0] != '\04'
+		&& ft_strncmp(line, sep, ft_strlen(sep) + 1)) || ft_strlen(line) == 0)
 	{
 		if ((i + 1) % HD_ALLOC_SIZE == 0)
 		{
@@ -163,6 +163,8 @@ int	heredoc_all(
 		return (perror("heredoc_all(): pipe() failed"), -1);
 	else
 	{
+		fdm_register(here_fd[0]);
+		fdm_register(here_fd[1]);
 		out = heredoc(sep, here_fd[1]);
 		fdm_close(here_fd[1]);
 	}
