@@ -55,6 +55,7 @@ dkms.conf
 .vscode/
 .build/
 Minishell
+minishell
 .minihistory
 .test
 .dev/out
