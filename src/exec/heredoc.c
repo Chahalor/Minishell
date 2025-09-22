@@ -6,7 +6,7 @@
 /*   By: nduvoid <nduvoid@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:48:09 by nduvoid           #+#    #+#             */
-/*   Updated: 2025/09/18 12:19:15 by nduvoid          ###   ########.fr       */
+/*   Updated: 2025/09/22 08:37:35 by nduvoid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static inline char	**_read(
 	line = read_line(prompt);
 	i = 0;
 	while ((line && line[0] != '\04'
-		&& ft_strncmp(line, sep, ft_strlen(sep) + 1)) || ft_strlen(line) == 0)
+			&& ft_strncmp(line, sep, ft_strlen(sep) + 1)) || !line[0])
 	{
 		if ((i + 1) % HD_ALLOC_SIZE == 0)
 		{
